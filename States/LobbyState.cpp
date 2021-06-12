@@ -5,6 +5,7 @@
 #include "MultiplayerMenuState.h"
 #include "GameState.h"
 #include "StateManager.h"
+#include <cstring>
 
 
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
@@ -49,18 +50,11 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		addButton<GameState>(start, pos, width, butHeight);
 		//m_connected = static_cast<Server*>(m_networkObj.get())->launch();
 	}
-	//m_networkObj->launch();
-	//add button
-
-	//sf::Event event;
-	//sf::String playerInput;
-	//sf::Text playerText;
-	//playerText.setPosition(60, 300);
-	//playerText.setColor(sf::Color::Red);
+	setNameListText();
+	m_networkObj->launch();
 }
 
 void LobbyState::update(){
-	//pollEvent();
 	if (m_networkObj->getStarted()) {
 		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
 		return;
@@ -77,8 +71,7 @@ void LobbyState::update(){
 			}
 			else if (event.type == sf::Event::KeyReleased) {
 				if(event.key.code == sf::Keyboard::Enter){
-					//set name recieved char* and not string
-					//m_networkObj->setName(m_inputText.getString());
+					m_networkObj->setName(m_inputStr.c_str());
 					m_signedUp == true;
 					break;
 				}
@@ -91,23 +84,34 @@ void LobbyState::update(){
 
 void LobbyState::draw() {
 	MenuState::draw();
+	m_window.draw(m_listBackground);
+	for (auto& name : m_nameList)
+		m_window.draw(name);
 	if(!m_signedUp){
 		m_window.draw(m_nameTextBox);
 		m_window.draw(m_text);
 		m_window.draw(m_inputText);
 	}
-	//m_draw
-	m_window.draw(m_listBackground);
 }
 
 void LobbyState::updateList(){
-	
+	auto it = m_nameList.begin();
+	for (int i = 0 ; i < MAX_SERVER_PLAYERS ; ++i) {
+		if (m_networkObj->getMembers(i)) {
+			auto str = std::string(m_networkObj->getMembers(i)->m_name);
+			if (str != "") {
+				it->setString(str);
+				++it;
+			}
+		}
+	}
+	std::for_each(it, m_nameList.end(), [&](sf::Text&) { it->setString(""); });
 }
 
 void LobbyState::drawList(){
-	for (auto& name : m_nameList)
-		//m_window.draw(m_otherName);
+	for (auto& name : m_nameList) {
 		m_window.draw(name);
+	}
 }
 void LobbyState::setNameListText() {
 	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_LIST_NAMES_SIZE) / MAX_LIST_NAMES_SIZE;
