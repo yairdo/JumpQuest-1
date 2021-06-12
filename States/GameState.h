@@ -5,6 +5,7 @@
 #include "ContactListner.h"
 
 class Player;
+class sf::RectangleShape;
 
 class GameState : public State {
 public:
@@ -25,7 +26,7 @@ private:
 	Player* m_testPlayer;
 	sf::Clock m_clock;
 	float m_deltaTime;
-
+	sf::RectangleShape* m_testOtherPlayer;
 	//view stuff
 	sf::View m_view;
 	void viewMover();

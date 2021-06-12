@@ -13,7 +13,7 @@ public:
 
 	//--added for tests
 	virtual void updatePhysics(float);
-	void jump();
+	void jump(float);
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 	void setOnRope(bool);

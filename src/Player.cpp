@@ -51,35 +51,35 @@ void Player::updatePhysics(float dt)
         m_body->SetLinearVelocity({ 0.f, 0.f });
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        jump();
+        jump(dt);
     }
     else if ( sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         m_direction = up;
         if(m_onRope)
-            m_body->SetLinearVelocity({ 0.f, -1.5f });
+            m_body->SetLinearVelocity({ 0.f, -75.f*dt });
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_direction = right;
         if (m_onRope)
             return;
         else
-            m_body->SetLinearVelocity({ 1.5f, m_body->GetLinearVelocity().y });
+            m_body->SetLinearVelocity({ dt*75.f, m_body->GetLinearVelocity().y });
     }
     else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
         m_direction = down;
-        m_body->SetLinearVelocity({ 0.f, 1.5f });
+        m_body->SetLinearVelocity({ 0.f, dt*75.f });
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_direction = left;
         if (m_onRope)
             return;
         else
-            m_body->SetLinearVelocity({ -1.5f, m_body->GetLinearVelocity().y });
+            m_body->SetLinearVelocity({ -75.f*dt, m_body->GetLinearVelocity().y });
     }
 }
 
-void Player::jump() {
-    float impulse = -m_body->GetMass() * 150;
+void Player::jump(float dt) {
+    float impulse = -m_body->GetMass() * 9500*dt;
     if (m_onRope) {
         //m_body->SetLinearVelocity({ 0.f, 0.f });
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {

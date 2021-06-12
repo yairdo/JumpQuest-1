@@ -12,11 +12,15 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_view = sf::View(sf::Vector2f(viewSize.x / 2, viewSize.y / 2), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });
 	addBorders2World();
+	m_testOtherPlayer = new sf::RectangleShape({ 50,50 });
+	m_testOtherPlayer->setOrigin(25, 25);
+	m_testOtherPlayer->setFillColor(sf::Color::Yellow);
 	m_testPlayer = m_board->getPlayerRef();
 	if (m_networkObj) {
 		if (!m_networkObj->run(m_window))
 			m_isPlay = false;
 	}
+	m_clock.restart();
 }
 
 void GameState::pause()
@@ -65,9 +69,21 @@ void GameState::update()
 }
 void GameState::updateGame() {
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
-	//if(m_clock.getElapsedTime().asSeconds() > 0.1f)
-	//m_deltaTime = m_clock.restart().asSeconds();
-	m_board->updatePhysics(m_deltaTime);
+	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
+	{
+		m_deltaTime = m_clock.restart().asSeconds();
+		if (m_networkObj) {
+			m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
+			m_networkObj->handleRequests(20);
+			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+				if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_id != m_networkObj->getMembers(i)->m_id) {
+					sf::Vector2f loc = m_networkObj->getMembers(i)->m_loc;
+					m_testOtherPlayer->setPosition(loc);
+				}
+			}
+		}
+		m_board->updatePhysics(m_deltaTime);
+	}
 	m_board->move();
 	viewMover();
 	m_window.setView(m_view);
@@ -76,20 +92,7 @@ void GameState::updateGame() {
 void GameState::draw()
 {
 	m_board->draw(m_window);
-	if (m_networkObj) {
-		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
-		m_networkObj->handleRequests(10);
-		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-			if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_id != m_networkObj->getMembers(i)->m_id) {
-				sf::Vector2f loc = m_networkObj->getMembers(i)->m_loc;
-				sf::RectangleShape shape({ 50, 50 });
-				shape.setOrigin(25, 25);
-				shape.setPosition(loc);
-				shape.setFillColor(sf::Color::Yellow);
-				m_window.draw(shape); // all of this is temp!!
-			}
-		}
-	}
+	m_window.draw(*m_testOtherPlayer);
 }
 //-----------------------------------------------------------------------------
 /*

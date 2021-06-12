@@ -23,5 +23,5 @@ public:
 private:
 	sf::Vector2f m_strtPos;
 	bool m_falling = false;
-	float m_timer = 100;
+	float m_timer = 3;
 };

@@ -27,7 +27,7 @@ void FallingBlock::updatePhysics(float dt)
 {
     if (!m_falling && m_timer <= 0)//going up or down
     {
-        m_body->ApplyForceToCenter({ 0, 5.f }, true);
+        m_body->ApplyForceToCenter({ 0, dt*5.f }, true);
         m_falling = true;
         return;
     }
@@ -54,7 +54,7 @@ void FallingBlock::reset()
     m_falling = false;
     m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
     m_body->SetAwake(false);
-    m_timer = 100;
+    m_timer = 3;
 }
 
 sf::Vector2f FallingBlock::getPos() {
