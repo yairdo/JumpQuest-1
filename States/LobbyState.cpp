@@ -10,7 +10,8 @@
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
 	m_listBackground({ window.getSize().x / 3.f, window.getSize().y / 3.f }), m_signedUp(false),
-	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f })
+	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f }),
+	m_nameList(4)
 {
 	m_listBackground.setFillColor(sf::Color(255, 255, 255, 120));
 	m_listBackground.setOrigin({ m_listBackground.getSize().x / 2.f, m_listBackground.getSize().y / 2.f });
@@ -61,7 +62,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 void LobbyState::update(){
 	//pollEvent();
 	if (m_networkObj->getStarted()) {
-		m_next = StateManager::build<GameSate>(m_manager, m_window, true, m_networkObj);
+		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
 		return;
 	}
 	if (!m_signedUp){
@@ -76,7 +77,8 @@ void LobbyState::update(){
 			}
 			else if (event.type == sf::Event::KeyReleased) {
 				if(event.key.code == sf::Keyboard::Enter){
-					m_networkObj->setName(m_inputText.getString());
+					//set name recieved char* and not string
+					//m_networkObj->setName(m_inputText.getString());
 					m_signedUp == true;
 					break;
 				}
@@ -106,4 +108,13 @@ void LobbyState::drawList(){
 	for(auto& name: m_nameList)
 		//m_window.draw(m_otherName);
 		m_window.draw(name);
+}
+void LobbyState::setNameListText() {
+	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_LIST_NAMES_SIZE) / MAX_LIST_NAMES_SIZE;
+	auto startPos = sf::Vector2f{
+		m_listBackground.getPosition().x - m_listBackground.getPosition().x / 2 + 10,
+		m_listBackground.getPosition().y - m_listBackground.getPosition().y / 2 + 10 };
+	for (int i = 0; i < MAX_LIST_NAMES_SIZE; i++) {
+
+	}
 }

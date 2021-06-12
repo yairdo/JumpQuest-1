@@ -21,4 +21,5 @@ private:
 	std::vector<sf::Text> m_nameList;
 	void drawList();
 	void updateList();
+	void setNameListText();
 };

@@ -28,6 +28,7 @@ public:
 	const sf::IpAddress& getSenderIP() const { return m_senderIP; }
 	unsigned short getSenderPort() const { return m_senderPort; }
 
+	bool getStarted() { return m_started; }
 	virtual bool launch()=0;
 protected:
 	//====================== messeges handeling section ======================
@@ -67,7 +68,7 @@ private:
 	//game members
 	std::vector<std::unique_ptr<GameMember>> m_members;
 	GameMember m_info;
-
+	bool m_started = false;
 
 	void receiveTcp(sf::TcpSocket& socket) { socket.receive(m_packet);}
 	void sendTcp(sf::TcpSocket& socket);
