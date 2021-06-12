@@ -4,7 +4,7 @@
 #include "Resources.h"
 
 MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
-	const bool replace ,std::shared_ptr<NetworkObject>& net,int title,
+	const bool replace ,std::shared_ptr<NetworkObject> net,int title,
 	int background):
 	m_title(std::make_unique<sf::Sprite>(Resources::getResourceRef().getTexture(title))),
 	State{ manager, window, replace,net } ,

@@ -1,7 +1,7 @@
 #include <Server.h>
 #include <exception>
 #include <iostream>
-
+#include "Macros.h"
 /*
 * TODO
 * inform members the server list.
@@ -139,6 +139,7 @@ void Server::registerPlayer() {
 		if (getMembers(i)) {
 			if (getMembers(i)->m_memberIp == getSenderIP() && getMembers(i)->m_memberPort == getSenderPort()) {
 				sendUdpMessege<int>(memberId, getMembers(i)->m_id, getSenderIP(), getSenderPort());
+				updateAboutNewMember(receiveUdpValue<AddMember>());
 				return;
 			}
 		}
@@ -153,7 +154,7 @@ void Server::registerPlayer() {
 			m_tcpSockets[i]->connect(getSenderIP(), getSenderPort());
 			//tell the new member his id
 			sendUdpMessege<int>(memberId, i + 1);
-			sendTcpMessege<int>(memberId, i + 1, *m_tcpSockets[i]);
+			//sendTcpMessege<int>(memberId, i + 1, *m_tcpSockets[i]);
 			//notify old members about the new member
 			updateAboutNewMember(
 				addMemberCreator(getMembers(i)->m_id, getMembers(i)->m_name));
@@ -201,13 +202,15 @@ void Server::updatePlayerState(const MemberInfo& member) {
 * The method is notify the other players
 */
 void Server::updateAboutNewMember(const AddMember& newMember) {
-	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
+	getMembers(newMember.m_id + 1)->m_name = newMember.m_name;
+
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
-			if (i + 1 != newMember.m_id) {
+			if (i + 1 != newMember.m_id)
 				sendUdpMessege<AddMember>(addMember, newMember,
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
-			}
-	}
+
+
 }
 /*============================================================================
 * The method run the Server. seem like temp
@@ -227,9 +230,20 @@ bool Server::run(sf::RenderWindow& window) {
 			//for (auto& socket : m_tcpSockets)
 			//	if (socket)
 			//		sendTcpMessege(networkMessege, startGame, *socket);
-					sendUdpMessege(networkMessege, startGame);
+			sendUdpMessege(networkMessege, startGame, getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 			return true;
 		}
 	}
 	return false;
+}
+/*==========================================================================*/
+void setName(const char name[PLAYER_NAME_LEN]) {
+	Network_messeges::setName(name);
+	updateAboutNewMember(addMemberCreator(1, name));
+}
+/*==========================================================================*/
+void Server::startGame() {
+	for (int i = 0; i < MAX_SERVERS_PLAYERS; ++i)
+		if (getMember(i))
+			sendUdpMessege(networkMessege, startGame, getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }

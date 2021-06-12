@@ -15,6 +15,8 @@ public:
     virtual void notifyClosing()override;
     virtual void updateLoc(const sf::Vector2f&, int);
     bool run(sf::RenderWindow& window);
+    virtual void setName(const char name[PLAYER_NAME_LEN]);
+    void startGame();
 
 private:
     //state

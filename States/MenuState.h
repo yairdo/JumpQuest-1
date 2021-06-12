@@ -10,7 +10,7 @@ class MenuState: public State{
 public:
 
 	MenuState(StateManager& manager,sf::RenderWindow& window, bool replace
-			 ,std::shared_ptr<NetworkObject>& net,int title, int background);
+			 ,std::shared_ptr<NetworkObject> net,int title, int background);
 	virtual ~MenuState()=default;
 	virtual void draw() ;
 	virtual void update();

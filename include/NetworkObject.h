@@ -16,8 +16,10 @@ public:
 	virtual void notifyClosing() = 0;
 	virtual void updateLoc(const sf::Vector2f&, int) = 0;
 	const GameMember* getMembers(int index)const;
+	
 	const GameMember& getInfo()const { return m_info; }
-	void setName(const char name[PLAYER_NAME_LEN]);
+	virtual void setName(const char name[PLAYER_NAME_LEN]);
+	virtual void startGame() = 0;
 	virtual bool run(sf::RenderWindow&)=0;
 
 	const sf::IpAddress& getIP() const { return m_ip; }
@@ -25,6 +27,8 @@ public:
 	void setId(int id) { m_info.m_id = id; }
 	const sf::IpAddress& getSenderIP() const { return m_senderIP; }
 	unsigned short getSenderPort() const { return m_senderPort; }
+
+	virtual bool launch()=0;
 protected:
 	//====================== messeges handeling section ======================
 	//sending section
@@ -43,6 +47,7 @@ protected:
 	void addMemberToList();
 	void updateMember(const MemberInfo& member);
 	void setMember(int index, std::unique_ptr<GameMember>);
+	virtual void setMember(int index);
 
 	//=========================== gets section ===============================
 

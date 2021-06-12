@@ -21,8 +21,7 @@ bool Client::run(sf::RenderWindow&) {
 				}
 			}
 		}
-		else
-			if(!m_isLinked)
+		else if(!m_isLinked)
 			searchForServers();
 		if (m_servers.size() > 0 && getInfo().m_id == 0) {
 			std::cout << "plaese enter your nickname: ";
@@ -158,11 +157,18 @@ void Client::notifyClosing() {
 void Client::updateLoc(const sf::Vector2f& loc, int state){
 	sendUdpMessege<MemberInfo>(memberInfo, memberInfoCreator(getInfo().m_id, loc, state));
 }
+/*==========================================================================*/
+bool Client::launch()
+{
+	searchForServers();
+	return false;
+}
 /*============================================================================
 * The method is singIn to the server.
 */
 void Client::sendGameMembership(const char name[]){
 	sendUdpMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
+
 }
 /*============================================================================
 * The method is regester to the server the client reseived messege from the last.
@@ -172,4 +178,3 @@ void Client::regesterServer() {
 	m_serverIP = getSenderIP();
 	m_isLinked = true;
 }
-

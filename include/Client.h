@@ -4,6 +4,7 @@
 #include <string>
 #include <NetworkObject.h>
 #include <MessegesStructs.h>
+#include <Macros.h>
 
 
 class Client : public 
@@ -16,8 +17,10 @@ public:
 	void searchForServers();
 	void regesterServer();
 	virtual void notifyClosing();
-	void sendGameMembership(const char name[20]);
+	void sendGameMembership(const char name[PLAYER_NAME_LEN]);
 	virtual void updateLoc(const sf::Vector2f&, int);
+	virtual bool launch();
+
 private:
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;

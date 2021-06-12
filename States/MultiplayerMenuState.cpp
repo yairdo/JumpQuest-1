@@ -8,9 +8,8 @@
 #include "LobbyState.h"
 
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool replace,std::shared_ptr<NetworkObject>net):
-	MenuState(manager, window, replace, net, title, menuBackground)
+	MenuState(manager, window, replace, nullptr, title, menuBackground)
 {
-	
 	auto startButPos = sf::Vector2f(m_middle.x, getTitleHeight() + SPACE_BUTTONS * 2);
 	auto butHeight = (window.getSize().y - getTitleHeight()
 		- SPACE_BUTTONS * 2 -SPACE_BUTTONS* MAIN_MENU_BUTTONS) / MAIN_MENU_BUTTONS;
