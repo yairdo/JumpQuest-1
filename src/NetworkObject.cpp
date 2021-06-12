@@ -56,8 +56,11 @@ const GameMember* NetworkObject::getMembers(int index) const
 	return nullptr;
 }
 /*==========================================================================*/
-void NetworkObject::setName(const char name[PLAYER_NAME_LEN]){
-	std::memcpy(m_info.m_name, name, PLAYER_NAME_LEN);
+void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
+	if (index == -1)
+		index = m_info.m_id;
+	std::memcpy(m_members[index % MAX_SERVER_PLAYERS]->m_name , 
+		name, PLAYER_NAME_LEN);
 }
 /*============================================================================
 * The method is receiving the messeges type. every messege reading need to
