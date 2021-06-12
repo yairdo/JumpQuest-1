@@ -20,20 +20,21 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	
 	m_nameTextBox.setFillColor(sf::Color(102,0,0,150));
 	m_nameTextBox.setOrigin({ m_nameTextBox.getSize().x / 2.f, m_nameTextBox.getSize().y / 2.f });
-	m_nameTextBox.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+	m_nameTextBox.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
 
 	m_text.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_text.setString("Enter your nickname:\n");
 	m_text.setCharacterSize(24);
 	m_text.setFillColor(sf::Color::Black);
-	m_text.setPosition({ m_nameTextBox.getPosition().x + m_nameTextBox.getPosition().x / 2+10,
-		m_nameTextBox.getPosition().y - m_nameTextBox.getPosition().y / 2+10 });
+	//- (m_nameTextBox.getSize().x / 2)+10
+	m_text.setPosition({ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
+		m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2+10 });
+	m_text.setString("Enter your nickname:\n");
 	
 	m_inputText.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_text.setCharacterSize(24);
-	m_text.setFillColor(sf::Color::Black);
-	m_text.setPosition({ m_text.getPosition().x ,
-		m_text.getPosition().y + m_text.getCharacterSize() + 10 });
+	m_inputText.setCharacterSize(24);
+	m_inputText.setFillColor(sf::Color::Black);
+	m_inputText.setPosition({ m_text.getPosition().x ,
+		m_text.getPosition().y + m_text.getGlobalBounds().height + 10 });
 	//m_inputText
 
 	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3;
@@ -116,13 +117,13 @@ void LobbyState::drawList(){
 void LobbyState::setNameListText() {
 	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_LIST_NAMES_SIZE) / MAX_LIST_NAMES_SIZE;
 	auto startPos = sf::Vector2f{
-		m_listBackground.getPosition().x - m_listBackground.getPosition().x / 2 + 10,
-		m_listBackground.getPosition().y - m_listBackground.getPosition().y / 2 + 10 };
+		m_listBackground.getPosition().x - m_listBackground.getSize().x / 2 + 10,
+		m_listBackground.getPosition().y - m_listBackground.getSize().y / 2 + 10 };
 	for (int i = 0; i < MAX_LIST_NAMES_SIZE; i++) {
 		sf::Text text;
 		text.setFont(Resources::getResourceRef().getFont(lobbyFont));
 		text.setCharacterSize(24);
-		m_text.setPosition(startPos);
+		text.setPosition(startPos);
 		m_nameList.emplace_back(std::move(text));
 		startPos.y += textHeight + 10;
 	}
