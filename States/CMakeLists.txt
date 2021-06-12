@@ -7,4 +7,5 @@ target_sources (OPP_FinalProject_2nd_semester PRIVATE
                                      "StandardMenuState.cpp"
                                      "State.cpp"
                                      "GameState.cpp"
-                                     "StateManager.cpp")
+                                     "StateManager.cpp"
+                                     "LobbyState.cpp")

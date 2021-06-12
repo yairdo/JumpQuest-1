@@ -68,21 +68,22 @@ void GameState::update()
 	updateGame();
 }
 void GameState::updateGame() {
+	//check if all players are ready
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{
 		m_deltaTime = m_clock.restart().asSeconds();
-		if (m_networkObj) {
-			m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
-			m_networkObj->handleRequests(20);
-			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-				if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_id != m_networkObj->getMembers(i)->m_id) {
-					sf::Vector2f loc = m_networkObj->getMembers(i)->m_loc;
-					m_testOtherPlayer->setPosition(loc);
-				}
+		m_board->updatePhysics(m_deltaTime);
+	}
+	if (m_networkObj) {
+		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
+		m_networkObj->handleRequests(20);
+		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+			if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_id != m_networkObj->getMembers(i)->m_id) {
+				sf::Vector2f loc = m_networkObj->getMembers(i)->m_loc;
+				m_testOtherPlayer->setPosition(loc);
 			}
 		}
-		m_board->updatePhysics(m_deltaTime);
 	}
 	m_board->move();
 	viewMover();
