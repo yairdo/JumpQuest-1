@@ -3,16 +3,21 @@
 #include "Macros.h"
 #include "Resources.h"
 
-MenuState::MenuState(StateManager& manager,sf::RenderWindow& window, const bool replace ,std::shared_ptr<NetworkObject>& net, int background):
-	State{ manager, window, replace,net } ,m_title(nullptr),
+MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
+	const bool replace ,std::shared_ptr<NetworkObject>& net,int title,
+	int background):
+	m_title(std::make_unique<sf::Sprite>(Resources::getResourceRef().getTexture(title))),
+	State{ manager, window, replace,net } ,
+	m_middle(m_window.getSize().x / 2.f, m_window.getSize().y / 2.f),
 	m_background(std::make_unique<sf::Sprite>(Resources::getResourceRef().
 	getTexture(background)))
 {
+	//m_middle(m_window.getSize().x / 2.f, m_window.getSize().y / 2.f)
 	auto x = m_background->getGlobalBounds().width;
 	auto y = m_background->getGlobalBounds().height;
 	m_background->setScale(float(window.getSize().x) / x, float(window.getSize().y) / y);
 	m_background->setPosition({ 0.f,0.f });
-
+	setTitle();
 }
 
 void MenuState::draw(){
@@ -65,6 +70,11 @@ void MenuState::setTitle(sf::Sprite&& title){
 	m_title = std::make_unique<sf::Sprite>(title);
 }
 
+float MenuState::getTitleHeight() const
+{
+	return m_title->getGlobalBounds().height;
+}
+
 //void MenuState::addButton(int index, int type,
 //		const sf::Vector2f& loc, const sf::Vector2f& size){
 //	m_buttons.emplace_back(std::make_unique<Button>(m_menu->getStateRef(index), type, loc, size));
@@ -80,4 +90,11 @@ void MenuState::updateNextState(const sf::Vector2f& loc){
 			break;
 		}
 	}
+}
+void MenuState::setTitle() {
+	
+	m_title->setOrigin(m_title->getGlobalBounds().width / 2,
+		m_title->getGlobalBounds().height / 2);
+	m_title->setPosition(m_middle.x, m_title->getGlobalBounds().height);
+	m_title->setScale({ 1.5f,1.5f });
 }

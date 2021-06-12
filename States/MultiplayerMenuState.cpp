@@ -5,22 +5,24 @@
 #include "Server.h"
 #include "Client.h"
 #include "Resources.h"
+#include "LobbyState.h"
 
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool replace,std::shared_ptr<NetworkObject>net):
-	StandardMenuState(manager, window, replace, net, title)
+	MenuState(manager, window, replace, net, title, menuBackground)
 {
-	auto startButPos = sf::Vector2f(m_middle.x, m_title->getGlobalBounds().height + SPACE_BUTTONS * 2);
-	auto butHeight = (window.getSize().y - m_title->getGlobalBounds().height
+	
+	auto startButPos = sf::Vector2f(m_middle.x, getTitleHeight() + SPACE_BUTTONS * 2);
+	auto butHeight = (window.getSize().y - getTitleHeight()
 		- SPACE_BUTTONS * 2 -SPACE_BUTTONS* MAIN_MENU_BUTTONS) / MAIN_MENU_BUTTONS;
 	float width;
 	auto pos = startButPos;
 	//host
 	width= Resources::getResourceRef().getButLen(host) * PIX4LET ;
-	addButton<GameState>(host,startButPos,width,butHeight);
+	addButton<LobbyState>(host,startButPos,width,butHeight);
 	pos.y += SPACE_BUTTONS + butHeight;
 	//client
 	width= Resources::getResourceRef().getButLen(client) * PIX4LET ;
-	addButton<GameState>(client,pos,width,butHeight);
+	addButton<LobbyState>(client,pos,width,butHeight);
 	//back
 	width= Resources::getResourceRef().getButLen(back) * PIX4LET ;
 	pos.y += SPACE_BUTTONS + butHeight;

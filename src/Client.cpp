@@ -9,8 +9,7 @@ m_isLinked(false), m_started(false){
 bool Client::run(sf::RenderWindow&) {
 	system("CLS");
 	while (!m_started) {
-		if (receivedMessege()) {
-			handleRequests();
+		if (handleRequests()) {
 			system("CLS");
 			for (auto servers : m_servers)
 				std::cout << "The server IP is: " << servers << std::endl;
@@ -19,8 +18,6 @@ bool Client::run(sf::RenderWindow&) {
 			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 				if (getMembers(i)) {
 					std::cout << getMembers(i)->m_id << ". " << getMembers(i)->m_name << std::endl;
-					//if (i == getInfo().m_id)
-						//std::cout << getInfo().m_id << ". " << getInfo().m_name << std::endl;
 				}
 			}
 		}
@@ -29,7 +26,6 @@ bool Client::run(sf::RenderWindow&) {
 			searchForServers();
 		if (m_servers.size() > 0 && getInfo().m_id == 0) {
 			std::cout << "plaese enter your nickname: ";
-			//std::cin.get();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				char name[PLAYER_NAME_LEN];
 				std::cin.getline(name, PLAYER_NAME_LEN);
@@ -51,14 +47,13 @@ bool Client::run(sf::RenderWindow&) {
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	while (receivedMessege()&& counter++ < max) {
+	/*while (receivedTcpMessege() && counter++ < max) {
+		std::cout << "tcp messege received.\n";
 		try {
-			switch (receiveType())
+			switch (receiveTcpValue<Messege_type>())
 			{
 			case networkMessege:
-				switch (receiveValue<Network_messeges>()){
-				case iAmFree:
-					addServerToList();
+				switch (receiveUdpValue<Network_messeges>()) {
 					break;
 				case startGame:
 					m_started = true;
@@ -74,7 +69,46 @@ bool Client::handleRequests(int max) {
 				addMemberToList();
 				break;
 			case memberInfo:
-				updateMember(receiveValue<MemberInfo>());
+				updateMember(receiveUdpValue<MemberInfo>());
+				break;
+			default:
+				break;
+			}
+		}
+		catch (std::exception& e) {
+			if (e.what() == SOKET_ERROR) {
+				try {
+					notifyClosing();
+					return false;
+				}
+				catch (std::exception& e2) {
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
+	}*/
+	while (receivedUdpMessege()&& counter++ < max) {
+		std::cout << "udp messege received.\n";
+		try {
+			switch (receiveUdpValue<Messege_type>())
+			{
+			case networkMessege:
+				switch (receiveUdpValue<Network_messeges>()){
+				case iAmFree:
+					addServerToList();
+					break;
+				default:
+					break;
+				}
+				break;
+			case memberId:
+				regesterServer();
+				break;
+			case addMember:
+				addMemberToList();
+				break;
+			case memberInfo:
+				updateMember(receiveUdpValue<MemberInfo>());
 				break;
 			default:
 				break;
@@ -92,7 +126,9 @@ bool Client::handleRequests(int max) {
 			}
 		}
 	}
-	return(true);
+	if (counter == 0)
+		return false;
+	return true;
 }
 /*============================================================================
 * The method send to all the avaible servers message informing them that
@@ -101,7 +137,8 @@ bool Client::handleRequests(int max) {
 */
 void Client::searchForServers() {
 	m_packet.clear();
-	sendUdpMessege(networkMessege, whoIsFreeServer, sf::IpAddress::Broadcast, SERVERS_PORT);
+	sendUdpMessege(networkMessege, whoIsFreeServer, 
+		sf::IpAddress::Broadcast, SERVERS_PORT);
 	m_packet.clear();
 }
 /*============================================================================
@@ -117,6 +154,7 @@ void Client::addServerToList() {
 void Client::notifyClosing() {
 	sendUdpMessege(networkMessege, closing, m_serverIP, SERVERS_PORT);
 }
+/*==========================================================================*/
 void Client::updateLoc(const sf::Vector2f& loc, int state){
 	sendUdpMessege<MemberInfo>(memberInfo, memberInfoCreator(getInfo().m_id, loc, state));
 }
@@ -130,7 +168,7 @@ void Client::sendGameMembership(const char name[]){
 * The method is regester to the server the client reseived messege from the last.
 */
 void Client::regesterServer() {
-	setId(receiveValue<int>());
+	setId(receiveUdpValue<int>());
 	m_serverIP = getSenderIP();
 	m_isLinked = true;
 }

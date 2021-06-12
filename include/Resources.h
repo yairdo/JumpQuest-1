@@ -8,6 +8,7 @@ public:
 	//----------------functions-------------------
 	static Resources& getResourceRef();
 	const sf::Texture& getTexture(int index) const;
+	const sf::Font& getFont(int index) const;
 	const int getButLen(int index) const;
 private:
 	//Singeltone class
@@ -18,12 +19,16 @@ private:
 	//std::unique_ptr<sf::Texture> createTexture(const std::string&) const;
 	void setTextures();
 	void setButtonStrLengh();
+	void setFonts();
+	sf::Font createFont(const std::string& str);
 
 	template<class Container, class Return>
 	Return findInMap(Container map, int index) const;
 	std::unordered_map <int, sf::Texture> m_textures;
+	std::unordered_map<int, sf::Font> m_fonts;
 	//std::unordered_map <int, std::unique_ptr<sf::Texture>> m_textures;
 	std::unordered_map<int, int> m_buttonStrLen;
+
 	std::unordered_map <int,std::pair<sf::SoundBuffer, sf::Sound>> m_sounds;
 };
 template<class Container, class Return>

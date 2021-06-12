@@ -12,7 +12,7 @@ public:
 	Client();
 	virtual bool run(sf::RenderWindow&);
 	virtual ~Client() = default;
-	bool handleRequests(int =10);
+	bool handleRequests(int = 10);
 	void searchForServers();
 	void regesterServer();
 	virtual void notifyClosing();

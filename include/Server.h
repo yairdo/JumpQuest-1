@@ -16,11 +16,12 @@ public:
     virtual void updateLoc(const sf::Vector2f&, int);
     bool run(sf::RenderWindow& window);
 
-
 private:
     //state
     bool m_launched;
     bool m_requiting;
+    std::vector<std::unique_ptr<sf::TcpSocket>> m_tcpSockets;
+
     void registerPlayer();
     void updatePlayerState(const MemberInfo& member);
     void updateAboutNewMember(const AddMember&);
