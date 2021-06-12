@@ -24,13 +24,13 @@ void MenuState::draw(){
 	//m_window.display();
 }
 
-void MenuState::setTransp(const sf::Vector2f& location){
+void MenuState::setTransp(const sf::Vector2f& location) const{
 	std::for_each(m_buttons.begin(), m_buttons.end(),
 		[&](const std::unique_ptr<BaseButton>& but){but->setTransp(location); });
 }
 void MenuState::update(){
 	auto location = sf::Vector2f{ 0,0 };
-	if (auto event = sf::Event{}; m_window.waitEvent(event)) {
+	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
 		switch (event.type) {
 		case sf::Event::Closed:
 				m_manager.quit();

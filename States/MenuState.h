@@ -14,24 +14,15 @@ public:
 	virtual ~MenuState()=default;
 	virtual void draw() ;
 	virtual void update();
-	//virtual void setMenuState() const=0;
-	virtual void setTransp(const sf::Vector2f&);
+	virtual void setTransp(const sf::Vector2f&) const;
 	virtual void updateNextState(const sf::Vector2f& loc);
-	
-	//????? maybe singelton
-	//int returnState();
-	//void setState(int);
-
 	virtual void pause() {};
 	virtual void resume() {};
-	//virtual void draw() = 0;
 protected:
-	//const Menuu* m_menu;
-	//void setTitle(const sf::Vector2f& titleScale, const sf::Vector2f& loc, int title);
 	void setTitle(sf::Sprite&& title);
 	template <class T>
 	void addButton(int index,const sf::Vector2f& loc, float width, float height, bool ext=false);
-	//setButton();
+
 	std::unique_ptr<sf::Sprite> m_title;
 	std::vector<std::unique_ptr<BaseButton>> m_buttons;
 private:
