@@ -99,7 +99,7 @@ enum Messege_type {
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
-constexpr auto MAX_SERVERS_NUM = 4;
+constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 5;
 
 //exeptions type

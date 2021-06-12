@@ -3,23 +3,20 @@
 #include <Macros.h>
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress::getLocalAddress()), m_udpSocket(), 
-m_selector(), m_packet(), m_senderIP(sf::IpAddress::None), m_senderPort(0), m_port(port), m_tcpSocket(),
-m_members(MAX_SERVER_PLAYERS), m_listener(){
-	if (port == 0) {
-		m_udpSocket.bind(sf::Socket::AnyPort);
-		m_tcpSocket.connect(sf::IpAddress::Broadcast, m_udpSocket.getLocalPort());
-	}
-	else {
+m_udpSelector(), m_packet(), m_senderIP(sf::IpAddress::None), m_senderPort(0), m_port(port), m_tcpSocket(),
+m_members(MAX_SERVER_PLAYERS), m_listener(), m_tcpSelector() {
+	if (port == 0)
+		m_udpSocket.bind(sf::Socket::AnyPort,m_ip);
+	else
 		m_udpSocket.bind(SERVERS_PORT, m_ip);
-		m_tcpSocket.connect(m_ip, SERVERS_PORT);
-	}
 	if (!m_port) {
 		m_port = m_udpSocket.getLocalPort();
 	}
 	m_listener.listen(SERVERS_PORT);
-	m_listener.accept(m_tcpSocket);
-	m_selector.add(m_udpSocket);
+	m_udpSelector.add(m_udpSocket);
+	m_tcpSelector.add(m_tcpSocket);
 	m_packet.clear();
+	m_tcpSocket.setBlocking(false);
 	m_udpSocket.setBlocking(false);
 }
 /*============================================================================
@@ -28,6 +25,7 @@ m_members(MAX_SERVER_PLAYERS), m_listener(){
 * person the server received messege from.
 */
 void NetworkObject::sendTcp(sf::TcpSocket& socket) {
+	std::cout << "tcp messege sent.\n";
 	while (socket.send(m_packet) != sf::Socket::Done);
 }
 /*============================================================================
@@ -36,17 +34,18 @@ void NetworkObject::sendTcp(sf::TcpSocket& socket) {
 * person the server received messege from.
 */
 void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port) {
+	std::cout << "udp messege sent.\n";
 	while (m_udpSocket.send(m_packet, ip, port) != sf::Socket::Done);
 }
 /*============================================================================
 * The method return if there is messege wait in m_socket.
 */
 bool NetworkObject::receivedUdpMessege(float seconds) {
-	return m_selector.wait(sf::seconds(seconds));
+	return m_udpSelector.wait(sf::seconds(seconds));
 }
 /*==========================================================================*/
 bool NetworkObject::receivedTcpMessege(float seconds) {
-	return m_listener.accept(m_tcpSocket);
+	return m_tcpSelector.wait(sf::seconds(seconds));
 }
 /*==========================================================================*/
 const GameMember* NetworkObject::getMembers(int index) const
@@ -71,6 +70,7 @@ Messege_type NetworkObject::receiveUdpValue<Messege_type>() {
 	m_packet >> value;
 	return (Messege_type)value;
 }
+/*==========================================================================*/
 template<>
 Messege_type NetworkObject::receiveTcpValue<Messege_type>() {
 	receiveTcp(m_tcpSocket);

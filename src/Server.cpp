@@ -18,7 +18,7 @@ bool Server::launch() {
 	if (m_launched)
 		return true;
 	try {
-		sendUdpMessege(networkMessege, whoIsAServer, 
+		sendUdpMessege(networkMessege, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
 	}
 	catch (std::exception& e) {
@@ -53,21 +53,35 @@ bool Server::launch() {
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
-	while (receivedTcpMessege() && counter < max) {
-		switch (receiveTcpValue<Messege_type>())
-		{
-		case singMeIn:
-			registerPlayer();
-		default:
-			break;
+	/*while (receivedTcpMessege() && counter < max) {
+		std::cout << "tcp messege received.\n";
+		try {
+			switch (receiveTcpValue<Messege_type>())
+			{
+			case singMeIn:
+				registerPlayer();
+			default:
+				break;
+			}
 		}
-
+		catch (std::exception& e) {
+			if (e.what() == SOKET_ERROR) {
+				try {
+					notifyClosing();
+					return false;
+				}
+				catch (std::exception& e2) {
+					std::cout << e2.what();
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
 		++counter;
-	}
+	}*/
 
 	while (receivedUdpMessege() && counter++ < max) {
-		std::cout << "received!\n";
 		try {
+			std::cout << "udp messege received.\n";
 			Messege_type type = receiveUdpValue<Messege_type>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
 				switch (type)
@@ -83,9 +97,7 @@ bool Server::handleRequests(int max) {
 						break;
 					case whoIsFreeServer:
 						if (m_requiting && m_launched) {
-							sf::TcpSocket tempSocket;
-							tempSocket.connect(getSenderIP(), getSenderPort());
-							sendTcpMessege(networkMessege, iAmFree, tempSocket);
+							sendUdpMessege(networkMessege, iAmFree);
 						}
 						break;
 					}
@@ -93,6 +105,8 @@ bool Server::handleRequests(int max) {
 				case memberInfo:
 					updatePlayerState(receiveUdpValue<MemberInfo>());
 					//send
+				case singMeIn:
+					registerPlayer();
 					break;
 				default:
 					break;
@@ -112,7 +126,9 @@ bool Server::handleRequests(int max) {
 			}
 		}
 	}
-	return true;
+	if (counter > 0)
+		return true;
+	return false;
 }
 /*============================================================================
 * The method add the last messege sender to the player list.
@@ -136,6 +152,7 @@ void Server::registerPlayer() {
 			m_tcpSockets[i] = std::make_unique<sf::TcpSocket>();
 			m_tcpSockets[i]->connect(getSenderIP(), getSenderPort());
 			//tell the new member his id
+			sendUdpMessege<int>(memberId, i + 1);
 			sendTcpMessege<int>(memberId, i + 1, *m_tcpSockets[i]);
 			//notify old members about the new member
 			updateAboutNewMember(
@@ -199,8 +216,7 @@ bool Server::run(sf::RenderWindow& window) {
 	system("CLS");
 	launch();
 	while (true) {
-		if (receivedUdpMessege()) {
-			handleRequests();
+		if (handleRequests()) {
 			system("CLS");
 			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
 				if (getMembers(i)) {
@@ -208,9 +224,10 @@ bool Server::run(sf::RenderWindow& window) {
 				}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
-			for (auto& socket : m_tcpSockets)
-				if (socket)
-					sendTcpMessege(networkMessege, startGame, *socket);
+			//for (auto& socket : m_tcpSockets)
+			//	if (socket)
+			//		sendTcpMessege(networkMessege, startGame, *socket);
+					sendUdpMessege(networkMessege, startGame);
 			return true;
 		}
 	}

@@ -56,7 +56,8 @@ private:
 	sf::TcpSocket m_tcpSocket;
 	sf::IpAddress m_ip;
 	unsigned short m_port;
-	sf::SocketSelector m_selector;
+	sf::SocketSelector m_udpSelector;
+	sf::SocketSelector m_tcpSelector;
 	sf::TcpListener m_listener;
 	//game members
 	std::vector<std::unique_ptr<GameMember>> m_members;
