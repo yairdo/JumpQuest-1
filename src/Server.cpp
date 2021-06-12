@@ -6,8 +6,8 @@
 * TODO
 * inform members the server list.
 */
-Server::Server() : NetworkObject(SERVERS_PORT), m_requiting(false),
-	m_launched(false) {
+Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
+m_launched(false) {
 }
 /*============================================================================
 * Launch the server
@@ -26,10 +26,10 @@ bool Server::launch() {
 	}
 	m_packet.clear();
 	unsigned int counter = 0;
-	while (receivedMessege()) {
+	while (receivedUdpMessege()) {
 		try {
-			if (receiveValue<Messege_type>() == networkMessege
-				&& receiveValue<Network_messeges>() == iAmAServer)
+			if (receiveUdpValue<Messege_type>() == networkMessege
+				&& receiveUdpValue<Network_messeges>() == iAmAServer)
 				++counter;
 		}
 		catch (std::exception& e) {
@@ -52,15 +52,15 @@ bool Server::launch() {
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
-	while (receivedMessege() && counter++ < max) {
+	while (receivedUdpMessege() && counter++ < max) {
 		std::cout << "received!\n";
 		try {
-			Messege_type type = receiveValue<Messege_type>();
+			Messege_type type = receiveUdpValue<Messege_type>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
 				switch (type)
 				{
 				case networkMessege:
-					switch (receiveValue<Network_messeges>()) {
+					switch (receiveUdpValue<Network_messeges>()) {
 					case whoIsAServer:
 						if (m_launched)
 							sendNetworkMessege(iAmAServer);
@@ -75,7 +75,7 @@ bool Server::handleRequests(int max) {
 					registerPlayer();
 					break;
 				case memberInfo:
-					updatePlayerState(receiveValue<MemberInfo>());
+					updatePlayerState(receiveUdpValue<MemberInfo>());
 					//send
 					break;
 				default:
@@ -115,7 +115,7 @@ void Server::registerPlayer() {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
-					receiveValue<GameMember>().m_name, i + 1)));
+					receiveUdpValue<GameMember>().m_name, i + 1)));
 			//tell the new member his id
 			sendUdpMessege<int>(memberId, i + 1, getSenderIP(), getSenderPort());
 			//notify old members about the new member
@@ -180,7 +180,7 @@ bool Server::run(sf::RenderWindow& window) {
 	system("CLS");
 	launch();
 	while (true) {
-		if (receivedMessege()) {
+		if (receivedUdpMessege()) {
 			handleRequests();
 			system("CLS");
 			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
@@ -188,7 +188,7 @@ bool Server::run(sf::RenderWindow& window) {
 					std::cout << i + 1 << ". " << getMembers(i)->m_name << std::endl;
 				}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
 			for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 				if (getMembers(i))
 					sendNetworkMessege(startGame, getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
