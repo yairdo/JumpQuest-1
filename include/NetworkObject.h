@@ -18,9 +18,8 @@ public:
 	const GameMember* getMembers(int index)const;
 	
 	const GameMember& getInfo()const { return m_info; }
-	virtual void setName(const char name[PLAYER_NAME_LEN]);
+	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	virtual void startGame() = 0;
-	virtual bool run(sf::RenderWindow&)=0;
 
 	const sf::IpAddress& getIP() const { return m_ip; }
 	unsigned short getPort() const { return m_port; }

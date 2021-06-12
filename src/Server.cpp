@@ -202,8 +202,7 @@ void Server::updatePlayerState(const MemberInfo& member) {
 * The method is notify the other players
 */
 void Server::updateAboutNewMember(const AddMember& newMember) {
-	getMembers(newMember.m_id + 1)->m_name = newMember.m_name;
-
+	setName(newMember.m_name, newMember.m_id + 1);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
 			if (i + 1 != newMember.m_id)
@@ -212,38 +211,15 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 
 
 }
-/*============================================================================
-* The method run the Server. seem like temp
-*/
-bool Server::run(sf::RenderWindow& window) {
-	system("CLS");
-	launch();
-	while (true) {
-		if (handleRequests()) {
-			system("CLS");
-			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
-				if (getMembers(i)) {
-					std::cout << i + 1 << ". " << getMembers(i)->m_name << std::endl;
-				}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
-			//for (auto& socket : m_tcpSockets)
-			//	if (socket)
-			//		sendTcpMessege(networkMessege, startGame, *socket);
-			sendUdpMessege(networkMessege, startGame, getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
-			return true;
-		}
-	}
-	return false;
-}
 /*==========================================================================*/
-void setName(const char name[PLAYER_NAME_LEN]) {
-	Network_messeges::setName(name);
+void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
+	NetworkObject::setName(name);
 	updateAboutNewMember(addMemberCreator(1, name));
 }
 /*==========================================================================*/
 void Server::startGame() {
-	for (int i = 0; i < MAX_SERVERS_PLAYERS; ++i)
-		if (getMember(i))
-			sendUdpMessege(networkMessege, startGame, getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMembers(i))
+			sendUdpMessege(networkMessege, Network_messeges::startGame, getMembers(i)->m_memberIp,
+				getMembers(i)->m_memberPort);
 }

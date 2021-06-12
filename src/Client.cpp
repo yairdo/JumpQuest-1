@@ -5,41 +5,6 @@ Client::Client() : NetworkObject(), m_serverIP(), m_servers(),
 m_isLinked(false), m_started(false){
 	m_packet.clear();
 }
-//============================================================================
-bool Client::run(sf::RenderWindow&) {
-	system("CLS");
-	while (!m_started) {
-		if (handleRequests()) {
-			system("CLS");
-			for (auto servers : m_servers)
-				std::cout << "The server IP is: " << servers << std::endl;
-			std::cout << "you are: " << getInfo().m_name << "| your id is: " 
-				<< getInfo().m_id << std::endl;
-			for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-				if (getMembers(i)) {
-					std::cout << getMembers(i)->m_id << ". " << getMembers(i)->m_name << std::endl;
-				}
-			}
-		}
-		else if(!m_isLinked)
-			searchForServers();
-		if (m_servers.size() > 0 && getInfo().m_id == 0) {
-			std::cout << "plaese enter your nickname: ";
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				char name[PLAYER_NAME_LEN];
-				std::cin.getline(name, PLAYER_NAME_LEN);
-				for (int i = 0; i < PLAYER_NAME_LEN; ++i)
-					if (name[i] == '\n') {
-						name[i] = '\0';
-						break;
-					}
-				setName(name);
-				sendGameMembership(name);
-			}
-		}
-	}
-	return(true);
-}
 /*============================================================================
 * The method is receiving all the messeges the client received and handle them
 * as needed.
@@ -160,15 +125,16 @@ void Client::updateLoc(const sf::Vector2f& loc, int state){
 /*==========================================================================*/
 bool Client::launch()
 {
-	searchForServers();
-	return false;
+	while (!receivedUdpMessege()){
+		searchForServers();
+	}
+	return true;
 }
 /*============================================================================
 * The method is singIn to the server.
 */
 void Client::sendGameMembership(const char name[]){
 	sendUdpMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
-
 }
 /*============================================================================
 * The method is regester to the server the client reseived messege from the last.

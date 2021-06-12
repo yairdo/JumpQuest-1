@@ -17,7 +17,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_testOtherPlayer->setFillColor(sf::Color::Yellow);
 	m_testPlayer = m_board->getPlayerRef();
 	if (m_networkObj) {
-		if (!m_networkObj->run(m_window))
+		if (!m_networkObj->launch())
 			m_isPlay = false;
 	}
 	m_clock.restart();
