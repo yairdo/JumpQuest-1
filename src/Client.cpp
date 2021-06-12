@@ -61,6 +61,9 @@ bool Client::handleRequests(int max) {
 				case iAmFree:
 					addServerToList();
 					break;
+				case startGame:
+					setStarted(true);
+					break;
 				default:
 					break;
 				}

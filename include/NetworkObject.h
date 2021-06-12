@@ -19,7 +19,6 @@ public:
 	
 	const GameMember& getInfo()const { return m_info; }
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
-	virtual void startGame() = 0;
 
 	const sf::IpAddress& getIP() const { return m_ip; }
 	unsigned short getPort() const { return m_port; }
@@ -47,8 +46,8 @@ protected:
 	void addMemberToList();
 	void updateMember(const MemberInfo& member);
 	void setMember(int index, std::unique_ptr<GameMember>);
-	virtual void setMember(int index);
-
+	//virtual void setMember(int index);
+	void setStarted(bool value) { m_started = value; }
 	//=========================== gets section ===============================
 
 	sf::Packet m_packet;

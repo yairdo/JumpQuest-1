@@ -105,7 +105,7 @@ void LobbyState::updateList(){
 }
 
 void LobbyState::drawList(){
-	for(auto& name: m_nameList)
+	for (auto& name : m_nameList)
 		//m_window.draw(m_otherName);
 		m_window.draw(name);
 }
@@ -115,6 +115,11 @@ void LobbyState::setNameListText() {
 		m_listBackground.getPosition().x - m_listBackground.getPosition().x / 2 + 10,
 		m_listBackground.getPosition().y - m_listBackground.getPosition().y / 2 + 10 };
 	for (int i = 0; i < MAX_LIST_NAMES_SIZE; i++) {
-
+		sf::Text text;
+		text.setFont(Resources::getResourceRef().getFont(lobbyFont));
+		text.setCharacterSize(24);
+		m_text.setPosition(startPos);
+		m_nameList.emplace_back(std::move(text));
+		startPos.y += textHeight + 10;
 	}
 }
