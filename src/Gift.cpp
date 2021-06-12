@@ -8,6 +8,9 @@
 Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) : 
     m_testRect(size), StaticObj(world, pos, size, bodyType)
 {
+    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+
     m_sprite.setColor(sf::Color::Blue);
     /*b2BodyDef groundBodyDef;
     groundBodyDef.position.Set(pos.x / SCALE, pos.y / SCALE);

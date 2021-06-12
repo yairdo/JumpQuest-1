@@ -21,7 +21,9 @@ public:
 	bool getOnRope() { return m_onRope; };
 	int getDirection();
 	void footContact(int val);
+	void updateAnim(float deltaTime);
 private:
+	void updateRow();
 	int m_direction;
 	bool m_onRope = false;
 	int m_lives;

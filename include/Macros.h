@@ -20,7 +20,8 @@ enum direction {
 	left,
 	right,
 	up,
-	down
+	down,
+	idle
 };
 enum objectType {
 	block,
@@ -98,3 +99,21 @@ constexpr auto MAX_SERVER_PLAYERS = 5;
 //exeptions type
 constexpr auto RECEIVED_WRONG_MESSEGE_TYPE = "received wrong messege type\n";
 constexpr auto SOKET_ERROR = "socket error!\n";
+
+
+
+//for anime
+enum animPos {
+	walking,
+	jumping,
+	climb
+};
+constexpr float SWITCH_TIME = 0.15;
+//constexpr int PLAYER_WIDTH = 520;
+constexpr int PLAYER_WIDTH = 130;
+constexpr int PLAYER_HEIGHT = 155;
+
+constexpr int WALKING = 3;
+constexpr int STAND = 3;
+constexpr int CLIMB = 2;
+constexpr int JUMP = 1;

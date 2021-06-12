@@ -1,0 +1,1 @@
+#configure_file ("korra.png" ${CMAKE_BINARY_DIR} COPYONLY)
