@@ -4,12 +4,13 @@
 #include "MultiplayerMenuState.h"
 #include "GameState.h"
 #include "Resources.h"
+#include "MenuState.h"
 MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 			bool replace,std::shared_ptr<NetworkObject> net ):
-	StandardMenuState(manager,window,replace,net,title)
+	MenuState(manager,window,replace,net,title,menuBackground)
 {
-	auto startButPos = sf::Vector2f(m_middle.x, m_title->getGlobalBounds().height + SPACE_BUTTONS * 2);
-	auto butHeight = (window.getSize().y - m_title->getGlobalBounds().height
+	auto startButPos = sf::Vector2f(m_middle.x,getTitleHeight() + SPACE_BUTTONS * 2);
+	auto butHeight = (window.getSize().y - getTitleHeight()
 		- SPACE_BUTTONS * 2 -SPACE_BUTTONS* MAIN_MENU_BUTTONS) / MAIN_MENU_BUTTONS;
 	float width;
 	auto pos = startButPos;

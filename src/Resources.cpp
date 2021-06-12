@@ -4,6 +4,7 @@
 using TexturesPair=std::pair<int, sf::Texture> ;
 //using TexturesPair = std::pair<int, std::unique_ptr<sf::Texture>>;
 using ButtonPairStr = std::pair<int, int>;
+using FontPair = std::pair<int, sf::Font>;
 
 Resources::Resources() {
 	setTextures();
@@ -20,6 +21,12 @@ const sf::Texture& Resources::getTexture(int index) const {
 }
 const int Resources::getButLen(int index) const{
 	return findInMap<std::unordered_map<int, int>, int>(m_buttonStrLen, index);
+}
+const sf::Font& Resources::getFont(int index) const {
+	auto it = m_fonts.find(index);
+	if (it != m_fonts.end())
+		return it->second;
+	throw std::out_of_range("Texture not found.");
 }
 void Resources::setTextures() {
 	
@@ -65,11 +72,24 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(start, strlen("start")));
 
 }
+
+void Resources::setFonts(){
+	m_fonts.insert(FontPair(lobbyFont, createFont("SNAP.TTF")));
+}
+
+sf::Font Resources::createFont(const std::string& str){
+	sf::Font font;
+	if (!font.loadFromFile(str))
+		std::cout << "font not found" << std::endl;
+	return std::move(font);
+}
+
+
 sf::Texture Resources::createTexture(const std::string& textureStr) const{
 	sf::Texture texture;
 	if (!texture.loadFromFile(textureStr))
 		std::cout << "texture not found" << std::endl;
-	return texture;
+	return std::move(texture);
 }
 //std::unique_ptr<sf::Texture> Resources::createTexture(const std::string& textureStr) const {
 //	sf::Texture texture;

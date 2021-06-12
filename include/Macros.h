@@ -52,6 +52,10 @@ enum TexturesNum {
 	nullpt
 };
 
+enum FontsType {
+	lobbyFont
+};
+
 //enum class ButtonNum {
 //	singlePlayer,
 //	host,
