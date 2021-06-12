@@ -52,7 +52,7 @@ void Resources::setTextures() {
 	m_textures.insert(TexturesPair(start,
 		createTexture("start.png")));
 	m_textures.insert(TexturesPair(lobbyTitle,
-		createTexture("start.png")));
+		createTexture("lobbyTitle.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
