@@ -48,6 +48,7 @@ enum TexturesNum {
 	player,
 	lobbyBackground,
 	start,
+	lobbyTitle,
 	nullpt
 };
 

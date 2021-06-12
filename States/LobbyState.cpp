@@ -4,5 +4,6 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	MenuState(manager, window, replace, net, lobbyBackground), m_sighnedIn(false)
 {
 	//build prompt
+
 	//add buttons
 }
