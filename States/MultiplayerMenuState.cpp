@@ -5,6 +5,7 @@
 #include "Server.h"
 #include "Client.h"
 #include "Resources.h"
+#include <vector>
 
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool replace,std::shared_ptr<NetworkObject>net):
 	StandardMenuState(manager, window, replace, net, title)
