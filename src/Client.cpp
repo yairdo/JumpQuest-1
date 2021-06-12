@@ -9,7 +9,7 @@ m_isLinked(false), m_started(false){
 bool Client::run(sf::RenderWindow&) {
 	system("CLS");
 	while (!m_started) {
-		if (receivedMessege()) {
+		if (receivedUdpMessege()) {
 			handleRequests();
 			system("CLS");
 			for (auto servers : m_servers)
@@ -51,12 +51,12 @@ bool Client::run(sf::RenderWindow&) {
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	while (receivedMessege()&& counter++ < max) {
+	while (receivedTcpMessege() && counter++ < max) {
 		try {
-			switch (receiveType())
+			switch (receiveTcpValue<Messege_type>())
 			{
 			case networkMessege:
-				switch (receiveValue<Network_messeges>()){
+				switch (receiveUdpValue<Network_messeges>()) {
 				case iAmFree:
 					addServerToList();
 					break;
@@ -74,7 +74,48 @@ bool Client::handleRequests(int max) {
 				addMemberToList();
 				break;
 			case memberInfo:
-				updateMember(receiveValue<MemberInfo>());
+				updateMember(receiveUdpValue<MemberInfo>());
+				break;
+			default:
+				break;
+			}
+		}
+		catch (std::exception& e) {
+			if (e.what() == SOKET_ERROR) {
+				try {
+					notifyClosing();
+					return false;
+				}
+				catch (std::exception& e2) {
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
+	}
+	while (receivedUdpMessege()&& counter++ < max) {
+		try {
+			switch (receiveUdpValue<Messege_type>())
+			{
+			case networkMessege:
+				switch (receiveUdpValue<Network_messeges>()){
+				case iAmFree:
+					addServerToList();
+					break;
+				case startGame:
+					m_started = true;
+					break;
+				default:
+					break;
+				}
+				break;
+			case memberId:
+				regesterServer();
+				break;
+			case addMember:
+				addMemberToList();
+				break;
+			case memberInfo:
+				updateMember(receiveUdpValue<MemberInfo>());
 				break;
 			default:
 				break;
@@ -130,7 +171,7 @@ void Client::sendGameMembership(const char name[]){
 * The method is regester to the server the client reseived messege from the last.
 */
 void Client::regesterServer() {
-	setId(receiveValue<int>());
+	setId(receiveUdpValue<int>());
 	m_serverIP = getSenderIP();
 	m_isLinked = true;
 }
