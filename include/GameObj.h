@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+#include <Macros.h>
 class b2Body;
 class b2World;
 
@@ -19,10 +19,14 @@ public:
     //virtual void handleGiftCol(Block*) = 0;
 
     //trying stuff for anime -yair
-    void updateAnim();
-    int m_row, m_col;
-    float m_width=130, m_height=160;
+    virtual void updateAnim(float deltaTime);
+  //  int m_row=1, m_col;
+   // float m_width=130, m_height=160;
+    //float m_totalTime=0;
 protected:
+    int animPos=idle;
+    float m_totalTime = 0;
+    int m_row = 1, m_col;
     b2Body* m_body;
     sf::Sprite m_sprite;
 

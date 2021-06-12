@@ -88,6 +88,7 @@ void GameState::updateGame() {
 	m_board->move();
 	viewMover();
 	m_window.setView(m_view);
+	m_testPlayer->updateAnim(m_deltaTime);
 }
 
 void GameState::draw()

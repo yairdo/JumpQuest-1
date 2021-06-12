@@ -14,6 +14,7 @@ add_subdirectory (include)
 add_subdirectory (src)
 add_subdirectory (resources)
 add_subdirectory (States)
+add_subdirectory (resources/players)
 add_subdirectory (external/box2d/src)
 
 set (SFML_STATIC_LIBRARIES TRUE)

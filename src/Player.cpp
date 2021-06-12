@@ -6,8 +6,11 @@
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType):
     MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0)
 {
-    m_sprite.setColor(sf::Color::Green);
-
+ //   m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
+  //  m_sprite.setColor(sf::Color::Green);
+    m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
+    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
     m_body->SetFixedRotation(true);
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(size.x/(2.f*SCALE), size.y / (2.f * SCALE));
@@ -47,34 +50,47 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
 //applies impulse to jump
 void Player::updatePhysics(float dt)
 {
-    if(m_onRope)
+    if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
-
+    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         jump(dt);
+        animPos = jumping;
+        m_col = 0;
     }
-    else if ( sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         m_direction = up;
-        if(m_onRope)
-            m_body->SetLinearVelocity({ 0.f, -75.f*dt });
+        animPos = walking;
+        if (m_onRope)
+            m_body->SetLinearVelocity({ 0.f, -75.f * dt });
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_direction = right;
+        animPos = walking;
         if (m_onRope)
             return;
         else
-            m_body->SetLinearVelocity({ dt*75.f, m_body->GetLinearVelocity().y });
+            m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
     }
     else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
         m_direction = down;
-        m_body->SetLinearVelocity({ 0.f, dt*75.f });
+        animPos = walking;
+        m_body->SetLinearVelocity({ 0.f, dt * 75.f });
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_direction = left;
+        animPos = walking;
         if (m_onRope)
             return;
         else
-            m_body->SetLinearVelocity({ -75.f*dt, m_body->GetLinearVelocity().y });
+            m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
+    }
+    else
+        animPos = idle;
+    if(m_onRope)
+        animPos = climb;
+    else if (m_numFootContact == 0) {
+        animPos = jumping;
     }
 }
 
@@ -129,4 +145,27 @@ int Player::getDirection()
 
 void Player::footContact(int val) {
     m_numFootContact += val;
+}
+
+void Player::updateAnim(float deltaTime) {
+    updateRow();
+    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
+        deltaTime, m_totalTime, player,m_direction));
+
+}
+
+void Player::updateRow() {
+    switch (animPos) {
+    case idle:
+        m_row = 0;
+        break;
+    case walking:
+        m_row = 1;
+        break;
+    case jumping:
+        m_row = 2;
+        break;
+    case climb:
+        m_row = 3;
+    }
 }

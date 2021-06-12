@@ -2,13 +2,14 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include "Resources.h"
+#include <Animation.h>
 
 GameObj::GameObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
-int textureNum) : m_isRemoved(false)
-, m_row(0),m_col(0){
-	m_sprite.setTexture(Resources::getResourceRef().getTexture(blank));
-	m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+	int textureNum) : m_isRemoved(false), m_col(0)
+{
+	m_sprite.setTexture(Resources::getResourceRef().getTexture(textureNum));
+	/*m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
+	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 	m_sprite.setPosition(pos);
 
     b2BodyDef bodyDef;
@@ -28,7 +29,9 @@ bool GameObj::getIsRemoved() const{
 void GameObj::destroyBody(){
 	m_body->GetWorld()->DestroyBody(m_body);
 }
-//
-//void GameObj::updateAnim(){
-//	//sf::IntRect
-//}
+
+void GameObj::updateAnim(float deltaTime){
+
+	//m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col, deltaTime,m_totalTime, player));
+
+}
