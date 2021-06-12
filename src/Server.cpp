@@ -7,7 +7,7 @@
 * inform members the server list.
 */
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
-m_launched(false) {
+m_launched(false), m_tcpSockets(MAX_SERVER_PLAYERS) {
 }
 /*============================================================================
 * Launch the server
@@ -18,7 +18,8 @@ bool Server::launch() {
 	if (m_launched)
 		return true;
 	try {
-		sendNetworkMessege(whoIsAServer, sf::IpAddress::Broadcast, SERVERS_PORT);
+		sendUdpMessege(networkMessege, whoIsAServer, 
+			sf::IpAddress::Broadcast, SERVERS_PORT);
 	}
 	catch (std::exception& e) {
 		std::cout << e.what();
@@ -52,6 +53,18 @@ bool Server::launch() {
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
+	while (receivedTcpMessege() && counter < max) {
+		switch (receiveTcpValue<Messege_type>())
+		{
+		case singMeIn:
+			registerPlayer();
+		default:
+			break;
+		}
+
+		++counter;
+	}
+
 	while (receivedUdpMessege() && counter++ < max) {
 		std::cout << "received!\n";
 		try {
@@ -62,17 +75,20 @@ bool Server::handleRequests(int max) {
 				case networkMessege:
 					switch (receiveUdpValue<Network_messeges>()) {
 					case whoIsAServer:
-						if (m_launched)
-							sendNetworkMessege(iAmAServer);
+						if (m_launched) {
+							sf::TcpSocket tempSocket;
+							tempSocket.connect(getSenderIP(), getSenderPort());
+							sendTcpMessege(networkMessege, iAmAServer, tempSocket);
+						}
 						break;
 					case whoIsFreeServer:
-						if (m_requiting && m_launched)
-							sendNetworkMessege(iAmFree);
+						if (m_requiting && m_launched) {
+							sf::TcpSocket tempSocket;
+							tempSocket.connect(getSenderIP(), getSenderPort());
+							sendTcpMessege(networkMessege, iAmFree, tempSocket);
+						}
 						break;
 					}
-					break;
-				case singMeIn:
-					registerPlayer();
 					break;
 				case memberInfo:
 					updatePlayerState(receiveUdpValue<MemberInfo>());
@@ -116,8 +132,11 @@ void Server::registerPlayer() {
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
 					receiveUdpValue<GameMember>().m_name, i + 1)));
+			//open socket to the new client.
+			m_tcpSockets[i] = std::make_unique<sf::TcpSocket>();
+			m_tcpSockets[i]->connect(getSenderIP(), getSenderPort());
 			//tell the new member his id
-			sendUdpMessege<int>(memberId, i + 1, getSenderIP(), getSenderPort());
+			sendTcpMessege<int>(memberId, i + 1, *m_tcpSockets[i]);
 			//notify old members about the new member
 			updateAboutNewMember(
 				addMemberCreator(getMembers(i)->m_id, getMembers(i)->m_name));
@@ -189,9 +208,9 @@ bool Server::run(sf::RenderWindow& window) {
 				}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
-			for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-				if (getMembers(i))
-					sendNetworkMessege(startGame, getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+			for (auto& socket : m_tcpSockets)
+				if (socket)
+					sendTcpMessege(networkMessege, startGame, *socket);
 			return true;
 		}
 	}
