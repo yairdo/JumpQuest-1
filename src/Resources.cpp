@@ -47,7 +47,10 @@ void Resources::setTextures() {
 		createTexture("Blank.png")));
 	m_textures.insert(TexturesPair(player,
 		createTexture("elvis.png")));
-	
+	m_textures.insert(TexturesPair(lobbyBackground,
+		createTexture("lobbyBackground.png")));
+	m_textures.insert(TexturesPair(start,
+		createTexture("start.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
@@ -57,6 +60,7 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(host, strlen("host game")));
 	m_buttonStrLen.insert(ButtonPairStr(client, strlen("join game")));
 	m_buttonStrLen.insert(ButtonPairStr(back, strlen("back")));
+	m_buttonStrLen.insert(ButtonPairStr(start, strlen("start")));
 }
 sf::Texture Resources::createTexture(const std::string& textureStr) const{
 	sf::Texture texture;

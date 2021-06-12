@@ -46,6 +46,8 @@ enum TexturesNum {
 	multiplayer,
 	blank,
 	player,
+	lobbyBackground,
+	start,
 	nullpt
 };
 
