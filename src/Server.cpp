@@ -202,7 +202,7 @@ void Server::updatePlayerState(const MemberInfo& member) {
 * The method is notify the other players
 */
 void Server::updateAboutNewMember(const AddMember& newMember) {
-	setName(newMember.m_name, newMember.m_id + 1);
+	NetworkObject::setName(newMember.m_name, newMember.m_id + 1);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
 			if (i + 1 != newMember.m_id)
@@ -213,8 +213,7 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
-	NetworkObject::setName(name);
-	updateAboutNewMember(addMemberCreator(1, name));
+	updateAboutNewMember(addMemberCreator(index + 1, name));
 }
 /*==========================================================================*/
 void Server::startGame() {
