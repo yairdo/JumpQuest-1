@@ -57,11 +57,11 @@ const GameMember* NetworkObject::getMembers(int index) const
 }
 /*==========================================================================*/
 void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
-	char namee[PLAYER_NAME_LEN] = { "shira" };
+	//char namee[PLAYER_NAME_LEN] = { "shira" };
 	if (index == -1)
 		index = m_info.m_id-1;
 	std::memcpy(m_members[index % MAX_SERVER_PLAYERS]->m_name , 
-		namee, PLAYER_NAME_LEN);
+		name, PLAYER_NAME_LEN);
 }
 /*============================================================================
 * The method is receiving the messeges type. every messege reading need to

@@ -15,6 +15,7 @@ public:
 	bool handleRequests(int = 10);
 	void searchForServers();
 	void regesterServer();
+	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	virtual void notifyClosing();
 	void sendGameMembership(const char name[PLAYER_NAME_LEN]);
 	virtual void updateLoc(const sf::Vector2f&, int);
