@@ -10,6 +10,7 @@ constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto FOOT = 3;
+constexpr auto MAX_LIST_NAMES_SIZE=4;
 
 enum MenuType {
 	mainMenu,

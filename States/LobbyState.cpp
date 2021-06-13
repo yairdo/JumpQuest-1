@@ -5,12 +5,14 @@
 #include "MultiplayerMenuState.h"
 #include "GameState.h"
 #include "StateManager.h"
+#include <cstring>
 
 
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
 	m_listBackground({ window.getSize().x / 3.f, window.getSize().y / 3.f }), m_signedUp(false),
-	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f })
+	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f }),
+	m_nameList(4)
 {
 	m_listBackground.setFillColor(sf::Color(255, 255, 255, 120));
 	m_listBackground.setOrigin({ m_listBackground.getSize().x / 2.f, m_listBackground.getSize().y / 2.f });
@@ -18,20 +20,21 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	
 	m_nameTextBox.setFillColor(sf::Color(102,0,0,150));
 	m_nameTextBox.setOrigin({ m_nameTextBox.getSize().x / 2.f, m_nameTextBox.getSize().y / 2.f });
-	m_nameTextBox.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+	m_nameTextBox.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);
 
 	m_text.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_text.setString("Enter your nickname:\n");
 	m_text.setCharacterSize(24);
 	m_text.setFillColor(sf::Color::Black);
-	m_text.setPosition({ m_nameTextBox.getPosition().x + m_nameTextBox.getPosition().x / 2+10,
-		m_nameTextBox.getPosition().y - m_nameTextBox.getPosition().y / 2+10 });
+	//- (m_nameTextBox.getSize().x / 2)+10
+	m_text.setPosition({ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
+		m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2+10 });
+	m_text.setString("Enter your nickname:\n");
 	
 	m_inputText.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_text.setCharacterSize(24);
-	m_text.setFillColor(sf::Color::Black);
-	m_text.setPosition({ m_text.getPosition().x ,
-		m_text.getPosition().y + m_text.getCharacterSize() + 10 });
+	m_inputText.setCharacterSize(24);
+	m_inputText.setFillColor(sf::Color::Black);
+	m_inputText.setPosition({ m_text.getPosition().x ,
+		m_text.getPosition().y + m_text.getGlobalBounds().height + 10 });
 	//m_inputText
 
 	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3;
@@ -48,20 +51,13 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		addButton<GameState>(start, pos, width, butHeight);
 		//m_connected = static_cast<Server*>(m_networkObj.get())->launch();
 	}
-	//m_networkObj->launch();
-	//add button
-
-	//sf::Event event;
-	//sf::String playerInput;
-	//sf::Text playerText;
-	//playerText.setPosition(60, 300);
-	//playerText.setColor(sf::Color::Red);
+	setNameListText();
+	m_networkObj->launch();
 }
 
 void LobbyState::update(){
-	//pollEvent();
 	if (m_networkObj->getStarted()) {
-		m_next = StateManager::build<GameSate>(m_manager, m_window, true, m_networkObj);
+		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
 		return;
 	}
 	if (!m_signedUp){
@@ -76,7 +72,7 @@ void LobbyState::update(){
 			}
 			else if (event.type == sf::Event::KeyReleased) {
 				if(event.key.code == sf::Keyboard::Enter){
-					m_networkObj->setName(m_inputText.getString());
+					m_networkObj->setName(m_inputStr.c_str());
 					m_signedUp == true;
 					break;
 				}
@@ -89,21 +85,46 @@ void LobbyState::update(){
 
 void LobbyState::draw() {
 	MenuState::draw();
+	m_window.draw(m_listBackground);
+	for (auto& name : m_nameList)
+		m_window.draw(name);
 	if(!m_signedUp){
 		m_window.draw(m_nameTextBox);
 		m_window.draw(m_text);
 		m_window.draw(m_inputText);
 	}
-	//m_draw
-	m_window.draw(m_listBackground);
 }
 
 void LobbyState::updateList(){
-	
+	auto it = m_nameList.begin();
+	for (int i = 0 ; i < MAX_SERVER_PLAYERS ; ++i) {
+		if (m_networkObj->getMembers(i)) {
+			auto str = std::string(m_networkObj->getMembers(i)->m_name);
+			if (str != "") {
+				it->setString(str);
+				++it;
+			}
+		}
+	}
+	std::for_each(it, m_nameList.end(), [&](sf::Text&) { it->setString(""); });
 }
 
 void LobbyState::drawList(){
-	for(auto& name: m_nameList)
-		//m_window.draw(m_otherName);
+	for (auto& name : m_nameList) {
 		m_window.draw(name);
+	}
+}
+void LobbyState::setNameListText() {
+	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_LIST_NAMES_SIZE) / MAX_LIST_NAMES_SIZE;
+	auto startPos = sf::Vector2f{
+		m_listBackground.getPosition().x - m_listBackground.getSize().x / 2 + 10,
+		m_listBackground.getPosition().y - m_listBackground.getSize().y / 2 + 10 };
+	for (int i = 0; i < MAX_LIST_NAMES_SIZE; i++) {
+		sf::Text text;
+		text.setFont(Resources::getResourceRef().getFont(lobbyFont));
+		text.setCharacterSize(24);
+		text.setPosition(startPos);
+		m_nameList.emplace_back(std::move(text));
+		startPos.y += textHeight + 10;
+	}
 }
