@@ -60,16 +60,12 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		m_connected = m_networkObj->launch();
 	}
 	setNameListText();
-	//temp so that lobby opens while trying to connect
-	//m_window.clear();
-	//draw();
-	//m_networkObj->launch();
 }
 
 void LobbyState::update(){
 	if (!m_connected) {
 		if (!m_networkObj->launch())
-			m_networkObj->handleRequests();
+			m_networkObj->handleRequests(10);
 		else
 			m_connected = true;
 		return;

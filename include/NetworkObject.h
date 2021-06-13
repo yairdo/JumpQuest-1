@@ -12,7 +12,7 @@ public:
 	virtual ~NetworkObject() = default;
 	bool receivedUdpMessege(float seconds = 0.0001f);
 	bool receivedTcpMessege(float seconds = 0.0001f);
-	virtual bool handleRequests(int=1) = 0;
+	virtual bool handleRequests(int=10) = 0;
 	virtual void notifyClosing() = 0;
 	virtual void updateLoc(const sf::Vector2f&, int) = 0;
 	const GameMember* getMembers(int index)const;
