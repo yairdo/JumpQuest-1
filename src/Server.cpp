@@ -138,8 +138,8 @@ void Server::registerPlayer() {
 		//checks if the sender is already member.
 		if (getMembers(i)) {
 			if (getMembers(i)->m_memberIp == getSenderIP() && getMembers(i)->m_memberPort == getSenderPort()) {
+				updateAboutNewMember(addMemberCreator(i + 1, receiveUdpValue<GameMember>().m_name));
 				sendUdpMessege<int>(memberId, getMembers(i)->m_id, getSenderIP(), getSenderPort());
-				updateAboutNewMember(receiveUdpValue<AddMember>());
 				return;
 			}
 		}
@@ -150,8 +150,8 @@ void Server::registerPlayer() {
 				gameMemberCreator(getSenderIP(), getSenderPort(),
 					receiveUdpValue<GameMember>().m_name, i + 1)));
 			//open socket to the new client.
-			m_tcpSockets[i] = std::make_unique<sf::TcpSocket>();
-			m_tcpSockets[i]->connect(getSenderIP(), getSenderPort());
+			//m_tcpSockets[i] = std::make_unique<sf::TcpSocket>();
+			//m_tcpSockets[i]->connect(getSenderIP(), getSenderPort());
 			//tell the new member his id
 			sendUdpMessege<int>(memberId, i + 1);
 			//sendTcpMessege<int>(memberId, i + 1, *m_tcpSockets[i]);
@@ -202,14 +202,12 @@ void Server::updatePlayerState(const MemberInfo& member) {
 * The method is notify the other players
 */
 void Server::updateAboutNewMember(const AddMember& newMember) {
-	NetworkObject::setName(newMember.m_name, newMember.m_id);
+	NetworkObject::setName(newMember.m_name, newMember.m_id - 1);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
 			if (i + 1 != newMember.m_id)
 				sendUdpMessege<AddMember>(addMember, newMember,
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
-
-
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
