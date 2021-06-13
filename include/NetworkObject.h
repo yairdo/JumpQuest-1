@@ -12,7 +12,7 @@ public:
 	virtual ~NetworkObject() = default;
 	bool receivedUdpMessege(float seconds = 0.0001f);
 	bool receivedTcpMessege(float seconds = 0.0001f);
-	virtual bool handleRequests(int=1) = 0;
+	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
 	virtual void updateLoc(const sf::Vector2f&, int) = 0;
 	const GameMember* getMembers(int index)const;
@@ -20,9 +20,9 @@ public:
 	const GameMember& getInfo()const { return m_info; }
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 
+	void setId(int id);
 	const sf::IpAddress& getIP() const { return m_ip; }
 	unsigned short getPort() const { return m_port; }
-	void setId(int id) { m_info.m_id = id; }
 	const sf::IpAddress& getSenderIP() const { return m_senderIP; }
 	unsigned short getSenderPort() const { return m_senderPort; }
 

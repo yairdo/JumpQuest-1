@@ -59,7 +59,7 @@ bool Client::handleRequests(int max) {
 			case networkMessege:
 				switch (receiveUdpValue<Network_messeges>()){
 				case iAmFree:
-					addServerToList();
+					sendGameMembership("client");
 					break;
 				case startGame:
 					setStarted(true);

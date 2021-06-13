@@ -103,3 +103,10 @@ void NetworkObject::setMember(int index, std::unique_ptr<GameMember> member){
 	if (index >= 0 && index < m_members.size())
 		m_members[index] = std::move(member);
 }
+/*==========================================================================*/
+void NetworkObject::setId(int id) {
+	m_info.m_id = id;
+	if (!getMembers(id - 1))
+		setMember(id - 1, 
+			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "NetworkObj")));
+}
