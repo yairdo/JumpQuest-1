@@ -53,16 +53,11 @@ void Player::updatePhysics(float dt)
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         jump(dt);
         animPos = jumping;
         m_col = 0;
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        m_direction = up;
-        animPos = walking;
-        if (m_onRope)
-            m_body->SetLinearVelocity({ 0.f, -75.f * dt });
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_direction = right;
@@ -72,11 +67,6 @@ void Player::updatePhysics(float dt)
         else
             m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
     }
-    else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
-        m_direction = down;
-        animPos = walking;
-        m_body->SetLinearVelocity({ 0.f, dt * 75.f });
-    }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_direction = left;
         animPos = walking;
@@ -85,6 +75,18 @@ void Player::updatePhysics(float dt)
         else
             m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
     }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        m_direction = up;
+        animPos = walking;
+        if (m_onRope)
+            m_body->SetLinearVelocity({ 0.f, -75.f * dt });
+    }
+    else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
+        m_direction = down;
+        animPos = walking;
+        m_body->SetLinearVelocity({ 0.f, dt * 75.f });
+    }
+
     else
         animPos = idle;
     if(m_onRope)
