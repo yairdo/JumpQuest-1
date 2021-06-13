@@ -27,4 +27,6 @@ private:
     void registerPlayer();
     void updatePlayerState(const MemberInfo& member);
     void updateAboutNewMember(const AddMember&);
+    int countServersInPort();
+    bool renameMember();
 };

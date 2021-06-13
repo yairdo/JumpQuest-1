@@ -17,32 +17,11 @@ m_launched(false), m_tcpSockets(MAX_SERVER_PLAYERS) {
 bool Server::launch() {
 	if (m_launched)
 		return true;
-	try {
-		sendUdpMessege(networkMessege, whoIsAServer,
-			sf::IpAddress::Broadcast, SERVERS_PORT);
-	}
-	catch (std::exception& e) {
-		std::cout << e.what();
+	if (countServersInPort() == MAX_SERVERS_NUM)
 		return false;
-	}
-	m_packet.clear();
-	unsigned int counter = 0;
-	while (receivedUdpMessege()) {
-		try {
-			if (receiveUdpValue<Messege_type>() == networkMessege
-				&& receiveUdpValue<Network_messeges>() == iAmAServer)
-				++counter;
-		}
-		catch (std::exception& e) {
-			std::cout << e.what();
-			//server isn't launched so no need to receive other messeges than network messeges type
-			continue;
-		}
-		if (counter == MAX_SERVERS_NUM)
-			return false;
-	}
+	
 	setMember(0, std::make_unique<GameMember>(
-		gameMemberCreator(getIP(), getPort(), "Host", 1, 0)));
+		gameMemberCreator(getIP(), getPort(), "", 1, 0)));
 	setId(1);
 	m_launched = true;
 	m_requiting = true;
@@ -53,35 +32,8 @@ bool Server::launch() {
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
-	/*while (receivedTcpMessege() && counter < max) {
-		std::cout << "tcp messege received.\n";
-		try {
-			switch (receiveTcpValue<Messege_type>())
-			{
-			case singMeIn:
-				registerPlayer();
-			default:
-				break;
-			}
-		}
-		catch (std::exception& e) {
-			if (e.what() == SOKET_ERROR) {
-				try {
-					notifyClosing();
-					return false;
-				}
-				catch (std::exception& e2) {
-					std::cout << e2.what();
-					exit(EXIT_FAILURE);
-				}
-			}
-		}
-		++counter;
-	}*/
-
 	while (receivedUdpMessege() && counter++ < max) {
 		try {
-			std::cout << "udp messege received.\n";
 			Messege_type type = receiveUdpValue<Messege_type>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
 				switch (type)
@@ -89,22 +41,18 @@ bool Server::handleRequests(int max) {
 				case networkMessege:
 					switch (receiveUdpValue<Network_messeges>()) {
 					case whoIsAServer:
-						if (m_launched) {
-							sf::TcpSocket tempSocket;
-							tempSocket.connect(getSenderIP(), getSenderPort());
-							sendTcpMessege(networkMessege, iAmAServer, tempSocket);
-						}
+						if (m_launched)
+							sendUdpMessege(networkMessege, iAmAServer, 
+								sf::IpAddress::Broadcast, SERVERS_PORT);
 						break;
 					case whoIsFreeServer:
-						if (m_requiting && m_launched) {
+						if (m_requiting && m_launched) 
 							sendUdpMessege(networkMessege, iAmFree);
-						}
 						break;
 					}
 					break;
 				case memberInfo:
 					updatePlayerState(receiveUdpValue<MemberInfo>());
-					//send
 				case singMeIn:
 					registerPlayer();
 					break;
@@ -134,27 +82,16 @@ bool Server::handleRequests(int max) {
 * The method add the last messege sender to the player list.
 */
 void Server::registerPlayer() {
-	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
-		//checks if the sender is already member.
-		if (getMembers(i)) {
-			if (getMembers(i)->m_memberIp == getSenderIP() && getMembers(i)->m_memberPort == getSenderPort()) {
-				updateAboutNewMember(addMemberCreator(i + 1, receiveUdpValue<GameMember>().m_name));
-				sendUdpMessege<int>(memberId, getMembers(i)->m_id, getSenderIP(), getSenderPort());
-				return;
-			}
-		}
+	if (renameMember())
+		return;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (!getMembers(i)) {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
 					receiveUdpValue<GameMember>().m_name, i + 1)));
-			//open socket to the new client.
-			//m_tcpSockets[i] = std::make_unique<sf::TcpSocket>();
-			//m_tcpSockets[i]->connect(getSenderIP(), getSenderPort());
 			//tell the new member his id
 			sendUdpMessege<int>(memberId, i + 1);
-			//sendTcpMessege<int>(memberId, i + 1, *m_tcpSockets[i]);
 			//notify old members about the new member
 			updateAboutNewMember(
 				addMemberCreator(getMembers(i)->m_id, getMembers(i)->m_name));
@@ -210,8 +147,41 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
+int Server::countServersInPort(){
+	int counter = 0, 
+		max = 200, 
+		messegesCounter = 0;
+	try {
+		sendUdpMessege(networkMessege, whoIsAServer,
+			sf::IpAddress::Broadcast, SERVERS_PORT);
+		while (receivedUdpMessege(0.1) && messegesCounter++ < max) {
+			if (receiveUdpValue<Messege_type>() == networkMessege
+				&& receiveUdpValue<Network_messeges>() == iAmAServer)
+				++counter;
+		}
+	}
+	catch (std::exception& e) {
+		std::cout << e.what();
+	}
+	return counter;
+}
+/*============================================================================*/
+bool Server::renameMember(){
+	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
+		//checks if the sender is already member.
+		if (getMembers(i))
+			if (getMembers(i)->m_memberIp == getSenderIP() 
+				&& getMembers(i)->m_memberPort == getSenderPort()) {
+				updateAboutNewMember(addMemberCreator(i + 1, 
+					receiveUdpValue<GameMember>().m_name));
+				sendUdpMessege<int>(memberId, getMembers(i)->m_id, 
+					getSenderIP(), getSenderPort());
+				return true;
+			}
+	return false;
+}
+/*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
-	//NetworkObject::setName(name);
 	updateAboutNewMember(addMemberCreator(index+1, name));
 }
 /*==========================================================================*/
