@@ -11,8 +11,8 @@
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
 	m_listBackground({ window.getSize().x / 3.f, window.getSize().y / 3.f }), m_signedUp(false),
-	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f }),
-	m_nameList(4)
+	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f })/*,
+	m_nameList(4)*/
 {
 	m_listBackground.setFillColor(sf::Color(255, 255, 255, 120));
 	m_listBackground.setOrigin({ m_listBackground.getSize().x / 2.f, m_listBackground.getSize().y / 2.f });
@@ -37,6 +37,14 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		m_text.getPosition().y + m_text.getGlobalBounds().height + 10 });
 	//m_inputText
 
+	//for waiting
+	m_waitingText.setFont(Resources::getResourceRef().getFont(lobbyFont));
+	m_waitingText.setCharacterSize(50);
+	m_waitingText.setFillColor(sf::Color::Black);
+	m_waitingText.setString("Waiting for Host\n");
+	m_waitingText.setOrigin({ m_waitingText.getGlobalBounds().width / 2.f, m_waitingText.getGlobalBounds().height / 2.f });
+	m_waitingText.setPosition(m_nameTextBox.getPosition());
+
 	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3;
 	sf::Vector2f pos = { width, m_window.getSize().y - m_window.getSize().y / 10.f };
 	//sf::Vector2f pos = { 0,0 };
@@ -49,13 +57,23 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3;
 		pos.x = m_window.getSize().x - width;
 		addButton<GameState>(start, pos, width, butHeight);
-		//m_connected = static_cast<Server*>(m_networkObj.get())->launch();
+		m_connected = m_networkObj->launch();
 	}
 	setNameListText();
-	m_networkObj->launch();
+	//temp so that lobby opens while trying to connect
+	//m_window.clear();
+	//draw();
+	//m_networkObj->launch();
 }
 
 void LobbyState::update(){
+	if (!m_connected) {
+		if (!m_networkObj->launch())
+			m_networkObj->handleRequests();
+		else
+			m_connected = true;
+		return;
+	}
 	if (m_networkObj->getStarted()) {
 		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
 		return;
@@ -73,7 +91,8 @@ void LobbyState::update(){
 			else if (event.type == sf::Event::KeyReleased) {
 				if(event.key.code == sf::Keyboard::Enter){
 					m_networkObj->setName(m_inputStr.c_str());
-					m_signedUp == true;
+					m_signedUp = true;
+					updateList();
 					break;
 				}
 			}
@@ -85,6 +104,10 @@ void LobbyState::update(){
 
 void LobbyState::draw() {
 	MenuState::draw();
+	if (!m_connected) {
+		m_window.draw(m_waitingText);
+		return;
+	}
 	m_window.draw(m_listBackground);
 	for (auto& name : m_nameList)
 		m_window.draw(name);

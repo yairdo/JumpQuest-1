@@ -128,10 +128,10 @@ void Client::updateLoc(const sf::Vector2f& loc, int state){
 /*==========================================================================*/
 bool Client::launch()
 {
-	while (!receivedUdpMessege()){
+	if (!receivedUdpMessege()){
 		searchForServers();
 	}
-	return true;
+	return getInfo().m_id != 0;
 }
 /*============================================================================
 * The method is singIn to the server.
@@ -146,4 +146,11 @@ void Client::regesterServer() {
 	setId(receiveUdpValue<int>());
 	m_serverIP = getSenderIP();
 	m_isLinked = true;
+}
+/*============================================================================
+* The method sets a new name for the client
+*/
+void Client::setName(const char name[PLAYER_NAME_LEN], int index) {
+	NetworkObject::setName(name);
+	sendUdpMessege<GameMember>(singMeIn, getInfo());
 }
