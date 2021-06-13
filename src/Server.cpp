@@ -208,8 +208,6 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 			if (i + 1 != newMember.m_id)
 				sendUdpMessege<AddMember>(addMember, newMember,
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
-
-
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
