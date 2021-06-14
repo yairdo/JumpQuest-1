@@ -2,9 +2,14 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
+#include <Factory.h>
+
+bool Block::m_registerit = Factory<StaticObj>::registerit("Block",
+    [](b2World& world,std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
+    { return std::make_unique<Block>(world, vec[0], vec[1], b2_staticBody); });
 
 Block::Block(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType): 
-    StaticObj(world, pos, size, bodyType)
+    StaticObj(world, pos, size, bodyType,block)
 {
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
@@ -25,4 +30,9 @@ Block::Block(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, 
 void Block::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
+}
+void Block::updateAnim(float deltaTime) {
+
+    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col, deltaTime,m_totalTime, block,idle));
+
 }

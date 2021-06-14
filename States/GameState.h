@@ -20,6 +20,7 @@ public:
 	void addBorders2World();
 
 private:
+	sf::Sprite m_backGround;
 	std::unique_ptr<Board> m_board;
 	b2World m_world;
 	ContactListner m_contactListner;

@@ -8,7 +8,7 @@
 #include <FallingBlock.h>
 #include <sstream>
 #include <Player.h>
-
+#include <Factory.h>
 void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
@@ -18,38 +18,49 @@ void Board::generateMap(b2World& world) {
 	if (!file.is_open()) {
 		std::cout << "cant open file, for debugging\n";
 	}
+	char type;
 	std::string str;
 	while (!file.eof()) {
+		file >> type;
 		file >> str;
 		std::vector<sf::Vector2f> vals; //m_staticObj//m_movingObj
 		getValues(vals,file);    //StaticObj//MovingObj
-		switch (hashIt(str))//b2_staticBody//b2_dynamicBody
-		{
-		case block:
-			makeObject<Block, StaticObj>(m_staticObj,world,vals[0],vals[1], b2_staticBody);
-			break;
-		case movingBlock:
-			makeObject<MovingBlock, MovingObj>(m_movingObj, world, vals[0], vals[1], vals[2], b2_kinematicBody);
-			break;
-		case gift:
-			makeObject<Gift, StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
-			break;
-		case shooter:
-			//makeObject<Shooter,StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
-			break;
-		case fallingBlock:
-			makeObject<FallingBlock,MovingObj>(m_movingObj, world, vals[0], vals[1], b2_dynamicBody);
-			break;
-		case floorObs:
-			//makeObject<FloorObs,MovingObj>(m_movingObj, world, vals[0], vals[1], vals[2], b2_dynamicBody);
-			break;
-		case rope:
-			makeObject<Rope, StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
-			break;
+		if(type == 's')
+			m_staticObj.emplace_back(Factory<StaticObj>::create(str, vals, world));
+		else
+			m_movingObj.emplace_back(Factory<MovingObj>::create(str, vals, world));
 
-		default:
-			break;
-		}
+
+		//auto p = Factory::create(str, vals, world);
+	//	m_staticObj.emplace_back(std::move(p));
+
+		//switch (hashIt(str))//b2_staticBody//b2_dynamicBody
+		//{
+		//case block:
+		//	makeObject<Block, StaticObj>(m_staticObj,world,vals[0],vals[1], b2_staticBody);
+		//	break;
+		//case movingBlock:
+		//	makeObject<MovingBlock, MovingObj>(m_movingObj, world, vals[0], vals[1], vals[2], b2_kinematicBody);
+		//	break;
+		//case gift:
+		//	makeObject<Gift, StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
+		//	break;
+		//case shooter:
+		//	//makeObject<Shooter,StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
+		//	break;
+		//case fallingBlock:
+		//	makeObject<FallingBlock,MovingObj>(m_movingObj, world, vals[0], vals[1], b2_dynamicBody);
+		//	break;
+		//case floorObs:
+		//	//makeObject<FloorObs,MovingObj>(m_movingObj, world, vals[0], vals[1], vals[2], b2_dynamicBody);
+		//	break;
+		//case rope:
+		//	makeObject<Rope, StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
+		//	break;
+
+		//default:
+		//	break;
+		//}
 		vals.clear();
 	}
 	//std::cout << "finished genereating, for debugging\n";
@@ -65,15 +76,16 @@ void Board::getValues(std::vector<sf::Vector2f>& vec,std::ifstream& file) {
 	}
 }
 
-objectType Board::hashIt(const std::string& str) {
-	if (str == "Block") return block;
-	if (str == "MovingBlock") return movingBlock;
-	if (str == "Gift") return gift;
-	if (str == "Shooter") return shooter;
-	if (str == "FallingBlock") return fallingBlock;
-	if (str == "FloorObs") return floorObs;
-	if (str == "Rope") return rope;
-}
+//TexturesNum Board::hashIt(const std::string& str) {
+	//if (str == "Block") return block;
+	//if (str == "MovingBlock") return movingBlock;
+	//if (str == "Gift") return gift;
+	//if (str == "Shooter") return shooter;
+	//if (str == "FallingBlock") return fallingBlock;
+	//if (str == "FloorObs") return floorObs;
+	//if (str == "Rope") return rope;
+	//return block;
+//}
 void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();

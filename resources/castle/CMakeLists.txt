@@ -1,0 +1,1 @@
+configure_file ("castle map.png" ${CMAKE_BINARY_DIR} COPYONLY)
