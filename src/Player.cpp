@@ -97,6 +97,7 @@ void Player::updatePhysics(float dt)
 }
 
 void Player::jump(float dt) {
+    //float impulse = -m_body->GetMass() * 9500*dt;
     float impulse = -m_body->GetMass() * 150;
     if (m_onRope) {
         //m_body->SetLinearVelocity({ 0.f, 0.f });

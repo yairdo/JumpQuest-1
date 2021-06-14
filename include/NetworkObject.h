@@ -52,6 +52,9 @@ protected:
 	//=========================== gets section ===============================
 
 	sf::Packet m_packet;
+
+	//server test
+	std::vector<sf::Vector2f> m_testMovingObjPositions;
 private:
 	//last sender info
 	sf::IpAddress m_senderIP;
