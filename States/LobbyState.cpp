@@ -70,32 +70,39 @@ void LobbyState::update(){
 			m_connected = true;
 		return;
 	}
+
 	if (m_networkObj->getStarted()) {
 		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
 		return;
 	}
-	if (!m_signedUp){
-		for(auto event = sf::Event{}; m_window.pollEvent(event);){
-			if (event.type == sf::Event::TextEntered) {
-				if (event.text.unicode < 128){
-					if (m_inputText.getString().getSize() < PLAYER_NAME_LEN) {
-						m_inputStr += event.text.unicode;
-						m_inputText.setString(m_inputStr);
-					}
-				}
-			}
-			else if (event.type == sf::Event::KeyReleased) {
-				if(event.key.code == sf::Keyboard::Enter){
-					m_networkObj->setName(m_inputStr.c_str());
-					m_signedUp = true;
-					updateList();
-					break;
+
+	if (!m_signedUp)
+		signUp();
+	if (m_connected && m_signedUp)
+		MenuState::update();
+	if (m_networkObj->handleRequests())
+		updateList();
+}
+
+void LobbyState::signUp() {
+	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
+		if (event.type == sf::Event::TextEntered) {
+			if (event.text.unicode < 128) {
+				if (m_inputText.getString().getSize() < PLAYER_NAME_LEN) {
+					m_inputStr += event.text.unicode;
+					m_inputText.setString(m_inputStr);
 				}
 			}
 		}
+		else if (event.type == sf::Event::KeyReleased) {
+			if (event.key.code == sf::Keyboard::Enter) {
+				m_networkObj->setName(m_inputStr.c_str());
+				m_signedUp = true;
+				updateList();
+				break;
+			}
+		}
 	}
-	if (m_networkObj->handleRequests())
-		updateList();
 }
 
 void LobbyState::draw() {

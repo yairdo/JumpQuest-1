@@ -21,8 +21,8 @@ bool Server::launch() {
 		return false;
 	
 	setMember(0, std::make_unique<GameMember>(
-		gameMemberCreator(getIP(), getPort(), "", 1, 0)));
-	setId(1);
+		gameMemberCreator(getIP(), getPort(), "", 0, 0)));
+	setId(0);
 	m_launched = true;
 	m_requiting = true;
 	return true;
@@ -89,9 +89,9 @@ void Server::registerPlayer() {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
-					receiveUdpValue<GameMember>().m_name, i + 1)));
+					receiveUdpValue<GameMember>().m_name, i)));
 			//tell the new member his id
-			sendUdpMessege<int>(memberId, i + 1);
+			sendUdpMessege<int>(memberId, i);
 			//notify old members about the new member
 			updateAboutNewMember(
 				addMemberCreator(getMembers(i)->m_id, getMembers(i)->m_name));
@@ -139,10 +139,10 @@ void Server::updatePlayerState(const MemberInfo& member) {
 * The method is notify the other players
 */
 void Server::updateAboutNewMember(const AddMember& newMember) {
-	NetworkObject::setName(newMember.m_name, newMember.m_id - 1);
+	NetworkObject::setName(newMember.m_name, newMember.m_id);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
-			if (i + 1 != newMember.m_id)
+			if (i != newMember.m_id)
 				sendUdpMessege<AddMember>(addMember, newMember,
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
@@ -172,7 +172,7 @@ bool Server::renameMember(){
 		if (getMembers(i))
 			if (getMembers(i)->m_memberIp == getSenderIP() 
 				&& getMembers(i)->m_memberPort == getSenderPort()) {
-				updateAboutNewMember(addMemberCreator(i + 1, 
+				updateAboutNewMember(addMemberCreator(i, 
 					receiveUdpValue<GameMember>().m_name));
 				sendUdpMessege<int>(memberId, getMembers(i)->m_id, 
 					getSenderIP(), getSenderPort());
@@ -182,7 +182,7 @@ bool Server::renameMember(){
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
-	updateAboutNewMember(addMemberCreator(index+1, name));
+	updateAboutNewMember(addMemberCreator((index == -1)?getInfo().m_id:index, name));
 }
 /*==========================================================================*/
 void Server::startGame() {

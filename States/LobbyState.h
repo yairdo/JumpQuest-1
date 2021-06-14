@@ -6,6 +6,7 @@ class LobbyState :public MenuState {
 public:
 	LobbyState(StateManager&, sf::RenderWindow&, bool, std::shared_ptr<NetworkObject>&);
 	virtual void update() override;
+	void signUp();
 	virtual void draw() override;
 	
 private:

@@ -11,46 +11,6 @@ m_isLinked(false), m_started(false){
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	/*while (receivedTcpMessege() && counter++ < max) {
-		std::cout << "tcp messege received.\n";
-		try {
-			switch (receiveTcpValue<Messege_type>())
-			{
-			case networkMessege:
-				switch (receiveUdpValue<Network_messeges>()) {
-					break;
-				case startGame:
-					m_started = true;
-					break;
-				default:
-					break;
-				}
-				break;
-			case memberId:
-				regesterServer();
-				break;
-			case addMember:
-				addMemberToList();
-				break;
-			case memberInfo:
-				updateMember(receiveUdpValue<MemberInfo>());
-				break;
-			default:
-				break;
-			}
-		}
-		catch (std::exception& e) {
-			if (e.what() == SOKET_ERROR) {
-				try {
-					notifyClosing();
-					return false;
-				}
-				catch (std::exception& e2) {
-					exit(EXIT_FAILURE);
-				}
-			}
-		}
-	}*/
 	while (receivedUdpMessege()&& counter++ < max) {
 		std::cout << "udp messege received.\n";
 		try {

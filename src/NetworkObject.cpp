@@ -55,9 +55,9 @@ const GameMember* NetworkObject::getMembers(int index) const{
 /*==========================================================================*/
 void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
 	if (index == -1)
-		index = m_info.m_id-1;
-	std::memcpy(m_members[index % MAX_SERVER_PLAYERS]->m_name , 
-		name, PLAYER_NAME_LEN);
+		index = m_info.m_id;
+	std::memcpy(m_members[index % MAX_SERVER_PLAYERS]->m_name , name, PLAYER_NAME_LEN);
+	std::memcpy(m_info.m_name , name, PLAYER_NAME_LEN);
 }
 /*============================================================================
 * The method is receiving the messeges type. every messege reading need to
@@ -81,17 +81,17 @@ Messege_type NetworkObject::receiveTcpValue<Messege_type>() {
 /*==========================================================================*/
 void NetworkObject::addMemberToList() {
 	AddMember member = receiveUdpValue<AddMember>();
-	if (!m_members[member.m_id - 1])
-		m_members[member.m_id - 1] = std::make_unique<GameMember>();
-	m_members[member.m_id - 1]->m_id = member.m_id;
-	std::memcpy(m_members[member.m_id - 1]->m_name, member.m_name, PLAYER_NAME_LEN);
+	if (!m_members[member.m_id])
+		m_members[member.m_id] = std::make_unique<GameMember>();
+	m_members[member.m_id]->m_id = member.m_id;
+	std::memcpy(m_members[member.m_id]->m_name, member.m_name, PLAYER_NAME_LEN);
 }
 /*==========================================================================*/
 void NetworkObject::updateMember(const MemberInfo& member) {
-	if (m_members[member.m_id - 1]) {
-		m_members[member.m_id - 1]->m_id = member.m_id;
-		m_members[member.m_id - 1]->m_loc = member.m_loc;
-		m_members[member.m_id - 1]->m_state = member.state;
+	if (m_members[member.m_id]) {
+		m_members[member.m_id]->m_id = member.m_id;
+		m_members[member.m_id]->m_loc = member.m_loc;
+		m_members[member.m_id]->m_state = member.state;
 	}
 }/*==========================================================================*/
 void NetworkObject::setMember(int index, std::unique_ptr<GameMember> member){
@@ -101,7 +101,7 @@ void NetworkObject::setMember(int index, std::unique_ptr<GameMember> member){
 /*==========================================================================*/
 void NetworkObject::setId(int id) {
 	m_info.m_id = id;
-	if (!getMembers(id - 1))
-		setMember(id - 1, 
+	if (!getMembers(id))
+		setMember(id, 
 			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "")));
 }
