@@ -112,7 +112,7 @@ void GameState::updateServerGame() {
 
 void GameState::updateClientGame() {
 	//receive all of the messages
-	m_networkObj->handleRequests(500);
+	m_networkObj->handleRequests(300);
 
 	//update animation???
 	viewMover();
