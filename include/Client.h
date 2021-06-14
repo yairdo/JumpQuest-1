@@ -4,20 +4,22 @@
 #include <string>
 #include <NetworkObject.h>
 #include <MessegesStructs.h>
+#include <Macros.h>
 
 
-class Client : public 
-	NetworkObject{
+class Client : public NetworkObject{
 public:
 	Client();
-	virtual bool run(sf::RenderWindow&);
 	virtual ~Client() = default;
 	bool handleRequests(int = 10);
 	void searchForServers();
 	void regesterServer();
+	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	virtual void notifyClosing();
-	void sendGameMembership(const char name[20]);
+	void sendGameMembership(const char name[PLAYER_NAME_LEN]);
 	virtual void updateLoc(const sf::Vector2f&, int);
+	virtual bool launch();
+
 private:
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;

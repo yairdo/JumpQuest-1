@@ -2,9 +2,9 @@
 #include <iostream>
 #include <Macros.h>
 /*==========================================================================*/
-NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress::getLocalAddress()), m_udpSocket(), 
-m_udpSelector(), m_packet(), m_senderIP(sf::IpAddress::None), m_senderPort(0), m_port(port), m_tcpSocket(),
-m_members(MAX_SERVER_PLAYERS), m_listener(), m_tcpSelector() {
+NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress::getLocalAddress()),
+m_udpSocket(), m_udpSelector(), m_packet(), m_senderIP(sf::IpAddress::None),
+m_senderPort(0), m_port(port), m_tcpSocket(),m_members(MAX_SERVER_PLAYERS){
 	if (port == 0)
 		m_udpSocket.bind(sf::Socket::AnyPort,m_ip);
 	else
@@ -12,9 +12,7 @@ m_members(MAX_SERVER_PLAYERS), m_listener(), m_tcpSelector() {
 	if (!m_port) {
 		m_port = m_udpSocket.getLocalPort();
 	}
-	m_listener.listen(SERVERS_PORT);
 	m_udpSelector.add(m_udpSocket);
-	m_tcpSelector.add(m_tcpSocket);
 	m_packet.clear();
 	m_tcpSocket.setBlocking(false);
 	m_udpSocket.setBlocking(false);
@@ -45,19 +43,21 @@ bool NetworkObject::receivedUdpMessege(float seconds) {
 }
 /*==========================================================================*/
 bool NetworkObject::receivedTcpMessege(float seconds) {
-	return m_tcpSelector.wait(sf::seconds(seconds));
+	return false;
 }
 /*==========================================================================*/
-const GameMember* NetworkObject::getMembers(int index) const
-{
+const GameMember* NetworkObject::getMembers(int index) const{
 	if (index >= 0 && index < m_members.size())
 		if (m_members[index])
 			return(m_members[index].get());
 	return nullptr;
 }
 /*==========================================================================*/
-void NetworkObject::setName(const char name[PLAYER_NAME_LEN]){
-	std::memcpy(m_info.m_name, name, PLAYER_NAME_LEN);
+void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
+	if (index == -1)
+		index = m_info.m_id;
+	std::memcpy(m_members[index % MAX_SERVER_PLAYERS]->m_name , name, PLAYER_NAME_LEN);
+	std::memcpy(m_info.m_name , name, PLAYER_NAME_LEN);
 }
 /*============================================================================
 * The method is receiving the messeges type. every messege reading need to
@@ -81,21 +81,27 @@ Messege_type NetworkObject::receiveTcpValue<Messege_type>() {
 /*==========================================================================*/
 void NetworkObject::addMemberToList() {
 	AddMember member = receiveUdpValue<AddMember>();
-	if (!m_members[member.m_id - 1])
-		m_members[member.m_id - 1] = std::make_unique<GameMember>();
-	m_members[member.m_id - 1]->m_id = member.m_id;
-	std::memcpy(m_members[member.m_id - 1]->m_name, member.m_name, PLAYER_NAME_LEN);
+	if (!m_members[member.m_id])
+		m_members[member.m_id] = std::make_unique<GameMember>();
+	m_members[member.m_id]->m_id = member.m_id;
+	std::memcpy(m_members[member.m_id]->m_name, member.m_name, PLAYER_NAME_LEN);
 }
 /*==========================================================================*/
 void NetworkObject::updateMember(const MemberInfo& member) {
-	if (m_members[member.m_id - 1]) {
-		m_members[member.m_id - 1]->m_id = member.m_id;
-		m_members[member.m_id - 1]->m_loc = member.m_loc;
-		m_members[member.m_id - 1]->m_state = member.state;
+	if (m_members[member.m_id]) {
+		m_members[member.m_id]->m_id = member.m_id;
+		m_members[member.m_id]->m_loc = member.m_loc;
+		m_members[member.m_id]->m_state = member.state;
 	}
 }/*==========================================================================*/
 void NetworkObject::setMember(int index, std::unique_ptr<GameMember> member){
-	std::cout << "id: " << member->m_id;
 	if (index >= 0 && index < m_members.size())
 		m_members[index] = std::move(member);
+}
+/*==========================================================================*/
+void NetworkObject::setId(int id) {
+	m_info.m_id = id;
+	if (!getMembers(id))
+		setMember(id, 
+			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "")));
 }

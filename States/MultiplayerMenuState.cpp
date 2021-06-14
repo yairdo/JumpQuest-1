@@ -8,9 +8,8 @@
 #include "LobbyState.h"
 
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool replace,std::shared_ptr<NetworkObject>net):
-	MenuState(manager, window, replace, net, title, menuBackground)
+	MenuState(manager, window, replace, nullptr, title, menuBackground)
 {
-	
 	auto startButPos = sf::Vector2f(m_middle.x, getTitleHeight() + SPACE_BUTTONS * 2);
 	auto butHeight = (window.getSize().y - getTitleHeight()
 		- SPACE_BUTTONS * 2 -SPACE_BUTTONS* MAIN_MENU_BUTTONS) / MAIN_MENU_BUTTONS;
@@ -30,8 +29,6 @@ MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindo
 }
 ////////TEMP!!!!!
 void MultiplayerMenuState::updateNextState(const sf::Vector2f& loc){
-		
-	
 	if (m_buttons[0]->checkCollision(loc)){
 		m_networkObj = std::make_shared<Server>();
 		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true,m_networkObj);

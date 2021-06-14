@@ -22,10 +22,10 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_testOtherPlayer->setOrigin(25, 25);
 	m_testOtherPlayer->setFillColor(sf::Color::Yellow);
 	m_testPlayer = m_board->getPlayerRef();
-	if (m_networkObj) {
-		if (!m_networkObj->run(m_window))
+	/*if (m_networkObj) {
+		if (!m_networkObj->launch())
 			m_isPlay = false;
-	}
+	}*/
 	m_clock.restart();
 }
 
@@ -66,11 +66,11 @@ void GameState::update()
 			break;
 		}
 	}
-	if (!m_isPlay)//if failed to connect with the network object
-	{
-		m_next = StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr);
-		return;
-	}
+	//if (!m_isPlay)//if failed to connect with the network object
+	//{
+	//	m_next = StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr);
+	//	return;
+	//}
 	updateGame();
 }
 void GameState::updateGame() {

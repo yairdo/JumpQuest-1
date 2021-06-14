@@ -9,6 +9,7 @@ using FontPair = std::pair<int, sf::Font>;
 Resources::Resources() {
 	setTextures();
 	setButtonStrLengh();
+	setFonts();
 	
 }
 const sf::Texture& Resources::getTexture(int index) const {
