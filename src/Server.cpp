@@ -186,6 +186,10 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 	updateAboutNewMember(addMemberCreator((index == -1)?getInfo().m_id:index, name));
 }
 /*==========================================================================*/
+void Server::sendNewLoc(const sf::Vector2f& loc, int index){
+	sendUdpMessege<MemberInfo>(movingObj, memberInfoCreator(index, loc));
+}
+/*==========================================================================*/
 void Server::startGame() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))

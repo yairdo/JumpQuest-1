@@ -99,14 +99,15 @@ enum Network_messeges {
 	startGame,
 };
 enum Messege_type {
-	noType, //NULL
+	noType, //none
 	networkMessege, //Network_messege
 	gameMembership, //GameMembership
 	singMeIn,
 	memberId, //int
-	whoElsePlaying,
-	addMember,
+	//whoElsePlaying, 
+	addMember, //AddMember
 	memberInfo, //MemberInfo
+	movingObj, //MemberInfo
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);

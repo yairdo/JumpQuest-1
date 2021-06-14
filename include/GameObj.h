@@ -16,6 +16,7 @@ public:
     virtual bool getIsRemoved() const;
     void destroyBody();
     sf::Vector2f getPos() { return m_sprite.getPosition(); }
+    void setPos(sf::Vector2f loc) { m_sprite.setPosition(loc); }
     //=====temp polichecker
     /*virtual void handleCol(GameObj*) = 0;
     virtual void handleGiftCol(Gift*) = 0;*/

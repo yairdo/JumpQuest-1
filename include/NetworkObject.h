@@ -6,6 +6,8 @@
 #include <vector>
 #include <exception>
 
+class Board;
+
 class NetworkObject {
 public:
 	NetworkObject(unsigned short port = 0);
@@ -29,6 +31,10 @@ public:
 	//============================= sets section =============================
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void setId(int id);
+	void setBoard(Board* board) { m_board = board; }
+
+	//test
+	Board* getBoard() { return m_board; }
 
 protected:
 	//====================== messeges handeling section ======================
@@ -50,11 +56,8 @@ protected:
 	//virtual void setMember(int index);
 	void setStarted(bool value) { m_started = value; }
 	//=========================== gets section ===============================
-
 	sf::Packet m_packet;
 
-	//server test
-	std::vector<sf::Vector2f> m_testMovingObjPositions;
 private:
 	//last sender info
 	sf::IpAddress m_senderIP;
@@ -69,6 +72,8 @@ private:
 	std::vector<std::unique_ptr<GameMember>> m_members;
 	GameMember m_info;
 	bool m_started = false;
+
+	Board* m_board;
 
 	void receiveTcp(sf::TcpSocket& socket) { socket.receive(m_packet);}
 	void sendTcp(sf::TcpSocket& socket);

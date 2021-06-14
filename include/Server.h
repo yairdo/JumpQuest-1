@@ -16,6 +16,9 @@ public:
     virtual void updateLoc(const sf::Vector2f&, int);
     virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 
+    //test
+    void sendNewLoc(const sf::Vector2f& loc, int index);
+
     void startGame();
 
 private:

@@ -24,8 +24,8 @@ void Board::generateMap(b2World& world) {
 		file >> type;
 		file >> str;
 		std::vector<sf::Vector2f> vals; //m_staticObj//m_movingObj
-		getValues(vals,file);    //StaticObj//MovingObj
-		if(type == 's')
+		getValues(vals, file);    //StaticObj//MovingObj
+		if (type == 's')
 			m_staticObj.emplace_back(Factory<StaticObj>::create(str, vals, world));
 		else
 			m_movingObj.emplace_back(Factory<MovingObj>::create(str, vals, world));
@@ -65,7 +65,7 @@ void Board::generateMap(b2World& world) {
 	}
 	//std::cout << "finished genereating, for debugging\n";
 }
-void Board::getValues(std::vector<sf::Vector2f>& vec,std::ifstream& file) {
+void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 	std::string temp;
 	std::getline(file, temp);
 	std::istringstream sstr(temp);
@@ -95,7 +95,7 @@ void Board::draw(sf::RenderWindow& window) {
 		if ((*it)->getIsRemoved()) {
 			(*it)->destroyBody();
 			it = m_staticObj.erase(it);
-		
+
 		}
 		else {
 			(*it)->draw(window);
@@ -113,6 +113,17 @@ void Board::updatePhysics(float deltaTime) {
 	}
 }
 
-Player* Board::getPlayerRef(){
+Player* Board::getPlayerRef() {
 	return (Player*)m_movingObj[0].get();
+}
+
+sf::Vector2f Board::getLoc(unsigned int index) {
+	return m_movingObj[index]->getPos();
+}
+void Board::setLoc(unsigned int index, sf::Vector2f loc) {
+	m_movingObj[index]->setPos(loc);
+}
+
+unsigned int Board::numOfMovingObjs() {
+	return m_movingObj.size();
 }

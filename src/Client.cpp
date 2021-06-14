@@ -1,5 +1,6 @@
 #include <Client.h>
 #include <iostream>
+#include <Board.h>
 
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
 m_isLinked(false), m_started(false){
@@ -11,6 +12,7 @@ m_isLinked(false), m_started(false){
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
+	MemberInfo info;
 	while (receivedUdpMessege()&& counter++ < max) {
 		std::cout << "udp messege received.\n";
 		try {
@@ -36,6 +38,10 @@ bool Client::handleRequests(int max) {
 				break;
 			case memberInfo:
 				updateMember(receiveUdpValue<MemberInfo>());
+				break;
+			case movingObj:
+				info = receiveUdpValue<MemberInfo>();
+				getBoard()->setLoc(info.m_id, info.m_loc);
 				break;
 			default:
 				break;

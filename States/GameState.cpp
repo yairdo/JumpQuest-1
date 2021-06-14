@@ -2,10 +2,13 @@
 #include <Player.h>
 #include <StateManager.h>
 #include <MainMenuState.h>
+#include "Server.h"
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()), 
-	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1)
+	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1),m_isServer(false)
 {
+	if (typeid(Server).name()==typeid(*m_networkObj.get()).name())
+		m_isServer=true;
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	/*m_backGround.setScale(window.getSize().x / m_backGround.getGlobalBounds().width,
 		window.getSize().y / m_backGround.getGlobalBounds().height);*/
@@ -26,6 +29,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 		if (!m_networkObj->launch())
 			m_isPlay = false;
 	}*/
+	m_networkObj->setBoard(m_board.get());
 	m_clock.restart();
 }
 
@@ -71,9 +75,12 @@ void GameState::update()
 	//	m_next = StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr);
 	//	return;
 	//}
-	updateGame();
+	if (m_isServer)
+		updateServerGame();
+	else
+		updateClientGame();
 }
-void GameState::updateGame() {
+void GameState::updateServerGame() {
 	//check if all players are ready
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
@@ -81,7 +88,14 @@ void GameState::updateGame() {
 		m_deltaTime = m_clock.restart().asSeconds();
 		m_board->updatePhysics(m_deltaTime);
 	}
-	if (m_networkObj) {
+	m_board->move();
+	sf::Vector2f objPos;
+	//send all new locations
+	for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
+		objPos = m_board->getLoc(i);
+		((Server*)m_networkObj.get())->sendNewLoc(objPos, i);
+	}
+	/*if (m_networkObj) {
 		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
 		m_networkObj->handleRequests(20);
 		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
@@ -90,12 +104,22 @@ void GameState::updateGame() {
 				m_testOtherPlayer->setPosition(loc);
 			}
 		}
-	}
-	m_board->move();
+	}*/
 	viewMover();
 	m_window.setView(m_view);
 	m_testPlayer->updateAnim(m_deltaTime);
 }
+
+void GameState::updateClientGame() {
+	//receive all of the messages
+	m_networkObj->handleRequests(500);
+
+	//update animation???
+	viewMover();
+	m_window.setView(m_view);
+	m_testPlayer->updateAnim(m_deltaTime);
+}
+
 
 void GameState::draw()
 {

@@ -14,7 +14,10 @@ public:
 	virtual void pause();
 	virtual void resume();
 	virtual void update();
-	void updateGame();
+	//-----test for server
+	void updateServerGame();
+	void updateClientGame();
+	//----
 	virtual void draw();
 	//game functions
 	void addBorders2World();
@@ -31,7 +34,7 @@ private:
 	//view stuff
 	sf::View m_view;
 	void viewMover();
-
+	bool m_isServer;
 
 	//sf::View m_menuView;
 	bool m_isPlay;
