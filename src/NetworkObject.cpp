@@ -1,6 +1,7 @@
 #include <NetworkObject.h>
 #include <iostream>
 #include <Macros.h>
+//93,173,114,170 //sf::IpAddress::getLocalAddress()//25,72,141,58
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
 m_udpSocket(), m_udpSelector(), m_packet(), m_senderIP(sf::IpAddress::None),
