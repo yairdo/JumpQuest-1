@@ -61,6 +61,12 @@ void Resources::setTextures() {
 		createTexture("start.png")));
 	m_textures.insert(TexturesPair(lobbyTitle,
 		createTexture("lobbyTitle.png")));
+	m_textures.insert(TexturesPair(block,
+		createTexture("bricks.png")));
+	m_textures.insert(TexturesPair(castle,
+		createTexture("castle map.png")));
+	m_textures.insert(TexturesPair(rope,
+		createTexture("rope.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));

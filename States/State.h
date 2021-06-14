@@ -1,7 +1,8 @@
 #pragma once
 #include <memory>
 #include <NetworkObject.h>
-
+#include <SFML/Graphics.hpp>
+#include <Resources.h>
 class StateManager;
 
 namespace sf

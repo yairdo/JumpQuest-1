@@ -2,8 +2,12 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include <iostream>
+#include <Factory.h>
 //just for debug
 
+bool Gift::m_registerit = Factory<StaticObj>::registerit("Gift",
+    [](b2World& world,std::vector<sf::Vector2f> vec) -> std::unique_ptr<StaticObj>
+    { return std::make_unique<Gift>(world, vec[0], vec[1], b2_staticBody); });
 
 Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) : 
     m_testRect(size), StaticObj(world, pos, size, bodyType)

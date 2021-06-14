@@ -25,4 +25,7 @@ private:
 	void updateList();
 	void updateNextState(const sf::Vector2f& loc);
 	void setNameListText();
+	void createBoxShape(sf::RectangleShape&,const sf::Color& );
+	sf::Text createText(int, int,const sf::Color&, const std::string&,
+		const sf::Vector2f&, bool org=false);
 };

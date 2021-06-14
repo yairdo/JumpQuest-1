@@ -6,6 +6,12 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()), 
 	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1)
 {
+	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
+	/*m_backGround.setScale(window.getSize().x / m_backGround.getGlobalBounds().width,
+		window.getSize().y / m_backGround.getGlobalBounds().height);*/
+	m_backGround.setScale(1,
+		window.getSize().y / m_backGround.getGlobalBounds().height);
+
 	m_world.SetContactListener(&m_contactListner);
 	m_board->generateMap(m_world);
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
@@ -93,6 +99,7 @@ void GameState::updateGame() {
 
 void GameState::draw()
 {
+	m_window.draw(m_backGround);
 	m_board->draw(m_window);
 	m_window.draw(*m_testOtherPlayer);
 }

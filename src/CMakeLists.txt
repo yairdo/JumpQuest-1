@@ -22,4 +22,5 @@
                                      "Projectile.cpp"
                                      "Animation.cpp"
                                      "ContactListner.cpp"
+                                     "Factory.cpp"
                                      )

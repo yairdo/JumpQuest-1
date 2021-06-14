@@ -8,6 +8,7 @@ class Gift : public StaticObj {
 public:
 	Gift(b2World& , const sf::Vector2f& , const sf::Vector2f&, int);
 	virtual ~Gift();
+	Gift()=default;
 	virtual void draw(sf::RenderWindow&);
 	void collisionCounter();
 
@@ -19,4 +20,5 @@ public:
 private:
 	sf::RectangleShape m_testRect;
 	int m_counter = 3;
+	static bool m_registerit;
 };
