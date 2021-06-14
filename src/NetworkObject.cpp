@@ -3,7 +3,7 @@
 #include <Macros.h>
 //93,173,114,170 //sf::IpAddress::getLocalAddress()//25,72,141,58
 /*==========================================================================*/
-NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress("25.72.141.58")),
+NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress::getLocalAddress()),
 m_udpSocket(), m_udpSelector(), m_packet(), m_senderIP(sf::IpAddress::None),
 m_senderPort(0), m_port(port), m_tcpSocket(),m_members(MAX_SERVER_PLAYERS){
 	if (port == 0)
