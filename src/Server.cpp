@@ -122,7 +122,7 @@ void Server::notifyClosing() {
 /*============================================================================
 */
 void Server::updateLoc(const sf::Vector2f& loc, int state) {
-	updatePlayerState(memberInfoCreator(1, loc, state));
+	updatePlayerState(memberInfoCreator(0, loc, state));
 }
 /*============================================================================
 * The method update the other players about the player new state update.
@@ -187,7 +187,7 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 }
 /*==========================================================================*/
 void Server::startGame() {
-	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
 			sendUdpMessege(networkMessege, Network_messeges::startGame, getMembers(i)->m_memberIp,
 				getMembers(i)->m_memberPort);
