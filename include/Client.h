@@ -7,8 +7,7 @@
 #include <Macros.h>
 
 
-class Client : public 
-	NetworkObject{
+class Client : public NetworkObject{
 public:
 	Client();
 	virtual ~Client() = default;

@@ -23,5 +23,6 @@ private:
 	std::vector<sf::Text> m_nameList;
 	void drawList();
 	void updateList();
+	void updateNextState(const sf::Vector2f& loc);
 	void setNameListText();
 };

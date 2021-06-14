@@ -29,8 +29,6 @@ MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindo
 }
 ////////TEMP!!!!!
 void MultiplayerMenuState::updateNextState(const sf::Vector2f& loc){
-		
-	
 	if (m_buttons[0]->checkCollision(loc)){
 		m_networkObj = std::make_shared<Server>();
 		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true,m_networkObj);

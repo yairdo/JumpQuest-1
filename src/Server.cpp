@@ -53,6 +53,7 @@ bool Server::handleRequests(int max) {
 					break;
 				case memberInfo:
 					updatePlayerState(receiveUdpValue<MemberInfo>());
+					break;
 				case singMeIn:
 					registerPlayer();
 					break;

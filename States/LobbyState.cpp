@@ -68,20 +68,19 @@ void LobbyState::update(){
 			m_networkObj->handleRequests(10);
 		else
 			m_connected = true;
+		MenuState::update();
 		return;
 	}
-
-	if (m_networkObj->getStarted()) {
-		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
-		return;
-	}
-
 	if (!m_signedUp)
 		signUp();
 	if (m_connected && m_signedUp)
 		MenuState::update();
 	if (m_networkObj->handleRequests())
 		updateList();
+	if (m_networkObj->getStarted()) {
+		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
+		return;
+	}
 }
 
 void LobbyState::signUp() {
@@ -133,6 +132,15 @@ void LobbyState::updateList(){
 		}
 	}
 	std::for_each(it, m_nameList.end(), [&](sf::Text&) { it->setString(""); });
+}
+void LobbyState::updateNextState(const sf::Vector2f& loc) {
+	if (m_buttons[0]->checkCollision(loc)) {
+		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true, m_networkObj);
+	}
+	if (m_isServer && m_buttons[1]->checkCollision(loc)) {
+		static_cast<Server*>(m_networkObj.get())->startGame();
+		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, m_networkObj);
+	}
 }
 
 void LobbyState::drawList(){
