@@ -2,7 +2,6 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include "Resources.h"
-#include <Animation.h>
 
 GameObj::GameObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
 	int textureNum) : m_isRemoved(false), m_col(0)

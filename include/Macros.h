@@ -23,18 +23,26 @@ enum direction {
 	down,
 	idle
 };
-enum objectType {
+
+//enum objectType {
+//	block,
+//	movingBlock,
+//	gift,
+//	shooter,
+//	fallingBlock,
+//	floorObs,
+//	rope
+//};
+
+
+enum TexturesNum {
 	block,
 	movingBlock,
 	gift,
 	shooter,
 	fallingBlock,
 	floorObs,
-	rope
-};
-
-
-enum TexturesNum {
+	rope,
 	menuBackground,
 	title,
 	buttonShape,
@@ -50,6 +58,7 @@ enum TexturesNum {
 	lobbyBackground,
 	start,
 	lobbyTitle,
+	castle,
 	nullpt
 };
 

@@ -2,6 +2,11 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
+#include <Factory.h>
+
+bool MovingBlock::m_registerit = Factory<MovingObj>::registerit("MovingBlock",
+    [](b2World& world,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
+    { return std::make_unique<MovingBlock>(world, vec[0], vec[1], vec[2], b2_kinematicBody); });
 
 MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& endPos, const sf::Vector2f& size, int bodyType) :
     m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE), MovingObj(world, startPos, size, bodyType)

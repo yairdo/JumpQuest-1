@@ -11,7 +11,7 @@ class FallingBlock : public MovingObj {
 public:
 	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, int);
 	virtual ~FallingBlock() = default;
-
+	FallingBlock() = default;
 	virtual void updatePhysics(float);
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
@@ -24,4 +24,5 @@ private:
 	sf::Vector2f m_strtPos;
 	bool m_falling = false;
 	float m_timer = 3;
+	static bool m_registerit;
 };
