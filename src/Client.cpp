@@ -13,7 +13,7 @@ m_isLinked(false), m_started(false){
 bool Client::handleRequests(int max) {
 	int counter = 0;
 	MemberInfo info;
-	while (receivedUdpMessege()&& counter++ < max) {
+	while (receivedUdpMessege(0.00001)&& counter++ < max) {
 		std::cout << "udp messege received.\n";
 		try {
 			switch (receiveUdpValue<Messege_type>())
