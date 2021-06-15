@@ -119,6 +119,16 @@ void GameState::updateClientGame() {
 	//receive all of the messages
 	m_networkObj->handleRequests(300);
 
+	//TEST!!!!!
+	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
+	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
+	{
+		m_deltaTime = m_clock.restart().asSeconds();
+		m_board->updatePhysics(m_deltaTime);
+	}
+	//end of text
+
+
 	//update animation???
 	viewMover();
 	m_window.setView(m_view);
