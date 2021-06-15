@@ -20,7 +20,7 @@ struct MemberInfo {
     sf::Vector2f m_loc = { 0 , 0 };
     int state = 0;
 };
-MemberInfo memberInfoCreator(unsigned short = 0, const sf::Vector2f = { 0,0 }, int = 0);
+MemberInfo memberInfoCreator(unsigned short = 0, const sf::Vector2f& = { 0,0 }, int = 0);
 //============================================================================
 struct AddMember {
     unsigned short m_id = 0;

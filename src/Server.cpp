@@ -2,6 +2,7 @@
 #include <exception>
 #include <iostream>
 #include "Macros.h"
+#include <Board.h>
 /*
 * TODO
 * inform members the server list.
@@ -187,7 +188,10 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 }
 /*==========================================================================*/
 void Server::sendNewLoc(const sf::Vector2f& loc, int index){
-	sendUdpMessege<MemberInfo>(movingObj, memberInfoCreator(index, loc));
+	for(int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if(getMembers(i))
+	sendUdpMessege<MemberInfo>(movingObj, memberInfoCreator(index, loc), 
+		getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
 void Server::startGame() {

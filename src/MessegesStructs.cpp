@@ -11,7 +11,7 @@ GameMember gameMemberCreator(const sf::IpAddress& ip, unsigned short port, const
     return value;
 }
 
-MemberInfo memberInfoCreator(unsigned short id, const sf::Vector2f loc, int state) {
+MemberInfo memberInfoCreator(unsigned short id, const sf::Vector2f& loc, int state) {
     MemberInfo value;
     value.m_id = id;
     value.m_loc = loc;
