@@ -13,8 +13,8 @@ public:
 	NetworkObject(unsigned short port = 0);
 	virtual ~NetworkObject() = default;
 	//========================== inbox checkers ==============================
-	bool receivedUdpMessege(float seconds = 0.0001f);
-	bool receivedTcpMessege(float seconds = 0.0001f);
+	bool receivedUdpMessege(float seconds = 0.000001f);
+	bool receivedTcpMessege(float seconds = 0.000001f);
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;

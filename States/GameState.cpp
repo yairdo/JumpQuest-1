@@ -91,10 +91,9 @@ void GameState::updateServerGame() {
 	m_board->move();
 	sf::Vector2f objPos;
 	//send all new locations
-	for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
-		objPos = m_board->getLoc(i);
-		((Server*)m_networkObj.get())->sendNewLoc(objPos, i);
-	}
+
+	for (int i = 0; i < m_board->numOfMovingObjs(); ++i) 
+		((Server*)m_networkObj.get())->sendNewLoc(m_board->getLoc(i), i);
 	/*if (m_networkObj) {
 		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
 		m_networkObj->handleRequests(20);
