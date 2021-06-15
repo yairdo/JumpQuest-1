@@ -187,11 +187,11 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 	updateAboutNewMember(addMemberCreator((index == -1)?getInfo().m_id:index, name));
 }
 /*==========================================================================*/
-void Server::sendNewLoc(const sf::Vector2f& loc, int index){
+void Server::sendNewLoc(const std::vector<sf::Vector2f>& vec){
 	for(int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if(getMembers(i))
-	sendUdpMessege<MemberInfo>(movingObj, memberInfoCreator(index, loc), 
-		getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+		sendUdpMessege<std::vector<sf::Vector2f>>(movingObj, vec, 
+			getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
 void Server::startGame() {
