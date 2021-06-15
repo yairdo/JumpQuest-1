@@ -94,11 +94,18 @@ void LobbyState::update(){
 void LobbyState::signUp() {
 	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
 		if (event.type == sf::Event::TextEntered) {
+			//auto key=
 			if (event.text.unicode < 128) {
-				if (m_inputText.getString().getSize() < PLAYER_NAME_LEN) {
-					m_inputStr += event.text.unicode;
-					m_inputText.setString(m_inputStr);
+				//event.text.unicode == sf::Keyboard::BackSpace;
+			//	if (sf::Keyboard::isKeyPressed( sf::Keyboard::BackSpace))
+				if (event.text.unicode == 8) {
+					if (m_inputStr.size() > 0)
+						m_inputStr.pop_back();
 				}
+				else if (m_inputText.getString().getSize() < PLAYER_NAME_LEN) 
+						m_inputStr += event.text.unicode;
+				m_inputText.setString(m_inputStr);
+				
 			}
 		}
 		else if (event.type == sf::Event::KeyReleased) {

@@ -251,9 +251,10 @@
 //		m_view.setCenter(playerPos.x, m_view.getCenter().y);
 //	//need to add boundries
 //}//
+//sf::VideoMode::getFullscreenModes()[0]
 Controller::Controller() : m_window(sf::RenderWindow
-	(sf::VideoMode(sf::VideoMode::getFullscreenModes()[0]), "Jump Quest",
-	sf::Style::Close | sf::Style::Titlebar))
+	(sf::VideoMode(), "Jump Quest",
+	sf::Style::Close | sf::Style::Titlebar|sf::Style::Fullscreen))
 {
 	m_window.setFramerateLimit(FRAME_RATE);
 }
