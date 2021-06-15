@@ -91,15 +91,16 @@ void GameState::updateServerGame() {
 	m_board->move();
 	sf::Vector2f objPos;
 	//send all new locations
-	m_lastUpdate += m_deltaTime;
+	//m_lastUpdate += m_deltaTime;
 	std::vector<sf::Vector2f> vec;
-	if (m_lastUpdate >= 0.001)
+	//if (m_lastUpdate >= 0.1){
 		for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
 			vec.push_back(m_board->getLoc(i));
 			//((Server*)m_networkObj.get())->sendNewLoc(m_board->getLoc(i), i);
 		}
 		((Server*)m_networkObj.get())->sendNewLoc(vec);
-			
+		//m_lastUpdate = 0;
+	//}
 	/*if (m_networkObj) {
 		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
 		m_networkObj->handleRequests(20);
