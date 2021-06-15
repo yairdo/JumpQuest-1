@@ -25,3 +25,11 @@ AddMember addMemberCreator(unsigned short id, const char name[PLAYER_NAME_LEN]) 
     std::memcpy(value.m_name, name, PLAYER_NAME_LEN);
     return value;
 }
+
+TestLocs testLocsCreator(const std::vector<sf::Vector2f>& vec) {
+    TestLocs value;
+    value.m_size = vec.size();
+    for (int i = 0; i < vec.size(); ++i)
+        value.m_locs[i] = vec[i];
+    return value;
+}

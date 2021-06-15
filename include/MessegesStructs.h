@@ -27,3 +27,9 @@ struct AddMember {
     char m_name[PLAYER_NAME_LEN] = "";
 };
 AddMember addMemberCreator(unsigned short id, const char name[PLAYER_NAME_LEN]);
+//============================================================================
+struct TestLocs {
+    int m_size = 0;
+    sf::Vector2f m_locs[30];
+};
+TestLocs testLocsCreator(const std::vector<sf::Vector2f>&);

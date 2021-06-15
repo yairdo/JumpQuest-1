@@ -17,7 +17,7 @@ public:
     virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 
     //test
-    void sendNewLoc(const std::vector<sf::Vector2f>& vec);
+    void sendNewLoc(std::vector<sf::Vector2f> vec);
 
     void startGame();
 

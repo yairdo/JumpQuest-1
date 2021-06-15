@@ -12,7 +12,7 @@ m_isLinked(false), m_started(false){
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	std::vector<sf::Vector2f> info;
+	TestLocs info;
 	while (receivedUdpMessege()&& counter++ < max) {
 		std::cout << "udp messege received.\n";
 		try {
@@ -40,9 +40,9 @@ bool Client::handleRequests(int max) {
 				updateMember(receiveUdpValue<MemberInfo>());
 				break;
 			case movingObj:
-				info = receiveUdpValue<std::vector<sf::Vector2f>>();
-				for (int i = 0; i < info.size(); ++i)
-					getBoard()->setLoc(i, info[i]);
+				info = receiveUdpValue<TestLocs>();
+				for (int i = 0; i < info.m_size; ++i)
+					getBoard()->setLoc(i, info.m_locs[i]);
 				break;
 			default:
 				break;
