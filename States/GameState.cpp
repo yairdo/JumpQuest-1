@@ -93,7 +93,7 @@ void GameState::updateServerGame() {
 	//send all new locations
 	m_lastUpdate += m_deltaTime;
 	std::vector<sf::Vector2f> vec;
-	if (m_lastUpdate >= 0.01)
+	if (m_lastUpdate >= 0.001)
 		for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
 			vec.push_back(m_board->getLoc(i));
 			//((Server*)m_networkObj.get())->sendNewLoc(m_board->getLoc(i), i);
