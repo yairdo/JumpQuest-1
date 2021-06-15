@@ -118,7 +118,7 @@ void GameState::updateServerGame() {
 
 void GameState::updateClientGame() {
 	//receive all of the messages
-	
+	m_networkObj->handleRequests(300);
 
 	//TEST!!!!!
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
@@ -129,7 +129,7 @@ void GameState::updateClientGame() {
 	}
 	m_board->move();
 	//end of text
-	m_networkObj->handleRequests(300);
+	
 
 	//update animation???
 	viewMover();
