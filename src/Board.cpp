@@ -124,6 +124,8 @@ sf::Vector2f Board::getLoc(unsigned int index) {
 }
 void Board::setLoc(unsigned int index, sf::Vector2f loc) {
 	m_movingObj[index]->setPos(loc);
+	//TEST!!!!!!!!!!!!!!!!!!!!!
+	m_movingObj[index]->fixed(loc);
 }
 
 unsigned int Board::numOfMovingObjs() {

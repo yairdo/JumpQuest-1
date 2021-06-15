@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Macros.h"
 #include <Board.h>
+
+#include <array>
 /*
 * TODO
 * inform members the server list.
@@ -156,7 +158,7 @@ int Server::countServersInPort(){
 	try {
 		sendUdpMessege(networkMessege, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
-		while (receivedUdpMessege(0.1) && messegesCounter++ < max) {
+		while (receivedUdpMessege() && messegesCounter++ < max) {
 			if (receiveUdpValue<Messege_type>() == networkMessege
 				&& receiveUdpValue<Network_messeges>() == iAmAServer)
 				++counter;
@@ -188,7 +190,6 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 }
 /*==========================================================================*/
 void Server::sendNewLoc(std::vector<sf::Vector2f> vec){
-	int size = sizeof(vec);
 	for(int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if(getMembers(i))
 			sendUdpMessege<TestLocs>(movingObj, testLocsCreator(vec), 
