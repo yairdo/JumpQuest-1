@@ -12,7 +12,7 @@ m_isLinked(false), m_started(false){
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	MemberInfo info;
+	TestLocs info;
 	while (receivedUdpMessege()&& counter++ < max) {
 		std::cout << "udp messege received.\n";
 		try {
@@ -40,8 +40,9 @@ bool Client::handleRequests(int max) {
 				updateMember(receiveUdpValue<MemberInfo>());
 				break;
 			case movingObj:
-				info = receiveUdpValue<MemberInfo>();
-				getBoard()->setLoc(info.m_id, info.m_loc);
+				info = receiveUdpValue<TestLocs>();
+				for (int i = 0; i < info.m_size; ++i)
+					getBoard()->setLoc(i, info.m_locs[i]);
 				break;
 			default:
 				break;

@@ -50,6 +50,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
 //applies impulse to jump
 void Player::updatePhysics(float dt)
 {
+
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }

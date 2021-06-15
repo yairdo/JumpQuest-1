@@ -5,7 +5,7 @@
 #include "Server.h"
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()), 
-	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1),m_isServer(false)
+	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1),m_isServer(false), m_lastUpdate(0)
 {
 	if (typeid(Server).name()==typeid(*m_networkObj.get()).name())
 		m_isServer=true;
@@ -14,7 +14,6 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 		window.getSize().y / m_backGround.getGlobalBounds().height);*/
 	m_backGround.setScale(1,
 		window.getSize().y / m_backGround.getGlobalBounds().height);
-
 	m_world.SetContactListener(&m_contactListner);
 	m_board->generateMap(m_world);
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
@@ -79,6 +78,7 @@ void GameState::update()
 		updateServerGame();
 	else
 		updateClientGame();
+
 }
 void GameState::updateServerGame() {
 	//check if all players are ready
@@ -91,9 +91,15 @@ void GameState::updateServerGame() {
 	m_board->move();
 	sf::Vector2f objPos;
 	//send all new locations
-	for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
-		objPos = m_board->getLoc(i);
-		((Server*)m_networkObj.get())->sendNewLoc(objPos, i);
+	m_lastUpdate += m_deltaTime;
+	std::vector<sf::Vector2f> vec;
+	if (m_lastUpdate >= 0.1){
+		for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
+			vec.push_back(m_board->getLoc(i));
+			//((Server*)m_networkObj.get())->sendNewLoc(m_board->getLoc(i), i);
+		}
+		((Server*)m_networkObj.get())->sendNewLoc(vec);
+		m_lastUpdate = 0;
 	}
 	/*if (m_networkObj) {
 		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
@@ -112,7 +118,18 @@ void GameState::updateServerGame() {
 
 void GameState::updateClientGame() {
 	//receive all of the messages
-	m_networkObj->handleRequests(500);
+	m_networkObj->handleRequests(300);
+
+	//TEST!!!!!
+	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
+	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
+	{
+		m_deltaTime = m_clock.restart().asSeconds();
+		m_board->updatePhysics(m_deltaTime);
+	}
+	m_board->move();
+	//end of text
+	
 
 	//update animation???
 	viewMover();

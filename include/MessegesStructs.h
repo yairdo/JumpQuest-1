@@ -20,10 +20,16 @@ struct MemberInfo {
     sf::Vector2f m_loc = { 0 , 0 };
     int state = 0;
 };
-MemberInfo memberInfoCreator(unsigned short = 0, const sf::Vector2f = { 0,0 }, int = 0);
+MemberInfo memberInfoCreator(unsigned short = 0, const sf::Vector2f& = { 0,0 }, int = 0);
 //============================================================================
 struct AddMember {
     unsigned short m_id = 0;
     char m_name[PLAYER_NAME_LEN] = "";
 };
 AddMember addMemberCreator(unsigned short id, const char name[PLAYER_NAME_LEN]);
+//============================================================================
+struct TestLocs {
+    int m_size = 0;
+    sf::Vector2f m_locs[MAX_OBJ_IN_LEVEL];
+};
+TestLocs testLocsCreator(const std::vector<sf::Vector2f>&);

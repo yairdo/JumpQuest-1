@@ -65,6 +65,7 @@ void Board::generateMap(b2World& world) {
 	}
 	//std::cout << "finished genereating, for debugging\n";
 }
+
 void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 	std::string temp;
 	std::getline(file, temp);
@@ -90,6 +91,7 @@ void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();
 }
+
 void Board::draw(sf::RenderWindow& window) {
 	for (auto it = m_staticObj.begin(); it != m_staticObj.end();) {
 		if ((*it)->getIsRemoved()) {
@@ -122,6 +124,8 @@ sf::Vector2f Board::getLoc(unsigned int index) {
 }
 void Board::setLoc(unsigned int index, sf::Vector2f loc) {
 	m_movingObj[index]->setPos(loc);
+	//TEST!!!!!!!!!!!!!!!!!!!!!
+	m_movingObj[index]->fixed(loc);
 }
 
 unsigned int Board::numOfMovingObjs() {

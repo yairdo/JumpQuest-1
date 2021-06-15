@@ -30,6 +30,7 @@ private:
 	Player* m_testPlayer;
 	sf::Clock m_clock;
 	float m_deltaTime;
+	float m_lastUpdate; //temp
 	sf::RectangleShape* m_testOtherPlayer;
 	//view stuff
 	sf::View m_view;
