@@ -76,6 +76,11 @@ float MenuState::getTitleHeight() const
 	return m_title->getPosition().y;
 }
 
+float MenuState::getTitlePosY() const
+{
+	return (m_title->getPosition().y+m_title->getGlobalBounds().height/2);
+}
+
 //void MenuState::addButton(int index, int type,
 //		const sf::Vector2f& loc, const sf::Vector2f& size){
 //	m_buttons.emplace_back(std::make_unique<Button>(m_menu->getStateRef(index), type, loc, size));
