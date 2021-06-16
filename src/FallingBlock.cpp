@@ -57,6 +57,13 @@ void FallingBlock::draw(sf::RenderWindow& window)
     window.draw(m_sprite);
 }
 
+void FallingBlock::setInfo(MovingObjInfo info)
+{
+    setPos(info.m_loc);
+    m_timer = info.m_timer;
+    m_body->SetLinearVelocity(info.m_vel);
+}
+
 void FallingBlock::reset()
 {
     m_falling = false;

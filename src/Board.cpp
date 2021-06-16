@@ -9,6 +9,8 @@
 #include <sstream>
 #include <Player.h>
 #include <Factory.h>
+#include <MessegesStructs.h>
+
 void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
@@ -119,13 +121,13 @@ Player* Board::getPlayerRef() {
 	return (Player*)m_movingObj[0].get();
 }
 
-sf::Vector2f Board::getLoc(unsigned int index) {
-	return m_movingObj[index]->getPos();
+MovingObjInfo Board::getInfo(unsigned int index) {
+	return m_movingObj[index]->getInfo();
 }
-void Board::setLoc(unsigned int index, sf::Vector2f loc) {
-	m_movingObj[index]->setPos(loc);
+void Board::setInfo(unsigned int index, const MovingObjInfo& info) {
+	m_movingObj[index]->setInfo(info);
 	//TEST!!!!!!!!!!!!!!!!!!!!!
-	m_movingObj[index]->fixed(loc);
+	//m_movingObj[index]->fixed(loc);
 }
 
 unsigned int Board::numOfMovingObjs() {

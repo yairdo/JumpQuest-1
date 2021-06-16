@@ -42,7 +42,7 @@ bool Client::handleRequests(int max) {
 			case movingObj:
 				info = receiveUdpValue<TestLocs>();
 				for (int i = 0; i < info.m_size; ++i)
-					getBoard()->setLoc(i, info.m_locs[i]);
+					getBoard()->setInfo(i, info.m_locs[i]);
 				break;
 			default:
 				break;
@@ -89,8 +89,8 @@ void Client::notifyClosing() {
 	sendUdpMessege(networkMessege, closing, m_serverIP, SERVERS_PORT);
 }
 /*==========================================================================*/
-void Client::updateLoc(const sf::Vector2f& loc, int state){
-	sendUdpMessege<MemberInfo>(memberInfo, memberInfoCreator(getInfo().m_id, loc, state));
+void Client::updateLoc( const MemberInfo& member){
+	sendUdpMessege<MemberInfo>(memberInfo, member);
 }
 /*==========================================================================*/
 bool Client::launch()
@@ -98,7 +98,7 @@ bool Client::launch()
 	if (!receivedUdpMessege()){
 		searchForServers();
 	}
-	return getInfo().m_id != 0;
+	return getInfo().m_info.m_id != 0;
 }
 /*============================================================================
 * The method is singIn to the server.

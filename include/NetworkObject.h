@@ -18,7 +18,7 @@ public:
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
-	virtual void updateLoc(const sf::Vector2f&, int) = 0;
+	virtual void updateLoc(const MemberInfo&) = 0;
 	virtual bool launch() = 0;
 	//============================= gets section =============================
 	const sf::IpAddress& getIP() const { return m_ip; }

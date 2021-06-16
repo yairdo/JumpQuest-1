@@ -57,7 +57,7 @@ const GameMember* NetworkObject::getMembers(int index) const{
 /*==========================================================================*/
 void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
 	if (index == -1)
-		index = m_info.m_id;
+		index = m_info.m_info.m_id;
 	std::memcpy(m_members[index % MAX_SERVER_PLAYERS]->m_name , name, PLAYER_NAME_LEN);
 	std::memcpy(m_info.m_name , name, PLAYER_NAME_LEN);
 }
@@ -85,24 +85,22 @@ void NetworkObject::addMemberToList() {
 	AddMember member = receiveUdpValue<AddMember>();
 	if (!m_members[member.m_id])
 		m_members[member.m_id] = std::make_unique<GameMember>();
-	m_members[member.m_id]->m_id = member.m_id;
+	m_members[member.m_id]->m_info.m_id = member.m_id;
 	std::memcpy(m_members[member.m_id]->m_name, member.m_name, PLAYER_NAME_LEN);
 }
 /*==========================================================================*/
 void NetworkObject::updateMember(const MemberInfo& member) {
-	if (m_members[member.m_id]) {
-		m_members[member.m_id]->m_id = member.m_id;
-		m_members[member.m_id]->m_loc = member.m_loc;
-		m_members[member.m_id]->m_state = member.state;
-	}
-}/*==========================================================================*/
+	if (m_members[member.m_id])
+		m_members[member.m_id]->m_info = member;
+}
+/*==========================================================================*/
 void NetworkObject::setMember(int index, std::unique_ptr<GameMember> member){
 	if (index >= 0 && index < m_members.size())
 		m_members[index] = std::move(member);
 }
 /*==========================================================================*/
 void NetworkObject::setId(int id) {
-	m_info.m_id = id;
+	m_info.m_info.m_id = id;
 	if (!getMembers(id))
 		setMember(id, 
 			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "")));
