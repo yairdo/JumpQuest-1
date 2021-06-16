@@ -1,26 +1,27 @@
 #pragma once
 #include <Macros.h>
+#include "box2d/box2d.h"
 #include <SFML/Network.hpp>
 
 //Each messege struct has creator out of the struct to make the struct lighter.
+//============================================================================
+struct MemberInfo {
+unsigned short m_id = 0;
+sf::Vector2f m_loc = { 50,50 };
+int m_row = 0;
+int m_col = 0;
+int m_direction = 0;
+};
+MemberInfo memberInfoCreator(unsigned short=0, const sf::Vector2f & = {0,0}, int = 0, int = 0, int = 0);
 //============================================================================
 struct GameMember {
     sf::IpAddress m_memberIp = sf::IpAddress::None;
     unsigned short m_memberPort = 0;
     char m_name[PLAYER_NAME_LEN] = "";
-    sf::Vector2f m_loc = { 0,0 };
-    unsigned short m_id = 0;
-    int m_state = 0;
+    MemberInfo m_info;
 };
-GameMember gameMemberCreator(const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0, 
-    const char name[PLAYER_NAME_LEN] = "", unsigned short id = 0, int state = 0);
-//============================================================================
-struct MemberInfo {
-    unsigned short m_id = 0;
-    sf::Vector2f m_loc = { 0 , 0 };
-    int state = 0;
-};
-MemberInfo memberInfoCreator(unsigned short = 0, const sf::Vector2f& = { 0,0 }, int = 0);
+GameMember gameMemberCreator(const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0,
+    const char name[PLAYER_NAME_LEN] = "", const MemberInfo& = memberInfoCreator());
 //============================================================================
 struct AddMember {
     unsigned short m_id = 0;
@@ -28,8 +29,16 @@ struct AddMember {
 };
 AddMember addMemberCreator(unsigned short id, const char name[PLAYER_NAME_LEN]);
 //============================================================================
+struct MovingObjInfo {
+    sf::Vector2f m_loc;
+    float m_timer = 0;
+    b2Vec2 m_vel = { 0,0 };
+};
+MovingObjInfo movingObjInfoCreator(const sf::Vector2f & = { 0,0 },
+    float = 0, const b2Vec2 & = { 0 , 0 });
+//============================================================================
 struct TestLocs {
     int m_size = 0;
-    sf::Vector2f m_locs[MAX_OBJ_IN_LEVEL];
+    MovingObjInfo m_locs[MAX_OBJ_IN_LEVEL];
 };
-TestLocs testLocsCreator(const std::vector<sf::Vector2f>&);
+TestLocs testLocsCreator(const std::vector<MovingObjInfo>&);

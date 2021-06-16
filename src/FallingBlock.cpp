@@ -45,7 +45,6 @@ void FallingBlock::updatePhysics(float dt)
 
 void FallingBlock::move()
 {
-
     auto position = m_body->GetPosition();
     auto rotation = m_body->GetAngle();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
@@ -55,6 +54,17 @@ void FallingBlock::move()
 void FallingBlock::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
+}
+
+void FallingBlock::setInfo(MovingObjInfo info)
+{
+    setPos(info.m_loc);
+    m_timer = info.m_timer;
+    if (m_timer > 0) {
+        m_body->SetAwake(false);
+        m_falling = false;
+    }
+    m_body->SetLinearVelocity(info.m_vel);
 }
 
 void FallingBlock::reset()

@@ -3,6 +3,7 @@
 #include <Board.h>
 #include "box2d/box2d.h"
 #include "ContactListner.h"
+#include <unordered_map>
 
 class Player;
 class sf::RectangleShape;
@@ -36,7 +37,9 @@ private:
 	sf::View m_view;
 	void viewMover();
 	bool m_isServer;
-
+	std::unordered_map<int,struct ClonePlayer> m_clones;
+	void updateClonesLoc();
+	void sendInfo();
 	//sf::View m_menuView;
 	bool m_isPlay;
 	//bool m_isMain;

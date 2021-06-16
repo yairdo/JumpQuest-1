@@ -1,4 +1,6 @@
 #pragma once
+#include "Resources.h"
+
 constexpr auto TIME_STEP = 1.0f / 60.0f;
 constexpr signed int VEL_ITERS = 6;
 constexpr signed int POS_ITERS = 2;
@@ -16,6 +18,7 @@ enum MenuType {
 	mainMenu,
 	multiplayerMenu
 };
+
 
 enum direction {
 	left,
@@ -103,8 +106,7 @@ enum Messege_type {
 	networkMessege, //Network_messege
 	gameMembership, //GameMembership
 	singMeIn,
-	memberId, //int
-	//whoElsePlaying, 
+	memberId, //int 
 	addMember, //AddMember
 	memberInfo, //MemberInfo
 	movingObj, //MemberInfo
@@ -113,7 +115,7 @@ constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
 constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 5;
-constexpr auto MAX_OBJ_IN_LEVEL = 50;
+constexpr auto MAX_OBJ_IN_LEVEL = 200;
 
 //exeptions type
 constexpr auto RECEIVED_WRONG_MESSEGE_TYPE = "received wrong messege type\n";
@@ -136,3 +138,15 @@ constexpr int WALKING = 3;
 constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
+
+struct ClonePlayer {
+	ClonePlayer():m_sprite(Resources::getResourceRef().getTexture(player)){
+	m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
+	m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+	m_sprite.setPosition(50,50);}
+	sf::Sprite m_sprite;
+	int m_row;
+	int m_col;
+	int m_direction;
+};

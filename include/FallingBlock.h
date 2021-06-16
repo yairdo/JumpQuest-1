@@ -1,5 +1,4 @@
 #pragma once
-
 #include "MovingObj.h"
 #include "iostream"
 
@@ -15,6 +14,9 @@ public:
 	virtual void updatePhysics(float);
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
+
+	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), m_timer, m_body->GetLinearVelocity()); }
+	virtual void setInfo(MovingObjInfo info);
 
 	void reset();
 

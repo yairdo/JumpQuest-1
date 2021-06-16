@@ -13,11 +13,11 @@ public:
     bool launch();
     virtual bool handleRequests(int = 1)override;
     virtual void notifyClosing()override;
-    virtual void updateLoc(const sf::Vector2f&, int);
+    virtual void updateLoc(const MemberInfo&);
     virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 
     //test
-    void sendNewLoc(std::vector<sf::Vector2f> vec);
+    void sendNewInfo(const std::vector<MovingObjInfo>& vec);
 
     void startGame();
 
