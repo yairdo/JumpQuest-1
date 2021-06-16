@@ -4,6 +4,8 @@
 #include <MainMenuState.h>
 #include "Server.h"
 #include <iostream>
+#include <Projectile.h>
+
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1), m_isServer(false), m_lastUpdate(0)
@@ -37,6 +39,9 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 			}
 		}
 	}
+	//------projectile test-------
+	m_testProjectile = new Projectile(m_world, {50, 100}, {10, 10}, b2_dynamicBody);
+	//---------------------
 	m_clock.restart();
 
 }
@@ -108,6 +113,13 @@ void GameState::updateServerGame() {
 			m_lastUpdate = 0;
 			m_clock.restart().asSeconds();
 		}
+		//------test projectile
+		if (!m_testProjectile->getShot())
+			m_testProjectile->shot(m_testProjectile->getPos(), {200, 100});
+		std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
+		m_testProjectile->updatePhysics(m_deltaTime);
+		m_testProjectile->move();
+		//------
 		m_board->updatePhysics(m_deltaTime);
 		m_board->move();
 		if (m_networkObj) {
@@ -151,6 +163,7 @@ void GameState::draw()
 	for (auto clone : m_clones)
 		m_window.draw(clone.second.m_sprite);
 	m_window.draw(*m_testOtherPlayer);
+	m_testProjectile->draw(m_window);
 }
 //-----------------------------------------------------------------------------
 /*

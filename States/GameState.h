@@ -7,6 +7,7 @@
 
 class Player;
 class sf::RectangleShape;
+class Projectile;
 
 class GameState : public State {
 public:
@@ -42,6 +43,7 @@ private:
 	void sendInfo();
 	//sf::View m_menuView;
 	bool m_isPlay;
+	Projectile* m_testProjectile;
 	//bool m_isMain;
 	//std::unique_ptr<Board> m_board;
 	//void runMenu();
