@@ -32,7 +32,8 @@ void GameObj::destroyBody(){
 
 void GameObj::setPos(sf::Vector2f loc)
 {
-	m_sprite.setPosition(loc); m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, 0);
+	m_sprite.setPosition(loc); 
+	m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, 0);
 }
 
 void GameObj::updateAnim(float deltaTime){

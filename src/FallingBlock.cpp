@@ -61,6 +61,10 @@ void FallingBlock::setInfo(MovingObjInfo info)
 {
     setPos(info.m_loc);
     m_timer = info.m_timer;
+    if (m_timer > 0) {
+        m_body->SetAwake(false);
+        m_falling = false;
+    }
     m_body->SetLinearVelocity(info.m_vel);
 }
 

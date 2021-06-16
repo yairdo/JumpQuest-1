@@ -42,7 +42,7 @@ bool Client::handleRequests(int max) {
 			case movingObj:
 				info = receiveUdpValue<TestLocs>();
 				for (int i = 0; i < info.m_size; ++i)
-					getBoard()->setInfo(i, info.m_locs[i]);
+					getBoard()->setInfo(i+1, info.m_locs[i]);
 				break;
 			default:
 				break;

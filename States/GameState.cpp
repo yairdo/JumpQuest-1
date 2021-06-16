@@ -106,7 +106,7 @@ void GameState::updateServerGame() {
 	///change to member and use reserve
 	std::vector<MovingObjInfo> vec;
 	if (m_lastUpdate >= 0.1) {
-		for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
+		for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
 			vec.push_back(m_board->getInfo(i));
 		}
 		((Server*)m_networkObj.get())->sendNewInfo(vec);
