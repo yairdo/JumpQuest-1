@@ -4,9 +4,9 @@
 #include "Resources.h"
 
 MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
-	const bool replace ,std::shared_ptr<NetworkObject> net,int title,
+	const bool replace ,std::shared_ptr<NetworkObject> net,int titl,
 	int background):
-	m_title(std::make_unique<sf::Sprite>(Resources::getResourceRef().getTexture(title))),
+	m_title(std::make_unique<sf::Sprite>(Resources::getResourceRef().getTexture(titl))),
 	State{ manager, window, replace,net } ,
 	m_middle(m_window.getSize().x / 2.f, m_window.getSize().y / 2.f),
 	m_background(std::make_unique<sf::Sprite>(Resources::getResourceRef().
@@ -17,7 +17,7 @@ MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	auto y = m_background->getGlobalBounds().height;
 	m_background->setScale(float(window.getSize().x) / x, float(window.getSize().y) / y);
 	m_background->setPosition({ 0.f,0.f });
-	setTitle();
+	setTitle(titl);
 }
 
 void MenuState::draw(){
@@ -72,7 +72,8 @@ void MenuState::setTitle(sf::Sprite&& title){
 
 float MenuState::getTitleHeight() const
 {
-	return m_title->getGlobalBounds().height;
+	//return m_title->getGlobalBounds().height;
+	return m_title->getPosition().y;
 }
 
 //void MenuState::addButton(int index, int type,
@@ -91,10 +92,12 @@ void MenuState::updateNextState(const sf::Vector2f& loc){
 		}
 	}
 }
-void MenuState::setTitle() {
+void MenuState::setTitle(int titl) {
 	
 	m_title->setOrigin(m_title->getGlobalBounds().width / 2,
 		m_title->getGlobalBounds().height / 2);
 	m_title->setPosition(m_middle.x, m_title->getGlobalBounds().height);
-	m_title->setScale({ 1.5f,1.5f });
+	m_title->setScale({ Resources::getResourceRef().getButLen(titl)*
+		m_window.getSize().x*0.07f/m_title->getGlobalBounds().width,
+		m_window.getSize().y*0.22f/ m_title->getGlobalBounds().height });
 }

@@ -19,7 +19,7 @@ public:
 	void sendGameMembership(const char name[PLAYER_NAME_LEN]);
 	virtual void updateLoc(const MemberInfo&);
 	virtual bool launch();
-
+	virtual void sendStaticCollision(int);
 private:
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;

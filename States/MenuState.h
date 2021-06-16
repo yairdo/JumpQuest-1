@@ -30,7 +30,7 @@ private:
 	//sf::Vector2f m_middle;
 	std::unique_ptr<sf::Sprite> m_background;
 	std::unique_ptr<sf::Sprite> m_title;
-	void setTitle();
+	void setTitle(int);
 };
 template <class T>
 void MenuState::addButton(int index,const sf::Vector2f& loc, float width, float height, bool ext){

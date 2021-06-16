@@ -6,6 +6,8 @@
 #include <Macros.h>
 #include "box2d/box2d.h"
 class Player ;
+class NetworkObject;
+
 class Board {
 public:
 	/*void generateNewLevel();
@@ -15,10 +17,14 @@ public:
 	void move();
 	void draw(sf::RenderWindow& window);
 	void updatePhysics(float deltaTime);
+	//void updateBoard();
 	Player* getPlayerRef();
 	void setInfo(unsigned int index, const MovingObjInfo& );
 	MovingObjInfo getInfo(unsigned int index);
 	unsigned int numOfMovingObjs();
+	void updateMsgCollision(int index);
+	void updateBoard(NetworkObject*);
+
 private:
 	void getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file);
 	//template<class Obj, class Type>

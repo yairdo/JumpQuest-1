@@ -23,11 +23,9 @@ CollisionHandler::CollisionHandler(){
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Gift* gift= static_cast<Gift*> (obj2);
-	//std::cout << "player collide with gift\n";
 	gift->collisionCounter();
-	//if (gift->getcount()==0)
-	//delete gift;
-	//obj2=nullptr;
+	gift->setCollision(true);
+	//collect gift
 }
 
 void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
@@ -40,7 +38,7 @@ void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 		player->setOnRope(true);
 		return;
 	}
-	if(player->getOnRope())
+	if(player->getOnRope())//reached when ends contact with rope
 		player->setOnRope(false);
 
 }

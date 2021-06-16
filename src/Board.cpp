@@ -10,6 +10,7 @@
 #include <Player.h>
 #include <Factory.h>
 #include <MessegesStructs.h>
+#include <NetworkObject.h>
 
 void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
@@ -95,16 +96,20 @@ void Board::move() {
 }
 
 void Board::draw(sf::RenderWindow& window) {
-	for (auto it = m_staticObj.begin(); it != m_staticObj.end();) {
-		if ((*it)->getIsRemoved()) {
-			(*it)->destroyBody();
-			it = m_staticObj.erase(it);
+	//for (auto it = m_staticObj.begin(); it != m_staticObj.end();) {
+	//	if ((*it)->getIsRemoved()) {
+	//		(*it)->destroyBody();
+	//		it = m_staticObj.erase(it);
 
-		}
-		else {
-			(*it)->draw(window);
-			++it;
-		}
+	//	}
+	//	else {
+	//		(*it)->draw(window);
+	//		++it;
+	//	}
+	//}
+	
+	for(auto& stati :m_staticObj){
+		stati->draw(window);
 	}
 	for (auto& moving : m_movingObj)
 		moving->draw(window);
@@ -132,4 +137,22 @@ void Board::setInfo(unsigned int index, const MovingObjInfo& info) {
 
 unsigned int Board::numOfMovingObjs() {
 	return m_movingObj.size();
+}
+
+void Board::updateBoard(NetworkObject* netObj) {
+	for (int i = 0; i < m_staticObj.size(); ++i) {
+		if (m_staticObj[i]->getCollision()){
+				netObj->sendStaticCollision(i);
+				m_staticObj[i]->setCollision(false);
+		}
+		if (m_staticObj[i]->getIsRemoved()) {
+			m_staticObj[i]->destroyBody();
+			m_staticObj.erase(m_staticObj.begin() + i);
+			--i;
+		}
+	}
+}
+
+void Board::updateMsgCollision(int index){
+	m_staticObj[index]->MsgCollision();
 }

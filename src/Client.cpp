@@ -44,6 +44,8 @@ bool Client::handleRequests(int max) {
 				for (int i = 0; i < info.m_size; ++i)
 					getBoard()->setInfo(i+1, info.m_locs[i]);
 				break;
+			case staticObjInfo:
+				getBoard()->updateMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
 			default:
 				break;
 			}
@@ -120,4 +122,8 @@ void Client::regesterServer() {
 void Client::setName(const char name[PLAYER_NAME_LEN], int index) {
 	NetworkObject::setName(name);
 	sendUdpMessege<GameMember>(singMeIn, getInfo());
+}
+//============================================================================
+void Client::sendStaticCollision(int index){
+	sendUdpMessege<StaticObjInfo>(staticObjInfo, staticObjInfoCreator(getInfo().m_info.m_id, index));
 }

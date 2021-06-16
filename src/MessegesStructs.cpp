@@ -42,3 +42,10 @@ TestLocs testLocsCreator(const std::vector<MovingObjInfo>& vec) {
         value.m_locs[i] = vec[i];
     return value;
 }
+//============================================================================
+StaticObjInfo staticObjInfoCreator(unsigned short id,int index){ 
+    StaticObjInfo info;
+    info.m_id = id;
+    info.m_index = index;
+    return info;
+}
