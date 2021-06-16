@@ -90,13 +90,12 @@ void GameState::update()
 
 }
 void GameState::updateServerGame() {
-	m_networkObj->handleRequests(50);
-
 	//check if all players are ready
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{
 		m_deltaTime = m_clock.restart().asSeconds();
+		m_networkObj->handleRequests(50);
 		m_lastUpdate += m_deltaTime;
 		///change to member and use reserve
 		std::vector<MovingObjInfo> vec;
@@ -106,13 +105,18 @@ void GameState::updateServerGame() {
 			}
 			((Server*)m_networkObj.get())->sendNewInfo(vec);
 			m_lastUpdate = 0;
-
+			m_clock.restart().asSeconds();
 		}
-		m_clock.restart().asSeconds();
 		m_board->updatePhysics(m_deltaTime);
+		m_board->move();
+		sendInfo();
+		updateClonesLoc();
+		viewMover();
+		m_window.setView(m_view);
+		m_testPlayer->updateAnim(m_deltaTime);
+		m_board->updateBoard(m_networkObj.get());
 	}
-	m_board->move();
-	sf::Vector2f objPos;
+	//sf::Vector2f objPos;
 	//send all new locations
 	
 	//auto info = m_networkObj->getInfo().m_info;
@@ -129,35 +133,31 @@ void GameState::updateServerGame() {
 			}
 		}
 	}*/
-	sendInfo();
-	updateClonesLoc();
-	viewMover();
-	m_window.setView(m_view);
-	m_testPlayer->updateAnim(m_deltaTime);
 }
 
 void GameState::updateClientGame() {
 	//receive all of the messages
-	m_networkObj->handleRequests(300);
 
 	//TEST!!!!!
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{
+		m_networkObj->handleRequests(300);
 		m_deltaTime = m_clock.restart().asSeconds();
 		m_board->updatePhysics(m_deltaTime);
+		m_board->move();
+		//end of text
+
+
+		//update animation???
+		sendInfo();
+		updateClonesLoc();
+		viewMover();
+		m_window.setView(m_view);
+		m_testPlayer->updateAnim(m_deltaTime);
+		m_board->updateBoard(m_networkObj.get());
 	}
-	std::cout << m_deltaTime << std::endl;
-	m_board->move();
-	//end of text
-
-
-	//update animation???
-	sendInfo();
-	updateClonesLoc();
-	viewMover();
-	m_window.setView(m_view);
-	m_testPlayer->updateAnim(m_deltaTime);
+	
 }
 
 
@@ -188,9 +188,9 @@ void GameState::addBorders2World() {
 	float widthInMeters = screenSize.x / SCALE;
 	float heightInMeters = screenSize.y / SCALE;
 	b2Vec2 topLeftCorner = b2Vec2(0, 0);
-	b2Vec2 topRightCorner = b2Vec2(widthInMeters, 0);
+	b2Vec2 topRightCorner = b2Vec2(100, 0);
 	b2Vec2 lowerLeftCorner = b2Vec2(0, heightInMeters);
-	b2Vec2 lowerRightCorner = b2Vec2(widthInMeters, heightInMeters);
+	b2Vec2 lowerRightCorner = b2Vec2(100, heightInMeters);
 
 	// static container body, with the collisions at screen borders
 	b2BodyDef screenBorderDef;
