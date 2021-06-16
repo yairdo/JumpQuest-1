@@ -148,7 +148,8 @@ void Server::sendStaticCollision(int index) {
 * The method is notify the other players when another player collided with something
 */
 void Server::updateStaticObjState(const StaticObjInfo& info) {
-	getBoard()->updateMsgCollision(info.m_index);
+	if(info.m_id != getInfo().m_info.m_id)
+		getBoard()->updateMsgCollision(info.m_index);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMembers(i) && i != info.m_id) {
 			sendUdpMessege<StaticObjInfo>(staticObjInfo, info,
