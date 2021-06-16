@@ -252,8 +252,6 @@
 //	//need to add boundries
 //}//
 //sf::VideoMode::getFullscreenModes()[0]
-
-
 Controller::Controller() : m_window(sf::RenderWindow
 (sf::VideoMode(), "Jump Quest",
 	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen))
@@ -261,11 +259,11 @@ Controller::Controller() : m_window(sf::RenderWindow
 	m_window.setFramerateLimit(FRAME_RATE);
 }
 
-void Controller::run(){
-
+void Controller::run() {
 	m_manager.run(StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr));
 
-	while (m_manager.running()){
+
+	while (m_manager.running()) {
 		m_window.clear();
 		m_manager.nextState();
 		m_manager.draw();
