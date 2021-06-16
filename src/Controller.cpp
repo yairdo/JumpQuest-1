@@ -252,16 +252,22 @@
 //	//need to add boundries
 //}//
 //sf::VideoMode::getFullscreenModes()[0]
+#include "GameState.h"
+#include "Server.h"
 Controller::Controller() : m_window(sf::RenderWindow
-	(sf::VideoMode(), "Jump Quest",
-	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen))
+(sf::VideoMode(1920, 1080), "Jump Quest",
+	sf::Style::Close | sf::Style::Titlebar/* |sf::Style::Fullscreen*/))
 {
 	m_window.setFramerateLimit(FRAME_RATE);
 }
 
-void Controller::run(){
-	
-	m_manager.run(StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr));
+void Controller::run() {
+
+	auto serv = std::make_shared<Server>();
+	m_manager.run(StateManager::build<GameState>(m_manager, m_window, true, serv));
+
+	//m_manager.run(StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr));
+
 
 	while (m_manager.running()){
 		m_window.clear();
