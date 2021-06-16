@@ -112,6 +112,7 @@ void GameState::updateServerGame() {
 		}
 		((Server*)m_networkObj.get())->sendNewInfo(vec);
 		m_lastUpdate = 0;
+		m_deltaTime = m_clock.restart().asSeconds();
 	}
 	//auto info = m_networkObj->getInfo().m_info;
 
@@ -145,6 +146,7 @@ void GameState::updateClientGame() {
 		m_deltaTime = m_clock.restart().asSeconds();
 		m_board->updatePhysics(m_deltaTime);
 	}
+	std::cout << m_deltaTime << std::endl;
 	m_board->move();
 	//end of text
 
