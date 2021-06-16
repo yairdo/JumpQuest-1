@@ -77,6 +77,8 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(client, strlen("join game")));
 	m_buttonStrLen.insert(ButtonPairStr(back, strlen("back")));
 	m_buttonStrLen.insert(ButtonPairStr(start, strlen("start")));
+	m_buttonStrLen.insert(ButtonPairStr(title, strlen("jump quest")));
+	m_buttonStrLen.insert(ButtonPairStr(lobbyTitle, strlen("lobby")));
 
 }
 
