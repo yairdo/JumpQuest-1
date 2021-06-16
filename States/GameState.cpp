@@ -113,6 +113,7 @@ void GameState::updateServerGame() {
 		viewMover();
 		m_window.setView(m_view);
 		m_testPlayer->updateAnim(m_deltaTime);
+		m_board->updateBoard(m_networkObj.get());
 	}
 	//sf::Vector2f objPos;
 	//send all new locations
@@ -153,7 +154,9 @@ void GameState::updateClientGame() {
 		viewMover();
 		m_window.setView(m_view);
 		m_testPlayer->updateAnim(m_deltaTime);
+		m_board->updateBoard(m_networkObj.get());
 	}
+	
 }
 
 

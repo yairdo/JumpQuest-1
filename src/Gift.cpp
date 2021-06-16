@@ -10,7 +10,7 @@ bool Gift::m_registerit = Factory<StaticObj>::registerit("Gift",
     { return std::make_unique<Gift>(world, vec[0], vec[1], b2_staticBody); });
 
 Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) : 
-    m_testRect(size), StaticObj(world, pos, size, bodyType)
+    StaticObj(world, pos, size, bodyType)
 {
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
@@ -47,4 +47,8 @@ void Gift::draw(sf::RenderWindow& window)
 void Gift::collisionCounter(){
     if (!--m_counter)
         this->setRemoveObj(true);
+}
+
+void Gift::MsgCollision(){
+    collisionCounter();
 }

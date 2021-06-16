@@ -59,6 +59,8 @@ bool Server::handleRequests(int max) {
 				case singMeIn:
 					registerPlayer();
 					break;
+				case staticObjInfo:
+					updateStaticObjState(receiveUdpValue<StaticObjInfo>());
 				default:
 					break;
 				}
@@ -138,6 +140,23 @@ void Server::updatePlayerState(const MemberInfo& member) {
 		}
 	}
 }
+//============================================================================
+void Server::sendStaticCollision(int index) {
+	updateStaticObjState(staticObjInfoCreator(getInfo().m_info.m_id, index));
+}
+/*============================================================================
+* The method is notify the other players when another player collided with something
+*/
+void Server::updateStaticObjState(const StaticObjInfo& info) {
+	getBoard()->updateMsgCollision(info.m_index);
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
+		if (getMembers(i) && i != info.m_id) {
+			sendUdpMessege<StaticObjInfo>(staticObjInfo, info,
+				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+		}
+	}
+}
+
 /*============================================================================
 * The method is notify the other players
 */
