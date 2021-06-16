@@ -91,27 +91,30 @@ void GameState::update()
 }
 void GameState::updateServerGame() {
 	m_networkObj->handleRequests(50);
+
 	//check if all players are ready
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{
 		m_deltaTime = m_clock.restart().asSeconds();
+		m_lastUpdate += m_deltaTime;
+		///change to member and use reserve
+		std::vector<MovingObjInfo> vec;
+		if (m_lastUpdate >= 0.03) {
+			for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
+				vec.push_back(m_board->getInfo(i));
+			}
+			((Server*)m_networkObj.get())->sendNewInfo(vec);
+			m_lastUpdate = 0;
+
+		}
+		m_clock.restart().asSeconds();
 		m_board->updatePhysics(m_deltaTime);
 	}
 	m_board->move();
 	sf::Vector2f objPos;
 	//send all new locations
-	m_lastUpdate += m_deltaTime;
-
-	///change to member and use reserve
-	std::vector<MovingObjInfo> vec;
-	if (m_lastUpdate >= 0.1) {
-		for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
-			vec.push_back(m_board->getInfo(i));
-		}
-		((Server*)m_networkObj.get())->sendNewInfo(vec);
-		m_lastUpdate = 0;
-	}
+	
 	//auto info = m_networkObj->getInfo().m_info;
 
 	//auto mminfo=memberInfoCreator(info.m_id,m_testPlayer.getPos(),)
