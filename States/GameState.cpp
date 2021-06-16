@@ -185,9 +185,9 @@ void GameState::addBorders2World() {
 	float widthInMeters = screenSize.x / SCALE;
 	float heightInMeters = screenSize.y / SCALE;
 	b2Vec2 topLeftCorner = b2Vec2(0, 0);
-	b2Vec2 topRightCorner = b2Vec2(widthInMeters, 0);
+	b2Vec2 topRightCorner = b2Vec2(100, 0);
 	b2Vec2 lowerLeftCorner = b2Vec2(0, heightInMeters);
-	b2Vec2 lowerRightCorner = b2Vec2(widthInMeters, heightInMeters);
+	b2Vec2 lowerRightCorner = b2Vec2(100, heightInMeters);
 
 	// static container body, with the collisions at screen borders
 	b2BodyDef screenBorderDef;
