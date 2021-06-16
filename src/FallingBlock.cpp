@@ -45,7 +45,6 @@ void FallingBlock::updatePhysics(float dt)
 
 void FallingBlock::move()
 {
-
     auto position = m_body->GetPosition();
     auto rotation = m_body->GetAngle();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
