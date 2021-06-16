@@ -3,7 +3,7 @@
 #include <Board.h>
 #include "box2d/box2d.h"
 #include "ContactListner.h"
-#include <unordered_map>
+//#include <unordered_map>
 
 class Player;
 class sf::RectangleShape;
@@ -17,8 +17,8 @@ public:
 	virtual void resume();
 	virtual void update();
 	//-----test for server
-	void updateServerGame();
-	void updateClientGame();
+	//void updateServerGame();
+	//void updateClientGame();
 	//----
 	virtual void draw();
 	//game functions
@@ -32,18 +32,18 @@ private:
 	
 	
 	
-	float m_lastUpdate; //temp
+	//float m_lastUpdate; //temp
 	sf::RectangleShape* m_testOtherPlayer;
 	//view stuff
 	sf::View m_view;
 	void viewMover();
-	bool m_isServer;
-	std::unordered_map<int,struct ClonePlayer> m_clones;
+	//bool m_isServer;
+	//std::unordered_map<int,struct ClonePlayer> m_clones;
 	//void updateClonesLoc();
 	//void sendInfo();
 	//sf::View m_menuView;
-	bool m_isPlay;
-	Projectile* m_testProjectile;
+	//bool m_isPlay;
+	//Projectile* m_testProjectile;
 	//bool m_isMain;
 	//std::unique_ptr<Board> m_board;
 	//void runMenu();
@@ -77,4 +77,5 @@ protected:
 	sf::Clock m_clock;
 	std::unique_ptr<Board> m_board;
 	virtual void updateBoard();
+	b2World& getWorldRef();
 };
