@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 Projectile::Projectile(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, const sf::Vector2f& force, int bodyType) :
-    m_strtPos(startPos / SCALE), m_force(force), MovingObj(world, startPos, size, bodyType)
+    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType)
 {
     m_sprite.setColor(sf::Color::Magenta);
     b2PolygonShape kinematic;
@@ -17,11 +17,11 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& startPos, const sf::V
     //fixtureDef.filter.categoryBits = fallingBlockBits;
 
     m_body->CreateFixture(&fixtureDef);
-    m_body->SetUserData((GameObj*)this);
+    m_body->SetUserData(this);
     m_body->SetAwake(false);
 }
 
-void Projectile::shot(){
+void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     m_shot = true;
 }
 
