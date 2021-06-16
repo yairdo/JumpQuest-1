@@ -3,12 +3,13 @@
 #include <StateManager.h>
 #include <MainMenuState.h>
 #include "Server.h"
-GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
-	State(manager, window, replace, net), m_board(std::make_unique<Board>()), 
-	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1),m_isServer(false), m_lastUpdate(0)
+
+GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
+	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
+	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1), m_isServer(false), m_lastUpdate(0)
 {
-	if (typeid(Server).name()==typeid(*m_networkObj.get()).name())
-		m_isServer=true;
+	if (typeid(Server).name() == typeid(*m_networkObj.get()).name())
+		m_isServer = true;
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	/*m_backGround.setScale(window.getSize().x / m_backGround.getGlobalBounds().width,
 		window.getSize().y / m_backGround.getGlobalBounds().height);*/
@@ -30,6 +31,14 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	}*/
 	m_networkObj->setBoard(m_board.get());
 	m_clock.restart();
+
+	//test!!! test !!! test!!!
+	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
+			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer();
+		}
+
+	}
 }
 
 void GameState::pause()
@@ -81,6 +90,7 @@ void GameState::update()
 
 }
 void GameState::updateServerGame() {
+	m_networkObj->handleRequests(50);
 	//check if all players are ready
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
@@ -92,15 +102,20 @@ void GameState::updateServerGame() {
 	sf::Vector2f objPos;
 	//send all new locations
 	m_lastUpdate += m_deltaTime;
-	std::vector<sf::Vector2f> vec;
-	if (m_lastUpdate >= 0.001){
-		for (int i = 0; i < m_board->numOfMovingObjs(); ++i) {
-			vec.push_back(m_board->getLoc(i));
-			//((Server*)m_networkObj.get())->sendNewLoc(m_board->getLoc(i), i);
+
+	///change to member and use reserve
+	std::vector<MovingObjInfo> vec;
+	if (m_lastUpdate >= 0.1) {
+		for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
+			vec.push_back(m_board->getInfo(i));
 		}
-		((Server*)m_networkObj.get())->sendNewLoc(vec);
+		((Server*)m_networkObj.get())->sendNewInfo(vec);
 		m_lastUpdate = 0;
 	}
+	//auto info = m_networkObj->getInfo().m_info;
+
+	//auto mminfo=memberInfoCreator(info.m_id,m_testPlayer.getPos(),)
+	//m_networkObj->updateLoc(MemberInfo);
 	/*if (m_networkObj) {
 		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
 		m_networkObj->handleRequests(20);
@@ -111,6 +126,8 @@ void GameState::updateServerGame() {
 			}
 		}
 	}*/
+	sendInfo();
+	updateClonesLoc();
 	viewMover();
 	m_window.setView(m_view);
 	m_testPlayer->updateAnim(m_deltaTime);
@@ -121,16 +138,19 @@ void GameState::updateClientGame() {
 	m_networkObj->handleRequests(300);
 
 	//TEST!!!!!
-	//m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
-	//if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
-	//{
-	//	m_deltaTime = m_clock.restart().asSeconds();
-	//	m_board->updatePhysics(m_deltaTime);
-	//}
+	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
+	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
+	{
+		m_deltaTime = m_clock.restart().asSeconds();
+		m_board->updatePhysics(m_deltaTime);
+	}
+	m_board->move();
 	//end of text
 
 
 	//update animation???
+	sendInfo();
+	updateClonesLoc();
 	viewMover();
 	m_window.setView(m_view);
 	m_testPlayer->updateAnim(m_deltaTime);
@@ -141,6 +161,8 @@ void GameState::draw()
 {
 	m_window.draw(m_backGround);
 	m_board->draw(m_window);
+	for (auto clone : m_clones)
+		m_window.draw(clone.second.m_sprite);
 	m_window.draw(*m_testOtherPlayer);
 }
 //-----------------------------------------------------------------------------
@@ -149,7 +171,7 @@ void GameState::draw()
 */
 void GameState::viewMover() {
 	sf::Vector2f playerPos = m_testPlayer->getPos();
-	if(playerPos.x-m_window.getSize().x/4 >0)//we need here + player bounds width /2
+	if (playerPos.x - m_window.getSize().x / 4 > 0)//we need here + player bounds width /2
 		m_view.setCenter(playerPos.x, m_view.getCenter().y);
 	//need to add boundries
 }
@@ -186,4 +208,30 @@ void GameState::addBorders2World() {
 	screenBorderBody->CreateFixture(&fixture);
 	screenBorderShape.Set(lowerLeftCorner, topLeftCorner);
 	screenBorderBody->CreateFixture(&fixture);
+}
+
+void GameState::updateClonesLoc() {
+	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
+			auto info= m_networkObj->getMembers(i)->m_info;
+			//auto = struct of the info coming back from the server
+			//update map about the players new parameters from the info struct above
+			auto it = m_clones.find(m_networkObj->getMembers(i)->m_info.m_id);
+			if (it == m_clones.end())
+				continue;
+			it->second.m_sprite.setPosition(info.m_loc);
+			it->second.m_row = info.m_row;
+			it->second.m_col = info.m_col;
+			it->second.m_direction = info.m_direction;
+		}
+	}
+}
+
+void GameState::sendInfo() {
+	MemberInfo info = m_networkObj->getInfo().m_info;
+	info.m_row = m_testPlayer->getAnimRow();
+	info.m_col = m_testPlayer->getAnimCol();
+	info.m_loc = m_testPlayer->getPos();
+	info.m_direction = m_testPlayer->getDirection();
+	m_networkObj->updateLoc(info);
 }

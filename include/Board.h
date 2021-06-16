@@ -16,8 +16,8 @@ public:
 	void draw(sf::RenderWindow& window);
 	void updatePhysics(float deltaTime);
 	Player* getPlayerRef();
-	void setLoc(unsigned int index, sf::Vector2f);
-	sf::Vector2f getLoc(unsigned int index);
+	void setInfo(unsigned int index, const MovingObjInfo& );
+	MovingObjInfo getInfo(unsigned int index);
 	unsigned int numOfMovingObjs();
 private:
 	void getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file);

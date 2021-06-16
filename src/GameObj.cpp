@@ -30,6 +30,12 @@ void GameObj::destroyBody(){
 	m_body->GetWorld()->DestroyBody(m_body);
 }
 
+void GameObj::setPos(sf::Vector2f loc)
+{
+	m_sprite.setPosition(loc); 
+	m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, 0);
+}
+
 void GameObj::updateAnim(float deltaTime){
 
 	//m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col, deltaTime,m_totalTime, player));

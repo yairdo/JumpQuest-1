@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObj.h"
-#include <Macros.h>
+//#include <Macros.h>
+//#include "box2d/box2d.h"
+#include "MessegesStructs.h"
 
 class MovingObj : public GameObj {
 public:
@@ -11,6 +13,13 @@ public:
 	virtual void updatePhysics(float) = 0;
 	virtual void draw(sf::RenderWindow&) = 0;
 	virtual void move() = 0;
+
+	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), 0, m_body->GetLinearVelocity()); }
+	virtual void setInfo(MovingObjInfo info) { setPos(info.m_loc); }
+
+	//virtual void fixed(const sf::Vector2f& vec){
+	//	m_body->SetTransform({ vec.x / SCALE, vec.y / SCALE }, 0);
+	//}
 
 	/*virtual void move();
 	virtual void handleCollision();*/

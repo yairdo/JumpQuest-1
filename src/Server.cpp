@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Macros.h"
 #include <Board.h>
+
 /*
 * TODO
 * inform members the server list.
@@ -20,9 +21,9 @@ bool Server::launch() {
 		return true;
 	if (countServersInPort() == MAX_SERVERS_NUM)
 		return false;
-	
+
 	setMember(0, std::make_unique<GameMember>(
-		gameMemberCreator(getIP(), getPort(), "", 0, 0)));
+		gameMemberCreator(getIP(), getPort(), "", memberInfoCreator())));
 	setId(0);
 	m_launched = true;
 	m_requiting = true;
@@ -43,11 +44,11 @@ bool Server::handleRequests(int max) {
 					switch (receiveUdpValue<Network_messeges>()) {
 					case whoIsAServer:
 						if (m_launched)
-							sendUdpMessege(networkMessege, iAmAServer, 
+							sendUdpMessege(networkMessege, iAmAServer,
 								sf::IpAddress::Broadcast, SERVERS_PORT);
 						break;
 					case whoIsFreeServer:
-						if (m_requiting && m_launched) 
+						if (m_requiting && m_launched)
 							sendUdpMessege(networkMessege, iAmFree);
 						break;
 					}
@@ -91,17 +92,17 @@ void Server::registerPlayer() {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
-					receiveUdpValue<GameMember>().m_name, i)));
+					receiveUdpValue<GameMember>().m_name, memberInfoCreator(i))));
 			//tell the new member his id
 			sendUdpMessege<int>(memberId, i);
 			//notify old members about the new member
 			updateAboutNewMember(
-				addMemberCreator(getMembers(i)->m_id, getMembers(i)->m_name));
+				addMemberCreator(getMembers(i)->m_info.m_id, getMembers(i)->m_name));
 			//send the new mebemer all the old members info.
 			for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
 				if (i != j && getMembers(j)) {
 					sendUdpMessege<AddMember>(addMember,
-						addMemberCreator(getMembers(j)->m_id, getMembers(j)->m_name),
+						addMemberCreator(getMembers(j)->m_info.m_id, getMembers(j)->m_name),
 						getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 				}
 			m_packet.clear();
@@ -122,8 +123,8 @@ void Server::notifyClosing() {
 }
 /*============================================================================
 */
-void Server::updateLoc(const sf::Vector2f& loc, int state) {
-	updatePlayerState(memberInfoCreator(0, loc, state));
+void Server::updateLoc(const MemberInfo& member) {
+	updatePlayerState(member);
 }
 /*============================================================================
 * The method update the other players about the player new state update.
@@ -131,7 +132,7 @@ void Server::updateLoc(const sf::Vector2f& loc, int state) {
 void Server::updatePlayerState(const MemberInfo& member) {
 	updateMember(member);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (getMembers(i)) {
+		if (getMembers(i) && i != member.m_id) {
 			sendUdpMessege<MemberInfo>(memberInfo, member,
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 		}
@@ -149,14 +150,14 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
-int Server::countServersInPort(){
-	int counter = 0, 
-		max = 200, 
+int Server::countServersInPort() {
+	int counter = 0,
+		max = 200,
 		messegesCounter = 0;
 	try {
 		sendUdpMessege(networkMessege, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
-		while (receivedUdpMessege(0.1) && messegesCounter++ < max) {
+		while (receivedUdpMessege() && messegesCounter++ < max) {
 			if (receiveUdpValue<Messege_type>() == networkMessege
 				&& receiveUdpValue<Network_messeges>() == iAmAServer)
 				++counter;
@@ -168,15 +169,15 @@ int Server::countServersInPort(){
 	return counter;
 }
 /*============================================================================*/
-bool Server::renameMember(){
+bool Server::renameMember() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
 		//checks if the sender is already member.
 		if (getMembers(i))
-			if (getMembers(i)->m_memberIp == getSenderIP() 
+			if (getMembers(i)->m_memberIp == getSenderIP()
 				&& getMembers(i)->m_memberPort == getSenderPort()) {
-				updateAboutNewMember(addMemberCreator(i, 
+				updateAboutNewMember(addMemberCreator(i,
 					receiveUdpValue<GameMember>().m_name));
-				sendUdpMessege<int>(memberId, getMembers(i)->m_id, 
+				sendUdpMessege<int>(memberId, getMembers(i)->m_info.m_id,
 					getSenderIP(), getSenderPort());
 				return true;
 			}
@@ -184,14 +185,13 @@ bool Server::renameMember(){
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
-	updateAboutNewMember(addMemberCreator((index == -1)?getInfo().m_id:index, name));
+	updateAboutNewMember(addMemberCreator((index == -1) ? getInfo().m_info.m_id : index, name));
 }
 /*==========================================================================*/
-void Server::sendNewLoc(std::vector<sf::Vector2f> vec){
-	int size = sizeof(vec);
-	for(int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if(getMembers(i))
-			sendUdpMessege<TestLocs>(movingObj, testLocsCreator(vec), 
+void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMembers(i))
+			sendUdpMessege<TestLocs>(movingObj, testLocsCreator(vec),
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/

@@ -13,7 +13,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
     m_body->SetFixedRotation(true);
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(size.x/(2.f*SCALE), size.y / (2.f * SCALE));
+    dynamicBox.SetAsBox(size.x/(4.f*SCALE), size.y / (2.f * SCALE));
     
     //set player shape
     b2FixtureDef fixtureDef;
@@ -24,7 +24,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
 
     m_body->CreateFixture(&fixtureDef);
     //--sides fixture
-    dynamicBox.SetAsBox(size.x / (2.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
+    dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
     fixtureDef.friction = 0;
     fixtureDef.filter.maskBits = wallBits | movingBlockBits | boundryBits | fallingBlockBits | giftBits;
 
@@ -38,7 +38,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     m_body->CreateFixture(&fixtureDef);
     m_body->SetUserData(this);
     // add foot sensor fixture
-    dynamicBox.SetAsBox(size.x/(SCALE*2), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
+    dynamicBox.SetAsBox(size.x/(SCALE*4), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
     fixtureDef.isSensor = true;
     fixtureDef.filter.categoryBits = footBits;
     fixtureDef.filter.maskBits = 0xFFFF;
