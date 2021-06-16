@@ -255,8 +255,8 @@
 
 
 Controller::Controller() : m_window(sf::RenderWindow
-(sf::VideoMode(1920, 1080), "Jump Quest",
-	sf::Style::Close | sf::Style::Titlebar/* |sf::Style::Fullscreen*/))
+(sf::VideoMode(), "Jump Quest",
+	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen))
 {
 	m_window.setFramerateLimit(FRAME_RATE);
 }
