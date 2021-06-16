@@ -115,7 +115,7 @@ constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
 constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 5;
-constexpr auto MAX_OBJ_IN_LEVEL = 50;
+constexpr auto MAX_OBJ_IN_LEVEL = 200;
 
 //exeptions type
 constexpr auto RECEIVED_WRONG_MESSEGE_TYPE = "received wrong messege type\n";
