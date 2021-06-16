@@ -25,7 +25,7 @@ m_senderPort(0), m_port(port), m_tcpSocket(),m_members(MAX_SERVER_PLAYERS)
 * person the server received messege from.
 */
 void NetworkObject::sendTcp(sf::TcpSocket& socket) {
-	std::cout << "tcp messege sent.\n";
+	//std::cout << "tcp messege sent.\n";
 	while (socket.send(m_packet) != sf::Socket::Done);
 }
 /*============================================================================
@@ -34,7 +34,7 @@ void NetworkObject::sendTcp(sf::TcpSocket& socket) {
 * person the server received messege from.
 */
 void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port) {
-	std::cout << "udp messege sent.\n";
+	//std::cout << "udp messege sent.\n";
 	while (m_udpSocket.send(m_packet, ip, port) != sf::Socket::Done);
 }
 /*============================================================================
