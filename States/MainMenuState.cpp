@@ -11,8 +11,8 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 {
 	auto buttonSpace=m_window.getSize().y * 0.05;
 	auto startButPos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace *2);
-	auto butHeight = (window.getSize().y - getTitleHeight()
-		- buttonSpace*2 - buttonSpace * MAIN_MENU_BUTTONS) / MAIN_MENU_BUTTONS;
+	auto butHeight = (window.getSize().y - getTitlePosY()
+		- buttonSpace*2 - buttonSpace * MAIN_MENU_BUTTONS- buttonSpace) / MAIN_MENU_BUTTONS;
 	float width;
 	auto pos = startButPos;
 	width= Resources::getResourceRef().getButLen(singlePlayer) * PIX4LET ;

@@ -10,9 +10,10 @@
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool replace,std::shared_ptr<NetworkObject>net):
 	MenuState(manager, window, replace, nullptr, title, menuBackground)
 {
-	auto startButPos = sf::Vector2f(m_middle.x, getTitlePosY() + m_window.getSize().y*0.1);
+	auto buttonSpace = m_window.getSize().y * 0.05;
+	auto startButPos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace*2);
 	auto butHeight = (window.getSize().y - getTitlePosY()
-		- m_window.getSize().y * 0.1 - m_window.getSize().y * 0.1 * MAIN_MENU_BUTTONS) / MAIN_MENU_BUTTONS;
+		- buttonSpace * 2 - buttonSpace * MAIN_MENU_BUTTONS - buttonSpace) / MAIN_MENU_BUTTONS;
 	float width;
 	auto pos = startButPos;
 	//host
