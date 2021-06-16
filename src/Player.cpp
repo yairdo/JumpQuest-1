@@ -50,7 +50,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
 //applies impulse to jump
 void Player::updatePhysics(float dt)
 {
-
+    int pos = animPos;
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }
@@ -58,7 +58,6 @@ void Player::updatePhysics(float dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         jump(dt);
         animPos = jumping;
-        m_col = 0;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_direction = right;
@@ -94,6 +93,9 @@ void Player::updatePhysics(float dt)
         animPos = climb;
     else if (m_numFootContact == 0) {
         animPos = jumping;
+    }
+    if(animPos!=pos){
+        m_col = 0;
     }
 }
 

@@ -13,7 +13,7 @@ public:
 
 	virtual void updatePhysics(float);
 	virtual void move();
-	virtual void shot();
+	virtual void shot(const sf::Vector2f&, const sf::Vector2f&);
 	virtual void draw(sf::RenderWindow&);
 
 	void reset();

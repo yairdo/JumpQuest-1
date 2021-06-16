@@ -8,7 +8,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1), m_isServer(false), m_lastUpdate(0)
 {
-	if (typeid(Server).name() == typeid(*m_networkObj.get()).name())
+	if (m_networkObj && typeid(Server).name() == typeid(*m_networkObj.get()).name())
 		m_isServer = true;
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	/*m_backGround.setScale(window.getSize().x / m_backGround.getGlobalBounds().width,
@@ -28,16 +28,17 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 		if (!m_networkObj->launch())
 			m_isPlay = false;
 	}*/
-	m_networkObj->setBoard(m_board.get());
+	if (m_networkObj) {
+		m_networkObj->setBoard(m_board.get());
+		//test!!! test !!! test!!!
+		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+			if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
+				m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer();
+			}
+		}
+	}
 	m_clock.restart();
 
-	//test!!! test !!! test!!!
-	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
-			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer();
-		}
-
-	}
 }
 
 void GameState::pause()
@@ -82,7 +83,7 @@ void GameState::update()
 	//	m_next = StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr);
 	//	return;
 	//}
-	if (m_isServer)
+	if (m_isServer || !m_networkObj)
 		updateServerGame();
 	else
 		updateClientGame();
@@ -94,11 +95,12 @@ void GameState::updateServerGame() {
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{
 		m_deltaTime = m_clock.restart().asSeconds();
-		m_networkObj->handleRequests(50);
+		if(m_networkObj)
+			m_networkObj->handleRequests(50);
 		m_lastUpdate += m_deltaTime;
 		///change to member and use reserve
 		std::vector<MovingObjInfo> vec;
-		if (m_lastUpdate >= 0.03) {
+		if (m_networkObj && m_lastUpdate >= 0.03) {
 			for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
 				vec.push_back(m_board->getInfo(i));
 			}
@@ -108,36 +110,18 @@ void GameState::updateServerGame() {
 		}
 		m_board->updatePhysics(m_deltaTime);
 		m_board->move();
-		sendInfo();
-		updateClonesLoc();
+		if (m_networkObj) {
+			sendInfo();
+			updateClonesLoc();
+		}
 		viewMover();
 		m_window.setView(m_view);
 		m_testPlayer->updateAnim(m_deltaTime);
 		m_board->updateBoard(m_networkObj.get());
 	}
-	//sf::Vector2f objPos;
-	//send all new locations
-	
-	//auto info = m_networkObj->getInfo().m_info;
-
-	//auto mminfo=memberInfoCreator(info.m_id,m_testPlayer.getPos(),)
-	//m_networkObj->updateLoc(MemberInfo);
-	/*if (m_networkObj) {
-		m_networkObj->updateLoc(m_testPlayer->getPos(), 0);
-		m_networkObj->handleRequests(20);
-		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-			if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_id != m_networkObj->getMembers(i)->m_id) {
-				sf::Vector2f loc = m_networkObj->getMembers(i)->m_loc;
-				m_testOtherPlayer->setPosition(loc);
-			}
-		}
-	}*/
 }
 
 void GameState::updateClientGame() {
-	//receive all of the messages
-
-	//TEST!!!!!
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{

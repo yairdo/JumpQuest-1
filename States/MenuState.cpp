@@ -41,8 +41,8 @@ void MenuState::update(){
 				m_manager.quit();
 				break;
 		case::sf::Event::MouseButtonReleased:
-			location = m_window.mapPixelToCoords
-			(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+			location = m_window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, 
+															  event.mouseButton.y));
 			switch (event.mouseButton.button) {
 			case sf::Mouse::Left:
 				updateNextState(location);
