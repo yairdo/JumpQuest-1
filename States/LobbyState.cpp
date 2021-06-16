@@ -85,14 +85,11 @@ void LobbyState::update(){
 		signUp();
 	if (m_connected && m_signedUp)
 		MenuState::update();
-	if (m_networkObj->handleRequests())
-		updateList();
-	if (m_networkObj->getStarted()) {
-		if (m_isServer)
-			m_next = StateManager::build<ServerGameState>(m_manager, m_window, true, m_networkObj);
-		else
+	if (m_networkObj->handleRequests()) {
+		if (m_networkObj->getStarted()) 
 			m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
-		return;
+		else
+			updateList();
 	}
 }
 

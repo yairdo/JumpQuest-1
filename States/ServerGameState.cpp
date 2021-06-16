@@ -3,7 +3,7 @@
 #include "Projectile.h"
 
 ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
-	NetworkGameState(manager,window,replace,net)
+	NetworkGameState(manager,window,replace,net), m_lastUpdate(0)
 {
 	//------projectile test-------
 	m_testProjectile = new Projectile(getWorldRef(), { 50, 100 }, { 10, 10 }, b2_dynamicBody);

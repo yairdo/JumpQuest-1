@@ -26,8 +26,4 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 	width= Resources::getResourceRef().getButLen(ext) * pix4let;
 	pos.y += buttonSpace + butHeight;
 	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, pos, width, butHeight, true));
-//	for (int i = 0; i < vec.size(); ++i) {
-//		pos.y = m_startButPos.y + i * SPACE_BUTTONS + i * m_butHeight;
-//		m_buttons.push_back(Button(vec[i], pos, m_butHeight));
-//	}
 };
