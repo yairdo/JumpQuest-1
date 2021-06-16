@@ -3,7 +3,7 @@
 #include <StateManager.h>
 #include <MainMenuState.h>
 #include "Server.h"
-
+#include <iostream>
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1), m_isServer(false), m_lastUpdate(0)
@@ -98,6 +98,7 @@ void GameState::updateServerGame() {
 		m_deltaTime = m_clock.restart().asSeconds();
 		m_board->updatePhysics(m_deltaTime);
 	}
+	std::cout << m_deltaTime << std::endl;
 	m_board->move();
 	sf::Vector2f objPos;
 	//send all new locations
