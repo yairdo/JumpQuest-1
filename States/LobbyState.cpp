@@ -6,6 +6,8 @@
 #include "GameState.h"
 #include "StateManager.h"
 #include <cstring>
+#include "ServerGameState.h"
+#include "ClientGameState.h"
 
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
@@ -64,7 +66,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		std::cout << "is server\n";
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3;
 		pos.x = m_window.getSize().x - width;
-		addButton<GameState>(start, pos, width, butHeight);
+		addButton<ServerGameState>(start, pos, width, butHeight);
 		m_connected = m_networkObj->launch();
 	}
 	setNameListText();
@@ -86,7 +88,10 @@ void LobbyState::update(){
 	if (m_networkObj->handleRequests())
 		updateList();
 	if (m_networkObj->getStarted()) {
-		m_next = StateManager::build<GameState>(m_manager, m_window, true, m_networkObj);
+		if (m_isServer)
+			m_next = StateManager::build<ServerGameState>(m_manager, m_window, true, m_networkObj);
+		else
+			m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
 		return;
 	}
 }

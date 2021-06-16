@@ -8,4 +8,7 @@ target_sources (OPP_FinalProject_2nd_semester PRIVATE
                                      "State.cpp"
                                      "GameState.cpp"
                                      "StateManager.cpp"
-                                     "LobbyState.cpp")
+                                     "LobbyState.cpp"
+                                     "ClientGameState.cpp"
+                                     "ServerGameState.cpp"
+                                     "NetworkGameState.cpp")

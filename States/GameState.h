@@ -25,12 +25,12 @@ public:
 
 private:
 	sf::Sprite m_backGround;
-	std::unique_ptr<Board> m_board;
+	
 	b2World m_world;
 	ContactListner m_contactListner;
-	Player* m_testPlayer;
-	sf::Clock m_clock;
-	float m_deltaTime;
+	
+	
+	
 	float m_lastUpdate; //temp
 	sf::RectangleShape* m_testOtherPlayer;
 	//view stuff
@@ -38,8 +38,8 @@ private:
 	void viewMover();
 	bool m_isServer;
 	std::unordered_map<int,struct ClonePlayer> m_clones;
-	void updateClonesLoc();
-	void sendInfo();
+	//void updateClonesLoc();
+	//void sendInfo();
 	//sf::View m_menuView;
 	bool m_isPlay;
 	//bool m_isMain;
@@ -66,4 +66,13 @@ private:
 	//std::unique_ptr<NetworkObject> m_netObj;
 	//std::unique_ptr<Client> m_client;
 	//std::unique_ptr<Server> m_server;
+
+	void updateGame();
+
+protected:
+	Player* m_testPlayer;
+	float m_deltaTime;
+	sf::Clock m_clock;
+	std::unique_ptr<Board> m_board;
+	virtual void updateBoard();
 };
