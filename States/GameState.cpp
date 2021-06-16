@@ -3,7 +3,7 @@
 #include <StateManager.h>
 #include <MainMenuState.h>
 #include "Server.h"
-
+#include <iostream>
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)), m_isPlay(true), m_deltaTime(1), m_isServer(false), m_lastUpdate(0)

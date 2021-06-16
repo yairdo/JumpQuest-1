@@ -14,7 +14,7 @@ bool Client::handleRequests(int max) {
 	int counter = 0;
 	TestLocs info;
 	while (receivedUdpMessege()&& counter++ < max) {
-		std::cout << "udp messege received.\n";
+		//std::cout << "udp messege received.\n";
 		try {
 			switch (receiveUdpValue<Messege_type>())
 			{
