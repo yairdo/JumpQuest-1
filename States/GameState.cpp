@@ -15,7 +15,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	/*m_backGround.setScale(window.getSize().x / m_backGround.getGlobalBounds().width,
 		window.getSize().y / m_backGround.getGlobalBounds().height);*/
-	m_backGround.setScale(1,window.getSize().y / m_backGround.getGlobalBounds().height);
+	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	m_board->generateMap(m_world);
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
@@ -152,7 +152,7 @@ void GameState::updateClientGame() {
 		m_testPlayer->updateAnim(m_deltaTime);
 		m_board->updateBoard(m_networkObj.get());
 	}
-	
+
 }
 
 
@@ -184,9 +184,9 @@ void GameState::addBorders2World() {
 	float widthInMeters = screenSize.x / SCALE;
 	float heightInMeters = screenSize.y / SCALE;
 	b2Vec2 topLeftCorner = b2Vec2(0, 0);
-	b2Vec2 topRightCorner = b2Vec2(100, 0);
+	b2Vec2 topRightCorner = b2Vec2(35, 0);
 	b2Vec2 lowerLeftCorner = b2Vec2(0, heightInMeters);
-	b2Vec2 lowerRightCorner = b2Vec2(100, heightInMeters);
+	b2Vec2 lowerRightCorner = b2Vec2(35, heightInMeters);
 
 	// static container body, with the collisions at screen borders
 	b2BodyDef screenBorderDef;
@@ -213,7 +213,7 @@ void GameState::addBorders2World() {
 void GameState::updateClonesLoc() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
-			auto info= m_networkObj->getMembers(i)->m_info;
+			auto info = m_networkObj->getMembers(i)->m_info;
 			//auto = struct of the info coming back from the server
 			//update map about the players new parameters from the info struct above
 			auto it = m_clones.find(m_networkObj->getMembers(i)->m_info.m_id);

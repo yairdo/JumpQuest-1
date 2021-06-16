@@ -1,15 +1,37 @@
-d MovingBlock 230 0 230 800 20 20
-d MovingBlock 150 20 100 1200 70 20
-d MovingBlock 200 400 400 400 20 20
-d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 800 1200 800 20 20
-d FallingBlock 400 26 50 50
-d FallingBlock 500 26 50 50
-d FallingBlock 600 26 50 50
+d MovingBlock 230 100 230 500 100 20
+d MovingBlock 850 200 850 500 10 300
+
+d FallingBlock 500 25 50 100
+d FallingBlock 600 500 70 50
+d FallingBlock 1100 200 25 25
+d FallingBlock 1350 450 25 25
+d FallingBlock 1600 500 25 25
+d FallingBlock 2500 25 50 50
+d FallingBlock 2900 25 50 50
+
 s Block 50 300 100 100
+s Block 50 600 100 100
 s Block 420 500 200 100
+s Block 600 800 50 50
 s Block 800 700 100 100
-s Block 1350 700 100 100
-s Gift 500 300 25 25
-s Rope 200 150 10 1700
-s Rope 1450 350 10 700
+s Block 1650 350 50 400
+s Block 1650 800 50 100
+s Block 1700 500 50 100
+s Block 1700 700 50 300
+s Block 1700 200 100 100
+s Block 2000 500 400 100
+s Block 2300 500 50 50
+s Block 2700 500 400 100
+
+
+s Gift 70 450 25 25
+s Gift 500 300 50 25
+s Gift 1650 600 25 25
+
+s Rope 150 500 0 1000
+s Rope 300 200 0 400
+s Rope 950 350 0 700
+s Rope 1100 350 0 700
+s Rope 1350 350 0 700
+s Rope 1600 350 0 700
+s Rope 2400 300 0 600
