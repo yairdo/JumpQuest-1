@@ -15,7 +15,7 @@ public:
     virtual void notifyClosing()override;
     virtual void updateLoc(const MemberInfo&);
     virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
-
+    virtual void sendStaticCollision(int);
     //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);
 
@@ -29,6 +29,7 @@ private:
 
     void registerPlayer();
     void updatePlayerState(const MemberInfo& member);
+    void updateStaticObjState(const StaticObjInfo& info);
     void updateAboutNewMember(const AddMember&);
     int countServersInPort();
     bool renameMember();

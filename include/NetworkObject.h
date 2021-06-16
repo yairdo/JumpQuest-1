@@ -20,6 +20,7 @@ public:
 	virtual void notifyClosing() = 0;
 	virtual void updateLoc(const MemberInfo&) = 0;
 	virtual bool launch() = 0;
+	virtual void sendStaticCollision(int) = 0;
 	//============================= gets section =============================
 	const sf::IpAddress& getIP() const { return m_ip; }
 	unsigned short getPort() const { return m_port; }

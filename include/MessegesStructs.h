@@ -29,13 +29,20 @@ struct AddMember {
 };
 AddMember addMemberCreator(unsigned short id, const char name[PLAYER_NAME_LEN]);
 //============================================================================
-struct MovingObjInfo {
+struct MovingObjInfo {//add index?
     sf::Vector2f m_loc;
     float m_timer = 0;
     b2Vec2 m_vel = { 0,0 };
 };
 MovingObjInfo movingObjInfoCreator(const sf::Vector2f & = { 0,0 },
     float = 0, const b2Vec2 & = { 0 , 0 });
+//============================================================================
+struct StaticObjInfo {
+    unsigned short m_id = 0;
+    int m_index=0;
+    //int m_counter=-1;
+};
+StaticObjInfo staticObjInfoCreator(unsigned short id=0,int index = 0);
 //============================================================================
 struct TestLocs {
     int m_size = 0;

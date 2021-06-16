@@ -11,14 +11,14 @@ public:
 	Gift()=default;
 	virtual void draw(sf::RenderWindow&);
 	void collisionCounter();
-
+	virtual void MsgCollision();
 	//virtual void handleCollision();
 	/*virtual void handleCol(GameObj* obj) override;
 	virtual void handleGiftCol(Gift*) override {};
 	void handlePlayerCol(Player* b);*/
 
 private:
-	sf::RectangleShape m_testRect;
+	//sf::RectangleShape m_testRect;
 	int m_counter = 3;
 	static bool m_registerit;
 };
