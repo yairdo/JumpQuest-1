@@ -34,7 +34,8 @@ void FallingBlock::updatePhysics(float dt)
 {
     if (!m_falling && m_timer <= 0)//going up or down
     {
-        m_body->ApplyForceToCenter({ 0, dt*5.f }, true);
+        //m_body->ApplyForceToCenter({ 0, dt*5.f }, true);
+        m_body->SetAwake(true);
         m_falling = true;
         return;
     }
