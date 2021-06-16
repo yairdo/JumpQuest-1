@@ -13,8 +13,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	/*m_backGround.setScale(window.getSize().x / m_backGround.getGlobalBounds().width,
 		window.getSize().y / m_backGround.getGlobalBounds().height);*/
-	m_backGround.setScale(1,
-		window.getSize().y / m_backGround.getGlobalBounds().height);
+	m_backGround.setScale(1,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	m_board->generateMap(m_world);
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);

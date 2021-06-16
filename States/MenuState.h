@@ -26,6 +26,7 @@ protected:
 	std::vector<std::unique_ptr<BaseButton>> m_buttons;
 	float getTitleHeight() const;
 	sf::Vector2f m_middle;
+	float getTitlePosY() const;
 private:
 	//sf::Vector2f m_middle;
 	std::unique_ptr<sf::Sprite> m_background;

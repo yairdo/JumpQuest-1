@@ -33,37 +33,6 @@ void Board::generateMap(b2World& world) {
 		else
 			m_movingObj.emplace_back(Factory<MovingObj>::create(str, vals, world));
 
-
-		//auto p = Factory::create(str, vals, world);
-	//	m_staticObj.emplace_back(std::move(p));
-
-		//switch (hashIt(str))//b2_staticBody//b2_dynamicBody
-		//{
-		//case block:
-		//	makeObject<Block, StaticObj>(m_staticObj,world,vals[0],vals[1], b2_staticBody);
-		//	break;
-		//case movingBlock:
-		//	makeObject<MovingBlock, MovingObj>(m_movingObj, world, vals[0], vals[1], vals[2], b2_kinematicBody);
-		//	break;
-		//case gift:
-		//	makeObject<Gift, StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
-		//	break;
-		//case shooter:
-		//	//makeObject<Shooter,StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
-		//	break;
-		//case fallingBlock:
-		//	makeObject<FallingBlock,MovingObj>(m_movingObj, world, vals[0], vals[1], b2_dynamicBody);
-		//	break;
-		//case floorObs:
-		//	//makeObject<FloorObs,MovingObj>(m_movingObj, world, vals[0], vals[1], vals[2], b2_dynamicBody);
-		//	break;
-		//case rope:
-		//	makeObject<Rope, StaticObj>(m_staticObj, world, vals[0], vals[1], b2_staticBody);
-		//	break;
-
-		//default:
-		//	break;
-		//}
 		vals.clear();
 	}
 	//std::cout << "finished genereating, for debugging\n";
@@ -80,16 +49,6 @@ void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 	}
 }
 
-//TexturesNum Board::hashIt(const std::string& str) {
-	//if (str == "Block") return block;
-	//if (str == "MovingBlock") return movingBlock;
-	//if (str == "Gift") return gift;
-	//if (str == "Shooter") return shooter;
-	//if (str == "FallingBlock") return fallingBlock;
-	//if (str == "FloorObs") return floorObs;
-	//if (str == "Rope") return rope;
-	//return block;
-//}
 void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();
@@ -141,7 +100,7 @@ unsigned int Board::numOfMovingObjs() {
 
 void Board::updateBoard(NetworkObject* netObj) {
 	for (int i = 0; i < m_staticObj.size(); ++i) {
-		if (m_staticObj[i]->getCollision()){
+		if (netObj && m_staticObj[i]->getCollision()){
 				netObj->sendStaticCollision(i);
 				m_staticObj[i]->setCollision(false);
 		}
