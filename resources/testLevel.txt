@@ -2,18 +2,8 @@ d MovingBlock 120 1000 120 100 20 20
 d MovingBlock 100 100 200 100 20 20
 d MovingBlock 100 200 200 200 20 20
 d MovingBlock 200 400 400 400 20 20
-d MovingBlock 200 300 1200 700 20 20
-d MovingBlock 200 500 1200 700 20 20
-d MovingBlock 200 600 1200 700 20 20
 d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 800 1200 700 20 20
-d MovingBlock 200 900 1200 700 20 20
-d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 700 1200 700 20 20
-d MovingBlock 200 700 1200 700 20 20
+d MovingBlock 200 800 1200 800 20 20
 d FallingBlock 400 26 50 50
 d FallingBlock 500 26 50 50
 d FallingBlock 600 26 50 50
