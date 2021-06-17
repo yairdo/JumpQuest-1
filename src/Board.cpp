@@ -78,6 +78,7 @@ void Board::draw(sf::RenderWindow& window) {
 void Board::updatePhysics(float deltaTime) {
 	for (auto& moving : m_movingObj) {
 		moving->updatePhysics(deltaTime);
+		moving->updateAnim(deltaTime);
 	}
 }
 

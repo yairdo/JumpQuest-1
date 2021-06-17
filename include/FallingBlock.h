@@ -14,15 +14,16 @@ public:
 	virtual void updatePhysics(float);
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
-
+	virtual void updateAnim(float deltaTime);
 	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), m_timer, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info);
-
+	void setActiveAnim(bool state);
 	void reset();
 
 	sf::Vector2f getPos();
 
 private:
+	bool m_activeAnim;
 	sf::Vector2f m_strtPos;
 	bool m_falling = false;
 	float m_timer = 3;

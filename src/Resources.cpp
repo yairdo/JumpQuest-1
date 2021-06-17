@@ -67,6 +67,8 @@ void Resources::setTextures() {
 		createTexture("castle map.png")));
 	m_textures.insert(TexturesPair(rope,
 		createTexture("rope.png")));
+	m_textures.insert(TexturesPair(fallingBlock,
+		createTexture("trap chandelier.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));

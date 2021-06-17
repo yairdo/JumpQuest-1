@@ -26,7 +26,7 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 	totalTime += deltaTime;
 	if (totalTime >= SWITCH_TIME) {
 		totalTime -= SWITCH_TIME;
-		col++;
+			col++;
 		if (col >= rowCount) {
 			col = 0;
 		}
@@ -60,6 +60,10 @@ int Animation::findLineLen(int type, int row) {
 			return STAND;
 		}
 		break;
+	case fallingBlock:
+		return FALLING_LEN;
+	default:
+		break;
 	}
 	return 0;
 }
@@ -69,6 +73,10 @@ void Animation::setWidthHeight(int type) {
 	case player:
 		m_width = PLAYER_WIDTH;
 		m_height = PLAYER_HEIGHT;
+		break;
+	case fallingBlock:
+		m_width = FALLING_WIDTH;
+		m_height = FALLING_HEIGHT;
 		break;
 	}
 }

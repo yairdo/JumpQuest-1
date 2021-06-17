@@ -8,12 +8,13 @@ bool FallingBlock::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
     { return std::make_unique<FallingBlock>(world, vec[0], vec[1], b2_dynamicBody); });
 
 FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, int bodyType) :
-    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType)
+    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock), m_activeAnim(false)
 {
+    m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
-    m_sprite.setColor(sf::Color::Magenta);
+   // m_sprite.setColor(sf::Color::Magenta);
     b2PolygonShape kinematic;
     kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
 
@@ -77,4 +78,14 @@ void FallingBlock::reset()
 
 sf::Vector2f FallingBlock::getPos() {
     return m_sprite.getPosition();
+}
+
+void FallingBlock::updateAnim(float deltaTime) {
+    if (m_activeAnim) 
+       m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+         deltaTime, m_totalTime, fallingBlock, left));
+}
+
+void FallingBlock::setActiveAnim(bool state) {
+    m_activeAnim = state;
 }
