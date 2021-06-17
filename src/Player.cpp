@@ -156,7 +156,8 @@ void Player::updateAnim(float deltaTime) {
 
 }
 
-void Player::fallDown() {
+void Player::returnToCheckPoint() {
+
     sf::Vector2f vec(m_checkPoint.x/SCALE, m_checkPoint.y/SCALE);
     //sf::Vector2f vec(50/SCALE, 50/SCALE);
     m_body->SetTransform({ vec.x,vec.y }, m_body->GetAngle());
