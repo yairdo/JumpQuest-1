@@ -23,6 +23,7 @@ CollisionHandler::CollisionHandler(){
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Gift* gift= static_cast<Gift*> (obj2);
+	//if(gift->getCollision())
 	gift->collisionCounter();
 	gift->setCollision(true);
 	//collect gift

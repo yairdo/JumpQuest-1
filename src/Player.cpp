@@ -21,13 +21,12 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
     fixtureDef.filter.categoryBits = playerBits;
-
+    
     m_body->CreateFixture(&fixtureDef);
     //--sides fixture
     dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
     fixtureDef.friction = 0;
     fixtureDef.filter.maskBits = wallBits | movingBlockBits | boundryBits | fallingBlockBits | giftBits;
-
     m_body->CreateFixture(&fixtureDef);
     //set up sensor
     dynamicBox.SetAsBox((1 / SCALE)/2, size.y / (2.f * SCALE));

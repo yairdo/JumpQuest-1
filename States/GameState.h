@@ -68,7 +68,7 @@ private:
 	//std::unique_ptr<NetworkObject> m_netObj;
 	//std::unique_ptr<Client> m_client;
 	//std::unique_ptr<Server> m_server;
-
+	int bc=0;
 	void updateGame();
 
 protected:
