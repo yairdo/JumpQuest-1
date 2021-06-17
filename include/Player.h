@@ -22,7 +22,7 @@ public:
 	void footContact(int val);
 	void updateAnim(float deltaTime);
 	void setCheckPoint(const sf::Vector2f&);
-	void returnToCheckPoint();
+	virtual void reset() override;
 private:
 	void updateRow();
 	sf::Vector2f m_checkPoint;

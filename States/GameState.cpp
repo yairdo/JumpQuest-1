@@ -241,7 +241,6 @@ void GameState::addBorders2World() {
 	b2FixtureDef fixture;
 	fixture.shape = &screenBorderShape;
 	fixture.friction = 1.f;
-	fixture.filter.categoryBits = boundryBits;
 
 	// Create fixtures for the four borders (the border shape is re-used)
 	screenBorderShape.Set(topLeftCorner, topRightCorner);
@@ -250,6 +249,7 @@ void GameState::addBorders2World() {
 	screenBorderBody->CreateFixture(&fixture);
 	screenBorderShape.Set(lowerLeftCorner, topLeftCorner);
 	screenBorderBody->CreateFixture(&fixture);
+	fixture.filter.categoryBits = boundryBits;
 	screenBorderShape.Set(lowerRightCorner, lowerLeftCorner);
 	screenBorderBody->CreateFixture(&fixture);
 }
@@ -289,7 +289,6 @@ void GameState::updateGame() {
 		updateBoard();
 		viewMover();
 		m_window.setView(m_view);
-		m_testPlayer->updateAnim(m_deltaTime);
 		m_board->updateBoard(m_networkObj.get());
 	}
 }

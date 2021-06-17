@@ -29,9 +29,9 @@ void ServerGameState::updateNetwork(){
 
 	//------test projectile
 	if (!m_testProjectile->getShot() && projTimer <= 0)
-		m_testProjectile->shot(m_testProjectile->getPos(), { 400, 200 });
+		m_testProjectile->shot(m_testProjectile->getPos(), { 300, 100 });
 	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	if (m_testProjectile->getPos().x > 400)
+	if (m_testProjectile->getPos().x > 300)
 		std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
 	m_testProjectile->updatePhysics(m_deltaTime);
 	m_testProjectile->move();
