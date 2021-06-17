@@ -9,8 +9,9 @@ bool CheckPoint::m_registerit = Factory<StaticObj>::registerit("CheckPoint",
     { return std::make_unique<CheckPoint>(world, vec[0], vec[1], b2_staticBody); });
 
 CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) :
-    StaticObj(world, pos, size, bodyType/*, checkPoint*/), m_activate(false) {
+    StaticObj(world, pos, size, bodyType, checkPoint), m_activate(false) {
 
+    m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
@@ -24,7 +25,8 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
 
     m_body->CreateFixture(&fixture);
     m_body->SetUserData(this);
-    m_sprite.setColor(sf::Color::Yellow);
+    m_row = 1;
+  //  m_sprite.setColor(sf::Color::Yellow);
 }
 
 void CheckPoint::draw(sf::RenderWindow& window)
@@ -37,7 +39,8 @@ void CheckPoint::setColor(sf::Color color){
 }
 
 void CheckPoint::activate(){
-    m_sprite.setColor(sf::Color::Magenta);
+   // m_sprite.setColor(sf::Color::Magenta);
+    m_row = 0;
     m_activate = true;
 }
 
@@ -45,3 +48,9 @@ bool CheckPoint::getActive() const
 {
     return m_activate;
 }
+
+void CheckPoint::updateAnim(float deltaTime) {
+
+    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
+        deltaTime, m_totalTime, checkPoint, up));
+} 

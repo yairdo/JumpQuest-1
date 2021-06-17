@@ -35,7 +35,7 @@ public:
 protected:
     int animPos=idle;
     float m_totalTime = 0;
-    int m_row = 1, m_col;
+    int m_row, m_col;
     b2Body* m_body;
     sf::Sprite m_sprite;
 
