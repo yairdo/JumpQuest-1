@@ -76,10 +76,6 @@ void FallingBlock::reset()
     m_timer = 3;
 }
 
-sf::Vector2f FallingBlock::getPos() {
-    return m_sprite.getPosition();
-}
-
 void FallingBlock::updateAnim(float deltaTime) {
     if (m_activeAnim) 
        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
