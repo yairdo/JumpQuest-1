@@ -63,6 +63,7 @@ enum TexturesNum {
 	start,
 	lobbyTitle,
 	castle,
+	checkPoint,
 	nullpt
 };
 
@@ -84,9 +85,10 @@ enum _entityCategory {
 	boundryBits = 0x0008,
 	movingBlockBits = 0x00010,
 	playerSensorBits = 0x00020,
-	ladderBits = 0x00030,
-	fallingBlockBits = 0x00040,
-	footBits = 0x00050
+	ladderBits = 0x00040,
+	fallingBlockBits = 0x00080,
+	footBits = 0x000100,
+	checkPointBits = 0x000200
 };
 
 //============================================================================

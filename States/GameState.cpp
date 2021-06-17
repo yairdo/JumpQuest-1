@@ -248,9 +248,9 @@ void GameState::addBorders2World() {
 	screenBorderBody->CreateFixture(&fixture);
 	screenBorderShape.Set(lowerRightCorner, topRightCorner);
 	screenBorderBody->CreateFixture(&fixture);
-	screenBorderShape.Set(lowerRightCorner, lowerLeftCorner);
-	screenBorderBody->CreateFixture(&fixture);
 	screenBorderShape.Set(lowerLeftCorner, topLeftCorner);
+	screenBorderBody->CreateFixture(&fixture);
+	screenBorderShape.Set(lowerRightCorner, lowerLeftCorner);
 	screenBorderBody->CreateFixture(&fixture);
 }
 

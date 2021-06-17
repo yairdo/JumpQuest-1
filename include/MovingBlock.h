@@ -18,9 +18,6 @@ public:
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 
-
-	sf::Vector2f getPos();
-
 private:
 	sf::Vector2f m_strtPos;
 	sf::Vector2f m_endPos;

@@ -74,7 +74,3 @@ void FallingBlock::reset()
     m_body->SetAwake(false);
     m_timer = 3;
 }
-
-sf::Vector2f FallingBlock::getPos() {
-    return m_sprite.getPosition();
-}

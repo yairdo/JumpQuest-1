@@ -11,8 +11,13 @@ void ContactListner::BeginContact(b2Contact* contact)
     b2Body* body2 = contact->GetFixtureB()->GetBody();
     checkFootContact((int)contact->GetFixtureA()->GetUserData(), 1, body1);
     checkFootContact((int)contact->GetFixtureB()->GetUserData(), 1, body2);
+    
     GameObj* a = static_cast<GameObj*>(body1->GetUserData());
     GameObj* b = static_cast<GameObj*>(body2->GetUserData());
+    if (a)
+        std::cout <<"a= " <<typeid(*a).name() << std::endl;
+    if (b)
+        std::cout << "b= " << typeid(*b).name() << std::endl;
     if (!a || !b) return;
     //a->handleCol(b);
     CollisionHandler::getRef().handleCollision(a, b);

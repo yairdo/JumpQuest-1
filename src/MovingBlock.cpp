@@ -64,7 +64,3 @@ void MovingBlock::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
 }
-
-sf::Vector2f MovingBlock::getPos() {
-    return m_sprite.getPosition();
-}

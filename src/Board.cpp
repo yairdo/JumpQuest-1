@@ -11,6 +11,7 @@
 #include <Factory.h>
 #include <MessegesStructs.h>
 #include <NetworkObject.h>
+#include "CheckPoint.h"
 
 void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);

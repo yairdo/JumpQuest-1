@@ -4,8 +4,9 @@
 #include <SFML/Graphics.hpp>
 
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType):
-    MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0)
+    MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0), m_checkPoint(pos)
 {
+
  //   m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
     m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
@@ -33,7 +34,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //fixtureDef.friction = 0;
     fixtureDef.isSensor = true;
     fixtureDef.filter.categoryBits = playerSensorBits;
-    fixtureDef.filter.maskBits = ladderBits;
+    fixtureDef.filter.maskBits = ladderBits | checkPointBits;
     m_body->CreateFixture(&fixtureDef);
     m_body->SetUserData(this);
     // add foot sensor fixture
@@ -139,10 +140,6 @@ void Player::setOnRope(bool val){
     m_body->SetGravityScale(1);
 }
 
-sf::Vector2f Player::getPos() {
-   return m_sprite.getPosition();
-}
-
 int Player::getDirection()
 {
     return m_direction;
@@ -157,6 +154,19 @@ void Player::updateAnim(float deltaTime) {
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
         deltaTime, m_totalTime, player,m_direction));
 
+}
+
+void Player::fallDown() {
+    sf::Vector2f vec(m_checkPoint.x/SCALE, m_checkPoint.y/SCALE);
+    //sf::Vector2f vec(50/SCALE, 50/SCALE);
+    m_body->SetTransform({ vec.x,vec.y }, m_body->GetAngle());
+   //m_body->GetLocalPoint(m_body->GetWorldPoint()).Set(vec.x,vec.y);
+    m_sprite.setPosition(m_checkPoint);
+    //m_sprite.setPosition(50,50);
+}
+
+void Player::setCheckPoint(const sf::Vector2f& cp){
+    m_checkPoint=cp;
 }
 
 void Player::updateRow() {

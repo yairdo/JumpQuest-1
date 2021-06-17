@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Rope.h"
 #include "Block.h"
+#include "CheckPoint.h"
 #include "FallingBlock.h"
 #include <iostream>
 #include <functional>
@@ -18,6 +19,8 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(Rope))] = &CollisionHandler::playerRope;
 	m_collisionMap[Key(typeid(Block), typeid(Player))] = &CollisionHandler::blockPlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Block))] = &CollisionHandler::playerBlock;
+	m_collisionMap[Key(typeid(CheckPoint), typeid(Player))] = &CollisionHandler::checkPointPlayer;
+	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
@@ -49,6 +52,14 @@ void CollisionHandler::playerBlock(GameObj* obj1, GameObj* obj2) {
 	Block* block= static_cast<Block*> (obj2);
 	//std::cout << "player collide with block\n";
 }
+void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
+	Player* player = static_cast<Player*> (obj1);
+	CheckPoint* checkP = static_cast<CheckPoint*> (obj2);
+	if (!checkP->getActive()) {
+		player->setCheckPoint(checkP->getPos());
+		checkP->activate();
+	}
+}
 
 void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2) {
 	playerGift(obj2, obj1);
@@ -60,6 +71,10 @@ void CollisionHandler::ropePlayer(GameObj* obj1, GameObj* obj2) {
 void CollisionHandler::blockPlayer(GameObj* obj1, GameObj* obj2) {
 	playerBlock(obj2, obj1);
 }
+void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2){
+	playerCheckPoint(obj2, obj1);
+}
+
 CollisionHandler& CollisionHandler::getRef() {
 	static CollisionHandler colision;
 	return colision;

@@ -20,7 +20,6 @@ public:
 
 	void reset();
 
-	sf::Vector2f getPos();
 
 private:
 	sf::Vector2f m_strtPos;
