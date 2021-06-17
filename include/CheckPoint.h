@@ -14,6 +14,7 @@ public:
 	void setColor(sf::Color color);
 	void activate();
 	bool getActive() const;
+	void updateAnim(float deltaTime);
 private:
 	static bool m_registerit;
 	bool m_activate;

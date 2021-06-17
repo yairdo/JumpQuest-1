@@ -139,6 +139,9 @@ constexpr int PLAYER_HEIGHT = 155;
 constexpr int FALLING_WIDTH = 200;
 constexpr int FALLING_HEIGHT = 193;
 constexpr int FALLING_LEN = 8;
+constexpr int CHECKPOINT_WIDTH = 33;
+constexpr int CHECKPOINT_HEIGHT = 38;
+constexpr int CHECKPOINT_LEN = 6;
 
 constexpr int WALKING = 3;
 constexpr int STAND = 3;

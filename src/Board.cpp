@@ -81,6 +81,10 @@ void Board::updatePhysics(float deltaTime) {
 		moving->updatePhysics(deltaTime);
 		moving->updateAnim(deltaTime);
 	}
+	for (auto& stat : m_staticObj) {
+		stat->updateAnim(deltaTime);
+	}
+
 }
 
 Player* Board::getPlayerRef() {

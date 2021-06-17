@@ -33,6 +33,6 @@ void Block::draw(sf::RenderWindow& window)
 }
 void Block::updateAnim(float deltaTime) {
 
-    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col, deltaTime,m_totalTime, block,idle));
+    //m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col, deltaTime,m_totalTime, block,idle));
 
 }
