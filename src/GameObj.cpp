@@ -4,7 +4,7 @@
 #include "Resources.h"
 
 GameObj::GameObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
-	int textureNum) : m_isRemoved(false), m_col(0)
+	int textureNum) : m_isRemoved(false), m_col(0),m_row(0)
 {
 
 	m_sprite.setTexture(Resources::getResourceRef().getTexture(textureNum));
