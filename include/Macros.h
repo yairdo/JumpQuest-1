@@ -63,6 +63,7 @@ enum TexturesNum {
 	start,
 	lobbyTitle,
 	castle,
+	checkPoint,
 	nullpt
 };
 
@@ -84,9 +85,10 @@ enum _entityCategory {
 	boundryBits = 0x0008,
 	movingBlockBits = 0x00010,
 	playerSensorBits = 0x00020,
-	ladderBits = 0x00030,
-	fallingBlockBits = 0x00040,
-	footBits = 0x00050
+	ladderBits = 0x00040,
+	fallingBlockBits = 0x00080,
+	footBits = 0x000100,
+	checkPointBits = 0x000200
 };
 
 //============================================================================
@@ -131,9 +133,12 @@ enum animPos {
 	climb
 };
 constexpr float SWITCH_TIME = 0.15;
-//constexpr int PLAYER_WIDTH = 520;
+
 constexpr int PLAYER_WIDTH = 130;
 constexpr int PLAYER_HEIGHT = 155;
+constexpr int FALLING_WIDTH = 200;
+constexpr int FALLING_HEIGHT = 193;
+constexpr int FALLING_LEN = 8;
 
 constexpr int WALKING = 3;
 constexpr int STAND = 3;

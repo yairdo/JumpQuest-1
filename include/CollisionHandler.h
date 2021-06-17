@@ -52,5 +52,6 @@ private:
 	void ropePlayer(GameObj*, GameObj*);
 	void playerBlock(GameObj*, GameObj*);
 	void blockPlayer(GameObj*, GameObj*);
-
+	void checkPointPlayer(GameObj*, GameObj*);
+	void playerCheckPoint(GameObj*, GameObj*);
 };

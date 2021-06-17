@@ -9,6 +9,8 @@ d FallingBlock 1600 500 25 25
 d FallingBlock 2500 25 50 50
 d FallingBlock 2900 25 50 50
 
+s CheckPoint 420 450 30 100
+
 s Block 50 300 100 100
 s Block 50 600 100 100
 s Block 420 500 200 100

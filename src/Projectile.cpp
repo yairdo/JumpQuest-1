@@ -33,7 +33,7 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     /*
     float angle = 30;
     float targetDist = b2Distance({fromPos.x/SCALE, fromPos.y/SCALE}, { toPos.x / SCALE, toPos.y / SCALE });
-    float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
+    /*float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
     m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
     m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
     */
@@ -48,8 +48,9 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
 void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
-        m_elapaseTime += dt;
-        m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime)) * dt });
+        //m_elapaseTime += dt;
+        //m_body->SetLinearVelocity({ m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))});
+        m_body->ApplyLinearImpulseToCenter({ 0,0 }, true);
         return;
     }
     if (m_shot && !m_body->IsAwake())

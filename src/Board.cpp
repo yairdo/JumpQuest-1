@@ -11,6 +11,7 @@
 #include <Factory.h>
 #include <MessegesStructs.h>
 #include <NetworkObject.h>
+#include "CheckPoint.h"
 
 void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
@@ -78,6 +79,7 @@ void Board::draw(sf::RenderWindow& window) {
 void Board::updatePhysics(float deltaTime) {
 	for (auto& moving : m_movingObj) {
 		moving->updatePhysics(deltaTime);
+		moving->updateAnim(deltaTime);
 	}
 }
 

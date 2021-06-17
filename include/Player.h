@@ -17,13 +17,15 @@ public:
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 	void setOnRope(bool);
-	sf::Vector2f getPos();
 	bool getOnRope() { return m_onRope; };
 	int getDirection();
 	void footContact(int val);
 	void updateAnim(float deltaTime);
+	void setCheckPoint(const sf::Vector2f&);
+	void fallDown();
 private:
 	void updateRow();
+	sf::Vector2f m_checkPoint;
 	int m_direction;
 	bool m_onRope = false;
 	int m_lives;

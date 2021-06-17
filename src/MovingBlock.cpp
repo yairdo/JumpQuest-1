@@ -9,12 +9,12 @@ bool MovingBlock::m_registerit = Factory<MovingObj>::registerit("MovingBlock",
     { return std::make_unique<MovingBlock>(world, vec[0], vec[1], vec[2], b2_kinematicBody); });
 
 MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& endPos, const sf::Vector2f& size, int bodyType) :
-    m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE), MovingObj(world, startPos, size, bodyType)
+    m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE), MovingObj(world, startPos, size, bodyType,block)
 {
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
-    m_sprite.setColor(sf::Color::Red);
+    //m_sprite.setColor(sf::Color::Red);
     b2PolygonShape kinematic;
     kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
 
@@ -63,8 +63,4 @@ void MovingBlock::move()
 void MovingBlock::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
-}
-
-sf::Vector2f MovingBlock::getPos() {
-    return m_sprite.getPosition();
 }
