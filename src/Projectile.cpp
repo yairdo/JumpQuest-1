@@ -30,11 +30,19 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& startPos, const sf::V
 void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     m_shot = true;
     m_body->SetAwake(true);
+    /*
     float angle = 30;
     float targetDist = b2Distance({fromPos.x/SCALE, fromPos.y/SCALE}, { toPos.x / SCALE, toPos.y / SCALE });
     float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
     m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
     m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
+    */
+    float time = 3;
+
+    float y = ((toPos.y - fromPos.y)-(0.5 * m_body->GetWorld()->GetGravity().y * (time) * (time)))/(time);
+    float x = (toPos.x - fromPos.x) / time;
+    m_vel.x = x;
+    m_vel.y = y;
 }
 
 void Projectile::updatePhysics(float dt) {

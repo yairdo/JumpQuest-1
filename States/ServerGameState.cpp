@@ -6,7 +6,7 @@ ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window
 	NetworkGameState(manager,window,replace,net), m_lastUpdate(0)
 {
 	//------projectile test-------
-	m_testProjectile = new Projectile(getWorldRef(), { 50, 100 }, { 10, 10 }, b2_dynamicBody);
+	m_testProjectile = new Projectile(getWorldRef(), { 50, 1000 }, { 10, 10 }, b2_dynamicBody);
 	//---------------------
 }
 
@@ -27,9 +27,14 @@ void ServerGameState::updateNetwork(){
 	}
 
 	//------test projectile
+	int x = 80;
 	if (!m_testProjectile->getShot())
-		m_testProjectile->shot(m_testProjectile->getPos(), { 200, 100 });
+		m_testProjectile->shot(m_testProjectile->getPos(), { (float)x, 1050 });
 	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
+	if(m_testProjectile->getPos().x >= x && m_testProjectile->getPos().x <= x+1)
+		std::cout << "x reached: " <<  m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
+	//if (m_testProjectile->getPos().y >= 240 && m_testProjectile->getPos().y <= 241)
+	//	std::cout << "y reached: " << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
 	m_testProjectile->updatePhysics(m_deltaTime);
 	m_testProjectile->move();
 	//------
