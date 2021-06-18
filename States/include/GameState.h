@@ -1,3 +1,4 @@
+
 #pragma once
 #include <State.h>
 #include <Board.h>
@@ -22,16 +23,16 @@ public:
 
 private:
 	sf::Sprite m_backGround;
-	
-	b2World m_world;
+
 	ContactListner m_contactListner;
-	sf::RectangleShape* m_testOtherPlayer;
+
 	//view stuff
 	sf::View m_view;
 	void viewMover();
 	void updateGame();
 
 protected:
+	b2World m_world;
 	Player* m_testPlayer;
 	float m_deltaTime;
 	sf::Clock m_clock;
