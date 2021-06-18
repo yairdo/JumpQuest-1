@@ -136,13 +136,16 @@ enum animPos {
 	climb,
 	idle
 };
-constexpr float SWITCH_TIME = 0.15;
-
+constexpr float PLAYER_SWITCH_TIME = 0.15;
 constexpr int PLAYER_WIDTH = 130;
 constexpr int PLAYER_HEIGHT = 155;
+
+constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;
 constexpr int FALLING_HEIGHT = 193;
 constexpr int FALLING_LEN = 8;
+
+constexpr float CHECKPOINT_SWITCH_TIME = 0.15;
 constexpr int CHECKPOINT_WIDTH = 33;
 constexpr int CHECKPOINT_HEIGHT = 38;
 constexpr int CHECKPOINT_LEN = 6;

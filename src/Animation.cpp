@@ -14,7 +14,7 @@ Animation& Animation::getAnimRef()
 //}
 //types right now : player =1 
 const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, float& totalTime ,int type
-,int dir) {
+,int dir,float switchTime) {
 	bool faceLeft = (dir == left) ? true : false;
 	int rowCount=findLineLen(type,row);
 	setWidthHeight(type);
@@ -24,8 +24,9 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 	m_animRect.height = m_height;
 	
 	totalTime += deltaTime;
-	if (totalTime >= SWITCH_TIME) {
-		totalTime -= SWITCH_TIME;
+	if (totalTime >= switchTime) {
+		totalTime -= switchTime;
+		if(type!=fallingBlock)
 			col++;
 		if (col >= rowCount) {
 			col = 0;
