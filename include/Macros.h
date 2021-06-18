@@ -64,6 +64,7 @@ enum TexturesNum {
 	lobbyTitle,
 	castle,
 	checkPoint,
+	michal,
 	nullpt
 };
 
