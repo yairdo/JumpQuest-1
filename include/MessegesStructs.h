@@ -44,8 +44,8 @@ struct StaticObjInfo {
 };
 StaticObjInfo staticObjInfoCreator(unsigned short id=0,int index = 0);
 //============================================================================
-struct TestLocs {
+struct MovingObjMembersRoport {
     int m_size = 0;
     MovingObjInfo m_locs[MAX_OBJ_IN_LEVEL];
 };
-TestLocs testLocsCreator(const std::vector<MovingObjInfo>&);
+MovingObjMembersRoport testLocsCreator(const std::vector<MovingObjInfo>&);

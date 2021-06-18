@@ -6,13 +6,17 @@ Client::Client() : NetworkObject(), m_serverIP(), m_servers(),
 m_isLinked(false), m_started(false){
 	m_packet.clear();
 }
+//============================================================================
+Client::~Client() {
+	notifyClosing();
+}
+
 /*============================================================================
 * The method is receiving all the messeges the client received and handle them
 * as needed.
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	TestLocs info;
 	while (receivedUdpMessege()&& counter++ < max) {
 		//std::cout << "udp messege received.\n";
 		try {
@@ -21,10 +25,13 @@ bool Client::handleRequests(int max) {
 			case networkMessege:
 				switch (receiveUdpValue<Network_messeges>()){
 				case iAmFree:
-					sendGameMembership("client");
+					setName("client");
 					break;
 				case startGame:
 					setStarted(true);
+					break;
+				case closing:
+					throw std::exception("disconnected from server.\n");
 					break;
 				default:
 					break;
@@ -40,9 +47,7 @@ bool Client::handleRequests(int max) {
 				updateMember(receiveUdpValue<MemberInfo>());
 				break;
 			case movingObj:
-				info = receiveUdpValue<TestLocs>();
-				for (int i = 0; i < info.m_size; ++i)
-					getBoard()->setInfo(i+1, info.m_locs[i]);
+				updateMovingObj();
 				break;
 			case staticObjInfo:
 				getBoard()->updateStaticMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
@@ -79,13 +84,6 @@ void Client::searchForServers() {
 	m_packet.clear();
 }
 /*============================================================================
-* The method add the last messege sender to the avaible servers list.
-*/
-void Client::addServerToList() {
-	if (m_servers.find(getSenderIP().toString()) == m_servers.end())
-		m_servers.insert(getSenderIP().toString());
-}
-/*============================================================================
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
@@ -93,7 +91,7 @@ void Client::notifyClosing() {
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
-	sendUdpMessege<MemberInfo>(memberInfo, member);
+	sendUdpMessege<MemberInfo>(memberInfo, member, m_serverIP, SERVERS_PORT);
 }
 /*==========================================================================*/
 bool Client::launch()
@@ -104,12 +102,6 @@ bool Client::launch()
 	return getInfo().m_info.m_id != 0;
 }
 /*============================================================================
-* The method is singIn to the server.
-*/
-void Client::sendGameMembership(const char name[]){
-	sendUdpMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
-}
-/*============================================================================
 * The method is regester to the server the client reseived messege from the last.
 */
 void Client::regesterServer() {
@@ -118,13 +110,24 @@ void Client::regesterServer() {
 	m_isLinked = true;
 }
 /*============================================================================
-* The method sets a new name for the client
+* The method sets a new name for the client and singIn to the server.
 */
 void Client::setName(const char name[PLAYER_NAME_LEN], int index) {
 	NetworkObject::setName(name);
 	sendUdpMessege<GameMember>(singMeIn, getInfo());
 }
-//============================================================================
+/*============================================================================
+* The method is notify the server about collision with static obj
+*/
 void Client::sendStaticCollision(int index){
-	sendUdpMessege<StaticObjInfo>(staticObjInfo, staticObjInfoCreator(getInfo().m_info.m_id, index));
+	sendUdpMessege<StaticObjInfo>(staticObjInfo, 
+		staticObjInfoCreator(getInfo().m_info.m_id, index));
+}
+/*============================================================================
+* The method is update the Board's moving objects as the server reported.
+*/
+void Client::updateMovingObj() {
+	MovingObjMembersRoport messege = receiveUdpValue<MovingObjMembersRoport>();
+	for (int i = 0; i < messege.m_size; ++i)
+		getBoard()->setInfo(i + 1, messege.m_locs[i]);
 }
