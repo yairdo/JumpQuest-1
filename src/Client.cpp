@@ -45,7 +45,8 @@ bool Client::handleRequests(int max) {
 					getBoard()->setInfo(i+1, info.m_locs[i]);
 				break;
 			case staticObjInfo:
-				getBoard()->updateMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
+				getBoard()->updateStaticMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
+				break;
 			default:
 				break;
 			}
