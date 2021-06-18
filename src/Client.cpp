@@ -3,7 +3,7 @@
 #include <Board.h>
 
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
-m_isLinked(false), m_started(false){
+m_isLinked(false){
 	m_packet.clear();
 }
 //============================================================================

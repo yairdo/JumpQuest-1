@@ -20,7 +20,6 @@ private:
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;
 	bool m_isLinked;
-	bool m_started;
 
 	virtual void notifyClosing();
 	void searchForServers();

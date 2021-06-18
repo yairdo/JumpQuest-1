@@ -5,8 +5,7 @@
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
 m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None),
-m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false)
-{
+m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false){
 	if (port == 0)
 		m_socket.bind(sf::Socket::AnyPort,m_ip);
 	else
