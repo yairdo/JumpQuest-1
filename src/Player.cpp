@@ -124,9 +124,12 @@ void Player::jump(float dt) {
 
 void Player::move()
 {
+    if (m_offSet != sf::Vector2f{0.f,0.f}) {
+        m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
+        m_offSet = { 0,0 };
+    }
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
-    
 }
 
 void Player::draw(sf::RenderWindow& window)
@@ -189,4 +192,8 @@ void Player::updateRow() {
     case climb:
         m_row = 3;
     }
+}
+
+void Player::center(const sf::Vector2f& ropePos) {
+    m_offSet = ropePos;
 }

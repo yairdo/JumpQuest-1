@@ -23,6 +23,7 @@ public:
 	void updateAnim(float deltaTime);
 	void setCheckPoint(const sf::Vector2f&);
 	virtual void reset() override;
+	void center(const sf::Vector2f&);
 private:
 	void updateRow();
 	sf::Vector2f m_checkPoint;
@@ -30,5 +31,6 @@ private:
 	bool m_onRope = false;
 	int m_lives;
 	int m_numFootContact;
+	sf::Vector2f m_offSet;
 	//Animation m_anim;
 };

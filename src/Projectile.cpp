@@ -37,20 +37,22 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
     m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
     */
-    float time = 3;
+    float time = 1;
 
-    float y = ((toPos.y - fromPos.y)-(0.5 * m_body->GetWorld()->GetGravity().y * (time) * (time)))/(time);
+    float y = -((toPos.y - fromPos.y)-(0.5 * m_body->GetWorld()->GetGravity().y * (time) * (time)))/(time);
     float x = (toPos.x - fromPos.x) / time;
     m_vel.x = x;
     m_vel.y = y;
+    //m_vel = { toPos.x - fromPos.x, toPos.y - fromPos.y };
 }
 
 void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
         m_elapaseTime += dt;
-        //m_body->SetLinearVelocity({ m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))});
-        m_body->ApplyForceToCenter({m_vel.x/2*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime)) * dt }, true);
+        m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
+       // m_body->ApplyForceToCenter({ m_vel.x*dt, m_vel.y*dt}, true);
+        //m_body->ApplyForceToCenter({m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime)) * dt }, true);
         return;
     }
     if (m_shot && !m_body->IsAwake())

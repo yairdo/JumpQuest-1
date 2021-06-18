@@ -36,10 +36,11 @@ void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Rope* rope= static_cast<Rope*> (obj2);
 	//std::cout << "player collide with rope\n";
-	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W) 
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) 
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		&& !player->getOnRope()) {
 		player->setOnRope(true);
+		player->center({rope->getPos().x, player->getPos().y});
 		return;
 	}
 	if(player->getOnRope())//reached when ends contact with rope
