@@ -7,7 +7,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0), m_checkPoint(pos)
 {
 
- //   m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
+  //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
     m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
@@ -26,11 +26,11 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //m_body->CreateFixture(&fixtureDef);
     
     b2PolygonShape dynamicBox(std::move(createPolygonShape({ size.x / (4.f * SCALE), size.y / (2.f * SCALE) })));
-    createFixtureDef(dynamicBox, 1.0f, 0.3f, playerBits);
+    createFixtureDef(dynamicBox, 1.0f, 0.f, playerBits);
 
     //--sides fixture
-    dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
-    createFixtureDef(dynamicBox, 1.0f, 0.f, noneBit,false,~ladderBits);
+    /*dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
+    createFixtureDef(dynamicBox, 1.0f, 0.f, noneBit,false,~ladderBits);*/
 
     //fixtureDef.friction = 0;
     //fixtureDef.filter.categoryBits = noneBit;;
@@ -72,6 +72,7 @@ void Player::updatePhysics(float dt)
 
     int pos = animPos;
     int dir = m_direction;
+    bool moved = false;
     m_direction = none;
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
@@ -80,6 +81,7 @@ void Player::updatePhysics(float dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         jump(dt);
         animPos = jumping;
+        moved = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_direction = right;
@@ -88,6 +90,7 @@ void Player::updatePhysics(float dt)
             return;
         else
             m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
+        moved = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         m_direction = left;
@@ -96,23 +99,23 @@ void Player::updatePhysics(float dt)
             return;
         else
             m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
+        moved = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-     //   m_direction = (m_direction==none)? up : m_direction;
-      //  animPos = walking;
         if (m_canCatch && !m_onRope) {
             m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
             setOnRope(true);
         }
         if (m_onRope)
             m_body->SetLinearVelocity({ 0.f, -75.f * dt });
+        moved = true;
     }
     else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
-      //  m_direction = (m_direction == none) ? down : m_direction;
-       // m_direction = down;
-       // animPos = walking;
         m_body->SetLinearVelocity({ 0.f, dt * 75.f });
+        moved = true;
     }
+    if(!moved && m_numFootContact)
+        m_body->SetLinearVelocity({ 0.f, m_body->GetLinearVelocity().y });
 
     if (m_direction == none) {
         animPos = idle;
