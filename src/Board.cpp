@@ -119,6 +119,6 @@ void Board::updateBoard(NetworkObject* netObj) {
 	}
 }
 
-void Board::updateMsgCollision(int index){
+void Board::updateStaticMsgCollision(int index){
 	m_staticObj[index]->MsgCollision();
 }

@@ -22,7 +22,7 @@ public:
 	void setInfo(unsigned int index, const MovingObjInfo& );
 	MovingObjInfo getInfo(unsigned int index);
 	unsigned int numOfMovingObjs();
-	void updateMsgCollision(int index);
+	void updateStaticMsgCollision(int index);
 	void updateBoard(NetworkObject*);
 
 private:

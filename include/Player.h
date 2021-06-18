@@ -18,6 +18,10 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
+
+	//test
+	void toggleCanCatch() { m_canCatch = !m_canCatch; };
+
 	int getDirection();
 	void footContact(int val);
 	void updateAnim(float deltaTime);
@@ -29,6 +33,9 @@ private:
 	sf::Vector2f m_checkPoint;
 	int m_direction;
 	bool m_onRope = false;
+	//test
+	bool m_canCatch = false;
+
 	int m_lives;
 	int m_numFootContact;
 	sf::Vector2f m_offSet;

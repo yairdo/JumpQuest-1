@@ -149,7 +149,7 @@ void Server::sendStaticCollision(int index) {
 */
 void Server::updateStaticObjState(const StaticObjInfo& info) {
 	if(info.m_id != getInfo().m_info.m_id)
-		getBoard()->updateMsgCollision(info.m_index);
+		getBoard()->updateStaticMsgCollision(info.m_index);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMembers(i) && i != info.m_id) {
 			sendUdpMessege<StaticObjInfo>(staticObjInfo, info,

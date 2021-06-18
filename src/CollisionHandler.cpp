@@ -26,7 +26,7 @@ CollisionHandler::CollisionHandler(){
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Gift* gift= static_cast<Gift*> (obj2);
-	//if(gift->getCollision())
+
 	gift->collisionCounter();
 	gift->setCollision(true);
 	//collect gift
@@ -36,16 +36,17 @@ void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Rope* rope= static_cast<Rope*> (obj2);
 	//std::cout << "player collide with rope\n";
-	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		&& !player->getOnRope()) {
-		player->setOnRope(true);
-		player->center({rope->getPos().x, player->getPos().y});
-		return;
-	}
-	if(player->getOnRope())//reached when ends contact with rope
-		player->setOnRope(false);
-
+	//if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)
+	//	|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	//	&& !player->getOnRope()) {
+	//	player->setOnRope(true);
+	//	player->center({rope->getPos().x, player->getPos().y});
+	//	return;
+	//}
+	//if(player->getOnRope())//reached when ends contact with rope
+	//	player->setOnRope(false);
+	player->center({ rope->getPos().x, player->getPos().y });
+	player->toggleCanCatch();
 }
 
 void CollisionHandler::playerBlock(GameObj* obj1, GameObj* obj2) {
@@ -83,15 +84,7 @@ CollisionHandler& CollisionHandler::getRef() {
 
 void CollisionHandler::handleCollision(GameObj* obj1, GameObj* obj2) {
 	auto it = m_collisionMap.find(Key(typeid(*obj1), typeid(*obj2)));
-	//std::cout << typeid(*obj1).name() << " " << typeid(*obj2).name() << std::endl;
-	//auto& func = it->second;
-	//func(obj1, obj2);
-	//(this->func)(obj1, obj2);
-	//(this->(it->second))(obj1, obj2);
-	//this->(it->second(obj1, obj2));
 
 	if (it != m_collisionMap.end())
-		(this->*(it->second))(obj1, obj2);
-		//(*(it->second))(obj1, obj2);
-	
+		(this->*(it->second))(obj1, obj2);	
 }

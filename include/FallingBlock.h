@@ -20,7 +20,6 @@ public:
 	void setActiveAnim(bool state);
 	virtual void reset() override;
 
-
 private:
 	bool m_activeAnim;
 	sf::Vector2f m_strtPos;

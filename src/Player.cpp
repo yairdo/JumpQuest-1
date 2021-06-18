@@ -97,6 +97,10 @@ void Player::updatePhysics(float dt)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         m_direction = up;
         animPos = walking;
+        if (m_canCatch && !m_onRope) {
+            m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
+            setOnRope(true);
+        }
         if (m_onRope)
             m_body->SetLinearVelocity({ 0.f, -75.f * dt });
     }
@@ -108,6 +112,10 @@ void Player::updatePhysics(float dt)
 
     else
         animPos = idle;
+
+    if (m_onRope && !m_canCatch)//fell off rope
+        setOnRope(false);
+    
     if(m_onRope)
         animPos = climb;
     else if (m_numFootContact == 0) {
@@ -139,10 +147,6 @@ void Player::jump(float dt) {
 
 void Player::move()
 {
-    if (m_offSet != sf::Vector2f{0.f,0.f}) {
-        m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
-        m_offSet = { 0,0 };
-    }
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
 }
