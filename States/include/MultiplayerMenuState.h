@@ -1,11 +1,11 @@
 #pragma once
-#include "MenuState.h"
+#include "StandardMenuState.h"
 #include <SFML/Graphics.hpp>
 
 class StateManager;
 class NetworkObject;
 
-class MultiplayerMenuState:  public MenuState{
+class MultiplayerMenuState:  public StandardMenuState {
 public:
 	MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool,std::shared_ptr<NetworkObject>  net = nullptr);
 	virtual ~MultiplayerMenuState()=default;
