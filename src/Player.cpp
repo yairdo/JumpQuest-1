@@ -98,7 +98,7 @@ void Player::updatePhysics(float dt)
         m_direction = up;
         animPos = walking;
         if (m_canCatch && !m_onRope) {
-            m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
+            m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
             setOnRope(true);
         }
         if (m_onRope)
@@ -132,11 +132,11 @@ void Player::jump(float dt) {
     if (m_onRope) {
         //m_body->SetLinearVelocity({ 0.f, 0.f });
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            m_body->ApplyForce(b2Vec2(impulse, impulse/2), m_body->GetWorldCenter(), true);
+            m_body->ApplyForce(b2Vec2(impulse/2, impulse/2), m_body->GetWorldCenter(), true);
             setOnRope(false);
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-            m_body->ApplyForce(b2Vec2(-impulse, impulse/2), m_body->GetWorldCenter(), true);
+            m_body->ApplyForce(b2Vec2(-impulse/2, impulse/2), m_body->GetWorldCenter(), true);
             setOnRope(false);
         }
         return;
