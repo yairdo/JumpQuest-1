@@ -10,15 +10,11 @@
 class Client : public NetworkObject{
 public:
 	Client();
-	virtual ~Client() = default;
+	virtual ~Client();
+
 	bool handleRequests(int = 10);
-	void searchForServers();
-	void regesterServer();
-	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
-	virtual void notifyClosing();
-	void sendGameMembership(const char name[PLAYER_NAME_LEN]);
-	virtual void updateLoc(const MemberInfo&);
 	virtual bool launch();
+	virtual void updateLoc(const MemberInfo&);
 	virtual void sendStaticCollision(int);
 private:
 	sf::IpAddress m_serverIP;
@@ -26,5 +22,9 @@ private:
 	bool m_isLinked;
 	bool m_started;
 
-	void addServerToList();
-}; 
+	virtual void notifyClosing();
+	void searchForServers();
+	void regesterServer();
+	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
+	void updateMovingObj();
+};

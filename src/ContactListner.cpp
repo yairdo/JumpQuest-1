@@ -5,10 +5,8 @@
 
 void ContactListner::BeginContact(b2Contact* contact)
 {
-    /*b2Fixture* fixtureA = contact->GetFixtureA();
-    b2Fixture* fixtureB = contact->GetFixtureB();*/
-    b2Body* body1 = contact->GetFixtureA()->GetBody();
-    b2Body* body2 = contact->GetFixtureB()->GetBody();
+    auto body1 = contact->GetFixtureA()->GetBody();
+    auto body2 = contact->GetFixtureB()->GetBody();
     if (checkFootContact((int)contact->GetFixtureA()->GetUserData(), 1, body1) ||
         checkFootContact((int)contact->GetFixtureB()->GetUserData(), 1, body2))
         return;

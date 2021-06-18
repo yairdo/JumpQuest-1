@@ -25,7 +25,7 @@ enum direction {
 	right,
 	up,
 	down,
-	idle
+	none
 };
 
 //enum objectType {
@@ -64,6 +64,7 @@ enum TexturesNum {
 	lobbyTitle,
 	castle,
 	checkPoint,
+	michal,
 	nullpt
 };
 
@@ -113,7 +114,8 @@ enum Messege_type {
 	addMember, //AddMember
 	memberInfo, //MemberInfo
 	movingObj, //MemberInfo
-	staticObjInfo
+	staticObjInfo, //StaticMemberInfo
+	closer, //int
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
@@ -131,7 +133,8 @@ constexpr auto SOKET_ERROR = "socket error!\n";
 enum animPos {
 	walking,
 	jumping,
-	climb
+	climb,
+	idle
 };
 constexpr float SWITCH_TIME = 0.15;
 
