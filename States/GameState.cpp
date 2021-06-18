@@ -289,7 +289,6 @@ void GameState::updateGame() {
 		updateBoard();
 		viewMover();
 		m_window.setView(m_view);
-		m_testPlayer->updateAnim(m_deltaTime);
 		m_board->updateBoard(m_networkObj.get());
 	}
 }

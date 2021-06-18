@@ -50,9 +50,9 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
 void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
-        //m_elapaseTime += dt;
+        m_elapaseTime += dt;
         //m_body->SetLinearVelocity({ m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))});
-        m_body->ApplyLinearImpulseToCenter({ 0,0 }, true);
+        m_body->ApplyForceToCenter({ m_vel.x * dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime)) * dt }, true);
         return;
     }
     if (m_shot && !m_body->IsAwake())
