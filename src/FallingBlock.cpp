@@ -39,7 +39,7 @@ void FallingBlock::updatePhysics(float dt)
         m_falling = true;
         return;
     }
-    if (m_timer <= 0 && !m_body->IsAwake())
+    if (getReset() || (m_timer <= 0 && !m_body->IsAwake()))
         reset();
     m_timer -= dt;
 }
@@ -74,6 +74,7 @@ void FallingBlock::reset()
     m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
     m_body->SetAwake(false);
     m_timer = 3;
+    setReset(false);
 }
 
 void FallingBlock::updateAnim(float deltaTime) {

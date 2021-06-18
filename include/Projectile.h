@@ -25,4 +25,5 @@ private:
 	sf::Vector2f m_strtPos;
 	b2Vec2 m_vel;
 	float m_elapaseTime;
+	bool m_applied = false;
 };

@@ -14,15 +14,13 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	/*if (m_networkObj && typeid(Server).name() == typeid(*m_networkObj.get()).name())
 		m_isServer = true;*/
 
-
-
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	
 	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	m_board->generateMap(m_world);
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
-	m_view = sf::View(sf::Vector2f(viewSize.x / 2, viewSize.y / 2), viewSize);
+	m_view = sf::View(sf::Vector2f(viewSize.x / 2.f, viewSize.y / 2.f), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });
 	addBorders2World();
 
@@ -241,15 +239,17 @@ void GameState::addBorders2World() {
 	b2FixtureDef fixture;
 	fixture.shape = &screenBorderShape;
 	fixture.friction = 1.f;
-	fixture.filter.categoryBits = boundryBits;
 
 	// Create fixtures for the four borders (the border shape is re-used)
 	screenBorderShape.Set(topLeftCorner, topRightCorner);
 	screenBorderBody->CreateFixture(&fixture);
 	screenBorderShape.Set(lowerRightCorner, topRightCorner);
 	screenBorderBody->CreateFixture(&fixture);
+	screenBorderShape.Set(lowerRightCorner, lowerLeftCorner);
+	screenBorderBody->CreateFixture(&fixture);
 	screenBorderShape.Set(lowerLeftCorner, topLeftCorner);
 	screenBorderBody->CreateFixture(&fixture);
+	fixture.filter.categoryBits = boundryBits;
 	screenBorderShape.Set(lowerRightCorner, lowerLeftCorner);
 	screenBorderBody->CreateFixture(&fixture);
 }

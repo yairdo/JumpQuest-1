@@ -26,7 +26,7 @@ Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, in
     fixture.shape = &groundBox;
     fixture.friction = 1.f;
     fixture.filter.categoryBits = giftBits;
-
+    fixture.filter.maskBits = /*0xFFFF &*/ ~noneBit;
     m_body->CreateFixture(&fixture);
 
     /*m_testRect.setFillColor(sf::Color::Blue);

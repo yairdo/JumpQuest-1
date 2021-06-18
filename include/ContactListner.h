@@ -6,6 +6,8 @@ public:
     void BeginContact(b2Contact* contact);
     void EndContact(b2Contact* contact);
 private:
-    void checkFootContact(int , int , b2Body*);
+    bool checkFootContact(int , int , b2Body*);
+
+    bool checkIfHitBoundry(b2Contact* contact) const;
 
 };

@@ -16,7 +16,7 @@ Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, in
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
     b2PolygonShape groundBox;
-    groundBox.SetAsBox((1 / SCALE)/2, (size.y / SCALE) / 2);
+    groundBox.SetAsBox((10 / SCALE)/2, (size.y / SCALE) / 2);
     b2FixtureDef fixture;
     fixture.shape = &groundBox;
     fixture.friction = 0.f;
