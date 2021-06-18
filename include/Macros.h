@@ -114,7 +114,8 @@ enum Messege_type {
 	addMember, //AddMember
 	memberInfo, //MemberInfo
 	movingObj, //MemberInfo
-	staticObjInfo
+	staticObjInfo, //StaticMemberInfo
+	closer, //int
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
