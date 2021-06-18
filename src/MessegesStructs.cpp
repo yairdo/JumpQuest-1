@@ -35,8 +35,8 @@ MovingObjInfo movingObjInfoCreator(const sf::Vector2f& loc, float time, const b2
     return value;
 }
 //============================================================================
-TestLocs testLocsCreator(const std::vector<MovingObjInfo>& vec) {
-    TestLocs value;
+MovingObjMembersRoport testLocsCreator(const std::vector<MovingObjInfo>& vec) {
+    MovingObjMembersRoport value;
     value.m_size = vec.size();
     for (int i = 0; i < vec.size(); ++i)
         value.m_locs[i] = vec[i];

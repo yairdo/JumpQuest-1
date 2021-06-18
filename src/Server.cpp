@@ -4,12 +4,12 @@
 #include "Macros.h"
 #include <Board.h>
 
-/*
-* TODO
-* inform members the server list.
-*/
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
 m_launched(false), m_tcpSockets(MAX_SERVER_PLAYERS) {
+}
+
+Server::~Server() {
+	notifyClosing();
 }
 /*============================================================================
 * Launch the server
@@ -35,7 +35,6 @@ bool Server::launch() {
 bool Server::handleRequests(int max) {
 	int counter = 0;
 	while (receivedUdpMessege() && counter++ < max) {
-		try {
 			Messege_type type = receiveUdpValue<Messege_type>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
 				switch (type)
@@ -51,10 +50,12 @@ bool Server::handleRequests(int max) {
 						if (m_requiting && m_launched)
 							sendUdpMessege(networkMessege, iAmFree);
 						break;
+					case closing:
+						notifyCloser();
 					}
 					break;
 				case memberInfo:
-					updatePlayerState(receiveUdpValue<MemberInfo>());
+					updateLoc(receiveUdpValue<MemberInfo>());
 					break;
 				case singMeIn:
 					registerPlayer();
@@ -66,22 +67,23 @@ bool Server::handleRequests(int max) {
 				}
 			}
 		}
-		catch (std::exception& e) {
-			if (e.what() == SOKET_ERROR) {
-				try {
-					notifyClosing();
-					return false;
-				}
-				catch (std::exception& e2) {
-					std::cout << e2.what();
-					exit(EXIT_FAILURE);
-				}
-			}
-		}
-	}
 	if (counter > 0)
 		return true;
 	return false;
+}
+/*============================================================================
+* 
+*/
+void Server::notifyCloser(){
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
+		if (getMembers(i) && getSenderIP() == getMembers(i)->m_memberIp 
+			&& getSenderPort() == getMembers(i)->m_memberPort) {
+			for (int j = 1; j < MAX_SERVER_PLAYERS; ++j)
+				if (getMembers(j) && i != j)
+					sendUdpMessege(closer, i, getMembers(j)->m_memberIp, getMembers(j)->m_memberPort);
+		}
+		setMember(i, nullptr);
+	}
 }
 /*============================================================================
 * The method add the last messege sender to the player list.
@@ -124,14 +126,9 @@ void Server::notifyClosing() {
 	m_requiting = false;
 }
 /*============================================================================
+* the
 */
 void Server::updateLoc(const MemberInfo& member) {
-	updatePlayerState(member);
-}
-/*============================================================================
-* The method update the other players about the player new state update.
-*/
-void Server::updatePlayerState(const MemberInfo& member) {
 	updateMember(member);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMembers(i) && i != member.m_id) {
@@ -205,13 +202,14 @@ bool Server::renameMember() {
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
-	updateAboutNewMember(addMemberCreator((index == -1) ? getInfo().m_info.m_id : index, name));
+	updateAboutNewMember(addMemberCreator(
+		(index == -1) ? getInfo().m_info.m_id : index, name));
 }
 /*==========================================================================*/
 void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
-			sendUdpMessege<TestLocs>(movingObj, testLocsCreator(vec),
+			sendUdpMessege<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
