@@ -71,7 +71,8 @@ void Player::updatePhysics(float dt)
         reset();
 
     int pos = animPos;
-    animPos = none;
+    int dir = m_direction;
+    m_direction = none;
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }
@@ -97,8 +98,8 @@ void Player::updatePhysics(float dt)
             m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        m_direction = up;
-        animPos = walking;
+     //   m_direction = (m_direction==none)? up : m_direction;
+      //  animPos = walking;
         if (m_canCatch && !m_onRope) {
             m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
             setOnRope(true);
@@ -107,13 +108,16 @@ void Player::updatePhysics(float dt)
             m_body->SetLinearVelocity({ 0.f, -75.f * dt });
     }
     else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
-        m_direction = down;
-        animPos = walking;
+      //  m_direction = (m_direction == none) ? down : m_direction;
+       // m_direction = down;
+       // animPos = walking;
         m_body->SetLinearVelocity({ 0.f, dt * 75.f });
     }
 
-    if(animPos == none)
+    if (m_direction == none) {
         animPos = idle;
+        m_direction = dir;
+    }
     
     if (m_onRope && !m_canCatch)//fell off rope
         setOnRope(false);
