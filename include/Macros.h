@@ -25,7 +25,7 @@ enum direction {
 	right,
 	up,
 	down,
-	idle
+	none
 };
 
 //enum objectType {
@@ -133,7 +133,8 @@ constexpr auto SOKET_ERROR = "socket error!\n";
 enum animPos {
 	walking,
 	jumping,
-	climb
+	climb,
+	idle
 };
 constexpr float SWITCH_TIME = 0.15;
 

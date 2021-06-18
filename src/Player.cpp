@@ -70,6 +70,7 @@ void Player::updatePhysics(float dt)
     if (getReset())
         reset();
     int pos = animPos;
+    animPos = none;
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }
@@ -110,9 +111,9 @@ void Player::updatePhysics(float dt)
         m_body->SetLinearVelocity({ 0.f, dt * 75.f });
     }
 
-    else
+    if(animPos == none)
         animPos = idle;
-
+    
     if (m_onRope && !m_canCatch)//fell off rope
         setOnRope(false);
     
