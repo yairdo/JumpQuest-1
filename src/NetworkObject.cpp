@@ -44,10 +44,6 @@ bool NetworkObject::receivedUdpMessege(float seconds) {
 	return m_udpSelector.wait(sf::seconds(seconds));
 }
 /*==========================================================================*/
-bool NetworkObject::receivedTcpMessege(float seconds) {
-	return false;
-}
-/*==========================================================================*/
 const GameMember* NetworkObject::getMembers(int index) const{
 	if (index >= 0 && index < m_members.size())
 		if (m_members[index])
@@ -68,14 +64,6 @@ void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
 template<>
 Messege_type NetworkObject::receiveUdpValue<Messege_type>() {
 	receiveUdp();
-	int value;
-	m_packet >> value;
-	return (Messege_type)value;
-}
-/*==========================================================================*/
-template<>
-Messege_type NetworkObject::receiveTcpValue<Messege_type>() {
-	receiveTcp(m_tcpSocket);
 	int value;
 	m_packet >> value;
 	return (Messege_type)value;

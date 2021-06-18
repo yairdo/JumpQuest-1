@@ -14,7 +14,6 @@ public:
 	virtual ~NetworkObject() = default;
 	//========================== inbox checkers ==============================
 	bool receivedUdpMessege(float seconds = 0.000001f);
-	bool receivedTcpMessege(float seconds = 0.000001f);
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
@@ -43,13 +42,9 @@ protected:
 	template <class T>
 	void sendUdpMessege(Messege_type, T,
 		const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0);
-	template <class T>
-	void sendTcpMessege(Messege_type, T, sf::TcpSocket& socket);
 	//receiving section
 	template <class T>
 	T receiveUdpValue();
-	template <class T>
-	T receiveTcpValue();
 
 	void addMemberToList();
 	void updateMember(const MemberInfo& member);
@@ -93,16 +88,6 @@ template<class T>
 		: sendUdp(ip, port);
 	m_packet.clear();
 }
- /*==========================================================================*/
- template<class T>
- void NetworkObject::sendTcpMessege(Messege_type type, T value, sf::TcpSocket& socket) {
-	 m_packet.clear();
-	 m_packet << type;
-	 int size = sizeof(T);
-	 m_packet.append(&value, sizeof(T)); ;
-	 sendTcp(socket);
-	 m_packet.clear();
- }
  /*===========================================================================
  * The mehod receiving the received messege value form the m_packet.
  * to know the vlue type, use receiveUdpValue<Messege_type> first.
@@ -115,14 +100,5 @@ T NetworkObject::receiveUdpValue(){
 	return value;
 }
 /*==========================================================================*/
-template<class T>
-T NetworkObject::receiveTcpValue(){
-	T value = *((T*)(((char*)m_packet.getData()) + sizeof(Messege_type)));
-	m_packet.clear();
-	return value;
-}
-/*==========================================================================*/
 template<>
 Messege_type NetworkObject::receiveUdpValue<Messege_type>();
-template<>
-Messege_type NetworkObject::receiveTcpValue<Messege_type>();
