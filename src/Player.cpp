@@ -69,6 +69,7 @@ void Player::updatePhysics(float dt)
 {
     if (getReset())
         reset();
+
     int pos = animPos;
     animPos = none;
     if (m_onRope) {
@@ -95,7 +96,7 @@ void Player::updatePhysics(float dt)
         else
             m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         m_direction = up;
         animPos = walking;
         if (m_canCatch && !m_onRope) {
