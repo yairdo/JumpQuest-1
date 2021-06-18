@@ -5,7 +5,7 @@
 #include <Board.h>
 
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
-m_launched(false), m_tcpSockets(MAX_SERVER_PLAYERS) {
+	m_launched(false){
 }
 
 Server::~Server() {
