@@ -6,16 +6,15 @@ ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window
 	NetworkGameState(manager,window,replace,net), m_lastUpdate(0)
 {
 	//------projectile test-------
-	m_testProjectile = new Projectile(getWorldRef(), { 50, 150 }, { 10, 10 }, b2_dynamicBody);
+	//m_testProjectile = new Projectile(getWorldRef(), { 50, 150 }, { 10, 10 }, b2_dynamicBody);
 	//---------------------
 }
 
 void ServerGameState::updateNetwork(){
 	m_networkObj->handleRequests(50);
-	static float projTimer = 3;
 
 	m_lastUpdate += m_deltaTime;
-	projTimer -= m_deltaTime;
+	/*projTimer -= m_deltaTime;*/
 	///change to member and use reserve
 	std::vector<MovingObjInfo> vec;
 	if (m_networkObj && m_lastUpdate >= 0.03) {
@@ -28,18 +27,18 @@ void ServerGameState::updateNetwork(){
 	}
 
 	//------test projectile
-	if (!m_testProjectile->getShot() && projTimer <= 0)
-		m_testProjectile->shot(m_testProjectile->getPos(), { 100, 300 });
-	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	if (m_testProjectile->getPos().x > 400)
-		std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	m_testProjectile->updatePhysics(m_deltaTime);
-	m_testProjectile->move();
+	//if (!m_testProjectile->getShot() && projTimer <= 0)
+	//	m_testProjectile->shot(m_testProjectile->getPos(), { 100, 300 });
+	//std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
+	//if (m_testProjectile->getPos().x > 400)
+	//	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
+	//m_testProjectile->updatePhysics(m_deltaTime);
+	//m_testProjectile->move();
 	//------
 
 }
 
 void ServerGameState::draw(){
 	NetworkGameState::draw();
-	m_testProjectile->draw(m_window);
+	/*m_testProjectile->draw(m_window);*/
 }

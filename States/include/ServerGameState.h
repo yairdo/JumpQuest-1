@@ -12,5 +12,4 @@ public:
 	virtual void draw()override;
 private:
 	float m_lastUpdate;
-	Projectile* m_testProjectile;
 };
