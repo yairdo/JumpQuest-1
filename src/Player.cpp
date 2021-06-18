@@ -13,38 +13,53 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
     m_body->SetFixedRotation(true);
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(size.x/(4.f*SCALE), size.y / (2.f * SCALE));
+    //b2PolygonShape dynamicBox;
+    //dynamicBox.SetAsBox(size.x/(4.f*SCALE), size.y / (2.f * SCALE));
     
     //set player shape
-    b2FixtureDef fixtureDef;
+    
+    /*b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
-    fixtureDef.filter.categoryBits = playerBits;
+    fixtureDef.filter.categoryBits = playerBits;*/
+    //m_body->CreateFixture(&fixtureDef);
     
-    m_body->CreateFixture(&fixtureDef);
+    b2PolygonShape dynamicBox(std::move(createPolygonShape({ size.x / (4.f * SCALE), size.y / (2.f * SCALE) })));
+    createFixtureDef(dynamicBox, 1.0f, 0.3f, playerBits);
+
     //--sides fixture
     dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
-    fixtureDef.friction = 0;
-    fixtureDef.filter.categoryBits = noneBit;;
+    createFixtureDef(dynamicBox, 1.0f, 0.f, noneBit,false,~ladderBits);
+
+    //fixtureDef.friction = 0;
+    //fixtureDef.filter.categoryBits = noneBit;;
 
     //fixtureDef.filter.maskBits = 0xFFFF & ~ladderBits;//wallBits | movingBlockBits | boundryBits | fallingBlockBits | giftBits;
-    m_body->CreateFixture(&fixtureDef);
+    //m_body->CreateFixture(&fixtureDef);
+    
     //set up sensor
-    dynamicBox.SetAsBox((1 / SCALE)/2, size.y / (2.f * SCALE));
+    
     //fixtureDef.friction = 0;
-    fixtureDef.isSensor = true;
-    fixtureDef.filter.categoryBits = playerSensorBits;
-    fixtureDef.filter.maskBits = ladderBits | checkPointBits;
-    m_body->CreateFixture(&fixtureDef);
+    //fixtureDef.isSensor = true;
+    //fixtureDef.filter.categoryBits = playerSensorBits;
+    //fixtureDef.filter.maskBits = ladderBits | checkPointBits;
+    //m_body->CreateFixture(&fixtureDef);
+
+    dynamicBox.SetAsBox((1 / SCALE) / 2, size.y / (2.f * SCALE));
+    createFixtureDef(dynamicBox, 1.0f, 0.f, playerSensorBits, true, ladderBits | checkPointBits);
+
     m_body->SetUserData(this);
     // add foot sensor fixture
-    dynamicBox.SetAsBox(size.x/(SCALE*4), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
-    fixtureDef.isSensor = true;
-    fixtureDef.filter.categoryBits = footBits;
-    fixtureDef.filter.maskBits = 0xFFFF;
-    b2Fixture* footSensorFixture = m_body->CreateFixture(&fixtureDef);
+    
+    //fixtureDef.isSensor = true;
+    //fixtureDef.filter.categoryBits = footBits;
+    //fixtureDef.filter.maskBits = 0xFFFF;
+
+    dynamicBox.SetAsBox(size.x / (SCALE * 4), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
+    
+    
+    b2Fixture* footSensorFixture = createFixtureDef(dynamicBox, 1.0f, 0.f, footBits, true);
     footSensorFixture->SetUserData((void*)FOOT);
 }
 
@@ -82,6 +97,10 @@ void Player::updatePhysics(float dt)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         m_direction = up;
         animPos = walking;
+        if (m_canCatch && !m_onRope) {
+            m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
+            setOnRope(true);
+        }
         if (m_onRope)
             m_body->SetLinearVelocity({ 0.f, -75.f * dt });
     }
@@ -93,6 +112,10 @@ void Player::updatePhysics(float dt)
 
     else
         animPos = idle;
+
+    if (m_onRope && !m_canCatch)//fell off rope
+        setOnRope(false);
+    
     if(m_onRope)
         animPos = climb;
     else if (m_numFootContact == 0) {
@@ -124,10 +147,6 @@ void Player::jump(float dt) {
 
 void Player::move()
 {
-    if (m_offSet != sf::Vector2f{0.f,0.f}) {
-        m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
-        m_offSet = { 0,0 };
-    }
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
 }

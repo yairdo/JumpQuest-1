@@ -12,16 +12,20 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& startPos, const sf::V
     m_sprite.setColor(sf::Color::Yellow);
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
 	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-    b2PolygonShape kinematic;
+    /*b2PolygonShape kinematic;
     kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &kinematic;
     fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 0.3f;*/
+    b2PolygonShape kinematic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(kinematic, 1.0f,0.3);
+
     //fixtureDef.filter.categoryBits = fallingBlockBits;
 
-    m_body->CreateFixture(&fixtureDef);
+    //m_body->CreateFixture(&fixtureDef);
+
     m_body->SetUserData(this);
     m_body->SetAwake(false);
     m_body->SetGravityScale(0.f);

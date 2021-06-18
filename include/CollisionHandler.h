@@ -3,6 +3,7 @@
 #include <typeindex>
 #include "GameObj.h"
 #include <unordered_map>
+
 using Key = std::pair< std::type_index,  std::type_index>;
 
 class CollisionHandler {
@@ -45,7 +46,6 @@ private:
 	
 	//std::map<Key, CorrectFunc> m_collisionMap;
 	std::unordered_map<Key, CorrectFunc, ArgsHash, KeyEqual> m_collisionMap;
-	
 	void playerGift(GameObj*,GameObj*);
 	void giftPlayer(GameObj*, GameObj*);
 	void playerRope(GameObj*, GameObj*);

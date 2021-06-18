@@ -3,7 +3,6 @@
 #include <unordered_map>
 class NetworkGameState:public GameState {
 public:
-	//using::GameState::GameState;
 	NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net);
 	virtual ~NetworkGameState()=default;
 	virtual void draw() override;

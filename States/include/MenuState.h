@@ -28,7 +28,7 @@ protected:
 	sf::Vector2f m_middle;
 	float getTitlePosY() const;
 private:
-	//sf::Vector2f m_middle;
+
 	std::unique_ptr<sf::Sprite> m_background;
 	std::unique_ptr<sf::Sprite> m_title;
 	void setTitle(int);

@@ -50,10 +50,7 @@ bool Client::handleRequests(int max) {
 				updateMovingObj();
 				break;
 			case staticObjInfo:
-				getBoard()->updateMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
-				break;
-			case closer:
-				setMember(receiveUdpValue<int>(), nullptr);
+				getBoard()->updateStaticMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
 				break;
 			default:
 				break;

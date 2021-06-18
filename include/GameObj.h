@@ -3,7 +3,7 @@
 //#include <Macros.h>
 #include <Animation.h>
 #include <memory>
-
+#include "box2d/box2d.h"
 class b2Body;
 class b2World;
 
@@ -38,6 +38,9 @@ protected:
     int m_row, m_col;
     b2Body* m_body;
     sf::Sprite m_sprite;
+    b2PolygonShape createPolygonShape(const sf::Vector2f& );
+    b2Fixture* createFixtureDef( b2PolygonShape& shape, float density=0.f,
+        float friction=0.2f, uint16 categoryBits=1, bool isSensor=false, uint16 maskBits=0xFFFF);
 
 private:
     bool m_isRemoved;

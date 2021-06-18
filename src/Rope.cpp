@@ -15,15 +15,19 @@ Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, in
     m_sprite.setScale(0.8, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
-    b2PolygonShape groundBox;
+    /*b2PolygonShape groundBox;
     groundBox.SetAsBox((10 / SCALE)/2, (size.y / SCALE) / 2);
     b2FixtureDef fixture;
     fixture.shape = &groundBox;
     fixture.friction = 0.f;
     fixture.filter.categoryBits = ladderBits;
-    fixture.filter.maskBits = playerSensorBits;
+    fixture.filter.maskBits = playerSensorBits;*/
 
-    m_body->CreateFixture(&fixture);
+    //m_body->CreateFixture(&fixture);
+
+    b2PolygonShape groundBox(std::move(createPolygonShape({ (10 / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(groundBox, 0.f, 0.f, ladderBits,false, playerSensorBits);
+
     m_body->SetUserData(this);
    // m_sprite.setColor(sf::Color::Cyan);
 }
