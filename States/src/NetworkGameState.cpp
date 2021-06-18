@@ -13,6 +13,9 @@ NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& wind
 		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
 			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer();
 		}
+		else if (m_networkObj->getMembers(i) && m_clones.find(i) != m_clones.end()) {
+			m_clones.erase(i);
+		}
 	}
 }
 
