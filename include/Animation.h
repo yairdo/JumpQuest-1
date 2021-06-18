@@ -17,7 +17,8 @@
 class Animation {
 public:
 	static Animation& getAnimRef();
-	const sf::IntRect updateAnim(int row, int& col, float deltaTime, float& totalTime, int type,int dir);
+	const sf::IntRect updateAnim(int row, int& col, float deltaTime,
+		float& totalTime, int type,int dir, float switchTime=0.15);
 private:
 	//Singeltone class
 	sf::IntRect m_animRect;
