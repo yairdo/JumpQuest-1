@@ -120,8 +120,9 @@ void Server::registerPlayer() {
 */
 void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		sendUdpMessege<Network_messeges>(networkMessege, closing,
-			getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+		if(getMembers(i))
+			sendUdpMessege<Network_messeges>(networkMessege, closing,
+				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 	m_launched = false;
 	m_requiting = false;
 }

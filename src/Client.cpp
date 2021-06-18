@@ -25,7 +25,7 @@ bool Client::handleRequests(int max) {
 			case networkMessege:
 				switch (receiveUdpValue<Network_messeges>()){
 				case iAmFree:
-					setName("client");
+					sendGameMembership("client");
 					break;
 				case startGame:
 					setStarted(true);
@@ -130,4 +130,10 @@ void Client::updateMovingObj() {
 	MovingObjMembersRoport messege = receiveUdpValue<MovingObjMembersRoport>();
 	for (int i = 0; i < messege.m_size; ++i)
 		getBoard()->setInfo(i + 1, messege.m_locs[i]);
+}
+/*============================================================================
+* The method is singIn to the server.
+*/
+void Client::sendGameMembership(const char name[]) {
+	sendUdpMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
 }
