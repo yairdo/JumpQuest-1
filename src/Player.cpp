@@ -27,7 +27,9 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //--sides fixture
     dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
     fixtureDef.friction = 0;
-    fixtureDef.filter.maskBits = wallBits | movingBlockBits | boundryBits | fallingBlockBits | giftBits;
+    fixtureDef.filter.categoryBits = noneBit;;
+
+    //fixtureDef.filter.maskBits = 0xFFFF & ~ladderBits;//wallBits | movingBlockBits | boundryBits | fallingBlockBits | giftBits;
     m_body->CreateFixture(&fixtureDef);
     //set up sensor
     dynamicBox.SetAsBox((1 / SCALE)/2, size.y / (2.f * SCALE));
@@ -50,6 +52,8 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
 //applies impulse to jump
 void Player::updatePhysics(float dt)
 {
+    if (getReset())
+        reset();
     int pos = animPos;
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
@@ -120,9 +124,12 @@ void Player::jump(float dt) {
 
 void Player::move()
 {
+    if (m_offSet != sf::Vector2f{0.f,0.f}) {
+        m_body->SetTransform({ m_offSet.x / SCALE, m_offSet.y / SCALE }, 0);
+        m_offSet = { 0,0 };
+    }
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
-    
 }
 
 void Player::draw(sf::RenderWindow& window)
@@ -156,13 +163,15 @@ void Player::updateAnim(float deltaTime) {
 
 }
 
-void Player::fallDown() {
+void Player::reset() {
+
     sf::Vector2f vec(m_checkPoint.x/SCALE, m_checkPoint.y/SCALE);
     //sf::Vector2f vec(50/SCALE, 50/SCALE);
     m_body->SetTransform({ vec.x,vec.y }, m_body->GetAngle());
    //m_body->GetLocalPoint(m_body->GetWorldPoint()).Set(vec.x,vec.y);
     m_sprite.setPosition(m_checkPoint);
     //m_sprite.setPosition(50,50);
+    setReset(false);
 }
 
 void Player::setCheckPoint(const sf::Vector2f& cp){
@@ -183,4 +192,8 @@ void Player::updateRow() {
     case climb:
         m_row = 3;
     }
+}
+
+void Player::center(const sf::Vector2f& ropePos) {
+    m_offSet = ropePos;
 }

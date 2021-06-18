@@ -88,7 +88,8 @@ enum _entityCategory {
 	ladderBits = 0x00040,
 	fallingBlockBits = 0x00080,
 	footBits = 0x000100,
-	checkPointBits = 0x000200
+	checkPointBits = 0x000200,
+	noneBit = 0x000400
 };
 
 //============================================================================

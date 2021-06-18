@@ -17,6 +17,12 @@ public:
 	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), 0, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info) { setPos(info.m_loc); }
 
+	bool getReset() { return m_reset; }
+	void setReset(bool reset) { m_reset = reset; }
+
+	virtual void reset() {};
+private:
+	bool m_reset = false;
 	//virtual void fixed(const sf::Vector2f& vec){
 	//	m_body->SetTransform({ vec.x / SCALE, vec.y / SCALE }, 0);
 	//}

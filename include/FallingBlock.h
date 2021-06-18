@@ -18,7 +18,7 @@ public:
 	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), m_timer, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info);
 	void setActiveAnim(bool state);
-	void reset();
+	virtual void reset() override;
 
 
 private:
