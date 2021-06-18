@@ -23,7 +23,8 @@ public:
 private:
 	StateManager m_manager;
 	sf::RenderWindow m_window;
-	//Board* m_board;
+	//Board* m_
+	;
 	//std::unique_ptr<Board> m_board;
 	//sf::RenderWindow m_window;
 	//Menu m_mainMenu;

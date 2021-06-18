@@ -1,7 +1,8 @@
 #include "NetworkGameState.h"
 #include "Player.h"
 #include <Projectile.h>
-
+#include <StateManager.h>
+#include <MultiplayerMenuState.h>
 
 NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	GameState(manager,window,replace,net)
@@ -38,8 +39,14 @@ void NetworkGameState::updateBoard()
 		std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
 	m_testProjectile->updatePhysics(m_deltaTime);
 	m_testProjectile->move();
-
-	updateNetwork();
+	try {
+		updateNetwork();
+	}
+	catch (std::exception& e) {
+		if (e.what() == SERVER_CONNECTION_LOST)
+			m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+		return;
+	}
 	GameState::updateBoard();
 	sendInfo();
 	updateClonesLoc();

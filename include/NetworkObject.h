@@ -65,7 +65,7 @@ private:
 	//game members
 	std::vector<std::unique_ptr<GameMember>> m_members;
 	GameMember m_info;
-	bool m_started ;
+	bool m_started;
 	Board* m_board;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
