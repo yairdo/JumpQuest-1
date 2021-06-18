@@ -34,34 +34,34 @@ bool Server::launch() {
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
-	while (receivedUdpMessege() && counter++ < max) {
-			Messege_type type = receiveUdpValue<Messege_type>();
+	while (receivedMessege() && counter++ < max) {
+			Messege_type type = receiveValue<Messege_type>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
 				switch (type)
 				{
 				case networkMessege:
-					switch (receiveUdpValue<Network_messeges>()) {
+					switch (receiveValue<Network_messeges>()) {
 					case whoIsAServer:
 						if (m_launched)
-							sendUdpMessege(networkMessege, iAmAServer,
+							sendMessege(networkMessege, iAmAServer,
 								sf::IpAddress::Broadcast, SERVERS_PORT);
 						break;
 					case whoIsFreeServer:
 						if (m_requiting && m_launched)
-							sendUdpMessege(networkMessege, iAmFree);
+							sendMessege(networkMessege, iAmFree);
 						break;
 					case closing:
 						notifyCloser();
 					}
 					break;
 				case memberInfo:
-					updateLoc(receiveUdpValue<MemberInfo>());
+					updateLoc(receiveValue<MemberInfo>());
 					break;
 				case singMeIn:
 					registerPlayer();
 					break;
 				case staticObjInfo:
-					updateStaticObjState(receiveUdpValue<StaticObjInfo>());
+					updateStaticObjState(receiveValue<StaticObjInfo>());
 				default:
 					break;
 				}
@@ -80,7 +80,7 @@ void Server::notifyCloser(){
 			&& getSenderPort() == getMembers(i)->m_memberPort) {
 			for (int j = 1; j < MAX_SERVER_PLAYERS; ++j)
 				if (getMembers(j) && i != j)
-					sendUdpMessege(closer, i, getMembers(j)->m_memberIp, getMembers(j)->m_memberPort);
+					sendMessege(closer, i, getMembers(j)->m_memberIp, getMembers(j)->m_memberPort);
 		}
 		setMember(i, nullptr);
 	}
@@ -96,16 +96,16 @@ void Server::registerPlayer() {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
-					receiveUdpValue<GameMember>().m_name, memberInfoCreator(i))));
+					receiveValue<GameMember>().m_name, memberInfoCreator(i))));
 			//tell the new member his id
-			sendUdpMessege<int>(memberId, i);
+			sendMessege<int>(memberId, i);
 			//notify old members about the new member
 			updateAboutNewMember(
 				addMemberCreator(getMembers(i)->m_info.m_id, getMembers(i)->m_name));
 			//send the new mebemer all the old members info.
 			for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
 				if (i != j && getMembers(j)) {
-					sendUdpMessege<AddMember>(addMember,
+					sendMessege<AddMember>(addMember,
 						addMemberCreator(getMembers(j)->m_info.m_id, getMembers(j)->m_name),
 						getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 				}
@@ -121,7 +121,7 @@ void Server::registerPlayer() {
 void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if(getMembers(i))
-			sendUdpMessege<Network_messeges>(networkMessege, closing,
+			sendMessege<Network_messeges>(networkMessege, closing,
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 	m_launched = false;
 	m_requiting = false;
@@ -133,7 +133,7 @@ void Server::updateLoc(const MemberInfo& member) {
 	updateMember(member);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMembers(i) && i != member.m_id) {
-			sendUdpMessege<MemberInfo>(memberInfo, member,
+			sendMessege<MemberInfo>(memberInfo, member,
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 		}
 	}
@@ -150,7 +150,7 @@ void Server::updateStaticObjState(const StaticObjInfo& info) {
 		getBoard()->updateStaticMsgCollision(info.m_index);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMembers(i) && i != info.m_id) {
-			sendUdpMessege<StaticObjInfo>(staticObjInfo, info,
+			sendMessege<StaticObjInfo>(staticObjInfo, info,
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 		}
 	}
@@ -164,7 +164,7 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
 			if (i != newMember.m_id)
-				sendUdpMessege<AddMember>(addMember, newMember,
+				sendMessege<AddMember>(addMember, newMember,
 					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
@@ -173,11 +173,11 @@ int Server::countServersInPort() {
 		max = 200,
 		messegesCounter = 0;
 	try {
-		sendUdpMessege(networkMessege, whoIsAServer,
+		sendMessege(networkMessege, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
-		while (receivedUdpMessege() && messegesCounter++ < max) {
-			if (receiveUdpValue<Messege_type>() == networkMessege
-				&& receiveUdpValue<Network_messeges>() == iAmAServer)
+		while (receivedMessege() && messegesCounter++ < max) {
+			if (receiveValue<Messege_type>() == networkMessege
+				&& receiveValue<Network_messeges>() == iAmAServer)
 				++counter;
 		}
 	}
@@ -194,8 +194,8 @@ bool Server::renameMember() {
 			if (getMembers(i)->m_memberIp == getSenderIP()
 				&& getMembers(i)->m_memberPort == getSenderPort()) {
 				updateAboutNewMember(addMemberCreator(i,
-					receiveUdpValue<GameMember>().m_name));
-				sendUdpMessege<int>(memberId, getMembers(i)->m_info.m_id,
+					receiveValue<GameMember>().m_name));
+				sendMessege<int>(memberId, getMembers(i)->m_info.m_id,
 					getSenderIP(), getSenderPort());
 				return true;
 			}
@@ -210,13 +210,13 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
-			sendUdpMessege<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
+			sendMessege<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
 				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
 }
 /*==========================================================================*/
 void Server::startGame() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
-			sendUdpMessege(networkMessege, Network_messeges::startGame, getMembers(i)->m_memberIp,
+			sendMessege(networkMessege, Network_messeges::startGame, getMembers(i)->m_memberIp,
 				getMembers(i)->m_memberPort);
 }

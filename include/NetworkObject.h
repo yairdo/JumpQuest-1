@@ -13,7 +13,7 @@ public:
 	NetworkObject(unsigned short port = 0);
 	virtual ~NetworkObject() = default;
 	//========================== inbox checkers ==============================
-	bool receivedUdpMessege(float seconds = 0.000001f);
+	bool receivedMessege(float seconds = 0.000001f);
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
@@ -40,16 +40,15 @@ protected:
 	//====================== messeges handeling section ======================
 	//sending section
 	template <class T>
-	void sendUdpMessege(Messege_type, T,
+	void sendMessege(Messege_type, T,
 		const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0);
 	//receiving section
 	template <class T>
-	T receiveUdpValue();
+	T receiveValue();
 
 	void addMemberToList();
 	void updateMember(const MemberInfo& member);
 	void setMember(int index, std::unique_ptr<GameMember>);
-	//virtual void setMember(int index);
 	void setStarted(bool value) { m_started = value; }
 	//=========================== gets section ===============================
 	sf::Packet m_packet;
@@ -59,26 +58,22 @@ private:
 	sf::IpAddress m_senderIP;
 	unsigned short m_senderPort;
 	//server communication members
-	sf::UdpSocket m_udpSocket;
-	sf::TcpSocket m_tcpSocket;
+	sf::UdpSocket m_socket;
 	sf::IpAddress m_ip;
 	unsigned short m_port;
-	sf::SocketSelector m_udpSelector;
+	sf::SocketSelector m_selector;
 	//game members
 	std::vector<std::unique_ptr<GameMember>> m_members;
 	GameMember m_info;
-	bool m_started = false;
+	bool m_started ;
 
 	Board* m_board;
-
-	void receiveTcp(sf::TcpSocket& socket) { socket.receive(m_packet);}
-	void sendTcp(sf::TcpSocket& socket);
-	void receiveUdp() { m_udpSocket.receive(m_packet, m_senderIP, m_senderPort); }
+	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
 	void sendUdp(const sf::IpAddress& ip, unsigned short port);
 };
 /*==========================================================================*/
 template<class T>
- void NetworkObject::sendUdpMessege(Messege_type type,T value,const sf::IpAddress& ip
+ void NetworkObject::sendMessege(Messege_type type,T value,const sf::IpAddress& ip
 	 , unsigned short port){
 	m_packet.clear();
 	m_packet << type;
@@ -90,10 +85,10 @@ template<class T>
 }
  /*===========================================================================
  * The mehod receiving the received messege value form the m_packet.
- * to know the vlue type, use receiveUdpValue<Messege_type> first.
+ * to know the vlue type, use receiveValue<Messege_type> first.
  */
 template<class T>
-T NetworkObject::receiveUdpValue(){
+T NetworkObject::receiveValue(){
 	//reading from the last char of the messege type the rest of the messege
 	T value = *((T*)(((char*)m_packet.getData()) + sizeof(Messege_type)));
 	m_packet.clear();
@@ -101,4 +96,4 @@ T NetworkObject::receiveUdpValue(){
 }
 /*==========================================================================*/
 template<>
-Messege_type NetworkObject::receiveUdpValue<Messege_type>();
+Messege_type NetworkObject::receiveValue<Messege_type>();

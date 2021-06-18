@@ -17,13 +17,13 @@ Client::~Client() {
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
-	while (receivedUdpMessege()&& counter++ < max) {
+	while (receivedMessege()&& counter++ < max) {
 		//std::cout << "udp messege received.\n";
 		try {
-			switch (receiveUdpValue<Messege_type>())
+			switch (receiveValue<Messege_type>())
 			{
 			case networkMessege:
-				switch (receiveUdpValue<Network_messeges>()){
+				switch (receiveValue<Network_messeges>()){
 				case iAmFree:
 					sendGameMembership("client");
 					break;
@@ -44,13 +44,13 @@ bool Client::handleRequests(int max) {
 				addMemberToList();
 				break;
 			case memberInfo:
-				updateMember(receiveUdpValue<MemberInfo>());
+				updateMember(receiveValue<MemberInfo>());
 				break;
 			case movingObj:
 				updateMovingObj();
 				break;
 			case staticObjInfo:
-				getBoard()->updateStaticMsgCollision(receiveUdpValue<StaticObjInfo>().m_index);
+				getBoard()->updateStaticMsgCollision(receiveValue<StaticObjInfo>().m_index);
 				break;
 			default:
 				break;
@@ -79,7 +79,7 @@ bool Client::handleRequests(int max) {
 */
 void Client::searchForServers() {
 	m_packet.clear();
-	sendUdpMessege(networkMessege, whoIsFreeServer, 
+	sendMessege(networkMessege, whoIsFreeServer, 
 		sf::IpAddress::Broadcast, SERVERS_PORT);
 	m_packet.clear();
 }
@@ -87,16 +87,16 @@ void Client::searchForServers() {
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendUdpMessege(networkMessege, closing, m_serverIP, SERVERS_PORT);
+	sendMessege(networkMessege, closing, m_serverIP, SERVERS_PORT);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
-	sendUdpMessege<MemberInfo>(memberInfo, member, m_serverIP, SERVERS_PORT);
+	sendMessege<MemberInfo>(memberInfo, member, m_serverIP, SERVERS_PORT);
 }
 /*==========================================================================*/
 bool Client::launch()
 {
-	if (!receivedUdpMessege()){
+	if (!receivedMessege()){
 		searchForServers();
 	}
 	return getInfo().m_info.m_id != 0;
@@ -105,7 +105,7 @@ bool Client::launch()
 * The method is regester to the server the client reseived messege from the last.
 */
 void Client::regesterServer() {
-	setId(receiveUdpValue<int>());
+	setId(receiveValue<int>());
 	m_serverIP = getSenderIP();
 	m_isLinked = true;
 }
@@ -114,20 +114,20 @@ void Client::regesterServer() {
 */
 void Client::setName(const char name[PLAYER_NAME_LEN], int index) {
 	NetworkObject::setName(name);
-	sendUdpMessege<GameMember>(singMeIn, getInfo());
+	sendMessege<GameMember>(singMeIn, getInfo());
 }
 /*============================================================================
 * The method is notify the server about collision with static obj
 */
 void Client::sendStaticCollision(int index){
-	sendUdpMessege<StaticObjInfo>(staticObjInfo, 
+	sendMessege<StaticObjInfo>(staticObjInfo, 
 		staticObjInfoCreator(getInfo().m_info.m_id, index));
 }
 /*============================================================================
 * The method is update the Board's moving objects as the server reported.
 */
 void Client::updateMovingObj() {
-	MovingObjMembersRoport messege = receiveUdpValue<MovingObjMembersRoport>();
+	MovingObjMembersRoport messege = receiveValue<MovingObjMembersRoport>();
 	for (int i = 0; i < messege.m_size; ++i)
 		getBoard()->setInfo(i + 1, messege.m_locs[i]);
 }
@@ -135,5 +135,5 @@ void Client::updateMovingObj() {
 * The method is singIn to the server.
 */
 void Client::sendGameMembership(const char name[]) {
-	sendUdpMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
+	sendMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
 }
