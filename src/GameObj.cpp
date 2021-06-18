@@ -41,3 +41,24 @@ void GameObj::updateAnim(float deltaTime){
 	//m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col, deltaTime,m_totalTime, player));
 
 }
+
+b2Fixture* GameObj::createFixtureDef( b2PolygonShape& shape, float density, float friction, uint16 categoryBits, bool isSensor, uint16 maskBits)
+{
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &shape;
+	fixtureDef.density = density;
+	fixtureDef.friction = friction;
+	fixtureDef.filter.categoryBits = categoryBits;
+	fixtureDef.isSensor = isSensor;
+	fixtureDef.filter.maskBits = maskBits;
+	return m_body->CreateFixture(&fixtureDef);
+	
+}
+
+b2PolygonShape GameObj::createPolygonShape(const sf::Vector2f& halfSize)
+{
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(halfSize.x, halfSize.y);
+	return std::move(dynamicBox);
+}
+

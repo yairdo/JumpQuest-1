@@ -15,16 +15,20 @@ MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf:
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
     //m_sprite.setColor(sf::Color::Red);
-    b2PolygonShape kinematic;
-    kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
+    //b2PolygonShape kinematic;
+    //kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
 
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &kinematic;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 1.f;
-    fixtureDef.filter.categoryBits = movingBlockBits;
+    //b2FixtureDef fixtureDef;
+    //fixtureDef.shape = &kinematic;
+    //fixtureDef.density = 1.0f;
+    //fixtureDef.friction = 1.f;
+    //fixtureDef.filter.categoryBits = movingBlockBits;
+    //m_body->CreateFixture(&fixtureDef);
 
-    m_body->CreateFixture(&fixtureDef);
+    b2PolygonShape kinematic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(kinematic, 1.f, 1.f, movingBlockBits);
+
+
     m_body->SetUserData(this);
 }
 

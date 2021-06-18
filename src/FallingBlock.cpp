@@ -15,7 +15,7 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
    // m_sprite.setColor(sf::Color::Magenta);
-    b2PolygonShape kinematic;
+    /*b2PolygonShape kinematic;
     kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
 
     b2FixtureDef fixtureDef;
@@ -24,7 +24,10 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
     fixtureDef.friction = 0.3f;
     fixtureDef.filter.categoryBits = fallingBlockBits;
 
-    m_body->CreateFixture(&fixtureDef);
+    m_body->CreateFixture(&fixtureDef);*/
+
+    b2PolygonShape kinmatic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(kinmatic, 1.0f, 0.3, fallingBlockBits);
     m_body->SetUserData(this);
     m_body->SetAwake(false);
 }
