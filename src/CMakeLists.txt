@@ -5,7 +5,6 @@
                                      "Resources.cpp"
                                      "Player.cpp"
                                      "Block.cpp"
-                                     "Menu.cpp"
                                      "BaseButton.cpp"
                                      "Button.cpp"
                                      "Server.cpp"

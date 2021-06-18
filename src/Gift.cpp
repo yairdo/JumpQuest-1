@@ -20,14 +20,17 @@ Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, in
     groundBodyDef.position.Set(pos.x / SCALE, pos.y / SCALE);
     m_body = world.CreateBody(&groundBodyDef);*/
 
-    b2PolygonShape groundBox;
-    groundBox.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
-    b2FixtureDef fixture;
-    fixture.shape = &groundBox;
-    fixture.friction = 1.f;
-    fixture.filter.categoryBits = giftBits;
-    fixture.filter.maskBits = /*0xFFFF &*/ ~noneBit;
-    m_body->CreateFixture(&fixture);
+    //b2PolygonShape groundBox;
+    //groundBox.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
+    //b2FixtureDef fixture;
+    //fixture.shape = &groundBox;
+    //fixture.friction = 1.f;
+    //fixture.filter.categoryBits = giftBits;
+    //fixture.filter.maskBits = /*0xFFFF &*/ ~noneBit;
+    //m_body->CreateFixture(&fixture);
+
+    b2PolygonShape groundBox(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(groundBox, 0.f, 1.f, giftBits, false, ~noneBit);
 
     /*m_testRect.setFillColor(sf::Color::Blue);
     m_testRect.setOrigin(size / 2.f);

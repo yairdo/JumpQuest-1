@@ -13,17 +13,20 @@ Block::Block(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, 
 {
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setColor(sf::Color::White);
 
-    b2PolygonShape groundBox;
+    /*b2PolygonShape groundBox;
     groundBox.SetAsBox((size.x/SCALE)/2, (size.y / SCALE) / 2);
     b2FixtureDef fixture;
     fixture.shape = &groundBox;
     fixture.friction = 1.f;
     fixture.filter.categoryBits = wallBits;
 
-    m_body->CreateFixture(&fixture);
+    m_body->CreateFixture(&fixture);*/
+    b2PolygonShape groundBox(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(groundBox, 0.f, 1.f, wallBits);
 
-    m_sprite.setColor(sf::Color::White);
+    
     //m_body->SetUserData(this);
 }
 

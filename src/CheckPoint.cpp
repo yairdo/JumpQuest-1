@@ -15,7 +15,7 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
-    b2PolygonShape groundBox;
+    /*b2PolygonShape groundBox;
     groundBox.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
     b2FixtureDef fixture;
     fixture.shape = &groundBox;
@@ -23,10 +23,12 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
     fixture.filter.categoryBits = checkPointBits;
     fixture.filter.maskBits = playerSensorBits;
 
-    m_body->CreateFixture(&fixture);
+    m_body->CreateFixture(&fixture);*/
+    b2PolygonShape groundBox(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(groundBox, 0.f, 0.f, checkPointBits, false, playerSensorBits);
+
     m_body->SetUserData(this);
     m_row = 1;
-  //  m_sprite.setColor(sf::Color::Yellow);
 }
 
 void CheckPoint::draw(sf::RenderWindow& window)
@@ -39,7 +41,6 @@ void CheckPoint::setColor(sf::Color color){
 }
 
 void CheckPoint::activate(){
-   // m_sprite.setColor(sf::Color::Magenta);
     m_row = 0;
     m_activate = true;
 }
