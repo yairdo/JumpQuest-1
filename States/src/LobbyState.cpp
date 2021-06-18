@@ -156,7 +156,7 @@ void LobbyState::updateNextState(const sf::Vector2f& loc) {
 	}
 	if (m_isServer && m_buttons[1]->checkCollision(loc)) {
 		static_cast<Server*>(m_networkObj.get())->startGame();
-		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, m_networkObj);
+		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, nullptr);
 	}
 }
 

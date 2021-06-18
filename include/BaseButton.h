@@ -11,7 +11,7 @@ public:
 	void setTransp(const sf::Vector2f& loc);
 	void draw(sf::RenderWindow&)const;
 	bool checkCollision(const sf::Vector2f& loc) const { return m_title.getGlobalBounds().contains(loc); }
-	virtual std::unique_ptr<State> ButtonState(StateManager&, sf::RenderWindow&, bool, std::shared_ptr<NetworkObject>&) const { return nullptr; };
+	virtual std::unique_ptr<State> ButtonState(StateManager&, sf::RenderWindow&, bool, std::shared_ptr<NetworkObject>) const { return nullptr; };
 	bool getIsExit()const { return m_isExit; }
 	
 private:
