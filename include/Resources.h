@@ -3,11 +3,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
+#include "PairHush.h"
 class Resources {
 public:
 	//----------------functions-------------------
 	static Resources& getResourceRef();
 	const sf::Texture& getTexture(int index) const;
+	const sf::Texture& getTexture(int map,int index) const;
 	const sf::Font& getFont(int index) const;
 	const int getButLen(int index) const;
 private:
@@ -18,17 +20,19 @@ private:
 	void setTextures();
 	void setButtonStrLengh();
 	void setFonts();
+	void setGameTextures();
 
 	std::unordered_map <int, sf::Texture> m_textures;
 	std::unordered_map<int, sf::Font> m_fonts;
 	std::unordered_map<int, int> m_buttonStrLen;
-
+	std::unordered_map<std::pair<int, int>, sf::Texture,ArgsHash<int>,KeyEqual<int>> m_gameTextures;
 	std::unordered_map <int,std::pair<sf::SoundBuffer, sf::Sound>> m_sounds;
 
 	template <class SfObj>
 	SfObj loadSfObj(const std::string& str);
 	template<class Container, class Return>
 	Return findInMap(Container map, int index) const;
+	void print();
 };
 template<class Container, class Return>
 Return Resources::findInMap(Container map, int index) const{

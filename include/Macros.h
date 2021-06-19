@@ -37,7 +37,11 @@ enum direction {
 //	floorObs,
 //	rope
 //};
-
+enum MapType {
+	castle,
+	hell,
+	sky
+};
 
 enum TexturesNum {
 	block,
@@ -66,7 +70,7 @@ enum TexturesNum {
 	lobbyBackground,
 	start,
 	lobbyTitle,
-	castle,
+	gameBackground,
 	checkPoint,
 	mainMenu,
 	resume,
