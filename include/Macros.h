@@ -1,6 +1,6 @@
 #pragma once
 #include "Resources.h"
-
+#include <SFML/Graphics.hpp>
 constexpr auto TIME_STEP = 1.0f / 60.0f;
 constexpr signed int VEL_ITERS = 6;
 constexpr signed int POS_ITERS = 2;
@@ -14,6 +14,7 @@ constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto FOOT = 3;
 constexpr auto MAX_LIST_NAMES_SIZE=4;
 
+const sf::Vector2f PROJECTILE_SIZE{ 10,10 };
 enum MenuType {
 	mainMenu,
 	multiplayerMenu
@@ -59,12 +60,15 @@ enum TexturesNum {
 	multiplayer,
 	blank,
 	player,
+	//player2,
+	//player3,
+	//player4,
+	//player5,
 	lobbyBackground,
 	start,
 	lobbyTitle,
 	castle,
 	checkPoint,
-	michal,
 	nullpt
 };
 
@@ -156,7 +160,8 @@ constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
 
 struct ClonePlayer {
-	ClonePlayer():m_sprite(Resources::getResourceRef().getTexture(player)){
+	ClonePlayer() = default;
+	ClonePlayer(int id):m_sprite(Resources::getResourceRef().getTexture(player)){
 	m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
 	m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);

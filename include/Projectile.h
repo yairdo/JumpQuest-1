@@ -8,7 +8,7 @@ class b2World;
 
 class Projectile : public MovingObj {
 public:
-	Projectile(b2World&, const sf::Vector2f&, const sf::Vector2f&, int);
+	Projectile(b2World&, const sf::Vector2f&, int);
 	virtual ~Projectile() = default;
 
 	virtual void updatePhysics(float);
@@ -17,12 +17,11 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	bool getShot() { return m_shot; };
 	void reset();
-
+	void setShot(bool);
 	sf::Vector2f getPos();
 
 private:
 	bool m_shot;
-	sf::Vector2f m_strtPos;
 	b2Vec2 m_vel;
 	float m_elapaseTime;
 	bool m_applied = false;

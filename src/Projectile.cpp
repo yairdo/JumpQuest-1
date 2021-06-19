@@ -6,8 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
-Projectile::Projectile(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, int bodyType) :
-    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType), m_shot(false), m_elapaseTime(0)
+Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType) :
+    MovingObj(world, { 0,0 }, size, bodyType), m_shot(false), m_elapaseTime(0)
 {
     m_sprite.setColor(sf::Color::Yellow);
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
@@ -34,32 +34,39 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& startPos, const sf::V
 void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     m_shot = true;
     m_body->SetAwake(true);
-    /*
-    float angle = 30;
-    float targetDist = b2Distance({fromPos.x/SCALE, fromPos.y/SCALE}, { toPos.x / SCALE, toPos.y / SCALE });
-    float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
-    m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
-    m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
-    */
-    float time = 1;
+    //float angle = 30;
+    //float targetDist = b2Distance({fromPos.x/SCALE, fromPos.y/SCALE}, { toPos.x / SCALE, toPos.y / SCALE });
+    //float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
+    //m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
+    //m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
+    
+   /* float time = 1;
 
     float y = -((toPos.y - fromPos.y)-(0.5 * m_body->GetWorld()->GetGravity().y * (time) * (time)))/(time);
     float x = (toPos.x - fromPos.x) / time;
     m_vel.x = x;
-    m_vel.y = y;
+    m_vel.y = y;*/
     //m_vel = { toPos.x - fromPos.x, toPos.y - fromPos.y };
+    m_vel.x = (toPos.x- fromPos.x)/SCALE;
+    m_vel.y = (toPos.y- fromPos.y)/SCALE;
+    m_vel.Normalize();
 }
 
 void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
         m_elapaseTime += dt;
-        m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
-       // m_body->ApplyForceToCenter({ m_vel.x*dt, m_vel.y*dt}, true);
-        //m_body->ApplyForceToCenter({m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime)) * dt }, true);
+        std::cout << "yo yo im here\n";
+        m_body->SetLinearVelocity({ m_vel.x * 300 * dt, m_vel.y * 300 * dt });
+        //m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
+       // m_body->ApplyForceToCenter({ m_vel.x, m_vel.y}, true);
+      //  m_body->ApplyForceToCenter({m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))}, true);
+       // m_shot = false;
         return;
     }
-    if (m_shot && !m_body->IsAwake())
+ /*   if (m_shot && !m_body->IsAwake())
+        reset();*/
+    if (!m_body->IsAwake())
         reset();
 }
 void Projectile::move()
@@ -77,11 +84,15 @@ void Projectile::draw(sf::RenderWindow& window)
 
 void Projectile::reset()
 {
-    m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
+   // m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
     m_body->SetAwake(false);
     m_shot = false;
 }
 
 sf::Vector2f Projectile::getPos() {
     return m_sprite.getPosition();
+}
+
+void Projectile::setShot(bool s) {
+    m_shot = s;
 }

@@ -47,11 +47,20 @@ void Gift::draw(sf::RenderWindow& window)
     window.draw(m_sprite);
 }
 
-void Gift::collisionCounter(){
-    if (!--m_counter)
+bool Gift::collisionCounter(){
+    if (!--m_counter) {
         this->setRemoveObj(true);
+        return true;
+    }
+    return false;
 }
 
 void Gift::MsgCollision(){
     collisionCounter();
+}
+
+bool Gift::remove(){
+    if (getIsRemoved())
+        return true;
+    return false;
 }

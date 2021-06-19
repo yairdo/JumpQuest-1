@@ -31,7 +31,7 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 		if (col >= rowCount) {
 			col = 0;
 		}
-	}
+	} // for yair - player 1-5 , string shit, based on id
 	m_animRect.top = row * m_height;
 	if (faceLeft) {
 		m_animRect.left = col * m_animRect.width;

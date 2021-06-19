@@ -14,5 +14,5 @@ private:
 	std::unordered_map<int, struct ClonePlayer> m_clones;
 	void updateClonesLoc();
 	void sendInfo();
-	Projectile* m_testProjectile;
+
 };

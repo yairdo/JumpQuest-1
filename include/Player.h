@@ -3,6 +3,7 @@
 #include "MovingObj.h"
 #include "iostream"
 #include <Animation.h>
+#include <Projectile.h>
 class b2World;
 class sf::RenderWindow;
 
@@ -12,6 +13,7 @@ public:
 	virtual ~Player()=default;
 
 	//--added for tests
+	void collectGift();
 	virtual void updatePhysics(float);
 	void jump(float);
 	virtual void move();
@@ -31,11 +33,12 @@ public:
 private:
 	void updateRow();
 	sf::Vector2f m_checkPoint;
+	int m_id;
 	int m_direction;
 	bool m_onRope = false;
 	//test
 	bool m_canCatch = false;
-
+	std::unique_ptr<Projectile> m_projectile;
 	int m_lives;
 	int m_numFootContact;
 	sf::Vector2f m_offSet;

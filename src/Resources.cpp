@@ -54,7 +54,7 @@ void Resources::setTextures() {
 	m_textures.insert(TexturesPair(blank,
 		createTexture("Blank.png")));
 	m_textures.insert(TexturesPair(player,
-		createTexture("elvis.png")));
+		createTexture("player1.png")));
 	m_textures.insert(TexturesPair(lobbyBackground,
 		createTexture("lobbyBackground.png")));
 	m_textures.insert(TexturesPair(start,
@@ -71,8 +71,8 @@ void Resources::setTextures() {
 		createTexture("trap chandelier.png")));
 	m_textures.insert(TexturesPair(checkPoint,
 		createTexture("checkPoint.png"))); 
-	m_textures.insert(TexturesPair(michal,
-		createTexture("michal.png")));
+	//m_textures.insert(TexturesPair(michal,
+	//	createTexture("michal.png")));
 
 }
 void Resources::setButtonStrLengh() {

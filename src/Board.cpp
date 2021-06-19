@@ -13,7 +13,7 @@
 #include <NetworkObject.h>
 #include "CheckPoint.h"
 
-void Board::generateMap(b2World& world) {
+void Board::generateMap(b2World& world,int id) {
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
 	m_movingObj.emplace_back(new Player(world, { 25.f, 25.f }, { 50.f,50.f }, b2_dynamicBody));
@@ -80,6 +80,7 @@ void Board::draw(sf::RenderWindow& window) {
 void Board::updatePhysics(float deltaTime) {
 	for (auto& moving : m_movingObj) {
 		moving->updatePhysics(deltaTime);
+		//check
 		moving->updateAnim(deltaTime);
 	}
 	for (auto& stat : m_staticObj) {
@@ -111,8 +112,13 @@ void Board::updateBoard(NetworkObject* netObj) {
 				netObj->sendStaticCollision(i);
 				m_staticObj[i]->setCollision(false);
 		}
-		if (m_staticObj[i]->getIsRemoved()) {
+/*		if (m_staticObj[i]->getIsRemoved()) {
 			m_staticObj[i]->destroyBody();
+			m_staticObj.erase(m_staticObj.begin() + i);
+			--i;
+		}*/	
+		if (m_staticObj[i]->remove()) {
+			//m_staticObj[i]->destroyBody();
 			m_staticObj.erase(m_staticObj.begin() + i);
 			--i;
 		}

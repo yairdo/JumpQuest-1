@@ -6,11 +6,10 @@
 NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	GameState(manager,window,replace,net)
 {
-	m_testProjectile = new Projectile(getWorldRef(), { 50, 150 }, { 10, 10 }, b2_dynamicBody);
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
-			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer();
+			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMembers(i)->m_info.m_id);
 		}
 	}
 }
@@ -19,25 +18,13 @@ void NetworkGameState::draw(){
 	GameState::draw();
 	for (auto clone : m_clones)
 		m_window.draw(clone.second.m_sprite);
-	m_testProjectile->draw(m_window);
+	
 }
 
 void NetworkGameState::updateBoard()
 {
 
-	static float projTimer = 3;
-	projTimer -= m_deltaTime;
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		m_testProjectile->shot(m_testPlayer->getPos(), sf::Vector2f(sf::Mouse::getPosition()));
-	}
-	if (!m_testProjectile->getShot() && projTimer <= 0)
-		m_testProjectile->shot(m_testProjectile->getPos(), { 100, 300 });
-	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	if (m_testProjectile->getPos().x > 400)
-		std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	m_testProjectile->updatePhysics(m_deltaTime);
-	m_testProjectile->move();
 
 	updateNetwork();
 	GameState::updateBoard();

@@ -12,7 +12,7 @@ class Board {
 public:
 	/*void generateNewLevel();
 	void readFile();*/
-	void generateMap(b2World& world);
+	void generateMap(b2World& world,int);
 //	TexturesNum hashIt(const std::string& str);
 	void move();
 	void draw(sf::RenderWindow& window);
