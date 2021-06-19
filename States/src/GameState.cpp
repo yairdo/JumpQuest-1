@@ -5,6 +5,7 @@
 #include "Server.h"
 #include <iostream>
 #include <Projectile.h>
+#include "PauseState.h"
 
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
@@ -30,42 +31,47 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 
 void GameState::pause()
 {
+	m_paused = true;
 }
 
 void GameState::resume()
 {
+	m_paused = false;
 }
 
 void GameState::update()
 {
-	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
-		switch (event.type)
-		{
-		case sf::Event::Closed:
-			m_manager.quit();
-			break;
-
-		case sf::Event::KeyPressed:
-			switch (event.key.code)
+	if (!m_paused) {
+		for (auto event = sf::Event{}; m_window.pollEvent(event);) {
+			switch (event.type)
 			{
-			case sf::Keyboard::Escape:
+			case sf::Event::Closed:
 				m_manager.quit();
 				break;
 
-			case sf::Keyboard::M://maybe pause menue option
-				//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
+			case sf::Event::KeyReleased:
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Escape:
+					m_next = std::make_unique<PauseState>(m_manager, m_window, false);
+					break;
+
+				//case sf::Keyboard::M://maybe pause menue option
+				//	//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
+				//	break;
+
+				default:
+					break;
+				}
 				break;
 
 			default:
 				break;
 			}
-			break;
-
-		default:
-			break;
 		}
 	}
-
+	
+			
 	updateGame();
 
 }

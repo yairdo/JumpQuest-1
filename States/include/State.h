@@ -32,7 +32,7 @@ public:
 protected:
 	StateManager& m_manager;
 	sf::RenderWindow& m_window;
-
+	bool m_paused;
 	bool m_replacing;
 	std::shared_ptr<NetworkObject> m_networkObj;
 	std::unique_ptr<State> m_next;

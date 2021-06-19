@@ -11,6 +11,7 @@ public:
 
 	MenuState(StateManager& manager,sf::RenderWindow& window, bool replace
 			 ,std::shared_ptr<NetworkObject> net,int title, int background);
+	MenuState(StateManager& manager, sf::RenderWindow& window, bool replace);
 	virtual ~MenuState()=default;
 	virtual void draw() ;
 	virtual void update();

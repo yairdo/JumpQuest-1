@@ -24,19 +24,24 @@ public:
 	bool running() const;
 	void quit();
 
+	void updateLastState();
+	void drawLastState();
+
 	template <typename T>
-	static std::unique_ptr<T> build(StateManager& machine, sf::RenderWindow& window, bool replace = true, std::shared_ptr<NetworkObject> netObj = nullptr);
+	static std::unique_ptr<T> build(StateManager& machine, sf::RenderWindow& window,
+		bool replace = true, std::shared_ptr<NetworkObject> netObj = nullptr);
 
 private:
 	// The stack of states
 	std::stack<std::unique_ptr<State>> m_states;
-
+	State* m_lastState;
 	bool m_resume;
 	bool m_running;
 };
 
 template <typename T>
-std::unique_ptr<T> StateManager::build(StateManager& machine, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> netObj)
+std::unique_ptr<T> StateManager::build(StateManager& machine, sf::RenderWindow& window,
+	bool replace, std::shared_ptr<NetworkObject> netObj)
 {
 	return std::make_unique<T>(machine, window, replace,netObj);
 }

@@ -17,10 +17,7 @@ constexpr auto MAX_LIST_NAMES_SIZE=4;
 const float PLAYER_PROJECTILE_DIS = 300;
 const sf::Vector2f PROJECTILE_SIZE{20,20 };
 const sf::Vector2f ARCHER_SIZE{ 30,30 };
-enum MenuType {
-	mainMenu,
-	multiplayerMenu
-};
+
 
 
 enum direction {
@@ -40,7 +37,11 @@ enum direction {
 //	floorObs,
 //	rope
 //};
-
+enum MapType {
+	castle,
+	hell,
+	sky
+};
 
 enum TexturesNum {
 	block,
@@ -70,8 +71,10 @@ enum TexturesNum {
 	lobbyBackground,
 	start,
 	lobbyTitle,
-	castle,
+	gameBackground,
 	checkPoint,
+	mainMenu,
+	resume,
 	nullpt
 };
 

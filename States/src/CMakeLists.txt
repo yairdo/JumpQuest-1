@@ -9,4 +9,5 @@
                                      "LobbyState.cpp"
                                      "ClientGameState.cpp"
                                      "ServerGameState.cpp"
-                                     "NetworkGameState.cpp")
+                                     "NetworkGameState.cpp"
+                                     "PauseState.cpp")

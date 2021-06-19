@@ -18,3 +18,7 @@ void BaseButton::setTransp(const sf::Vector2f& loc) {
 	else
 		m_title.setColor(sf::Color(255, 255, 255, 200));
 }
+
+void BaseButton::setPos(float x) {
+	m_title.setPosition({x,m_title.getPosition().y});
+}
