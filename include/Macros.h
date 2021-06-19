@@ -145,7 +145,7 @@ enum animPos {
 };
 constexpr float PLAYER_SWITCH_TIME = 0.15;
 constexpr int PLAYER_WIDTH = 130;
-constexpr int PLAYER_HEIGHT = 155;
+constexpr int PLAYER_HEIGHT = 156;
 
 constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;
