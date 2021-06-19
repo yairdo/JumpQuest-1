@@ -7,12 +7,13 @@
 #include <Projectile.h>
 #include "PauseState.h"
 
-GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
+GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
+	std::shared_ptr<NetworkObject> net,int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)),  m_deltaTime(1)
 {
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
-	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
+	m_backGround.setTexture(Resources::getResourceRef().getTexture(map));
 	
 	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);

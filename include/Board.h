@@ -25,8 +25,9 @@ public:
 	unsigned int numOfMovingObjs();
 	void updateStaticMsgCollision(int index);
 	void updateBoard(NetworkObject*);
+	int getMap() { return m_mapEnum; }
 	void setId(int);
-	void setmapEnum(int);
+	void setmapEnum(int map=castle) { m_mapEnum=map; }
 
 private:
 	int m_mapEnum=castle;

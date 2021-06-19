@@ -5,7 +5,7 @@
 
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     int bodyType,int id):
-    MovingObj(world, pos, size, b2_dynamicBody,player0+id), m_numFootContact(0), m_checkPoint(pos)
+    MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
     , m_gotGift(false){
 
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 

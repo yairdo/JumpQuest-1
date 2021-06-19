@@ -8,7 +8,7 @@ class b2World;
 
 class Projectile : public MovingObj {
 public:
-	Projectile(b2World&, const sf::Vector2f&, int,float,int);
+	Projectile(b2World&, const sf::Vector2f&, int,float);
 	virtual ~Projectile() = default;
 	virtual void updatePhysics(float);
 	virtual void move();
