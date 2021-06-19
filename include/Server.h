@@ -27,7 +27,7 @@ private:
     bool m_requiting;
 
     virtual void notifyClosing()override;
-    void notifyCloser();
+    void notifyCloser(int);
     void registerPlayer();
     void updateStaticObjState(const StaticObjInfo& info);
     void updateAboutNewMember(const AddMember&);
