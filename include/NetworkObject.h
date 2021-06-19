@@ -27,14 +27,15 @@ public:
 	unsigned short getSenderPort() const { return m_senderPort; }
 	const GameMember* getMember(int index)const;
 	const GameMember& getInfo()const { return m_info; }
-	bool getStarted() { return m_started; }
+	bool getStarted() const { return m_started; }
+	//not const because the method of selector isn't const. but it doesn't change the object values.
+	bool socketLaunched() { return m_isBind; }
 	//============================= sets section =============================
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void setId(int id);
 	void setBoard(Board* board) { m_board = board; }
-
-	//test
 	Board* getBoard() { return m_board; }
+	void bindSocket(unsigned short);
 
 protected:
 	//====================== messeges handeling section ======================
@@ -66,6 +67,7 @@ private:
 	std::vector<std::unique_ptr<GameMember>> m_members;
 	GameMember m_info;
 	bool m_started;
+	bool m_isBind;
 	Board* m_board;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }

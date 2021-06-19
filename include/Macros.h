@@ -110,11 +110,13 @@ enum Network_messeges {
 	closing,
 	startGame,
 };
+//============================================================================
+//in command, the value received after the Messege type.
 enum Messege_type {
 	noType, //none
 	networkMessege, //Network_messege
 	gameMembership, //GameMembership
-	singMeIn,
+	singMeIn, //GameMember
 	memberId, //int 
 	addMember, //AddMember
 	memberInfo, //MemberInfo
