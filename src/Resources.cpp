@@ -69,7 +69,14 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("start.png")));
 	m_textures.insert(TexturesPair(lobbyTitle,
 		loadSfObj<sf::Texture>("lobbyTitle.png")));
-
+	m_textures.insert(TexturesPair(block,
+		loadSfObj<sf::Texture>("bricks.png")));
+	m_textures.insert(TexturesPair(castle,
+		loadSfObj<sf::Texture>("castle map.png")));
+	m_textures.insert(TexturesPair(rope,
+		loadSfObj<sf::Texture>("rope.png")));
+	m_textures.insert(TexturesPair(fallingBlock,
+		loadSfObj<sf::Texture>("trap chandelier.png")));
 	m_textures.insert(TexturesPair(checkPoint,
 		loadSfObj<sf::Texture>("checkPoint.png")));
 	m_textures.insert(TexturesPair(mainMenu,
@@ -87,24 +94,23 @@ void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
 		loadSfObj<sf::Texture>("trap chandelier.png")));
 
-	m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
-		loadSfObj<sf::Texture>("bricks.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
-		loadSfObj<sf::Texture>("castle map.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),
-		loadSfObj<sf::Texture>("rope.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(hell, fallingBlock),
-		loadSfObj<sf::Texture>("trap chandelier.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
+	//	loadSfObj<sf::Texture>("bricks.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
+	//	loadSfObj<sf::Texture>("castle map.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),
+	//	loadSfObj<sf::Texture>("rope.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, fallingBlock),
+	//	loadSfObj<sf::Texture>("trap chandelier.png")));
 
-	m_gameTextures.insert(GameTexturesPair(IntPair(sky, block),
-		loadSfObj<sf::Texture>("bricks.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(sky, gameBackground),
-		loadSfObj<sf::Texture>("castle map.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(sky, rope),
-		loadSfObj<sf::Texture>("rope.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
-		loadSfObj<sf::Texture>("trap chandelier.png")));
-
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, block),
+	//	loadSfObj<sf::Texture>("bricks.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, gameBackground),
+	//	loadSfObj<sf::Texture>("castle map.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, rope),
+	//	loadSfObj<sf::Texture>("rope.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
+	//	loadSfObj<sf::Texture>("trap chandelier.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
