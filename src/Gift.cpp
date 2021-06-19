@@ -60,7 +60,9 @@ void Gift::MsgCollision(){
 }
 
 bool Gift::remove(){
-    if (getIsRemoved())
+    if (getIsRemoved()) {
+        m_body->GetWorld()->DestroyBody(m_body);
         return true;
+    }
     return false;
 }

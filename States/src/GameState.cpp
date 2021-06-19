@@ -10,7 +10,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)),  m_deltaTime(1)
 {
-	m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
+	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
 	
 	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
@@ -73,7 +73,7 @@ void GameState::draw()
 {
 	m_window.draw(m_backGround);
 	m_board->draw(m_window);
-	m_testProjectile->draw(m_window);
+	//m_testProjectile->draw(m_window);
 }
 //-----------------------------------------------------------------------------
 /*
@@ -143,8 +143,9 @@ void GameState::updateGame() {
 	projTimer -= m_deltaTime;
 	//for (auto evnt = sf::Event{}; m_window.pollEvent(evnt);) {
 	//	if (evnt.type == sf::Event::MouseButtonReleased) {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_testProjectile->getShot()) {
-		m_testProjectile->shot(m_testProjectile->getPos(), m_window.mapPixelToCoords(sf::Mouse::getPosition()));
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()));
+		//m_testProjectile->shot(m_testProjectile->getPos(), m_window.mapPixelToCoords(sf::Mouse::getPosition()));
 		std::cout << "shot\n";
 		//m_testProjectile->setShot(false);
 	}
@@ -155,8 +156,6 @@ void GameState::updateGame() {
 		//std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
 	//	if (m_testProjectile->getPos().x > 400)
 		//	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	m_testProjectile->updatePhysics(m_deltaTime);
-	m_testProjectile->move();
 }
 
 void GameState::updateBoard(){

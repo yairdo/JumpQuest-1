@@ -6,8 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
-Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType) :
-    MovingObj(world, { 0,0 }, size, bodyType), m_shot(false), m_elapaseTime(0)
+Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,float dis) :
+    MovingObj(world, { 0,0 }, size, bodyType), m_shot(false), m_elapaseTime(0),m_distance(dis)
 {
     m_sprite.setColor(sf::Color::Yellow);
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
@@ -53,6 +53,7 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
 }
 
 void Projectile::updatePhysics(float dt) {
+    
     if (m_shot)
     {
         m_elapaseTime += dt;
@@ -71,10 +72,12 @@ void Projectile::updatePhysics(float dt) {
 }
 void Projectile::move()
 {
+    auto spritePos = m_sprite.getPosition();
     auto position = m_body->GetPosition();
     auto rotation = m_body->GetAngle();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
     m_sprite.setRotation(rotation);
+    m_distance -= b2Distance({ spritePos.x,spritePos.y }, { m_sprite.getPosition().x, m_sprite.getPosition().y });
 }
 
 void Projectile::draw(sf::RenderWindow& window)
@@ -95,4 +98,8 @@ sf::Vector2f Projectile::getPos() {
 
 void Projectile::setShot(bool s) {
     m_shot = s;
+}
+
+float Projectile::getDis()  const {
+    return m_distance;
 }

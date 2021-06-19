@@ -14,6 +14,7 @@ constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto FOOT = 3;
 constexpr auto MAX_LIST_NAMES_SIZE=4;
 
+const float PLAYER_PROJECTILE_DIS = 300;
 const sf::Vector2f PROJECTILE_SIZE{ 10,10 };
 enum MenuType {
 	mainMenu,

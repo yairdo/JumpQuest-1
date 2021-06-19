@@ -20,6 +20,8 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
+	void useGift(sf::Vector2f);
+	sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	//test
 	void toggleCanCatch() { m_canCatch = !m_canCatch; };
@@ -38,7 +40,8 @@ private:
 	bool m_onRope = false;
 	//test
 	bool m_canCatch = false;
-	std::unique_ptr<Projectile> m_projectile;
+	std::vector <std::unique_ptr<Projectile>> m_projectile;
+	bool m_gotGift;
 	int m_lives;
 	int m_numFootContact;
 	sf::Vector2f m_offSet;
