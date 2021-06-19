@@ -21,7 +21,7 @@ public:
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
 	void useGift(sf::Vector2f);
-	sf::Vector2f getPosToShotFrom(sf::Vector2f);
+	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	//test
 	void toggleCanCatch() { m_canCatch = !m_canCatch; };

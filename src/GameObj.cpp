@@ -62,3 +62,7 @@ b2PolygonShape GameObj::createPolygonShape(const sf::Vector2f& halfSize)
 	return std::move(dynamicBox);
 }
 
+void GameObj::draw(sf::RenderWindow& window) {
+	window.draw(m_sprite);
+}
+

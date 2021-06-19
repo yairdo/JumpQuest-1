@@ -31,7 +31,7 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,fl
     m_body->SetGravityScale(0.f);
 }
 
-void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
+void Projectile::shot(const sf::Vector2f& toPos){
     m_shot = true;
     m_body->SetAwake(true);
     //float angle = 30;
@@ -39,7 +39,6 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     //float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
     //m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
     //m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
-    
    /* float time = 1;
 
     float y = -((toPos.y - fromPos.y)-(0.5 * m_body->GetWorld()->GetGravity().y * (time) * (time)))/(time);
@@ -47,8 +46,8 @@ void Projectile::shot(const sf::Vector2f& fromPos, const sf::Vector2f& toPos){
     m_vel.x = x;
     m_vel.y = y;*/
     //m_vel = { toPos.x - fromPos.x, toPos.y - fromPos.y };
-    m_vel.x = (toPos.x- fromPos.x)/SCALE;
-    m_vel.y = (toPos.y- fromPos.y)/SCALE;
+    m_vel.x = (toPos.x- m_sprite.getPosition().x)/SCALE;
+    m_vel.y = (toPos.y- m_sprite.getPosition().y)/SCALE;
     m_vel.Normalize();
 }
 
@@ -102,4 +101,26 @@ void Projectile::setShot(bool s) {
 
 float Projectile::getDis()  const {
     return m_distance;
+}
+
+void Projectile::setDis(float dis){
+    m_distance = dis;
+}
+
+sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::Vector2f& loc, const sf::Vector2f& bounds) {
+
+    if (loc.x < mouse.x - bounds.x / 2) {
+        return { loc.x + bounds.x / 2,loc.y };
+    }
+    else if (loc.x > mouse.x + bounds.x / 2) {
+        return { loc.x - bounds.x / 2,loc.y };
+    }
+    else {
+        if (loc.y < mouse.y) {
+            return { loc.x,loc.y + bounds.y / 2 };
+        }
+        else {
+            return { loc.x,loc.y - bounds.y / 2 };
+        }
+    }
 }

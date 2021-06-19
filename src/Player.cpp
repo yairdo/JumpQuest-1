@@ -248,29 +248,30 @@ void Player::useGift(sf::Vector2f mousePos) {
     if (m_gotGift) {
         m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
             PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
-        m_projectile[m_projectile.size()-1]->setPos(getPosToShotFrom(mousePos));
-        m_projectile[m_projectile.size() - 1]->shot(m_projectile[m_projectile.size() - 1]->getPos(),mousePos);
+        m_projectile[m_projectile.size()-1]->setPos(m_projectile[m_projectile.size() - 1]->getPosToShotFrom(mousePos,
+            m_sprite.getPosition(), { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
+        m_projectile[m_projectile.size() - 1]->shot(mousePos);
         m_gotGift = false;
     }
 }
 
-sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
-    float playerx = m_sprite.getPosition().x;
-    float playery= m_sprite.getPosition().y;
-    float boundsx = m_sprite.getGlobalBounds().width;
-    float boundsy = m_sprite.getGlobalBounds().height;
-    if (playerx < mousePos.x - boundsx / 2) {
-        return { playerx + boundsx/2,playery };
-    }
-    else if (playerx > mousePos.x + boundsx / 2) {
-        return { playerx - boundsx/2,playery };
-    }
-    else {
-        if (playery < mousePos.y) {
-            return { playerx,playery + boundsy/2  };
-        }
-        else {
-            return { playerx,playery - boundsy/2  };
-        }
-    }
-}
+//sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
+//    float playerx = m_sprite.getPosition().x;
+//    float playery= m_sprite.getPosition().y;
+//    float boundsx = m_sprite.getGlobalBounds().width;
+//    float boundsy = m_sprite.getGlobalBounds().height;
+//    if (playerx < mousePos.x - boundsx / 2) {
+//        return { playerx + boundsx/2,playery };
+//    }
+//    else if (playerx > mousePos.x + boundsx / 2) {
+//        return { playerx - boundsx/2,playery };
+//    }
+//    else {
+//        if (playery < mousePos.y) {
+//            return { playerx,playery + boundsy/2  };
+//        }
+//        else {
+//            return { playerx,playery - boundsy/2  };
+//        }
+//    }
+//}
