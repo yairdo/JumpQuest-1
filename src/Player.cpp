@@ -5,6 +5,7 @@
 
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType):
     MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0), m_checkPoint(pos)
+    , m_gotGift(false)
 {
 
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
@@ -64,7 +65,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
 }
 
 void Player::collectGift(){
-    m_projectile = std::make_unique<Projectile>(*m_body->GetWorld(),PROJECTILE_SIZE,b2_dynamicBody);
+    m_gotGift = true;
 }
 
 //updates player velocity according to which key is pressed
@@ -137,6 +138,13 @@ void Player::updatePhysics(float dt)
     if(animPos!=pos){
         m_col = 0;
     }
+    for (int i = 0; i < m_projectile.size();++i) {
+        m_projectile[i]->updatePhysics(dt);
+        if (m_projectile[i]->getDis() <= 0) {
+            m_projectile[i]->destroyBody();
+            m_projectile.erase(m_projectile.begin() + i);
+        }
+    }
 }
 
 void Player::jump(float dt) {
@@ -162,10 +170,16 @@ void Player::move()
 {
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
+    for (auto& projs : m_projectile) {
+        projs->move();
+    }
 }
 
 void Player::draw(sf::RenderWindow& window)
 {
+    for (auto& projs : m_projectile) {
+        projs->draw(window);
+    }
     window.draw(m_sprite);
 }
 
@@ -228,4 +242,35 @@ void Player::updateRow() {
 
 void Player::center(const sf::Vector2f& ropePos) {
     m_offSet = ropePos;
+}
+
+void Player::useGift(sf::Vector2f mousePos) {
+    if (m_gotGift) {
+        m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
+            PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
+        m_projectile[m_projectile.size()-1]->setPos(getPosToShotFrom(mousePos));
+        m_projectile[m_projectile.size() - 1]->shot(m_projectile[m_projectile.size() - 1]->getPos(),mousePos);
+        m_gotGift = false;
+    }
+}
+
+sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
+    float playerx = m_sprite.getPosition().x;
+    float playery= m_sprite.getPosition().y;
+    float boundsx = m_sprite.getGlobalBounds().width;
+    float boundsy = m_sprite.getGlobalBounds().height;
+    if (playerx < mousePos.x - boundsx / 2) {
+        return { playerx + boundsx/2,playery };
+    }
+    else if (playerx > mousePos.x + boundsx / 2) {
+        return { playerx - boundsx/2,playery };
+    }
+    else {
+        if (playery < mousePos.y) {
+            return { playerx,playery + boundsy/2  };
+        }
+        else {
+            return { playerx,playery - boundsy/2  };
+        }
+    }
 }

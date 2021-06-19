@@ -64,5 +64,6 @@ void ContactListner::handleCollision(b2Body* body1, b2Body* body2){
     GameObj* a = static_cast<GameObj*>(body1->GetUserData());
     GameObj* b = static_cast<GameObj*>(body2->GetUserData());
     if (!a || !b) return;
+    std::cout << typeid(*a).name() << "  b: " << typeid(*b).name() << "\n";
     CollisionHandler::getRef().handleCollision(a, b);
 }
