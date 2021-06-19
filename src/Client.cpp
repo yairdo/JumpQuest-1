@@ -16,7 +16,6 @@ Client::~Client() {
 * as needed.
 */
 bool Client::handleRequests(int max) {
-	int index;
 	int counter = 0;
 	while (receivedMessege()&& counter++ < max) {
 		//std::cout << "udp messege received.\n";
@@ -53,8 +52,7 @@ bool Client::handleRequests(int max) {
 				getBoard()->updateStaticMsgCollision(receiveValue<StaticObjInfo>().m_index);
 				break;
 			case closer:
-				index = receiveValue<int>();
-				setMember(index, nullptr);
+				setMember(receiveValue<int>(), nullptr);
 			default:
 				break;
 			}
@@ -78,7 +76,7 @@ void Client::searchForServers() {
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendMessege(networkMessege, closing, m_serverIP, SERVERS_PORT);
+	sendMessege(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
