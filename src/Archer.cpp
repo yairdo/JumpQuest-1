@@ -27,21 +27,23 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
 void Archer::updateAnim(float deltaTime) {
     static float time=m_timer;
     time -= deltaTime;
+    std::cout << time << "\n";
     if (time<=0) {
         time = m_timer;
         m_proj->shot(m_shotTO);
+        std::cout << "shot\n";
        // m_proj->updatePhysics(deltaTime);
     }
 
+    if (m_proj->getShot()) {
+        m_proj->updatePhysics(deltaTime);
+        m_proj->move();
+    }
     if (m_proj->getDis()<=0) {
         m_proj->setPos(m_shotStartPos);
         m_proj->setDis(m_distance);
-       // m_proj->setShot(false);
+        m_proj->reset();
     }
-   // if (m_proj->getShot()) {
-        m_proj->updatePhysics(deltaTime);
-        m_proj->move();
- //   }
 }
 
 void Archer::draw(sf::RenderWindow& window) {

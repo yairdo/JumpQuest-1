@@ -57,7 +57,7 @@ void Projectile::updatePhysics(float dt) {
     {
         m_elapaseTime += dt;
         std::cout << "yo yo im here\n";
-        m_body->SetLinearVelocity({ m_vel.x * 300 * dt, m_vel.y * 300 * dt });
+        m_body->SetLinearVelocity({ m_vel.x * 220 * dt, m_vel.y * 220 * dt });
         //m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
        // m_body->ApplyForceToCenter({ m_vel.x, m_vel.y}, true);
       //  m_body->ApplyForceToCenter({m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))}, true);
@@ -66,8 +66,8 @@ void Projectile::updatePhysics(float dt) {
     }
  /*   if (m_shot && !m_body->IsAwake())
         reset();*/
-    if (!m_body->IsAwake())
-        reset();
+   // if (!m_body->IsAwake())
+       // reset();
 }
 void Projectile::move()
 {
@@ -110,17 +110,17 @@ void Projectile::setDis(float dis){
 sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::Vector2f& loc, const sf::Vector2f& bounds) {
 
     if (loc.x < mouse.x - bounds.x / 2) {
-        return { loc.x + bounds.x / 2,loc.y };
+        return { loc.x + bounds.x / 2+PROJECTILE_SIZE.x/2,loc.y };
     }
     else if (loc.x > mouse.x + bounds.x / 2) {
-        return { loc.x - bounds.x / 2,loc.y };
+        return { loc.x - bounds.x -PROJECTILE_SIZE.x / 2 / 2,loc.y };
     }
     else {
         if (loc.y < mouse.y) {
-            return { loc.x,loc.y + bounds.y / 2 };
+            return { loc.x,loc.y + bounds.y+ PROJECTILE_SIZE.y / 2 / 2 };
         }
         else {
-            return { loc.x,loc.y - bounds.y / 2 };
+            return { loc.x,loc.y - bounds.y / 2 - PROJECTILE_SIZE.y / 2 };
         }
     }
 }
