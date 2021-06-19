@@ -5,7 +5,7 @@
 
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType):
     MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0), m_checkPoint(pos)
-    , m_gotGift(false)
+    , m_gotGift(false), m_projectileForce({0,0})
 {
 
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
@@ -25,7 +25,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     fixtureDef.friction = 0.3f;
     fixtureDef.filter.categoryBits = playerBits;*/
     //m_body->CreateFixture(&fixtureDef);
-    
+
     b2PolygonShape dynamicBox(std::move(createPolygonShape({ size.x / (4.f * SCALE), size.y / (2.f * SCALE) })));
     createFixtureDef(dynamicBox, 1.0f, 0.f, playerBits);
 
@@ -46,7 +46,6 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //fixtureDef.filter.categoryBits = playerSensorBits;
     //fixtureDef.filter.maskBits = ladderBits | checkPointBits;
     //m_body->CreateFixture(&fixtureDef);
-
     dynamicBox.SetAsBox((1 / SCALE) / 2, size.y / (2.f * SCALE));
     createFixtureDef(dynamicBox, 1.0f, 0.f, playerSensorBits, true, ladderBits | checkPointBits);
 
@@ -72,12 +71,19 @@ void Player::collectGift(){
 //applies impulse to jump
 void Player::updatePhysics(float dt)
 {
+    static float m_timer = 0;
+    bool moved = false;
+    m_timer -= dt;
+
     if (getReset())
         reset();
-
+    if (/*m_timer > 0 && */m_projectileForce != b2Vec2({ 0,0 })) {
+        m_body->ApplyLinearImpulseToCenter(m_projectileForce, true);
+        m_timer = 0.3;
+        m_projectileForce = { 0,0 };
+    }
     int pos = animPos;
     int dir = m_direction;
-    bool moved = false;
     m_direction = none;
     if (m_onRope) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
@@ -93,7 +99,7 @@ void Player::updatePhysics(float dt)
         animPos = walking;
         if (m_onRope)
             return;
-        else
+        else if(m_timer <= 0)
             m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
         moved = true;
     }
@@ -102,7 +108,7 @@ void Player::updatePhysics(float dt)
         animPos = walking;
         if (m_onRope)
             return;
-        else
+        else if (m_timer <= 0)
             m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
         moved = true;
     }
@@ -111,15 +117,15 @@ void Player::updatePhysics(float dt)
             m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
             setOnRope(true);
         }
-        if (m_onRope)
+        if (m_onRope && m_timer <= 0)
             m_body->SetLinearVelocity({ 0.f, -75.f * dt });
         moved = true;
     }
-    else if (m_onRope && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
+    else if (m_onRope && m_timer <= 0 &&(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
         m_body->SetLinearVelocity({ 0.f, dt * 75.f });
         moved = true;
     }
-    if(!moved && m_numFootContact)
+    if (!moved && m_numFootContact && m_timer <= 0)
         m_body->SetLinearVelocity({ 0.f, m_body->GetLinearVelocity().y });
 
     if (m_direction == none) {
@@ -149,7 +155,7 @@ void Player::updatePhysics(float dt)
 
 void Player::jump(float dt) {
     //float impulse = -m_body->GetMass() * 9500*dt;
-    float impulse = -m_body->GetMass() * 150;
+     float impulse = -m_body->GetMass() * 150;
     if (m_onRope) {
         //m_body->SetLinearVelocity({ 0.f, 0.f });
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -254,7 +260,10 @@ void Player::useGift(sf::Vector2f mousePos) {
         m_gotGift = false;
     }
 }
-
+void Player::setExternalForce(b2Vec2 force)
+{
+    m_projectileForce = force;
+}
 //sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
 //    float playerx = m_sprite.getPosition().x;
 //    float playery= m_sprite.getPosition().y;

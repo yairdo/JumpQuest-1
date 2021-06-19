@@ -1,6 +1,8 @@
 #pragma once
 #include "Resources.h"
 #include <SFML/Graphics.hpp>
+#include "box2d/box2d.h"
+
 constexpr auto TIME_STEP = 1.0f / 60.0f;
 constexpr signed int VEL_ITERS = 6;
 constexpr signed int POS_ITERS = 2;
@@ -17,6 +19,8 @@ constexpr auto MAX_LIST_NAMES_SIZE=4;
 const float PLAYER_PROJECTILE_DIS = 300;
 const sf::Vector2f PROJECTILE_SIZE{20,20 };
 const sf::Vector2f ARCHER_SIZE{ 30,30 };
+const b2Vec2 PROJECTILE_FORCE{ 0.5,-0.2 };
+
 enum MenuType {
 	mainMenu,
 	multiplayerMenu

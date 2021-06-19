@@ -21,6 +21,7 @@ public:
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
 	void useGift(sf::Vector2f);
+	void setExternalForce(b2Vec2);
 	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	//test
@@ -45,5 +46,6 @@ private:
 	int m_lives;
 	int m_numFootContact;
 	sf::Vector2f m_offSet;
+	b2Vec2 m_projectileForce;
 	//Animation m_anim;
 };

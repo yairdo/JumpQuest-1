@@ -27,11 +27,11 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
 void Archer::updateAnim(float deltaTime) {
     static float time=m_timer;
     time -= deltaTime;
-    std::cout << time << "\n";
+    //std::cout << time << "\n";
     if (time<=0) {
         time = m_timer;
         m_proj->shot(m_shotTO);
-        std::cout << "shot\n";
+        //std::cout << "shot\n";
        // m_proj->updatePhysics(deltaTime);
     }
 

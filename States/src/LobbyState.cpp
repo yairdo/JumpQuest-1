@@ -63,7 +63,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	//build prompt
 	if ( typeid(*m_networkObj.get()).name() == typeid(Server).name()){
 		m_isServer = true;	
-		std::cout << "is server\n";
+		//std::cout << "is server\n";
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3;
 		pos.x = m_window.getSize().x - width;
 		addButton<ServerGameState>(start, pos, width, butHeight);

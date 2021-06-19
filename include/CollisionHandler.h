@@ -54,4 +54,6 @@ private:
 	void blockPlayer(GameObj*, GameObj*);
 	void checkPointPlayer(GameObj*, GameObj*);
 	void playerCheckPoint(GameObj*, GameObj*);
+	void playerProjectile(GameObj*, GameObj*);
+	void projectilePlayer(GameObj*, GameObj*);
 };
