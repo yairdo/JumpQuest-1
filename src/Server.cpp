@@ -7,7 +7,7 @@
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
 	m_launched(false){
 }
-
+/*==========================================================================*/
 Server::~Server() {
 	notifyClosing();
 }

@@ -19,7 +19,6 @@ bool Client::handleRequests(int max) {
 	int counter = 0;
 	while (receivedMessege()&& counter++ < max) {
 		//std::cout << "udp messege received.\n";
-		try {
 			switch (receiveValue<Messege_type>())
 			{
 			case networkMessege:
@@ -55,20 +54,6 @@ bool Client::handleRequests(int max) {
 			default:
 				break;
 			}
-		}
-		catch (std::exception& e) {
-			if (e.what() == SOKET_ERROR) {
-				try {
-					notifyClosing();
-					return false;
-				}
-				catch (std::exception& e2) {
-					exit(EXIT_FAILURE);
-				}
-			}
-			if (e.what() == SERVER_CONNECTION_LOST)
-				throw std::exception(SERVER_CONNECTION_LOST);
-		}
 	}
 	if (counter == 0)
 		return false;
