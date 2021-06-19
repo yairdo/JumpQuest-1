@@ -32,7 +32,7 @@ bool NetworkObject::receivedMessege(float seconds) {
 	return m_selector.wait(sf::seconds(seconds));
 }
 /*==========================================================================*/
-const GameMember* NetworkObject::getMembers(int index) const{
+const GameMember* NetworkObject::getMember(int index) const{
 	if (index >= 0 && index < m_members.size())
 		if (m_members[index])
 			return(m_members[index].get());
@@ -77,7 +77,7 @@ void NetworkObject::setMember(int index, std::unique_ptr<GameMember> member){
 /*==========================================================================*/
 void NetworkObject::setId(int id) {
 	m_info.m_info.m_id = id;
-	if (!getMembers(id))
+	if (!getMember(id))
 		setMember(id, 
 			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "", memberInfoCreator(id))));
 	//why not send m_info??

@@ -146,8 +146,8 @@ void LobbyState::draw() {
 void LobbyState::updateList(){
 	auto it = m_nameList.begin();
 	for (int i = 0 ; i < MAX_SERVER_PLAYERS ; ++i) {
-		if (m_networkObj->getMembers(i)) {
-			auto str = std::string(m_networkObj->getMembers(i)->m_name);
+		if (m_networkObj->getMember(i)) {
+			auto str = std::string(m_networkObj->getMember(i)->m_name);
 			if (str != "") {
 				it->setString(str);
 				++it;

@@ -50,8 +50,6 @@ bool Server::handleRequests(int max) {
 						if (m_requiting && m_launched)
 							sendMessege(networkMessege, iAmFree);
 						break;
-					case closing:
-						notifyCloser();
 					}
 					break;
 				case memberInfo:
@@ -62,6 +60,8 @@ bool Server::handleRequests(int max) {
 					break;
 				case staticObjInfo:
 					updateStaticObjState(receiveValue<StaticObjInfo>());
+				case closer:
+					notifyCloser();
 				default:
 					break;
 				}
@@ -75,14 +75,19 @@ bool Server::handleRequests(int max) {
 * 
 */
 void Server::notifyCloser(){
+	//int closerID = receiveValue<unsigned int>();
+	//setMember(closerID, nullptr);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (getMembers(i) && getSenderIP() == getMembers(i)->m_memberIp 
-			&& getSenderPort() == getMembers(i)->m_memberPort) {
-			for (int j = 1; j < MAX_SERVER_PLAYERS; ++j)
-				if (getMembers(j) && i != j)
-					sendMessege(closer, i, getMembers(j)->m_memberIp, getMembers(j)->m_memberPort);
+		if (getMember(i) && getMember(i)->m_memberIp == getSenderIP()
+			&& getMember(i)->m_memberPort == getSenderPort()) {
+			for (int j = 1; j < MAX_SERVER_PLAYERS; ++j) {
+				if(getMember(j) && j != i)
+					sendMessege(closer, i, getMember(j)->m_memberIp, getMember(j)->m_memberPort);
+			}
+			setMember(i, nullptr);
 		}
-		setMember(i, nullptr);
+		//if (getMember(i))
+		//	sendMessege(closer, i, getMember(closerID)->m_memberIp, getMember(closerID)->m_memberPort);
 	}
 }
 /*============================================================================
@@ -92,7 +97,7 @@ void Server::registerPlayer() {
 	if (renameMember())
 		return;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (!getMembers(i)) {
+		if (!getMember(i)) {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
 				gameMemberCreator(getSenderIP(), getSenderPort(),
@@ -101,13 +106,13 @@ void Server::registerPlayer() {
 			sendMessege<int>(memberId, i);
 			//notify old members about the new member
 			updateAboutNewMember(
-				addMemberCreator(getMembers(i)->m_info.m_id, getMembers(i)->m_name));
+				addMemberCreator(getMember(i)->m_info.m_id, getMember(i)->m_name));
 			//send the new mebemer all the old members info.
 			for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
-				if (i != j && getMembers(j)) {
+				if (i != j && getMember(j)) {
 					sendMessege<AddMember>(addMember,
-						addMemberCreator(getMembers(j)->m_info.m_id, getMembers(j)->m_name),
-						getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+						addMemberCreator(getMember(j)->m_info.m_id, getMember(j)->m_name),
+						getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 				}
 			m_packet.clear();
 			break;
@@ -120,9 +125,9 @@ void Server::registerPlayer() {
 */
 void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if(getMembers(i))
+		if(getMember(i))
 			sendMessege<Network_messeges>(networkMessege, closing,
-				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 	m_launched = false;
 	m_requiting = false;
 }
@@ -132,9 +137,9 @@ void Server::notifyClosing() {
 void Server::updateLoc(const MemberInfo& member) {
 	updateMember(member);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (getMembers(i) && i != member.m_id) {
+		if (getMember(i) && i != member.m_id) {
 			sendMessege<MemberInfo>(memberInfo, member,
-				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 		}
 	}
 }
@@ -149,9 +154,9 @@ void Server::updateStaticObjState(const StaticObjInfo& info) {
 	if(info.m_id != getInfo().m_info.m_id)
 		getBoard()->updateStaticMsgCollision(info.m_index);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (getMembers(i) && i != info.m_id) {
+		if (getMember(i) && i != info.m_id) {
 			sendMessege<StaticObjInfo>(staticObjInfo, info,
-				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 		}
 	}
 }
@@ -162,10 +167,10 @@ void Server::updateStaticObjState(const StaticObjInfo& info) {
 void Server::updateAboutNewMember(const AddMember& newMember) {
 	NetworkObject::setName(newMember.m_name, newMember.m_id);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if (getMembers(i))
+		if (getMember(i))
 			if (i != newMember.m_id)
 				sendMessege<AddMember>(addMember, newMember,
-					getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+					getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/
 int Server::countServersInPort() {
@@ -190,12 +195,12 @@ int Server::countServersInPort() {
 bool Server::renameMember() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
 		//checks if the sender is already member.
-		if (getMembers(i))
-			if (getMembers(i)->m_memberIp == getSenderIP()
-				&& getMembers(i)->m_memberPort == getSenderPort()) {
+		if (getMember(i))
+			if (getMember(i)->m_memberIp == getSenderIP()
+				&& getMember(i)->m_memberPort == getSenderPort()) {
 				updateAboutNewMember(addMemberCreator(i,
 					receiveValue<GameMember>().m_name));
-				sendMessege<int>(memberId, getMembers(i)->m_info.m_id,
+				sendMessege<int>(memberId, getMember(i)->m_info.m_id,
 					getSenderIP(), getSenderPort());
 				return true;
 			}
@@ -209,15 +214,15 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 /*==========================================================================*/
 void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if (getMembers(i))
+		if (getMember(i))
 			sendMessege<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
-				getMembers(i)->m_memberIp, getMembers(i)->m_memberPort);
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/
 void Server::startGame() {
 	m_requiting = false;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if (getMembers(i))
-			sendMessege(networkMessege, Network_messeges::startGame, getMembers(i)->m_memberIp,
-				getMembers(i)->m_memberPort);
+		if (getMember(i))
+			sendMessege(networkMessege, Network_messeges::startGame, getMember(i)->m_memberIp,
+				getMember(i)->m_memberPort);
 }
