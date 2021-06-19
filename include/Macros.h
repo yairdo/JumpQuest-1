@@ -15,7 +15,12 @@ constexpr auto FOOT = 3;
 constexpr auto MAX_LIST_NAMES_SIZE=4;
 
 const float PLAYER_PROJECTILE_DIS = 300;
-const sf::Vector2f PROJECTILE_SIZE{ 10,10 };
+const sf::Vector2f PROJECTILE_SIZE{20,20 };
+const sf::Vector2f ARCHER_SIZE{ 30,30 };
+enum MenuType {
+	mainMenu,
+	multiplayerMenu
+};
 
 
 enum direction {
@@ -142,7 +147,7 @@ enum animPos {
 };
 constexpr float PLAYER_SWITCH_TIME = 0.15;
 constexpr int PLAYER_WIDTH = 130;
-constexpr int PLAYER_HEIGHT = 155;
+constexpr int PLAYER_HEIGHT = 156;
 
 constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;

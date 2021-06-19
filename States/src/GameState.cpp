@@ -152,7 +152,7 @@ void GameState::updateGame() {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()));
 		//m_testProjectile->shot(m_testProjectile->getPos(), m_window.mapPixelToCoords(sf::Mouse::getPosition()));
-		std::cout << "shot\n";
+		//std::cout << "shot\n";
 		//m_testProjectile->setShot(false);
 	}
 

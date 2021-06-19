@@ -12,7 +12,7 @@ public:
     GameObj(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int textureNum);
     GameObj() = default;
     virtual ~GameObj() = default;
-    virtual void draw(sf::RenderWindow&) = 0;
+    virtual void draw(sf::RenderWindow&);
     virtual void setRemoveObj(bool );
     virtual bool getIsRemoved() const;
     void destroyBody();
