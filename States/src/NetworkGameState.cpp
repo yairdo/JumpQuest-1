@@ -38,7 +38,7 @@ void NetworkGameState::updateBoard()
 		//sf::View view(sf::Vector2f(float(m_window.getSize().x), float(m_window.getSize().y)), 
 		//	sf::Vector2f(m_window.getSize()));
 		//view.setViewport({ 0.f,0.f,1,1 });
-		setView(m_window.getDefaultView());
+		//setView(m_window.getDefaultView());
 		//m_window.clear();
 		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
 		return;

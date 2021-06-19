@@ -15,14 +15,12 @@ private:
 	Resources();
 	Resources(const Resources&) = default;
 	Resources& operator=(const Resources&) = default;
-	//std::unique_ptr<sf::Texture> createTexture(const std::string&) const;
 	void setTextures();
 	void setButtonStrLengh();
 	void setFonts();
 
 	std::unordered_map <int, sf::Texture> m_textures;
 	std::unordered_map<int, sf::Font> m_fonts;
-	//std::unordered_map <int, std::unique_ptr<sf::Texture>> m_textures;
 	std::unordered_map<int, int> m_buttonStrLen;
 
 	std::unordered_map <int,std::pair<sf::SoundBuffer, sf::Sound>> m_sounds;

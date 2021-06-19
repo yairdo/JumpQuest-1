@@ -9,7 +9,6 @@ Resources::Resources() {
 	setTextures();
 	setButtonStrLengh();
 	setFonts();
-	
 }
 const sf::Texture& Resources::getTexture(int index) const {
 	auto it = m_textures.find(index);
@@ -70,6 +69,10 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("trap chandelier.png")));
 	m_textures.insert(TexturesPair(checkPoint,
 		loadSfObj<sf::Texture>("checkPoint.png")));
+	m_textures.insert(TexturesPair(mainMenu,
+		loadSfObj<sf::Texture>("mainMenu.png")));
+	m_textures.insert(TexturesPair(resume,
+		loadSfObj<sf::Texture>("resume.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
@@ -82,7 +85,8 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(start, strlen("start")));
 	m_buttonStrLen.insert(ButtonPairStr(title, strlen("jump quest")));
 	m_buttonStrLen.insert(ButtonPairStr(lobbyTitle, strlen("lobby")));
-
+	m_buttonStrLen.insert(ButtonPairStr(mainMenu, strlen("main menu")));
+	m_buttonStrLen.insert(ButtonPairStr(resume, strlen("resume")));
 }
 
 void Resources::setFonts(){
