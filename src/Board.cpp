@@ -13,10 +13,10 @@
 #include <NetworkObject.h>
 #include "CheckPoint.h"
 
-void Board::generateMap(b2World& world,int id) {
+void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
-	m_movingObj.emplace_back(new Player(world, { 25.f, 25.f }, { 50.f,50.f }, b2_dynamicBody));
+	m_movingObj.emplace_back(new Player(world, { 25.f, 25.f }, { 50.f,50.f }, b2_dynamicBody,m_playerId));
 	std::ifstream file;
 	file.open("testLevel.txt");
 	//file.open("Level2.txt");
@@ -31,9 +31,9 @@ void Board::generateMap(b2World& world,int id) {
 		std::vector<sf::Vector2f> vals; //m_staticObj//m_movingObj
 		getValues(vals, file);    //StaticObj//MovingObj
 		if (type == 's')
-			m_staticObj.emplace_back(Factory<StaticObj>::create(str, vals, world));
+			m_staticObj.emplace_back(Factory<StaticObj>::create(str, vals,m_mapEnum, world));
 		else
-			m_movingObj.emplace_back(Factory<MovingObj>::create(str, vals, world));
+			m_movingObj.emplace_back(Factory<MovingObj>::create(str, vals, m_mapEnum, world));
 
 		vals.clear();
 	}
@@ -50,7 +50,9 @@ void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 		vec.push_back(t);
 	}
 }
-
+void Board::setId(int id) {
+	m_playerId = id;
+}
 void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();

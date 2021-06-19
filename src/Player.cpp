@@ -3,10 +3,10 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 
-Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType):
-    MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0), m_checkPoint(pos)
-    , m_gotGift(false)
-{
+Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
+    int bodyType,int id):
+    MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
+    , m_gotGift(false){
 
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
@@ -205,7 +205,7 @@ void Player::footContact(int val) {
 void Player::updateAnim(float deltaTime) {
     updateRow();
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-        deltaTime, m_totalTime, player,m_direction));
+        deltaTime, m_totalTime, player0,m_direction));
 
 }
 
@@ -248,29 +248,30 @@ void Player::useGift(sf::Vector2f mousePos) {
     if (m_gotGift) {
         m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
             PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
-        m_projectile[m_projectile.size()-1]->setPos(getPosToShotFrom(mousePos));
-        m_projectile[m_projectile.size() - 1]->shot(m_projectile[m_projectile.size() - 1]->getPos(),mousePos);
+        m_projectile[m_projectile.size()-1]->setPos(m_projectile[m_projectile.size() - 1]->getPosToShotFrom(mousePos,
+            m_sprite.getPosition(), { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
+        m_projectile[m_projectile.size() - 1]->shot(mousePos);
         m_gotGift = false;
     }
 }
 
-sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
-    float playerx = m_sprite.getPosition().x;
-    float playery= m_sprite.getPosition().y;
-    float boundsx = m_sprite.getGlobalBounds().width;
-    float boundsy = m_sprite.getGlobalBounds().height;
-    if (playerx < mousePos.x - boundsx / 2) {
-        return { playerx + boundsx/2,playery };
-    }
-    else if (playerx > mousePos.x + boundsx / 2) {
-        return { playerx - boundsx/2,playery };
-    }
-    else {
-        if (playery < mousePos.y) {
-            return { playerx,playery + boundsy/2  };
-        }
-        else {
-            return { playerx,playery - boundsy/2  };
-        }
-    }
-}
+//sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
+//    float playerx = m_sprite.getPosition().x;
+//    float playery= m_sprite.getPosition().y;
+//    float boundsx = m_sprite.getGlobalBounds().width;
+//    float boundsy = m_sprite.getGlobalBounds().height;
+//    if (playerx < mousePos.x - boundsx / 2) {
+//        return { playerx + boundsx/2,playery };
+//    }
+//    else if (playerx > mousePos.x + boundsx / 2) {
+//        return { playerx - boundsx/2,playery };
+//    }
+//    else {
+//        if (playery < mousePos.y) {
+//            return { playerx,playery + boundsy/2  };
+//        }
+//        else {
+//            return { playerx,playery - boundsy/2  };
+//        }
+//    }
+//}

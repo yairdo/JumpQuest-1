@@ -15,11 +15,9 @@ constexpr auto FOOT = 3;
 constexpr auto MAX_LIST_NAMES_SIZE=4;
 
 const float PLAYER_PROJECTILE_DIS = 300;
-const sf::Vector2f PROJECTILE_SIZE{ 10,10 };
-enum MenuType {
-	mainMenu,
-	multiplayerMenu
-};
+const sf::Vector2f PROJECTILE_SIZE{20,20 };
+const sf::Vector2f ARCHER_SIZE{ 30,30 };
+
 
 
 enum direction {
@@ -39,7 +37,11 @@ enum direction {
 //	floorObs,
 //	rope
 //};
-
+enum MapType {
+	castle,
+	hell,
+	sky
+};
 
 enum TexturesNum {
 	block,
@@ -60,16 +62,19 @@ enum TexturesNum {
 	back,
 	multiplayer,
 	blank,
-	player,
-	//player2,
-	//player3,
-	//player4,
-	//player5,
+	player0,
+	player1,
+	player2,
+	player3,
+	player4,
+	player5,
 	lobbyBackground,
 	start,
 	lobbyTitle,
-	castle,
+	gameBackground,
 	checkPoint,
+	mainMenu,
+	resume,
 	nullpt
 };
 
@@ -136,7 +141,6 @@ constexpr auto SOKET_ERROR = "socket error!\n";
 constexpr auto SERVER_CONNECTION_LOST = "disconnected from server.";
 
 
-
 //for anime
 enum animPos {
 	walking,
@@ -146,7 +150,7 @@ enum animPos {
 };
 constexpr float PLAYER_SWITCH_TIME = 0.15;
 constexpr int PLAYER_WIDTH = 130;
-constexpr int PLAYER_HEIGHT = 155;
+constexpr int PLAYER_HEIGHT = 156;
 
 constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;
@@ -163,15 +167,3 @@ constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
 
-struct ClonePlayer {
-	ClonePlayer() = default;
-	ClonePlayer(int id):m_sprite(Resources::getResourceRef().getTexture(player)){
-	m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
-	m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-	m_sprite.setPosition(50,50);}
-	sf::Sprite m_sprite;
-	int m_row;
-	int m_col;
-	int m_direction;
-};

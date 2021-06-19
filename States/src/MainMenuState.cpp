@@ -7,6 +7,7 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 			bool replace,std::shared_ptr<NetworkObject> net ):
 	StandardMenuState(manager,window,replace,net,title,menuBackground)
 {
+	m_window.setView(m_window.getDefaultView());
 	auto buttonSpace=m_window.getSize().y * 0.05;
 	auto butHeight = (window.getSize().y - getTitlePosY()
 		- buttonSpace*2 - buttonSpace * 5 ) / 4;
@@ -21,4 +22,6 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 	float width= Resources::getResourceRef().getButLen(ext) * pix4let;
 	
 	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, pos, width, butHeight, true));
+
+
 };

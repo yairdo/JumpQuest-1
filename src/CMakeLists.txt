@@ -22,4 +22,5 @@
                                      "Animation.cpp"
                                      "ContactListner.cpp"
                                      "Factory.cpp"
-                                     "CheckPoint.cpp")
+                                     "CheckPoint.cpp"
+                                     "Archer.cpp")

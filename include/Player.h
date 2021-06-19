@@ -9,7 +9,7 @@ class sf::RenderWindow;
 
 class Player : public MovingObj {
 public:
-	Player(b2World&, const sf::Vector2f&, const sf::Vector2f&, int);
+	Player(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int );
 	virtual ~Player()=default;
 
 	//--added for tests
@@ -21,7 +21,7 @@ public:
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
 	void useGift(sf::Vector2f);
-	sf::Vector2f getPosToShotFrom(sf::Vector2f);
+	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	//test
 	void toggleCanCatch() { m_canCatch = !m_canCatch; };

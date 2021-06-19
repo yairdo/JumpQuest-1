@@ -2,29 +2,37 @@
 #include "Macros.h"
 #include <iostream>
 using TexturesPair=std::pair<int, sf::Texture> ;
-//using TexturesPair = std::pair<int, std::unique_ptr<sf::Texture>>;
+using IntPair = std::pair<int, int>;
+using GameTexturesPair = std::pair<IntPair, sf::Texture>;
+
 using ButtonPairStr = std::pair<int, int>;
 using FontPair = std::pair<int, sf::Font>;
 
 Resources::Resources() {
 	setTextures();
+	setGameTextures();
 	setButtonStrLengh();
 	setFonts();
-	
 }
 const sf::Texture& Resources::getTexture(int index) const {
 	auto it = m_textures.find(index);
 	if (it != m_textures.end())
 		return it->second;
 	throw std::out_of_range("Texture not found.");
-	/*auto p = findInMap<std::unordered_map<int, std::unique_ptr<sf::Texture>>, std::unique_ptr<sf::Texture>>
-		   (m_textures, index);*/
 }
+const sf::Texture& Resources::getTexture(int map, int index) const {
+	auto it = m_gameTextures.find(std::pair(map,index));
+	if (it != m_gameTextures.end())
+		return it->second;
+	throw std::out_of_range("Texture not found.");
+}
+
 const int Resources::getButLen(int index) const{
 	return findInMap<std::unordered_map<int, int>, int>(m_buttonStrLen, index);
 }
 const sf::Font& Resources::getFont(int index) const {
 	auto it = m_fonts.find(index);
+	std::cout << typeid(it).name() << std::endl;
 	if (it != m_fonts.end())
 		return it->second;
 	throw std::out_of_range("Texture not found.");
@@ -32,48 +40,102 @@ const sf::Font& Resources::getFont(int index) const {
 void Resources::setTextures() {
 	
 	m_textures.insert(TexturesPair(menuBackground,
-					  createTexture("menuBackground.jpg")));
+		loadSfObj<sf::Texture>("menuBackground.jpg")));
 	m_textures.insert(TexturesPair(title,
-		createTexture("title.png")));
+		loadSfObj<sf::Texture>("title.png")));
 	m_textures.insert(TexturesPair(buttonShape,
-		createTexture("buttonShape.png")));
+		loadSfObj<sf::Texture>("buttonShape.png")));
 	m_textures.insert(TexturesPair(client,
-		createTexture("Join Game.png")));
+		loadSfObj<sf::Texture>("Join Game.png")));
 	m_textures.insert(TexturesPair(host,
-		createTexture("Host Game.png")));
+		loadSfObj<sf::Texture>("Host Game.png")));
 	m_textures.insert(TexturesPair(singlePlayer,
-		createTexture("SinglePlayer.png")));
+		loadSfObj<sf::Texture>("SinglePlayer.png")));
 	m_textures.insert(TexturesPair(help,
-		createTexture("How To Play.png")));
+		loadSfObj<sf::Texture>("How To Play.png")));
 	m_textures.insert(TexturesPair(ext,
-		createTexture("Exit.png")));
+		loadSfObj<sf::Texture>("Exit.png")));
 	m_textures.insert(TexturesPair(multiplayer,
-		createTexture("Multiplayer.png")));
+		loadSfObj<sf::Texture>("Multiplayer.png")));
 	m_textures.insert(TexturesPair(back,
-		createTexture("Back.png")));
-	m_textures.insert(TexturesPair(blank,
-		createTexture("Blank.png")));
-	m_textures.insert(TexturesPair(player,
-		createTexture("player1.png")));
+		loadSfObj<sf::Texture>("Back.png")));
+	//m_textures.insert(TexturesPair(blank,
+	//	loadSfObj<sf::Texture>("Blank.png")));
+	//m_textures.insert(TexturesPair(player0,
+	//	loadSfObj<sf::Texture>("player0.png")));
+	//m_textures.insert(TexturesPair(player1,
+	//	loadSfObj<sf::Texture>("player1.png")));
+	//m_textures.insert(TexturesPair(player2,
+	//	loadSfObj<sf::Texture>("player2.png")));
+	//m_textures.insert(TexturesPair(player3,
+	//	loadSfObj<sf::Texture>("player3.png")));
+	//m_textures.insert(TexturesPair(player4,
+	//	loadSfObj<sf::Texture>("player4.png")));
+	//m_textures.insert(TexturesPair(player5,
+	//	loadSfObj<sf::Texture>("player5.png")));
 	m_textures.insert(TexturesPair(lobbyBackground,
-		createTexture("lobbyBackground.png")));
+		loadSfObj<sf::Texture>("lobbyBackground.png")));
 	m_textures.insert(TexturesPair(start,
-		createTexture("start.png")));
+		loadSfObj<sf::Texture>("start.png")));
 	m_textures.insert(TexturesPair(lobbyTitle,
-		createTexture("lobbyTitle.png")));
-	m_textures.insert(TexturesPair(block,
-		createTexture("bricks.png")));
+		loadSfObj<sf::Texture>("lobbyTitle.png")));
+	//m_textures.insert(TexturesPair(block,
+	//	loadSfObj<sf::Texture>("bricks.png")));
 	m_textures.insert(TexturesPair(castle,
-		createTexture("castle map.png")));
-	m_textures.insert(TexturesPair(rope,
-		createTexture("rope.png")));
-	m_textures.insert(TexturesPair(fallingBlock,
-		createTexture("trap chandelier.png")));
-	m_textures.insert(TexturesPair(checkPoint,
-		createTexture("checkPoint.png"))); 
-	//m_textures.insert(TexturesPair(michal,
-	//	createTexture("michal.png")));
+		loadSfObj<sf::Texture>("castle map.png")));
+	/*m_textures.insert(TexturesPair(rope,
+		loadSfObj<sf::Texture>("rope.png")));*/
+	//m_textures.insert(TexturesPair(fallingBlock,
+	//	loadSfObj<sf::Texture>("trap chandelier.png")));
+	/*m_textures.insert(TexturesPair(checkPoint,
+		loadSfObj<sf::Texture>("checkPoint.png")));*/
+	m_textures.insert(TexturesPair(mainMenu,
+		loadSfObj<sf::Texture>("mainMenu.png")));
+	m_textures.insert(TexturesPair(resume,
+		loadSfObj<sf::Texture>("resume.png")));
+}
+void Resources::setGameTextures() {
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, block),
+		loadSfObj<sf::Texture>("bricks.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, gameBackground),
+		loadSfObj<sf::Texture>("castle map.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, rope),
+		loadSfObj<sf::Texture>("rope.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
+		loadSfObj<sf::Texture>("trap chandelier.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle,player0),
+		loadSfObj<sf::Texture>("player0.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, player1),
+		loadSfObj<sf::Texture>("player1.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, player2),
+		loadSfObj<sf::Texture>("player2.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, player3),
+		loadSfObj<sf::Texture>("player3.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, player4),
+		loadSfObj<sf::Texture>("player4.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, player5),
+		loadSfObj<sf::Texture>("player5.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, blank),
+		loadSfObj<sf::Texture>("Blank.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
+		loadSfObj<sf::Texture>("checkPoint.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
+	//	loadSfObj<sf::Texture>("bricks.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
+	//	loadSfObj<sf::Texture>("castle map.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),
+	//	loadSfObj<sf::Texture>("rope.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, fallingBlock),
+	//	loadSfObj<sf::Texture>("trap chandelier.png")));
 
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, block),
+	//	loadSfObj<sf::Texture>("bricks.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, gameBackground),
+	//	loadSfObj<sf::Texture>("castle map.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, rope),
+	//	loadSfObj<sf::Texture>("rope.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
+	//	loadSfObj<sf::Texture>("trap chandelier.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
@@ -86,32 +148,17 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(start, strlen("start")));
 	m_buttonStrLen.insert(ButtonPairStr(title, strlen("jump quest")));
 	m_buttonStrLen.insert(ButtonPairStr(lobbyTitle, strlen("lobby")));
-
+	m_buttonStrLen.insert(ButtonPairStr(mainMenu, strlen("main menu")));
+	m_buttonStrLen.insert(ButtonPairStr(resume, strlen("resume")));
 }
 
 void Resources::setFonts(){
-	m_fonts.insert(FontPair(lobbyFont, createFont("SNAP.TTF")));
+	m_fonts.insert(FontPair(lobbyFont, loadSfObj<sf::Font>("SNAP.TTF")));
 }
-
-sf::Font Resources::createFont(const std::string& str){
-	sf::Font font;
-	if (!font.loadFromFile(str))
-		std::cout << "font not found" << std::endl;
-	return std::move(font);
+void Resources::print() {
+	static int i = 0;
+	std::cout << ++i << std::endl;
 }
-
-
-sf::Texture Resources::createTexture(const std::string& textureStr) const{
-	sf::Texture texture;
-	if (!texture.loadFromFile(textureStr))
-		std::cout << "texture not found" << std::endl;
-	return std::move(texture);
-}
-//std::unique_ptr<sf::Texture> Resources::createTexture(const std::string& textureStr) const {
-//	sf::Texture texture;
-//	texture.loadFromFile(textureStr);
-//	return std::make_unique<sf::Texture>(texture);
-//}
 Resources& Resources::getResourceRef() {
 	static Resources resources;
 	return resources;

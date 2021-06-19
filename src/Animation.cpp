@@ -47,7 +47,7 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 int Animation::findLineLen(int type, int row) {
 
 	switch (type) {
-	case player:
+	case player0:
 		switch (row) {
 		case 0:
 			return STAND;
@@ -73,7 +73,7 @@ int Animation::findLineLen(int type, int row) {
 
 void Animation::setWidthHeight(int type) {
 	switch (type) {
-	case player:
+	case player0:
 		m_width = PLAYER_WIDTH;
 		m_height = PLAYER_HEIGHT;
 		break;

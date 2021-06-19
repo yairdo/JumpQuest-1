@@ -12,7 +12,8 @@ class Board {
 public:
 	/*void generateNewLevel();
 	void readFile();*/
-	void generateMap(b2World& world,int);
+	//Board(int );
+	void generateMap(b2World& world);
 //	TexturesNum hashIt(const std::string& str);
 	void move();
 	void draw(sf::RenderWindow& window);
@@ -24,8 +25,13 @@ public:
 	unsigned int numOfMovingObjs();
 	void updateStaticMsgCollision(int index);
 	void updateBoard(NetworkObject*);
+	int getMap() { return m_mapEnum; }
+	void setId(int);
+	void setmapEnum(int map=castle) { m_mapEnum=map; }
 
 private:
+	int m_mapEnum=castle;
+	int m_playerId;
 	void getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file);
 	//template<class Obj, class Type>
 	//void makeObject(std::vector<std::unique_ptr<Type>>& vec,b2World& world,

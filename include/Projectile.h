@@ -10,15 +10,16 @@ class Projectile : public MovingObj {
 public:
 	Projectile(b2World&, const sf::Vector2f&, int,float);
 	virtual ~Projectile() = default;
-
 	virtual void updatePhysics(float);
 	virtual void move();
-	virtual void shot(const sf::Vector2f&, const sf::Vector2f&);
+	virtual void shot(const sf::Vector2f&);
 	virtual void draw(sf::RenderWindow&);
+	sf::Vector2f getPosToShotFrom(const sf::Vector2f&, const sf::Vector2f&, const sf::Vector2f&);
 	bool getShot() { return m_shot; };
 	void reset();
 	void setShot(bool);
 	float getDis()  const;
+	void setDis(float);
 	sf::Vector2f getPos();
 
 private:
