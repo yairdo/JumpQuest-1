@@ -61,7 +61,7 @@ bool Server::handleRequests(int max) {
 				case staticObjInfo:
 					updateStaticObjState(receiveValue<StaticObjInfo>());
 				case closer:
-					notifyCloser();
+					notifyCloser(receiveValue<int>());
 				default:
 					break;
 				}
@@ -74,21 +74,11 @@ bool Server::handleRequests(int max) {
 /*============================================================================
 * 
 */
-void Server::notifyCloser(){
-	//int closerID = receiveValue<unsigned int>();
-	//setMember(closerID, nullptr);
-	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (getMember(i) && getMember(i)->m_memberIp == getSenderIP()
-			&& getMember(i)->m_memberPort == getSenderPort()) {
-			for (int j = 1; j < MAX_SERVER_PLAYERS; ++j) {
-				if(getMember(j) && j != i)
-					sendMessege(closer, i, getMember(j)->m_memberIp, getMember(j)->m_memberPort);
-			}
-			setMember(i, nullptr);
-		}
-		//if (getMember(i))
-		//	sendMessege(closer, i, getMember(closerID)->m_memberIp, getMember(closerID)->m_memberPort);
-	}
+void Server::notifyCloser(int index){
+	setMember(index, nullptr);
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i))
+			sendMessege<int>(closer, index, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*============================================================================
 * The method add the last messege sender to the player list.

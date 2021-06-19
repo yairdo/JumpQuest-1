@@ -76,7 +76,7 @@ void Client::searchForServers() {
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendMessege(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT);
+	sendMessege<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
