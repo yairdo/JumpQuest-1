@@ -9,7 +9,7 @@ class sf::RenderWindow;
 
 class MovingBlock : public MovingObj {
 public:
-	MovingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f& endPos, const sf::Vector2f&, int);
+	MovingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f& endPos, const sf::Vector2f&, int,int);
 	virtual ~MovingBlock() = default;
 	MovingBlock() = default;
 

@@ -6,7 +6,7 @@
 class Archer : public StaticObj {
 public:
 	Archer(b2World& world, const sf::Vector2f& pos,
-		const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType);
+		const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType,int mapEnum);
 	virtual ~Archer() = default;
 	void updateAnim(float deltaTime);
 	virtual void draw(sf::RenderWindow& window);

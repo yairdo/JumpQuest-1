@@ -16,7 +16,9 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	int id = (net == nullptr) ? 0 : net->getInfo().m_info.m_id;
-	m_board->generateMap(m_world,id);
+	m_board->setId(id);
+	m_board->generateMap(m_world);
+	
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
 	m_view = sf::View(sf::Vector2f(viewSize.x / 2.f, viewSize.y / 2.f), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });

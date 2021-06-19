@@ -61,11 +61,12 @@ enum TexturesNum {
 	back,
 	multiplayer,
 	blank,
-	player,
-	//player2,
-	//player3,
-	//player4,
-	//player5,
+	player0,
+	player1,
+	player2,
+	player3,
+	player4,
+	player5,
 	lobbyBackground,
 	start,
 	lobbyTitle,
@@ -135,7 +136,6 @@ constexpr auto SOKET_ERROR = "socket error!\n";
 constexpr auto SERVER_CONNECTION_LOST = "disconnected from server.";
 
 
-
 //for anime
 enum animPos {
 	walking,
@@ -162,15 +162,3 @@ constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
 
-struct ClonePlayer {
-	ClonePlayer() = default;
-	ClonePlayer(int id):m_sprite(Resources::getResourceRef().getTexture(player)){
-	m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
-	m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-	m_sprite.setPosition(50,50);}
-	sf::Sprite m_sprite;
-	int m_row;
-	int m_col;
-	int m_direction;
-};

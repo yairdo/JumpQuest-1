@@ -3,10 +3,10 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 
-Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType):
-    MovingObj(world, pos, size, b2_dynamicBody,player), m_numFootContact(0), m_checkPoint(pos)
-    , m_gotGift(false)
-{
+Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
+    int bodyType,int id):
+    MovingObj(world, pos, size, b2_dynamicBody,player0+id), m_numFootContact(0), m_checkPoint(pos)
+    , m_gotGift(false){
 
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
@@ -205,7 +205,7 @@ void Player::footContact(int val) {
 void Player::updateAnim(float deltaTime) {
     updateRow();
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-        deltaTime, m_totalTime, player,m_direction));
+        deltaTime, m_totalTime, player0,m_direction));
 
 }
 

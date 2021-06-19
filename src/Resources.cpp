@@ -52,8 +52,18 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("Back.png")));
 	m_textures.insert(TexturesPair(blank,
 		loadSfObj<sf::Texture>("Blank.png")));
-	m_textures.insert(TexturesPair(player,
+	m_textures.insert(TexturesPair(player0,
+		loadSfObj<sf::Texture>("player0.png")));
+	m_textures.insert(TexturesPair(player1,
 		loadSfObj<sf::Texture>("player1.png")));
+	m_textures.insert(TexturesPair(player2,
+		loadSfObj<sf::Texture>("player2.png")));
+	m_textures.insert(TexturesPair(player3,
+		loadSfObj<sf::Texture>("player3.png")));
+	m_textures.insert(TexturesPair(player4,
+		loadSfObj<sf::Texture>("player4.png")));
+	m_textures.insert(TexturesPair(player5,
+		loadSfObj<sf::Texture>("player5.png")));
 	m_textures.insert(TexturesPair(lobbyBackground,
 		loadSfObj<sf::Texture>("lobbyBackground.png")));
 	m_textures.insert(TexturesPair(start,

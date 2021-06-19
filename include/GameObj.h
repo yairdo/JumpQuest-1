@@ -9,7 +9,7 @@ class b2World;
 
 class GameObj {
 public:
-    GameObj(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int textureNum);
+    GameObj(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int ,int);
     GameObj() = default;
     virtual ~GameObj() = default;
     virtual void draw(sf::RenderWindow&);

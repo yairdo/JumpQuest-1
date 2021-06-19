@@ -5,11 +5,12 @@
 #include <Factory.h>
 
 bool MovingBlock::m_registerit = Factory<MovingObj>::registerit("MovingBlock",
-    [](b2World& world,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
-    { return std::make_unique<MovingBlock>(world, vec[0], vec[1], vec[2], b2_kinematicBody); });
+    [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
+    { return std::make_unique<MovingBlock>(world, vec[0], vec[1], vec[2], b2_kinematicBody,map); });
 
-MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& endPos, const sf::Vector2f& size, int bodyType) :
-    m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE), MovingObj(world, startPos, size, bodyType,block)
+MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& endPos,
+    const sf::Vector2f& size, int bodyType,int mapEnum) :
+    m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE), MovingObj(world, startPos, size, bodyType,block, mapEnum)
 {
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
