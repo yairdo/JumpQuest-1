@@ -46,8 +46,8 @@ void NetworkGameState::updateBoard()
 		updateNetwork();
 	}
 	catch (std::exception& e) {
-		if (e.what() == SERVER_CONNECTION_LOST)
-			m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+		//if (e.what() == SERVER_CONNECTION_LOST)
+		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
 		return;
 	}
 	GameState::updateBoard();

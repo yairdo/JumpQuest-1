@@ -126,7 +126,7 @@ constexpr auto MAX_OBJ_IN_LEVEL = 200;
 //exeptions type
 constexpr auto RECEIVED_WRONG_MESSEGE_TYPE = "received wrong messege type\n";
 constexpr auto SOKET_ERROR = "socket error!\n";
-constexpr auto SERVER_CONNECTION_LOST = "disconnected from server.\n";
+constexpr auto SERVER_CONNECTION_LOST = "disconnected from server.";
 
 
 
