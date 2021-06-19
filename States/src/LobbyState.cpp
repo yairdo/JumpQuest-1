@@ -85,11 +85,17 @@ void LobbyState::update(){
 		signUp();
 	if (m_connected && m_signedUp)
 		MenuState::update();
-	if (m_networkObj->handleRequests()) {
-		if (m_networkObj->getStarted()) 
-			m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
-		else
-			updateList();
+	try {
+		if (m_networkObj->handleRequests()) {
+			if (m_networkObj->getStarted())
+				m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
+			else
+				updateList();
+		}
+	}
+	catch (std::exception& e) {
+		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+		return;
 	}
 }
 
