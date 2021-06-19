@@ -21,12 +21,10 @@ MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 }
 
 void MenuState::draw(){
-	//m_window.clear();
 	m_window.draw(*(m_background.get()));
 	m_window.draw(*(m_title.get()));
 	std::for_each(m_buttons.begin(), m_buttons.end(),
 	[&](const std::unique_ptr<BaseButton>& button) {button->draw(m_window); });
-	//m_window.display();
 }
 
 void MenuState::setTransp(const sf::Vector2f& location) const{
