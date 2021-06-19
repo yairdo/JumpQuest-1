@@ -9,10 +9,10 @@ NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& wind
 {
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
-			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMembers(i)->m_info.m_id);
+		if (m_networkObj->getMember(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
+			m_clones[m_networkObj->getMember(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMember(i)->m_info.m_id);
 		}
-		else if (m_networkObj->getMembers(i) && m_clones.find(i) != m_clones.end()) {
+		else if (m_networkObj->getMember(i) && m_clones.find(i) != m_clones.end()) {
 			m_clones.erase(i);
 		}
 	}
@@ -48,12 +48,12 @@ void NetworkGameState::updateBoard()
 
 void NetworkGameState::updateClonesLoc() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-		if (m_networkObj->getMembers(i) &&
-			m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
-			auto info = m_networkObj->getMembers(i)->m_info;
+		if (m_networkObj->getMember(i) &&
+			m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
+			auto info = m_networkObj->getMember(i)->m_info;
 			//auto = struct of the info coming back from the server
 			//update map about the players new parameters from the info struct above
-			auto it = m_clones.find(m_networkObj->getMembers(i)->m_info.m_id);
+			auto it = m_clones.find(m_networkObj->getMember(i)->m_info.m_id);
 			if (it == m_clones.end())
 				continue;
 			it->second.m_sprite.setPosition(info.m_loc);

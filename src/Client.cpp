@@ -16,6 +16,7 @@ Client::~Client() {
 * as needed.
 */
 bool Client::handleRequests(int max) {
+	int index;
 	int counter = 0;
 	while (receivedMessege()&& counter++ < max) {
 		//std::cout << "udp messege received.\n";
@@ -51,6 +52,9 @@ bool Client::handleRequests(int max) {
 			case staticObjInfo:
 				getBoard()->updateStaticMsgCollision(receiveValue<StaticObjInfo>().m_index);
 				break;
+			case closer:
+				index = receiveValue<int>();
+				setMember(index, nullptr);
 			default:
 				break;
 			}

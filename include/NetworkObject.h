@@ -25,7 +25,7 @@ public:
 	unsigned short getPort() const { return m_port; }
 	const sf::IpAddress& getSenderIP() const { return m_senderIP; }
 	unsigned short getSenderPort() const { return m_senderPort; }
-	const GameMember* getMembers(int index)const;
+	const GameMember* getMember(int index)const;
 	const GameMember& getInfo()const { return m_info; }
 	bool getStarted() { return m_started; }
 	//============================= sets section =============================
