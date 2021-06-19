@@ -18,6 +18,7 @@ public:
 	virtual void resume();
 	virtual void update();
 	virtual void draw();
+	void setView(const sf::View&);
 	//game functions
 	void addBorders2World();
 

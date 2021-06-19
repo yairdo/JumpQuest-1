@@ -122,6 +122,10 @@ void GameState::addBorders2World() {
 	screenBorderBody->CreateFixture(&fixture);
 }
 
+void GameState::setView(const sf::View& view) {
+	m_view = std::move(view);
+}
+
 void GameState::updateGame() {
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
