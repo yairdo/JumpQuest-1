@@ -1,7 +1,8 @@
 #include "NetworkGameState.h"
 #include "Player.h"
 #include <Projectile.h>
-
+#include <StateManager.h>
+#include <MultiplayerMenuState.h>
 
 NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	GameState(manager,window,replace,net)
@@ -10,6 +11,9 @@ NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& wind
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 		if (m_networkObj->getMembers(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMembers(i)->m_info.m_id) {
 			m_clones[m_networkObj->getMembers(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMembers(i)->m_info.m_id);
+		}
+		else if (m_networkObj->getMembers(i) && m_clones.find(i) != m_clones.end()) {
+			m_clones.erase(i);
 		}
 	}
 }

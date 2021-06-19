@@ -215,6 +215,7 @@ void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 }
 /*==========================================================================*/
 void Server::startGame() {
+	m_requiting = false;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMembers(i))
 			sendMessege(networkMessege, Network_messeges::startGame, getMembers(i)->m_memberIp,

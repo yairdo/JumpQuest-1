@@ -3,7 +3,7 @@
 #include <Board.h>
 
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
-m_isLinked(false), m_started(false){
+m_isLinked(false){
 	m_packet.clear();
 }
 //============================================================================
@@ -31,7 +31,7 @@ bool Client::handleRequests(int max) {
 					setStarted(true);
 					break;
 				case closing:
-					throw std::exception("disconnected from server.\n");
+					throw std::exception(SERVER_CONNECTION_LOST);
 					break;
 				default:
 					break;
@@ -66,6 +66,8 @@ bool Client::handleRequests(int max) {
 					exit(EXIT_FAILURE);
 				}
 			}
+			if (e.what() == SERVER_CONNECTION_LOST)
+				throw std::exception(SERVER_CONNECTION_LOST);
 		}
 	}
 	if (counter == 0)
