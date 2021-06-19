@@ -75,11 +75,19 @@ bool Server::handleRequests(int max) {
 * 
 */
 void Server::notifyCloser(){
-	int closerID = receiveValue<int>();
-	setMember(closerID, nullptr);
+	//int closerID = receiveValue<unsigned int>();
+	//setMember(closerID, nullptr);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (getMember(i))
-			sendMessege(closer, i, getMember(closerID)->m_memberIp, getMember(closerID)->m_memberPort);
+		if (getMember(i) && getMember(i)->m_memberIp == getSenderIP()
+			&& getMember(i)->m_memberPort == getSenderPort()) {
+			for (int j = 1; j < MAX_SERVER_PLAYERS; ++j) {
+				if(getMember(j) && j != i)
+					sendMessege(closer, i, getMember(j)->m_memberIp, getMember(j)->m_memberPort);
+			}
+			setMember(i, nullptr);
+		}
+		//if (getMember(i))
+		//	sendMessege(closer, i, getMember(closerID)->m_memberIp, getMember(closerID)->m_memberPort);
 	}
 }
 /*============================================================================

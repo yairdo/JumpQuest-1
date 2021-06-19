@@ -12,9 +12,6 @@ NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& wind
 		if (m_networkObj->getMember(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
 			m_clones[m_networkObj->getMember(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMember(i)->m_info.m_id);
 		}
-		else if (m_networkObj->getMember(i) && m_clones.find(i) != m_clones.end()) {
-			m_clones.erase(i);
-		}
 	}
 }
 
@@ -29,6 +26,11 @@ void NetworkGameState::updateBoard()
 
 	try {
 		updateNetwork();
+		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+			if (m_clones.find(i) != m_clones.end() && !m_networkObj->getMember(i)) {
+				m_clones.erase(i);
+			}
+		}
 	}
 	catch (std::exception& e) {
 		//if (e.what() == SERVER_CONNECTION_LOST)
