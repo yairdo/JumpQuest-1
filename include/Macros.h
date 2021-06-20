@@ -17,8 +17,8 @@ constexpr auto FOOT = 3;
 constexpr auto MAX_LIST_NAMES_SIZE=4;
 
 const float PLAYER_PROJECTILE_DIS = 300;
-const sf::Vector2f PROJECTILE_SIZE{20,20 };
-const sf::Vector2f ARCHER_SIZE{ 30,30 };
+const sf::Vector2f PROJECTILE_SIZE{25,25};
+const sf::Vector2f ARCHER_SIZE{ 40,40 };
 const b2Vec2 PROJECTILE_FORCE{ 0.5,-0.2 };
 
 
@@ -77,6 +77,8 @@ enum TexturesNum {
 	checkPoint,
 	mainMenu,
 	resume,
+	arrow,
+	archer,
 	nullpt
 };
 
@@ -164,6 +166,13 @@ constexpr float CHECKPOINT_SWITCH_TIME = 0.15;
 constexpr int CHECKPOINT_WIDTH = 33;
 constexpr int CHECKPOINT_HEIGHT = 38;
 constexpr int CHECKPOINT_LEN = 6;
+
+constexpr int ARCHER_WIDTH = 160;
+constexpr int ARCHER_HEIGHT = 146;
+constexpr int ARCHER_LEN = 6;
+
+//constexpr int ARROW_WIDTH = 
+//constexpr int ARROW_HEIGHT = 
 
 constexpr int WALKING = 3;
 constexpr int STAND = 3;

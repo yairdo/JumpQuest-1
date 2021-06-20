@@ -44,6 +44,7 @@ private:
 	bool m_onRope = false;
 	//test
 	bool m_canCatch = false;
+	Board* m_board;
 	std::vector <std::unique_ptr<Projectile>> m_projectile;
 	bool m_gotGift;
 	int m_lives;

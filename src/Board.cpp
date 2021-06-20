@@ -135,12 +135,15 @@ void Board::updateStaticMsgCollision(int index){
 	m_staticObj[index]->MsgCollision();
 }
 
+
 void Board::addProjectile(const struct AddProjectileMessage& info) {
 	
 	std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(*m_world,
 		PROJECTILE_SIZE, b2_dynamicBody, PLAYER_PROJECTILE_DIS);
-	proj->shot(info.m_to);
-	getPlayerRef()->setGotGift(false);
+	auto  temp = proj.get();
 	proj->setPos(proj->getPosToShotFrom(info.m_to, info.m_frome, info.m_bounds));
 		m_movingObj.emplace_back(proj.release());
+	temp->shot(info.m_to);
+	getPlayerRef()->setGotGift(false);
+	
 }

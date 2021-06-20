@@ -15,43 +15,14 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f })/*,
 	m_nameList(4)*/
 {
-	/*m_listBackground.setFillColor(sf::Color(255, 255, 255, 120));
-	m_listBackground.setOrigin({ m_listBackground.getSize().x / 2.f, m_listBackground.getSize().y / 2.f });
-	m_listBackground.setPosition(window.getSize().x/2, window.getSize().y/2);*/
-	
-	/*m_nameTextBox.setFillColor(sf::Color(102,0,0,150));
-	m_nameTextBox.setOrigin({ m_nameTextBox.getSize().x / 2.f, m_nameTextBox.getSize().y / 2.f });
-	m_nameTextBox.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f);*/
 	createBoxShape(m_listBackground, sf::Color(255, 255, 255, 120));
 	createBoxShape(m_nameTextBox, sf::Color(102,0,0,150));
 	auto pos = sf::Vector2f{ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
 		m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2 + 10 };
 	m_text = createText(lobbyFont, 24, sf::Color::Black, "Enter your nickname:\n",pos);
-	//m_text.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	//m_text.setCharacterSize(24);
-	//m_text.setFillColor(sf::Color::Black);
-	//- (m_nameTextBox.getSize().x / 2)+10
-	//m_text.setPosition({ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
-	//	m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2+10 });
-	//m_text.setString("Enter your nickname:\n");
 	pos = { m_text.getPosition().x ,m_text.getPosition().y +
 		m_text.getGlobalBounds().height + 10 };
 	m_inputText = createText(lobbyFont, 24, sf::Color::Black, "", pos);
-	/*m_inputText.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_inputText.setCharacterSize(24);
-	m_inputText.setFillColor(sf::Color::Black);
-	m_inputText.setPosition({ m_text.getPosition().x ,
-		m_text.getPosition().y + m_text.getGlobalBounds().height + 10 });*/
-	//m_inputText
-	/*auto org = sf::Vector2f({ m_waitingText.getGlobalBounds().width / 2.f,
-			m_waitingText.getGlobalBounds().height / 2.f });*/
-	//for waiting
-	/*m_waitingText.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_waitingText.setCharacterSize(50);
-	m_waitingText.setFillColor(sf::Color::Black);
-	m_waitingText.setString("Waiting for Host\n");
-	m_waitingText.setOrigin({ m_waitingText.getGlobalBounds().width / 2.f, m_waitingText.getGlobalBounds().height / 2.f });
-	m_waitingText.setPosition(m_nameTextBox.getPosition());*/
 
 	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3;
 	pos = { width, m_window.getSize().y - m_window.getSize().y / 10.f };
@@ -91,6 +62,7 @@ void LobbyState::update(){
 	try {
 		if (m_networkObj->handleRequests()) {
 			if (m_networkObj->getStarted())
+				/*get level info (to take board num*/
 				m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
 			else
 				updateList();
@@ -105,10 +77,7 @@ void LobbyState::update(){
 void LobbyState::signUp() {
 	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
 		if (event.type == sf::Event::TextEntered) {
-			//auto key=
 			if (event.text.unicode < 128) {
-				//event.text.unicode == sf::Keyboard::BackSpace;
-			//	if (sf::Keyboard::isKeyPressed( sf::Keyboard::BackSpace))
 				if (event.text.unicode == 8) {
 					if (m_inputStr.size() > 0)
 						m_inputStr.pop_back();
@@ -165,7 +134,12 @@ void LobbyState::updateNextState(const sf::Vector2f& loc) {
 		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true, nullptr);
 	}
 	if (m_isServer && m_buttons[1]->checkCollision(loc)) {
-		static_cast<Server*>(m_networkObj.get())->startGame();
+		//go to 
+
+		//
+
+		//move to choose board state
+		static_cast<Server*>(m_networkObj.get())->startGame(/*StartMessage(int theme)*/);
 		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, m_networkObj);
 	}
 }
