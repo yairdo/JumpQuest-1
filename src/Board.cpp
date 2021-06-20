@@ -14,9 +14,10 @@
 #include "CheckPoint.h"
 
 void Board::generateMap(b2World& world) {
+	m_world = &world;
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
-	m_movingObj.emplace_back(new Player(world, { 25.f, 25.f }, { 50.f,50.f }, b2_dynamicBody,m_playerId));
+	m_movingObj.emplace_back(new Player(world, { 25.f, 25.f }, { 50.f,50.f }, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
 	file.open("testLevel.txt");
 	//file.open("Level2.txt");
@@ -80,10 +81,13 @@ void Board::draw(sf::RenderWindow& window) {
 }
 
 void Board::updatePhysics(float deltaTime) {
-	for (auto& moving : m_movingObj) {
-		moving->updatePhysics(deltaTime);
-		//check
-		moving->updateAnim(deltaTime);
+	for (int i = 0; i < m_movingObj.size(); ++i) {
+		m_movingObj[i]->updatePhysics(deltaTime);
+		if (m_movingObj[i]->remove()) {
+			m_movingObj.erase(m_movingObj.begin() + i);
+			--i;
+		}
+		m_movingObj[i]->updateAnim(deltaTime);
 	}
 	for (auto& stat : m_staticObj) {
 		stat->updateAnim(deltaTime);
@@ -92,7 +96,7 @@ void Board::updatePhysics(float deltaTime) {
 }
 
 Player* Board::getPlayerRef() {
-	return (Player*)m_movingObj[0].get();
+	return static_cast<Player*>(m_movingObj[0].get());
 }
 
 MovingObjInfo Board::getInfo(unsigned int index) {
@@ -129,4 +133,14 @@ void Board::updateBoard(NetworkObject* netObj) {
 
 void Board::updateStaticMsgCollision(int index){
 	m_staticObj[index]->MsgCollision();
+}
+
+void Board::addProjectile(const struct AddProjectileMessage& info) {
+	
+	std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(*m_world,
+		PROJECTILE_SIZE, b2_dynamicBody, PLAYER_PROJECTILE_DIS);
+	proj->shot(info.m_to);
+	getPlayerRef()->setGotGift(false);
+	proj->setPos(proj->getPosToShotFrom(info.m_to, info.m_frome, info.m_bounds));
+		m_movingObj.emplace_back(proj.release());
 }

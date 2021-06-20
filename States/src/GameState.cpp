@@ -154,18 +154,11 @@ void GameState::updateGame() {
 	//for (auto evnt = sf::Event{}; m_window.pollEvent(evnt);) {
 	//	if (evnt.type == sf::Event::MouseButtonReleased) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()));
+		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
 		//m_testProjectile->shot(m_testProjectile->getPos(), m_window.mapPixelToCoords(sf::Mouse::getPosition()));
 		//std::cout << "shot\n";
 		//m_testProjectile->setShot(false);
 	}
-
-
-	/*if (!m_testProjectile->getShot() && projTimer <= 0)
-		m_testProjectile->shot(m_testProjectile->getPos(), { 100, 300 });*/
-		//std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
-	//	if (m_testProjectile->getPos().x > 400)
-		//	std::cout << m_testProjectile->getPos().x << " " << m_testProjectile->getPos().y << std::endl;
 }
 
 void GameState::updateBoard(){

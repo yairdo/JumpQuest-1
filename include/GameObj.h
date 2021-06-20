@@ -16,10 +16,10 @@ public:
     virtual void setRemoveObj(bool );
     virtual bool getIsRemoved() const;
     void destroyBody();
-    sf::Vector2f getPos() { return m_sprite.getPosition(); }
+    sf::Vector2f getPos()const  { return m_sprite.getPosition(); }
     void setPos(sf::Vector2f);
     virtual void MsgCollision(){} //this needs to be abstract 
-    virtual bool remove() { return false; }
+    bool remove();
     //=====temp polichecker
     /*virtual void handleCol(GameObj*) = 0;
     virtual void handleGiftCol(Gift*) = 0;*/

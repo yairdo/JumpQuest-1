@@ -4,12 +4,14 @@
 #include "iostream"
 #include <Animation.h>
 #include <Projectile.h>
+#include <Board.h>
 class b2World;
+class NetworkObject;
 class sf::RenderWindow;
 
 class Player : public MovingObj {
 public:
-	Player(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int );
+	Player(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int , Board& board);
 	virtual ~Player()=default;
 
 	//--added for tests
@@ -20,7 +22,8 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
-	void useGift(sf::Vector2f);
+	void useGift(const sf::Vector2f&, NetworkObject* network);
+	void setGotGift(bool state){ m_gotGift = state; }
 	void setExternalForce(b2Vec2);
 	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 

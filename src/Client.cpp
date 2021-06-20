@@ -51,6 +51,9 @@ bool Client::handleRequests(int max) {
 			case staticObjInfo:
 				getBoard()->updateStaticMsgCollision(receiveValue<StaticObjInfo>().m_index);
 				break;
+			case Messege_type::addProjectile:
+				getBoard()->addProjectile(receiveValue<AddProjectileMessage>());
+				break;
 			case closer:
 				setMember(receiveValue<int>(), nullptr);
 			default:
@@ -125,4 +128,9 @@ void Client::updateMovingObj() {
 */
 void Client::sendGameMembership(const char name[]) {
 	sendMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
+}
+/*============================================================================
+*/
+void Client::addProjectile(const AddProjectileMessage& projectile){
+	sendMessege<AddProjectileMessage>(Messege_type::addProjectile, projectile, m_serverIP, SERVERS_PORT);
 }

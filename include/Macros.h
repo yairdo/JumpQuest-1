@@ -130,6 +130,7 @@ enum Messege_type {
 	movingObj, //MemberInfo
 	staticObjInfo, //StaticMemberInfo
 	closer, //int
+	addProjectile,
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
@@ -152,7 +153,7 @@ enum animPos {
 };
 constexpr float PLAYER_SWITCH_TIME = 0.15;
 constexpr int PLAYER_WIDTH = 130;
-constexpr int PLAYER_HEIGHT = 156;
+constexpr int PLAYER_HEIGHT = 155;
 
 constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;

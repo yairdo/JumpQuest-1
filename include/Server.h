@@ -12,9 +12,10 @@ public:
     virtual ~Server();
     bool launch();
     virtual bool handleRequests(int = 1)override;
-    virtual void updateLoc(const MemberInfo&);
-    virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
-    virtual void sendStaticCollision(int);
+    virtual void updateLoc(const MemberInfo&)override;
+    virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1)override;
+    virtual void sendStaticCollision(int)override;
+    virtual void addProjectile(const AddProjectileMessage&)override;
     void startGame();
 
     //test
@@ -34,4 +35,5 @@ private:
     void updateAboutNewMember(const AddMember&);
     int countServersInPort();
     bool renameMember();
+    
 };

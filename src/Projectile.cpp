@@ -64,6 +64,9 @@ void Projectile::updatePhysics(float dt) {
        // m_shot = false;
         return;
     }
+    if (m_distance <= 0) {
+        setRemoveObj(true);
+    }
  /*   if (m_shot && !m_body->IsAwake())
         reset();*/
    // if (!m_body->IsAwake())
@@ -101,6 +104,7 @@ b2Vec2 Projectile::getForce(sf::Vector2f playerPos) const
         return PROJECTILE_FORCE;
     return {-PROJECTILE_FORCE.x,PROJECTILE_FORCE.y};
 }
+
 
 void Projectile::setShot(bool s) {
     m_shot = s;

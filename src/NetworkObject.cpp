@@ -17,6 +17,7 @@ m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m
 * person the server received messege from.
 */
 void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port) {
+	
 	m_socket.send(m_packet, ip, port) != sf::Socket::Done;
 }
 /*============================================================================

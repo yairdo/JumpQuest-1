@@ -12,7 +12,6 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	bool collisionCounter();
 	virtual void MsgCollision();
-	virtual bool remove();
 	//virtual void handleCollision();
 	/*virtual void handleCol(GameObj* obj) override;
 	virtual void handleGiftCol(Gift*) override {};

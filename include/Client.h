@@ -16,6 +16,7 @@ public:
 	virtual bool launch();
 	virtual void updateLoc(const MemberInfo&);
 	virtual void sendStaticCollision(int);
+	virtual void addProjectile(const AddProjectileMessage& projectile)override;
 private:
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;

@@ -2,9 +2,9 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
-
+#include <NetworkObject.h>
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
-    int bodyType,int id):
+    int bodyType,int id,Board& board):
     MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
     , m_gotGift(false), m_projectileForce({ 0,0 }) 
 {
@@ -251,14 +251,17 @@ void Player::center(const sf::Vector2f& ropePos) {
     m_offSet = ropePos;
 }
 
-void Player::useGift(sf::Vector2f mousePos) {
+void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
+    
     if (m_gotGift) {
-        m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
-            PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
-        m_projectile[m_projectile.size()-1]->setPos(m_projectile[m_projectile.size() - 1]->getPosToShotFrom(mousePos,
-            m_sprite.getPosition(), { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
-        m_projectile[m_projectile.size() - 1]->shot(mousePos);
-        m_gotGift = false;
+        network->addProjectile(addProjectileMessageCreator(m_sprite.getPosition(),mousePos,
+            { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
+    //    //m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
+    //    //    PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
+    //    //m_projectile[m_projectile.size()-1]->setPos(m_projectile[m_projectile.size() - 1]->getPosToShotFrom(mousePos,
+    //    //    m_sprite.getPosition(), { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
+    //    //m_projectile[m_projectile.size() - 1]->shot(mousePos);
+    //    //m_gotGift = false;
     }
 }
 void Player::setExternalForce(b2Vec2 force)
