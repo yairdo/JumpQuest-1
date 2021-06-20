@@ -23,12 +23,12 @@ void ChooseBoardState::updateNextState(const sf::Vector2f& loc) {
 		if (m_buttons[i]->checkCollision(loc)) {
 			if (m_networkObj) {
 				//change To i
-				static_cast<Server*>(m_networkObj.get())->startGame(castle);
+				static_cast<Server*>(m_networkObj.get())->startGame(MapType(i));
 				m_next = m_buttons[i]->ButtonState(m_manager, m_window, true, m_networkObj);
 			}
 			else
 				/// change to i!!
-				m_next = std::make_unique<GameState>(m_manager, m_window, true, m_networkObj/*, castle*/);
+				m_next = std::make_unique<GameState>(m_manager, m_window, true, m_networkObj, i);
 		}
 	}
 	if ((--m_buttons.end())->get()->checkCollision(loc))

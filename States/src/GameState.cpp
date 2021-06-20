@@ -20,6 +20,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_world.SetContactListener(&m_contactListner);
 	int id = (net == nullptr) ? 0 : net->getInfo().m_info.m_id;
 	m_board->setId(id);
+	m_board->setmapEnum(map);
 	m_board->generateMap(m_world);
 	
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
