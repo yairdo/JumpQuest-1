@@ -53,6 +53,9 @@ void Projectile::shot(const sf::Vector2f& toPos){
 
 void Projectile::updatePhysics(float dt) {
     
+    if (m_distance <= 0) {
+        setRemoveObj(true);
+    }
     if (m_shot)
     {
         m_elapaseTime += dt;
@@ -63,9 +66,6 @@ void Projectile::updatePhysics(float dt) {
       //  m_body->ApplyForceToCenter({m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))}, true);
        // m_shot = false;
         return;
-    }
-    if (m_distance <= 0) {
-        setRemoveObj(true);
     }
  /*   if (m_shot && !m_body->IsAwake())
         reset();*/
