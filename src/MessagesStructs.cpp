@@ -1,4 +1,4 @@
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 #include <memory>
 //============================================================================
 GameMember gameMemberCreator(const sf::IpAddress& ip, unsigned short port, const char name[PLAYER_NAME_LEN], const MemberInfo& member ) {
@@ -56,5 +56,12 @@ AddProjectileMessage addProjectileMessageCreator(const sf::Vector2f& from,
     value.m_frome = from;
     value.m_to = to;
     value.m_bounds = bounds;
+    return value;
+}
+//============================================================================
+StartMessage startMessageCreator(int theme, int level) {
+    StartMessage value;
+    value.m_theme = theme;
+    value.m_level = level;
     return value;
 }

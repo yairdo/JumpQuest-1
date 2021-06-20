@@ -110,21 +110,20 @@ enum _entityCategory {
 
 //============================================================================
 //Network Consts
-enum Network_messeges {
-	noMessege,
+enum NetworkMessages {
+	noMessage,
 	whoIsAServer,
 	iAmAServer,
 	iAmFree,
 	whoIsFreeServer,
 	registered,
 	closing,
-	startGame,
 };
 //============================================================================
-//in command, the value received after the Messege type.
-enum Messege_type {
+//in command, the value received after the Message type.
+enum MessageType {
 	noType, //none
-	networkMessege, //Network_messege
+	networkMessage, //Network_message
 	gameMembership, //GameMembership
 	singMeIn, //GameMember
 	memberId, //int 
@@ -133,16 +132,17 @@ enum Messege_type {
 	movingObj, //MemberInfo
 	staticObjInfo, //StaticMemberInfo
 	closer, //int
-	addProjectile,
+	addProjectile, //AddProjectile
+	startGame, //StartMessage
 };
 constexpr auto SERVERS_PORT = 50000;
-constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
+constexpr auto NETWORK_MESSEGE_LEN = sizeof(NetworkMessages);
 constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 5;
 constexpr auto MAX_OBJ_IN_LEVEL = 200;
 
 //exeptions type
-constexpr auto RECEIVED_WRONG_MESSEGE_TYPE = "received wrong messege type\n";
+constexpr auto RECEIVED_WRONG_MESSEGE_TYPE = "received wrong message type\n";
 constexpr auto SOKET_ERROR = "socket error!\n";
 constexpr auto SERVER_CONNECTION_LOST = "disconnected from server.";
 
