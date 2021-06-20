@@ -9,5 +9,5 @@ public:
 	virtual ~ClientGameState() = default;
 	virtual void updateNetwork() override;
 private:
-	std::stack<MovingObj*> movingObjsToUpdateServer;
+	//std::stack<MovingObj*> movingObjsToUpdateServer;
 };

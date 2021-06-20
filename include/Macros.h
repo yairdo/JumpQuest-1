@@ -22,8 +22,6 @@ const sf::Vector2f ARCHER_SIZE{ 30,30 };
 const b2Vec2 PROJECTILE_FORCE{ 0.5,-0.2 };
 
 
-
-
 enum direction {
 	left,
 	right,
