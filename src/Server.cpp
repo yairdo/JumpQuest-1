@@ -51,6 +51,7 @@ bool Server::handleRequests(int max) {
 					break;
 				case staticObjInfo:
 					updateStaticObjState(receiveValue<StaticObjInfo>());
+					break;
 				case closer:
 					notifyCloser(receiveValue<int>());
 				default:
