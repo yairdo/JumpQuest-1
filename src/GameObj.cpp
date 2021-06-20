@@ -2,11 +2,12 @@
 #include "box2d/box2d.h"
 #include "Macros.h"
 #include "Resources.h"
-
+#include <iostream>
 GameObj::GameObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
 	int textureNum=blank,int mapEnum=castle) : m_isRemoved(false), m_col(0),m_row(0)
 {
 	m_sprite.setTexture(Resources::getResourceRef().getTexture(mapEnum,textureNum));
+	std::cout << mapEnum<<"\n";
 	/*m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
 	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 	m_sprite.setPosition(pos);
