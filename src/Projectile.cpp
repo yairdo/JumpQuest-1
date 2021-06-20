@@ -19,8 +19,8 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,fl
     fixtureDef.shape = &kinematic;
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;*/
-    b2PolygonShape kinematic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
-    createFixtureDef(kinematic, 1.0f,0.3);
+    b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
+    createFixtureDef(shape, 1.0f,0.3,noneBit, true, playerBits);
 
     //fixtureDef.filter.categoryBits = fallingBlockBits;
 
@@ -56,7 +56,7 @@ void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
         m_elapaseTime += dt;
-        std::cout << "yo yo im here\n";
+        //std::cout << "yo yo im here\n";
         m_body->SetLinearVelocity({ m_vel.x * 220 * dt, m_vel.y * 220 * dt });
         //m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
        // m_body->ApplyForceToCenter({ m_vel.x, m_vel.y}, true);
@@ -91,8 +91,15 @@ void Projectile::reset()
     m_shot = false;
 }
 
-sf::Vector2f Projectile::getPos() {
+sf::Vector2f Projectile::getPos() const {
     return m_sprite.getPosition();
+}
+
+b2Vec2 Projectile::getForce(sf::Vector2f playerPos) const
+{
+    if (playerPos.x > getPos().x)
+        return PROJECTILE_FORCE;
+    return {-PROJECTILE_FORCE.x,PROJECTILE_FORCE.y};
 }
 
 void Projectile::setShot(bool s) {
@@ -113,14 +120,14 @@ sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::V
         return { loc.x + bounds.x / 2+PROJECTILE_SIZE.x/2,loc.y };
     }
     else if (loc.x > mouse.x + bounds.x / 2) {
-        return { loc.x - bounds.x -PROJECTILE_SIZE.x / 2 / 2,loc.y };
+        return { loc.x - bounds.x/2 -PROJECTILE_SIZE.x / 2,loc.y };
     }
     else {
         if (loc.y < mouse.y) {
-            return { loc.x,loc.y + bounds.y+ PROJECTILE_SIZE.y / 2 / 2 };
+            return { loc.x,loc.y + bounds.y/2+ PROJECTILE_SIZE.y / 2+5};
         }
         else {
-            return { loc.x,loc.y - bounds.y / 2 - PROJECTILE_SIZE.y / 2 };
+            return { loc.x,loc.y - bounds.y / 2 - PROJECTILE_SIZE.y / 2-5};
         }
     }
 }

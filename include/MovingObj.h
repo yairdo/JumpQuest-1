@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObj.h"
 //#include <Macros.h>
-//#include "box2d/box2d.h"
 #include "MessegesStructs.h"
 
 class MovingObj : public GameObj {
@@ -18,7 +17,7 @@ public:
 	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), 0, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info) { setPos(info.m_loc); }
 
-	bool getReset() { return m_reset; }
+	bool getReset() const { return m_reset; }
 	void setReset(bool reset) { m_reset = reset; }
 
 	virtual void reset() {};

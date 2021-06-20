@@ -2,6 +2,7 @@
 
 #include "MovingObj.h"
 #include "iostream"
+
 class b2Body;
 class b2World;
 //class sf::RenderWindow;
@@ -20,7 +21,8 @@ public:
 	void setShot(bool);
 	float getDis()  const;
 	void setDis(float);
-	sf::Vector2f getPos();
+	sf::Vector2f getPos() const;
+	b2Vec2 getForce(sf::Vector2f) const;
 
 private:
 	float m_distance;

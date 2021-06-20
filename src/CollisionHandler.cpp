@@ -9,6 +9,9 @@
 #include <iostream>
 #include <functional>
 #include <Macros.h>
+#include <Projectile.h>
+#include "box2d/box2d.h"
+
 CollisionHandler::CollisionHandler(){
 	/*std::function<void(GameObj*, GameObj*)> Func=giftPlayer;
 	m_collisionMap[Key(typeid(Gift), typeid(Player))] = &[]() {return &giftPlayer; };*/
@@ -21,7 +24,8 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(Block))] = &CollisionHandler::playerBlock;
 	m_collisionMap[Key(typeid(CheckPoint), typeid(Player))] = &CollisionHandler::checkPointPlayer;
 	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
-
+	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
+	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
@@ -64,6 +68,12 @@ void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 	}
 }
 
+void CollisionHandler::playerProjectile(GameObj* obj1, GameObj* obj2) {
+	Player* player = static_cast<Player*> (obj1);
+	Projectile* projectile = static_cast<Projectile*> (obj2);
+	player->setExternalForce(projectile->getForce(player->getPos()));
+}
+
 void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2) {
 	playerGift(obj2, obj1);
 }
@@ -76,6 +86,10 @@ void CollisionHandler::blockPlayer(GameObj* obj1, GameObj* obj2) {
 }
 void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2){
 	playerCheckPoint(obj2, obj1);
+}
+
+void CollisionHandler::projectilePlayer(GameObj* obj1, GameObj* obj2) {
+	playerProjectile(obj2, obj1);
 }
 
 CollisionHandler& CollisionHandler::getRef() {
