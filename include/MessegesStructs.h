@@ -7,7 +7,7 @@
 //============================================================================
 struct MemberInfo {
 unsigned short m_id = 0;
-sf::Vector2f m_loc = { 50,50 };
+sf::Vector2f m_loc{ 50,50 };
 int m_row = 0;
 int m_col = 0;
 int m_direction = 0;
@@ -49,3 +49,11 @@ struct MovingObjMembersRoport {
     MovingObjInfo m_locs[MAX_OBJ_IN_LEVEL];
 };
 MovingObjMembersRoport testLocsCreator(const std::vector<MovingObjInfo>&);
+//============================================================================
+struct AddProjectileMessage {
+    sf::Vector2f m_frome{ 0, 0 };
+    sf::Vector2f m_to{ 0, 0 };
+    sf::Vector2f m_bounds{ 0,0 };
+};
+AddProjectileMessage addProjectileMessageCreator(const sf::Vector2f& from,
+    const sf::Vector2f& to, const sf::Vector2f& bounds);

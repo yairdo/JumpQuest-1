@@ -49,3 +49,12 @@ StaticObjInfo staticObjInfoCreator(unsigned short id,int index){
     info.m_index = index;
     return info;
 }
+//============================================================================
+AddProjectileMessage addProjectileMessageCreator(const sf::Vector2f& from,
+    const sf::Vector2f& to, const sf::Vector2f& bounds) {
+    AddProjectileMessage value;
+    value.m_frome = from;
+    value.m_to = to;
+    value.m_bounds = bounds;
+    return value;
+}
