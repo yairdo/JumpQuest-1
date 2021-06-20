@@ -19,7 +19,7 @@ private:
 
 struct ClonePlayer {
 	ClonePlayer() = default;
-	ClonePlayer(int id) :m_sprite(Resources::getResourceRef().getTexture(player0+id)) {
+	ClonePlayer(int id) :m_sprite(Resources::getResourceRef().getTexture(castle,player0+id)) {
 		m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
 		m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
 		m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
