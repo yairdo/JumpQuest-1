@@ -12,7 +12,7 @@ class Projectile;
 
 class GameState : public State {
 public:
-	GameState(StateManager&, sf::RenderWindow&, bool replace = true, std::shared_ptr<NetworkObject> = nullptr);
+	GameState(StateManager&, sf::RenderWindow&, bool replace = true, std::shared_ptr<NetworkObject> = nullptr,int=castle);
 	//state functions
 	virtual void pause();
 	virtual void resume();

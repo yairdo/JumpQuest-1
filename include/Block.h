@@ -6,7 +6,7 @@ class b2World;
 class Block : public StaticObj {
 public:
 	Block() = default;
-	Block(b2World&, const sf::Vector2f&, const sf::Vector2f&, int);
+	Block(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
 	void updateAnim(float deltaTime);
 	virtual ~Block() = default;
 	virtual void draw(sf::RenderWindow&);

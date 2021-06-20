@@ -6,10 +6,10 @@
 //just for debug
 
 bool Gift::m_registerit = Factory<StaticObj>::registerit("Gift",
-    [](b2World& world,std::vector<sf::Vector2f> vec) -> std::unique_ptr<StaticObj>
-    { return std::make_unique<Gift>(world, vec[0], vec[1], b2_staticBody); });
+    [](b2World& world,int map,std::vector<sf::Vector2f> vec) -> std::unique_ptr<StaticObj>
+    { return std::make_unique<Gift>(world, vec[0], vec[1], b2_staticBody,map); });
 
-Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) : 
+Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,int mapEnum) : 
     StaticObj(world, pos, size, bodyType)
 {
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);

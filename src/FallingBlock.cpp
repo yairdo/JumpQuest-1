@@ -4,11 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
 bool FallingBlock::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
-    [](b2World& world,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
-    { return std::make_unique<FallingBlock>(world, vec[0], vec[1], b2_dynamicBody); });
+    [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
+    { return std::make_unique<FallingBlock>(world, vec[0], vec[1], b2_dynamicBody, map); });
 
-FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, int bodyType) :
-    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock), m_activeAnim(false)
+FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
+    int bodyType,int mapEnum) :
+    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum), m_activeAnim(false)
 {
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);

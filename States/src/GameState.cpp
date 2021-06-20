@@ -5,18 +5,22 @@
 #include "Server.h"
 #include <iostream>
 #include <Projectile.h>
+#include "PauseState.h"
 
-GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net) :
+GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
+	std::shared_ptr<NetworkObject> net,int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)),  m_deltaTime(1)
 {
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
-	m_backGround.setTexture(Resources::getResourceRef().getTexture(castle));
+	m_backGround.setTexture(Resources::getResourceRef().getTexture(map));
 	
 	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	int id = (net == nullptr) ? 0 : net->getInfo().m_info.m_id;
-	m_board->generateMap(m_world,id);
+	m_board->setId(id);
+	m_board->generateMap(m_world);
+	
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
 	m_view = sf::View(sf::Vector2f(viewSize.x / 2.f, viewSize.y / 2.f), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });
@@ -28,42 +32,47 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 
 void GameState::pause()
 {
+	m_paused = true;
 }
 
 void GameState::resume()
 {
+	m_paused = false;
 }
 
 void GameState::update()
 {
-	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
-		switch (event.type)
-		{
-		case sf::Event::Closed:
-			m_manager.quit();
-			break;
-
-		case sf::Event::KeyPressed:
-			switch (event.key.code)
+	if (!m_paused) {
+		for (auto event = sf::Event{}; m_window.pollEvent(event);) {
+			switch (event.type)
 			{
-			case sf::Keyboard::Escape:
+			case sf::Event::Closed:
 				m_manager.quit();
 				break;
 
-			case sf::Keyboard::M://maybe pause menue option
-				//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
+			case sf::Event::KeyReleased:
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Escape:
+					m_next = std::make_unique<PauseState>(m_manager, m_window, false);
+					break;
+
+				//case sf::Keyboard::M://maybe pause menue option
+				//	//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
+				//	break;
+
+				default:
+					break;
+				}
 				break;
 
 			default:
 				break;
 			}
-			break;
-
-		default:
-			break;
 		}
 	}
-
+	
+			
 	updateGame();
 
 }

@@ -8,7 +8,7 @@ class b2World;
 
 class FallingBlock : public MovingObj {
 public:
-	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, int);
+	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
 	virtual ~FallingBlock() = default;
 	FallingBlock() = default;
 	virtual void updatePhysics(float);

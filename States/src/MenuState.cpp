@@ -19,10 +19,16 @@ MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	m_background->setPosition({ 0.f,0.f });
 	setTitle(titl);
 }
+MenuState::MenuState(StateManager& manager, sf::RenderWindow& window, bool replace):
+	State(manager,window,replace),
+	m_middle(m_window.getView().getSize().x / 2.f, m_window.getView().getSize().y / 2.f){}
+
 
 void MenuState::draw(){
-	m_window.draw(*(m_background.get()));
-	m_window.draw(*(m_title.get()));
+	if (m_background)
+		m_window.draw(*(m_background.get()));
+	if (m_title)
+		m_window.draw(*(m_title.get()));
 	std::for_each(m_buttons.begin(), m_buttons.end(),
 	[&](const std::unique_ptr<BaseButton>& button) {button->draw(m_window); });
 }

@@ -11,7 +11,6 @@ class Projectile : public MovingObj {
 public:
 	Projectile(b2World&, const sf::Vector2f&, int,float);
 	virtual ~Projectile() = default;
-
 	virtual void updatePhysics(float);
 	virtual void move();
 	virtual void shot(const sf::Vector2f&);

@@ -43,10 +43,8 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	m_inputText.setPosition({ m_text.getPosition().x ,
 		m_text.getPosition().y + m_text.getGlobalBounds().height + 10 });*/
 	//m_inputText
-	pos = m_nameTextBox.getPosition();
 	/*auto org = sf::Vector2f({ m_waitingText.getGlobalBounds().width / 2.f,
 			m_waitingText.getGlobalBounds().height / 2.f });*/
-	m_waitingText = createText(lobbyFont,50,sf::Color::Black,"Waiting for Host\n",pos,true);
 	//for waiting
 	/*m_waitingText.setFont(Resources::getResourceRef().getFont(lobbyFont));
 	m_waitingText.setCharacterSize(50);
@@ -69,6 +67,11 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		addButton<ServerGameState>(start, pos, width, butHeight);
 		m_connected = m_networkObj->launch();
 	}
+	pos = m_nameTextBox.getPosition();
+	if (m_isServer)
+		m_waitingText = createText(lobbyFont, 50, sf::Color::Black, "Trying to open a room\n", pos, true);
+	else
+		m_waitingText = createText(lobbyFont, 50, sf::Color::Black, "Waiting for Host\n", pos, true);
 	setNameListText();
 }
 
@@ -156,6 +159,7 @@ void LobbyState::updateList(){
 	}
 	std::for_each(it, m_nameList.end(), [&](sf::Text&) { it->setString(""); });
 }
+
 void LobbyState::updateNextState(const sf::Vector2f& loc) {
 	if (m_buttons[0]->checkCollision(loc)) {
 		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true, nullptr);

@@ -29,6 +29,7 @@ private:
     virtual void notifyClosing()override;
     void notifyCloser(int);
     void registerPlayer();
+    void handleNetworkMessege();
     void updateStaticObjState(const StaticObjInfo& info);
     void updateAboutNewMember(const AddMember&);
     int countServersInPort();

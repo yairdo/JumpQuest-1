@@ -19,7 +19,9 @@ Server::~Server() {
 bool Server::launch() {
 	if (m_launched)
 		return true;
-	if (countServersInPort() == MAX_SERVERS_NUM)
+	if (!socketLaunched())
+		bindSocket(SERVERS_PORT);
+	if (countServersInPort() >= MAX_SERVERS_NUM || !socketLaunched())
 		return false;
 
 	setMember(0, std::make_unique<GameMember>(
@@ -37,20 +39,9 @@ bool Server::handleRequests(int max) {
 	while (receivedMessege() && counter++ < max) {
 			Messege_type type = receiveValue<Messege_type>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
-				switch (type)
-				{
+				switch (type){
 				case networkMessege:
-					switch (receiveValue<Network_messeges>()) {
-					case whoIsAServer:
-						if (m_launched)
-							sendMessege(networkMessege, iAmAServer,
-								sf::IpAddress::Broadcast, SERVERS_PORT);
-						break;
-					case whoIsFreeServer:
-						if (m_requiting && m_launched)
-							sendMessege(networkMessege, iAmFree);
-						break;
-					}
+					handleNetworkMessege();
 					break;
 				case memberInfo:
 					updateLoc(receiveValue<MemberInfo>());
@@ -72,7 +63,7 @@ bool Server::handleRequests(int max) {
 	return false;
 }
 /*============================================================================
-* 
+* The
 */
 void Server::notifyCloser(int index){
 	setMember(index, nullptr);
@@ -122,7 +113,7 @@ void Server::notifyClosing() {
 	m_requiting = false;
 }
 /*============================================================================
-* the
+* The method is update the received member location on the map. 
 */
 void Server::updateLoc(const MemberInfo& member) {
 	updateMember(member);
@@ -133,12 +124,13 @@ void Server::updateLoc(const MemberInfo& member) {
 		}
 	}
 }
-//============================================================================
+/*==========================================================================*/
 void Server::sendStaticCollision(int index) {
 	updateStaticObjState(staticObjInfoCreator(getInfo().m_info.m_id, index));
 }
 /*============================================================================
-* The method is notify the other players when another player collided with something
+* The method is notify the other players when another player collided with 
+* something
 */
 void Server::updateStaticObjState(const StaticObjInfo& info) {
 	if(info.m_id != getInfo().m_info.m_id)
@@ -150,9 +142,8 @@ void Server::updateStaticObjState(const StaticObjInfo& info) {
 		}
 	}
 }
-
 /*============================================================================
-* The method is notify the other players
+* The method is notify the other players about the new registered member.
 */
 void Server::updateAboutNewMember(const AddMember& newMember) {
 	NetworkObject::setName(newMember.m_name, newMember.m_id);
@@ -162,7 +153,9 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 				sendMessege<AddMember>(addMember, newMember,
 					getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
-/*==========================================================================*/
+/*==========================================================================
+* The method 
+*/
 int Server::countServersInPort() {
 	int counter = 0,
 		max = 200,
@@ -170,7 +163,7 @@ int Server::countServersInPort() {
 	try {
 		sendMessege(networkMessege, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
-		while (receivedMessege() && messegesCounter++ < max) {
+		while (receivedMessege(0.1) && messegesCounter++ < max) {
 			if (receiveValue<Messege_type>() == networkMessege
 				&& receiveValue<Network_messeges>() == iAmAServer)
 				++counter;
@@ -215,4 +208,22 @@ void Server::startGame() {
 		if (getMember(i))
 			sendMessege(networkMessege, Network_messeges::startGame, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort);
+}
+/*============================================================================
+* 
+*/
+void Server::handleNetworkMessege() {
+	switch (receiveValue<Network_messeges>()) {
+	case whoIsAServer:
+		if (m_launched)
+			sendMessege(networkMessege, iAmAServer,
+				getSenderIP(), getSenderPort());
+		break;
+	case whoIsFreeServer:
+		if (m_requiting && m_launched)
+			sendMessege(networkMessege, iAmFree);
+		break;
+	default:
+		break;
+	}
 }

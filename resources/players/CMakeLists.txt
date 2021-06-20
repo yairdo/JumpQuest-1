@@ -1,1 +1,6 @@
-#configure_file ("korra.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("player0.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("player1.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("player2.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("player3.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("player4.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("player5.png" ${CMAKE_BINARY_DIR} COPYONLY)

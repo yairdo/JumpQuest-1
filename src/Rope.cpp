@@ -4,11 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
 bool Rope::m_registerit = Factory<StaticObj>::registerit("Rope",
-    [](b2World& world,std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
-    { return std::make_unique<Rope>(world, vec[0], vec[1], b2_staticBody); });
+    [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
+    { return std::make_unique<Rope>(world, vec[0], vec[1], b2_staticBody,map); });
 
-Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) :
-    StaticObj(world, pos, size, bodyType,rope)
+Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
+    int bodyType,int mapEnum) :
+    StaticObj(world, pos, size, bodyType,rope, mapEnum)
 {
 
     //m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);

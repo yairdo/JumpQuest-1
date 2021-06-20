@@ -5,11 +5,12 @@
 #include <Factory.h>
 
 bool CheckPoint::m_registerit = Factory<StaticObj>::registerit("CheckPoint",
-    [](b2World& world, std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
-    { return std::make_unique<CheckPoint>(world, vec[0], vec[1], b2_staticBody); });
+    [](b2World& world,int map, std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
+    { return std::make_unique<CheckPoint>(world, vec[0], vec[1], b2_staticBody, map); });
 
-CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType) :
-    StaticObj(world, pos, size, bodyType, checkPoint), m_activate(false) {
+CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
+    int bodyType,int mapEnum) :
+    StaticObj(world, pos, size, bodyType, checkPoint,mapEnum), m_activate(false) {
 
     m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);

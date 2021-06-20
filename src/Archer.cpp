@@ -3,11 +3,11 @@
 #include "..\include\Archer.h"
 
 bool Archer::m_registerit = Factory<StaticObj>::registerit("Archer",
-    [](b2World& world, std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
-    { return std::make_unique<Archer>(world, vec[0], vec[1],vec[2], b2_staticBody); });
+    [](b2World& world,int map, std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
+    { return std::make_unique<Archer>(world, vec[0], vec[1],vec[2], b2_staticBody,map); });
 
 Archer::Archer(b2World& world, const sf::Vector2f& pos,
-    const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType):m_distance(timerNDis.y),
+    const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType,int mapEnum):m_distance(timerNDis.y),
     StaticObj(world, pos, ARCHER_SIZE, bodyType), m_timer(timerNDis.x) ,m_shotTO(toPos),
     m_proj(std::make_unique<Projectile>(world,PROJECTILE_SIZE , b2_dynamicBody,timerNDis.y)) {
 

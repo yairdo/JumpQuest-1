@@ -27,6 +27,7 @@ enum MenuType {
 };
 
 
+
 enum direction {
 	left,
 	right,
@@ -44,7 +45,11 @@ enum direction {
 //	floorObs,
 //	rope
 //};
-
+enum MapType {
+	castle,
+	hell,
+	sky
+};
 
 enum TexturesNum {
 	block,
@@ -65,16 +70,19 @@ enum TexturesNum {
 	back,
 	multiplayer,
 	blank,
-	player,
-	//player2,
-	//player3,
-	//player4,
-	//player5,
+	player0,
+	player1,
+	player2,
+	player3,
+	player4,
+	player5,
 	lobbyBackground,
 	start,
 	lobbyTitle,
-	castle,
+	gameBackground,
 	checkPoint,
+	mainMenu,
+	resume,
 	nullpt
 };
 
@@ -115,11 +123,13 @@ enum Network_messeges {
 	closing,
 	startGame,
 };
+//============================================================================
+//in command, the value received after the Messege type.
 enum Messege_type {
 	noType, //none
 	networkMessege, //Network_messege
 	gameMembership, //GameMembership
-	singMeIn,
+	singMeIn, //GameMember
 	memberId, //int 
 	addMember, //AddMember
 	memberInfo, //MemberInfo
@@ -139,7 +149,6 @@ constexpr auto SOKET_ERROR = "socket error!\n";
 constexpr auto SERVER_CONNECTION_LOST = "disconnected from server.";
 
 
-
 //for anime
 enum animPos {
 	walking,
@@ -149,7 +158,7 @@ enum animPos {
 };
 constexpr float PLAYER_SWITCH_TIME = 0.15;
 constexpr int PLAYER_WIDTH = 130;
-constexpr int PLAYER_HEIGHT = 155;
+constexpr int PLAYER_HEIGHT = 156;
 
 constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;
@@ -166,15 +175,3 @@ constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
 
-struct ClonePlayer {
-	ClonePlayer() = default;
-	ClonePlayer(int id):m_sprite(Resources::getResourceRef().getTexture(player)){
-	m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
-	m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-	m_sprite.setPosition(50,50);}
-	sf::Sprite m_sprite;
-	int m_row;
-	int m_col;
-	int m_direction;
-};

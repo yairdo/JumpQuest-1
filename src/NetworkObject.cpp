@@ -5,14 +5,8 @@
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
 m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None),
-m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false){
-	if (port == 0)
-		m_socket.bind(sf::Socket::AnyPort,m_ip);
-	else
-		m_socket.bind(SERVERS_PORT, m_ip);
-	if (!m_port) {
-		m_port = m_socket.getLocalPort();
-	}
+m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m_isBind(false){
+	bindSocket(port);
 	m_selector.add(m_socket);
 	m_packet.clear();
 	m_socket.setBlocking(false);
@@ -81,4 +75,14 @@ void NetworkObject::setId(int id) {
 		setMember(id, 
 			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "", memberInfoCreator(id))));
 	//why not send m_info??
+}
+/*==========================================================================*/
+void NetworkObject::bindSocket(unsigned short port){
+	if (port == 0)
+		m_isBind = m_socket.bind(sf::Socket::AnyPort, m_ip) == sf::Socket::Done;
+	else
+		m_isBind = m_socket.bind(SERVERS_PORT, m_ip) == sf::Socket::Done;
+	if (!m_port) {
+		m_port = m_socket.getLocalPort();
+	}
 }

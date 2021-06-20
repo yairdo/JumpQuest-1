@@ -38,11 +38,13 @@ void StateManager::nextState()
 			// Replace the running state
 			if (temp->isReplacing())
 			{
-				m_states.pop();
+				while (!m_states.empty())
+					m_states.pop();
 			}
 			// Pause the running state
 			else
 			{
+				m_lastState = m_states.top().get();
 				m_states.top()->pause();
 			}
 
@@ -75,4 +77,11 @@ bool StateManager::running() const
 void StateManager::quit()
 {
 	m_running = false;
+}
+
+void StateManager::updateLastState() {
+	m_lastState->update();
+}
+void StateManager::drawLastState() {
+	m_lastState->draw();
 }
