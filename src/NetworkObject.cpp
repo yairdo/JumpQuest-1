@@ -4,7 +4,7 @@
 //93,173,114,170 //sf::IpAddress::getLocalAddress()//25,72,141,58
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
-m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None),
+m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None), m_mapType(hell),
 m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m_isBind(false){
 	bindSocket(port);
 	m_selector.add(m_socket);

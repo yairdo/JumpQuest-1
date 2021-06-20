@@ -16,7 +16,7 @@ public:
     virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1)override;
     virtual void sendStaticCollision(int)override;
     virtual void addProjectile(const AddProjectileMessage&)override;
-    void startGame(const StartMessage&);
+    void startGame(MapType);
 
     //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);

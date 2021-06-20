@@ -29,7 +29,7 @@ public:
 	const GameMember& getInfo()const { return m_info; }
 	bool getStarted() const { return m_started; }
 	Board* getBoard() { return m_board; }
-	const StartMessage& getLvlInfo()const { return m_lvlInfo; }
+	MapType getLvlInfo()const { return m_mapType; }
 	//not const because the method of selector isn't const. but it doesn't change the object values.
 	bool socketLaunched() { return m_isBind; }
 	//============================= sets section =============================
@@ -53,7 +53,7 @@ protected:
 	void updateMember(const MemberInfo& member);
 	void setMember(int index, std::unique_ptr<GameMember>);
 	void setStarted(bool value) { m_started = value; }
-	void setLvlInfo(const StartMessage& message) { m_lvlInfo = message; }
+	void setLvlInfo(MapType message) { m_mapType = message; }
 	//=========================== gets section ===============================
 	sf::Packet m_packet;
 
@@ -72,7 +72,7 @@ private:
 	bool m_started;
 	bool m_isBind;
 	Board* m_board;
-	StartMessage m_lvlInfo;
+	MapType m_mapType;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
 	void sendUdp(const sf::IpAddress& ip, unsigned short port);

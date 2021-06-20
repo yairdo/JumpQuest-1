@@ -207,10 +207,10 @@ void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/
-void Server::startGame(const StartMessage& lvlInfo) {
+void Server::startGame(MapType lvl) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessage(MessageType::startGame, lvlInfo, getMember(i)->m_memberIp,
+			sendMessage<MapType>(MessageType::startGame, lvl, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort);
 }
 /*============================================================================
