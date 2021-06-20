@@ -119,6 +119,10 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("Blank.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
 		loadSfObj<sf::Texture>("checkPoint.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, arrow),
+		loadSfObj<sf::Texture>("duck.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, archer),
+		loadSfObj<sf::Texture>("clown castle.png")));
 	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
 	//	loadSfObj<sf::Texture>("bricks.png")));
 	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
