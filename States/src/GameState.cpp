@@ -16,7 +16,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(map));
 	
-	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
+	m_backGround.setScale(0.6,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	int id = (net == nullptr) ? 0 : net->getInfo().m_info.m_id;
 	m_board->setId(id);
@@ -104,9 +104,9 @@ void GameState::addBorders2World() {
 	float widthInMeters = screenSize.x / SCALE;
 	float heightInMeters = screenSize.y / SCALE;
 	b2Vec2 topLeftCorner = b2Vec2(0, 0);
-	b2Vec2 topRightCorner = b2Vec2(35, 0);
+	b2Vec2 topRightCorner = b2Vec2(60, 0);
 	b2Vec2 lowerLeftCorner = b2Vec2(0, heightInMeters);
-	b2Vec2 lowerRightCorner = b2Vec2(35, heightInMeters);
+	b2Vec2 lowerRightCorner = b2Vec2(60, heightInMeters);
 
 	// static container body, with the collisions at screen borders
 	b2BodyDef screenBorderDef;
