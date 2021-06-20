@@ -96,5 +96,5 @@ void MenuState::setTitle(int titl) {
 	m_title->setPosition(m_middle.x, m_window.getSize().y*0.15);
 	m_title->setScale({ Resources::getResourceRef().getButLen(titl)*
 		m_window.getSize().x*0.07f/m_title->getGlobalBounds().width,
-		m_window.getSize().y*0.21f/ m_title->getGlobalBounds().height });
+		m_window.getSize().y*0.25f/ m_title->getGlobalBounds().height });
 }
