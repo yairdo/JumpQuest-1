@@ -28,4 +28,5 @@ private:
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void updateMovingObj();
 	void sendGameMembership(const char name[]);
+	void handleNetworkMessage();
 };

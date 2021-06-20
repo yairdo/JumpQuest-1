@@ -58,3 +58,10 @@ AddProjectileMessage addProjectileMessageCreator(const sf::Vector2f& from,
     value.m_bounds = bounds;
     return value;
 }
+//============================================================================
+StartMessage startMessageCreator(int theme, int level) {
+    StartMessage value;
+    value.m_theme = theme;
+    value.m_level = level;
+    return value;
+}

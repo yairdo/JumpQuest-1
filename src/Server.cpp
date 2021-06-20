@@ -10,6 +10,8 @@ Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
 /*==========================================================================*/
 Server::~Server() {
 	notifyClosing();
+	m_launched = false;
+	m_requiting = false;
 }
 /*============================================================================
 * Launch the server
@@ -112,10 +114,8 @@ void Server::registerPlayer() {
 void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if(getMember(i))
-			sendMessege<Network_messeges>(networkMessege, closing,
+			sendMessege<NetworkMesseges>(networkMessege, closing,
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
-	m_launched = false;
-	m_requiting = false;
 }
 /*============================================================================
 * The method is update the received member location on the map. 
@@ -170,7 +170,7 @@ int Server::countServersInPort() {
 			sf::IpAddress::Broadcast, SERVERS_PORT);
 		while (receivedMessege(0.1) && messegesCounter++ < max) {
 			if (receiveValue<Messege_type>() == networkMessege
-				&& receiveValue<Network_messeges>() == iAmAServer)
+				&& receiveValue<NetworkMesseges>() == iAmAServer)
 				++counter;
 		}
 	}
@@ -207,18 +207,17 @@ void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/
-void Server::startGame() {
-	m_requiting = false;
+void Server::startGame(const StartMessage& lvlInfo) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessege(networkMessege, Network_messeges::startGame, getMember(i)->m_memberIp,
+			sendMessege(Messege_type::startGame, lvlInfo, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort);
 }
 /*============================================================================
 * 
 */
 void Server::handleNetworkMessege() {
-	switch (receiveValue<Network_messeges>()) {
+	switch (receiveValue<NetworkMesseges>()) {
 	case whoIsAServer:
 		if (m_launched)
 			sendMessege(networkMessege, iAmAServer,

@@ -57,3 +57,9 @@ struct AddProjectileMessage {
 };
 AddProjectileMessage addProjectileMessageCreator(const sf::Vector2f& from,
     const sf::Vector2f& to, const sf::Vector2f& bounds);
+//============================================================================
+struct StartMessage {
+    int m_theme = 0;
+    int m_level = 0;
+};
+StartMessage startMessageCreator(int theme, int level);

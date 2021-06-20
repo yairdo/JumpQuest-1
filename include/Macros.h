@@ -107,7 +107,7 @@ enum _entityCategory {
 
 //============================================================================
 //Network Consts
-enum Network_messeges {
+enum NetworkMesseges {
 	noMessege,
 	whoIsAServer,
 	iAmAServer,
@@ -115,7 +115,6 @@ enum Network_messeges {
 	whoIsFreeServer,
 	registered,
 	closing,
-	startGame,
 };
 //============================================================================
 //in command, the value received after the Messege type.
@@ -130,10 +129,11 @@ enum Messege_type {
 	movingObj, //MemberInfo
 	staticObjInfo, //StaticMemberInfo
 	closer, //int
-	addProjectile,
+	addProjectile, //AddProjectile
+	startGame, //StartMessage
 };
 constexpr auto SERVERS_PORT = 50000;
-constexpr auto NETWORK_MESSEGE_LEN = sizeof(Network_messeges);
+constexpr auto NETWORK_MESSEGE_LEN = sizeof(NetworkMesseges);
 constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 5;
 constexpr auto MAX_OBJ_IN_LEVEL = 200;

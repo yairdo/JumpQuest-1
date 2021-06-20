@@ -10,7 +10,6 @@ m_isLinked(false){
 Client::~Client() {
 	notifyClosing();
 }
-
 /*============================================================================
 * The method is receiving all the messeges the client received and handle them
 * as needed.
@@ -22,19 +21,7 @@ bool Client::handleRequests(int max) {
 			switch (receiveValue<Messege_type>())
 			{
 			case networkMessege:
-				switch (receiveValue<Network_messeges>()){
-				case iAmFree:
-					sendGameMembership("client");
-					break;
-				case startGame:
-					setStarted(true);
-					break;
-				case closing:
-					throw std::exception(SERVER_CONNECTION_LOST);
-					break;
-				default:
-					break;
-				}
+				handleNetworkMessage();
 				break;
 			case memberId:
 				regesterServer();
@@ -56,6 +43,8 @@ bool Client::handleRequests(int max) {
 				break;
 			case closer:
 				setMember(receiveValue<int>(), nullptr);
+			case startGame:
+				setLvlInfo(receiveValue<StartMessage>());
 			default:
 				break;
 			}
@@ -128,6 +117,22 @@ void Client::updateMovingObj() {
 */
 void Client::sendGameMembership(const char name[]) {
 	sendMessege<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
+}
+//============================================================================
+void Client::handleNetworkMessage(){
+	switch (receiveValue<NetworkMesseges>()) {
+	case iAmFree:
+		sendGameMembership("client");
+		break;
+	case startGame:
+		setStarted(true);
+		break;
+	case closing:
+		throw std::exception(SERVER_CONNECTION_LOST);
+		break;
+	default:
+		break;
+	}
 }
 /*============================================================================
 */
