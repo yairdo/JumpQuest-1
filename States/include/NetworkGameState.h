@@ -1,9 +1,11 @@
 #pragma once
 #include "GameState.h"
 #include <unordered_map>
+#include "Macros.h"
 class NetworkGameState:public GameState {
 public:
-	NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net);
+	NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
+		std::shared_ptr<NetworkObject> net);
 	virtual ~NetworkGameState()=default;
 	virtual void draw() override;
 	virtual void updateBoard() override;
@@ -25,6 +27,7 @@ struct ClonePlayer {
 		m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 		m_sprite.setPosition(50, 50);
 	}
+	float m_totalTime;
 	sf::Sprite m_sprite;
 	int m_row;
 	int m_col;

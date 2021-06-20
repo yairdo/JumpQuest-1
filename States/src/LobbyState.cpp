@@ -8,6 +8,7 @@
 #include <cstring>
 #include "ServerGameState.h"
 #include "ClientGameState.h"
+#include "ChooseBoardState.h"
 
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
@@ -35,7 +36,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		//std::cout << "is server\n";
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3f;
 		pos.x = m_window.getSize().x - width;
-		addButton<ServerGameState>(start, pos, width, butHeight);
+		addButton<ChooseBoardState>(start, pos, width, butHeight);
 		m_connected = m_networkObj->launch();
 	}
 	pos = m_nameTextBox.getPosition();
@@ -62,7 +63,6 @@ void LobbyState::update(){
 	try {
 		if (m_networkObj->handleRequests()) {
 			if (m_networkObj->getStarted())
-				/*get level info (to take board num*/
 				m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
 			else
 				updateList();
@@ -134,12 +134,6 @@ void LobbyState::updateNextState(const sf::Vector2f& loc) {
 		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true, nullptr);
 	}
 	if (m_isServer && m_buttons[1]->checkCollision(loc)) {
-		//go to 
-
-		//
-
-		//move to choose board state
-		static_cast<Server*>(m_networkObj.get())->startGame(hell);
 		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, m_networkObj);
 	}
 }

@@ -208,6 +208,7 @@ void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 }
 /*==========================================================================*/
 void Server::startGame(MapType lvl) {
+	setLvlInfo(lvl);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
 			sendMessage<MapType>(MessageType::startGame, lvl, getMember(i)->m_memberIp,

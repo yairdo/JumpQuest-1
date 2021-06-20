@@ -4,8 +4,9 @@
 #include <StateManager.h>
 #include <MultiplayerMenuState.h>
 
-NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
-	GameState(manager,window,replace,net)
+NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
+	std::shared_ptr<NetworkObject> net):
+	GameState(manager,window,replace,net,net->getLvlInfo())
 {
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
@@ -61,7 +62,10 @@ void NetworkGameState::updateClonesLoc() {
 			it->second.m_sprite.setPosition(info.m_loc);
 			it->second.m_row = info.m_row;
 			it->second.m_col = info.m_col;
+			it->second.m_totalTime = info.m_totalTime;
 			it->second.m_direction = info.m_direction;
+			it->second.m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(it->second.m_row, it->second.m_col,
+				m_deltaTime, it->second.m_totalTime, player0, it->second.m_direction));
 		}
 	}
 }
