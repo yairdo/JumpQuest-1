@@ -139,7 +139,7 @@ void LobbyState::updateNextState(const sf::Vector2f& loc) {
 		//
 
 		//move to choose board state
-		static_cast<Server*>(m_networkObj.get())->startGame(startMessageCreator(0,0));
+		
 		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, m_networkObj);
 	}
 }
