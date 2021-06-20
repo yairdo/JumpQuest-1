@@ -17,7 +17,6 @@ Client::~Client() {
 bool Client::handleRequests(int max) {
 	int counter = 0;
 	while (receivedMessage()&& counter++ < max) {
-		//std::cout << "udp message received.\n";
 			switch (receiveValue<MessageType>())
 			{
 			case networkMessage:
