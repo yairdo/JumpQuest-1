@@ -19,7 +19,7 @@ constexpr auto MAX_LIST_NAMES_SIZE=4;
 const float PLAYER_PROJECTILE_DIS = 300;
 const sf::Vector2f PROJECTILE_SIZE{25,25};
 const sf::Vector2f ARCHER_SIZE{ 40,40 };
-const b2Vec2 PROJECTILE_FORCE{ 0.5,-0.2 };
+const b2Vec2 PROJECTILE_FORCE{ 0.5f,-0.2f };
 
 
 enum direction {
@@ -79,6 +79,7 @@ enum TexturesNum {
 	resume,
 	arrow,
 	archer,
+	chooseBoard,
 	nullpt
 };
 
@@ -153,16 +154,16 @@ enum animPos {
 	climb,
 	idle
 };
-constexpr float PLAYER_SWITCH_TIME = 0.15;
+constexpr float PLAYER_SWITCH_TIME = 0.15f;
 constexpr int PLAYER_WIDTH = 130;
 constexpr int PLAYER_HEIGHT = 155;
 
-constexpr float FALLING_SWITCH_TIME = 0.05;
+constexpr float FALLING_SWITCH_TIME = 0.05f;
 constexpr int FALLING_WIDTH = 200;
 constexpr int FALLING_HEIGHT = 193;
 constexpr int FALLING_LEN = 8;
 
-constexpr float CHECKPOINT_SWITCH_TIME = 0.15;
+constexpr float CHECKPOINT_SWITCH_TIME = 0.15f;
 constexpr int CHECKPOINT_WIDTH = 33;
 constexpr int CHECKPOINT_HEIGHT = 38;
 constexpr int CHECKPOINT_LEN = 6;
