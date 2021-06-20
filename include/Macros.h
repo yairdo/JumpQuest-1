@@ -77,7 +77,8 @@ enum TexturesNum {
 	checkPoint,
 	mainMenu,
 	resume,
-	nullpt
+	nullpt,
+
 };
 
 enum FontsType {
