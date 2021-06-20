@@ -15,7 +15,7 @@ public:
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 	virtual void updateAnim(float deltaTime);
-	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), m_timer, m_body->GetLinearVelocity()); }
+	virtual MovingObjInfo getInfo() const { return movingObjInfoCreator(getPos(), m_timer, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info);
 	void setActiveAnim(bool state);
 	virtual void reset() override;

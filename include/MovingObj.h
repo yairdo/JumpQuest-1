@@ -14,7 +14,7 @@ public:
 	virtual void draw(sf::RenderWindow&) = 0;
 	virtual void move() = 0;
 
-	virtual MovingObjInfo getInfo() { return movingObjInfoCreator(getPos(), 0, m_body->GetLinearVelocity()); }
+	virtual MovingObjInfo getInfo()const  { return movingObjInfoCreator(getPos(), 0, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info) { setPos(info.m_loc); }
 
 	bool getReset() const { return m_reset; }

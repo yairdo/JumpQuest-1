@@ -54,6 +54,10 @@ bool Server::handleRequests(int max) {
 					break;
 				case closer:
 					notifyCloser(receiveValue<int>());
+					break;
+				case Messege_type::addProjectile:
+					addProjectile(receiveValue<AddProjectileMessage>());
+					break;
 				default:
 					break;
 				}
@@ -228,3 +232,12 @@ void Server::handleNetworkMessege() {
 		break;
 	}
 }
+/*============================================================================
+*/
+void Server::addProjectile(const AddProjectileMessage& projectile){
+	 getBoard()->addProjectile(projectile);
+	 for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		 if (getMember(i))
+			 sendMessege<AddProjectileMessage>(Messege_type::addProjectile, projectile, 
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+ }

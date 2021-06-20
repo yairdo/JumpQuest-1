@@ -31,6 +31,7 @@ public:
 	//not const because the method of selector isn't const. but it doesn't change the object values.
 	bool socketLaunched() { return m_isBind; }
 	//============================= sets section =============================
+	virtual void addProjectile(const AddProjectileMessage&) = 0;
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void setId(int id);
 	void setBoard(Board* board) { m_board = board; }
@@ -41,7 +42,7 @@ protected:
 	//====================== messeges handeling section ======================
 	//sending section
 	template <class T>
-	void sendMessege(Messege_type, T,
+	void sendMessege(Messege_type, const T&,
 		const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0);
 	//receiving section
 	template <class T>
@@ -75,7 +76,7 @@ private:
 };
 /*==========================================================================*/
 template<class T>
- void NetworkObject::sendMessege(Messege_type type,T value,const sf::IpAddress& ip
+ void NetworkObject::sendMessege(Messege_type type,const T& value,const sf::IpAddress& ip
 	 , unsigned short port){
 	m_packet.clear();
 	m_packet << type;

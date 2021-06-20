@@ -28,8 +28,10 @@ public:
 	int getMap() { return m_mapEnum; }
 	void setId(int);
 	void setmapEnum(int map=castle) { m_mapEnum=map; }
+	void addProjectile(const struct AddProjectileMessage&);
 
 private:
+	b2World* m_world;
 	int m_mapEnum=castle;
 	int m_playerId;
 	void getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file);
