@@ -10,6 +10,8 @@ Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
 /*==========================================================================*/
 Server::~Server() {
 	notifyClosing();
+	m_launched = false;
+	m_requiting = false;
 }
 /*============================================================================
 * Launch the server
@@ -32,16 +34,16 @@ bool Server::launch() {
 	return true;
 }
 /*============================================================================
-* The method receive and respond to all of the received messeges.
+* The method receive and respond to all of the received messages.
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
-	while (receivedMessege() && counter++ < max) {
-			Messege_type type = receiveValue<Messege_type>();
+	while (receivedMessage() && counter++ < max) {
+			MessageType type = receiveValue<MessageType>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
 				switch (type){
-				case networkMessege:
-					handleNetworkMessege();
+				case networkMessage:
+					handleNetworkMessage();
 					break;
 				case memberInfo:
 					updateLoc(receiveValue<MemberInfo>());
@@ -55,7 +57,7 @@ bool Server::handleRequests(int max) {
 				case closer:
 					notifyCloser(receiveValue<int>());
 					break;
-				case Messege_type::addProjectile:
+				case MessageType::addProjectile:
 					addProjectile(receiveValue<AddProjectileMessage>());
 					break;
 				default:
@@ -74,10 +76,10 @@ void Server::notifyCloser(int index){
 	setMember(index, nullptr);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessege<int>(closer, index, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+			sendMessage<int>(closer, index, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*============================================================================
-* The method add the last messege sender to the player list.
+* The method add the last message sender to the player list.
 */
 void Server::registerPlayer() {
 	if (renameMember())
@@ -89,14 +91,14 @@ void Server::registerPlayer() {
 				gameMemberCreator(getSenderIP(), getSenderPort(),
 					receiveValue<GameMember>().m_name, memberInfoCreator(i))));
 			//tell the new member his id
-			sendMessege<int>(memberId, i);
+			sendMessage<int>(memberId, i);
 			//notify old members about the new member
 			updateAboutNewMember(
 				addMemberCreator(getMember(i)->m_info.m_id, getMember(i)->m_name));
 			//send the new mebemer all the old members info.
 			for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
 				if (i != j && getMember(j)) {
-					sendMessege<AddMember>(addMember,
+					sendMessage<AddMember>(addMember,
 						addMemberCreator(getMember(j)->m_info.m_id, getMember(j)->m_name),
 						getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 				}
@@ -112,10 +114,8 @@ void Server::registerPlayer() {
 void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if(getMember(i))
-			sendMessege<Network_messeges>(networkMessege, closing,
+			sendMessage<NetworkMessages>(networkMessage, closing,
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
-	m_launched = false;
-	m_requiting = false;
 }
 /*============================================================================
 * The method is update the received member location on the map. 
@@ -124,7 +124,7 @@ void Server::updateLoc(const MemberInfo& member) {
 	updateMember(member);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMember(i) && i != member.m_id) {
-			sendMessege<MemberInfo>(memberInfo, member,
+			sendMessage<MemberInfo>(memberInfo, member,
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 		}
 	}
@@ -142,7 +142,7 @@ void Server::updateStaticObjState(const StaticObjInfo& info) {
 		getBoard()->updateStaticMsgCollision(info.m_index);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMember(i) && i != info.m_id) {
-			sendMessege<StaticObjInfo>(staticObjInfo, info,
+			sendMessage<StaticObjInfo>(staticObjInfo, info,
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 		}
 	}
@@ -155,7 +155,7 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
 			if (i != newMember.m_id)
-				sendMessege<AddMember>(addMember, newMember,
+				sendMessage<AddMember>(addMember, newMember,
 					getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================
@@ -164,13 +164,13 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 int Server::countServersInPort() {
 	int counter = 0,
 		max = 200,
-		messegesCounter = 0;
+		messagesCounter = 0;
 	try {
-		sendMessege(networkMessege, whoIsAServer,
+		sendMessage(networkMessage, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
-		while (receivedMessege(0.1) && messegesCounter++ < max) {
-			if (receiveValue<Messege_type>() == networkMessege
-				&& receiveValue<Network_messeges>() == iAmAServer)
+		while (receivedMessage(0.1) && messagesCounter++ < max) {
+			if (receiveValue<MessageType>() == networkMessage
+				&& receiveValue<NetworkMessages>() == iAmAServer)
 				++counter;
 		}
 	}
@@ -188,7 +188,7 @@ bool Server::renameMember() {
 				&& getMember(i)->m_memberPort == getSenderPort()) {
 				updateAboutNewMember(addMemberCreator(i,
 					receiveValue<GameMember>().m_name));
-				sendMessege<int>(memberId, getMember(i)->m_info.m_id,
+				sendMessage<int>(memberId, getMember(i)->m_info.m_id,
 					getSenderIP(), getSenderPort());
 				return true;
 			}
@@ -203,30 +203,30 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessege<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
+			sendMessage<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/
-void Server::startGame() {
-	m_requiting = false;
+void Server::startGame(MapType lvl) {
+	setLvlInfo(lvl);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessege(networkMessege, Network_messeges::startGame, getMember(i)->m_memberIp,
+			sendMessage<MapType>(MessageType::startGame, lvl, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort);
 }
 /*============================================================================
 * 
 */
-void Server::handleNetworkMessege() {
-	switch (receiveValue<Network_messeges>()) {
+void Server::handleNetworkMessage() {
+	switch (receiveValue<NetworkMessages>()) {
 	case whoIsAServer:
 		if (m_launched)
-			sendMessege(networkMessege, iAmAServer,
+			sendMessage(networkMessage, iAmAServer,
 				getSenderIP(), getSenderPort());
 		break;
 	case whoIsFreeServer:
 		if (m_requiting && m_launched)
-			sendMessege(networkMessege, iAmFree);
+			sendMessage(networkMessage, iAmFree);
 		break;
 	default:
 		break;
@@ -238,6 +238,6 @@ void Server::addProjectile(const AddProjectileMessage& projectile){
 	 getBoard()->addProjectile(projectile);
 	 for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		 if (getMember(i))
-			 sendMessege<AddProjectileMessage>(Messege_type::addProjectile, projectile, 
+			 sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
  }

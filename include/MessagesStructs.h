@@ -3,7 +3,7 @@
 #include "box2d/box2d.h"
 #include <SFML/Network.hpp>
 
-//Each messege struct has creator out of the struct to make the struct lighter.
+//Each message struct has creator out of the struct to make the struct lighter.
 //============================================================================
 struct MemberInfo {
 unsigned short m_id = 0;
@@ -59,3 +59,9 @@ struct AddProjectileMessage {
 };
 AddProjectileMessage addProjectileMessageCreator(const sf::Vector2f& from,
     const sf::Vector2f& to, const sf::Vector2f& bounds);
+//============================================================================
+struct StartMessage {
+    int m_theme = 0;
+    int m_level = 0;
+};
+StartMessage startMessageCreator(int theme, int level);

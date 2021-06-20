@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 #include <Macros.h>
 #include <vector>
 #include <exception>
@@ -13,7 +13,7 @@ public:
 	NetworkObject(unsigned short port = 0);
 	virtual ~NetworkObject() = default;
 	//========================== inbox checkers ==============================
-	bool receivedMessege(float seconds = 0.000001f);
+	bool receivedMessage(float seconds = 0.000001f);
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
@@ -28,6 +28,8 @@ public:
 	const GameMember* getMember(int index)const;
 	const GameMember& getInfo()const { return m_info; }
 	bool getStarted() const { return m_started; }
+	Board* getBoard() { return m_board; }
+	MapType getLvlInfo()const { return m_mapType; }
 	//not const because the method of selector isn't const. but it doesn't change the object values.
 	bool socketLaunched() { return m_isBind; }
 	//============================= sets section =============================
@@ -35,14 +37,13 @@ public:
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void setId(int id);
 	void setBoard(Board* board) { m_board = board; }
-	Board* getBoard() { return m_board; }
 	void bindSocket(unsigned short);
 
 protected:
-	//====================== messeges handeling section ======================
+	//====================== messages handeling section ======================
 	//sending section
 	template <class T>
-	void sendMessege(Messege_type, const T&,
+	void sendMessage(MessageType, const T&,
 		const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0);
 	//receiving section
 	template <class T>
@@ -52,6 +53,7 @@ protected:
 	void updateMember(const MemberInfo& member);
 	void setMember(int index, std::unique_ptr<GameMember>);
 	void setStarted(bool value) { m_started = value; }
+	void setLvlInfo(MapType message) { m_mapType = message; }
 	//=========================== gets section ===============================
 	sf::Packet m_packet;
 
@@ -70,13 +72,14 @@ private:
 	bool m_started;
 	bool m_isBind;
 	Board* m_board;
+	MapType m_mapType;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
 	void sendUdp(const sf::IpAddress& ip, unsigned short port);
 };
 /*==========================================================================*/
 template<class T>
- void NetworkObject::sendMessege(Messege_type type,const T& value,const sf::IpAddress& ip
+ void NetworkObject::sendMessage(MessageType type,const T& value,const sf::IpAddress& ip
 	 , unsigned short port){
 	m_packet.clear();
 	m_packet << type;
@@ -87,16 +90,16 @@ template<class T>
 	m_packet.clear();
 }
  /*===========================================================================
- * The mehod receiving the received messege value form the m_packet.
- * to know the vlue type, use receiveValue<Messege_type> first.
+ * The mehod receiving the received message value form the m_packet.
+ * to know the vlue type, use receiveValue<MessageType> first.
  */
 template<class T>
 T NetworkObject::receiveValue(){
-	//reading from the last char of the messege type the rest of the messege
-	T value = *((T*)(((char*)m_packet.getData()) + sizeof(Messege_type)));
+	//reading from the last char of the message type the rest of the message
+	T value = *((T*)(((char*)m_packet.getData()) + sizeof(MessageType)));
 	m_packet.clear();
 	return value;
 }
 /*==========================================================================*/
 template<>
-Messege_type NetworkObject::receiveValue<Messege_type>();
+MessageType NetworkObject::receiveValue<MessageType>();

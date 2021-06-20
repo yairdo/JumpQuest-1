@@ -1,9 +1,11 @@
 #pragma once
 #include "GameState.h"
 #include <unordered_map>
+#include "Macros.h"
 class NetworkGameState:public GameState {
 public:
-	NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net);
+	NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
+		std::shared_ptr<NetworkObject> net);
 	virtual ~NetworkGameState()=default;
 	virtual void draw() override;
 	virtual void updateBoard() override;

@@ -1,40 +1,58 @@
 d MovingBlock 230 100 230 500 100 20
-d MovingBlock 850 200 850 500 10 300
+d MovingBlock 850 300 850 600 10 300
+d MovingBlock 1575 200 1575 550 100 100
 
-d FallingBlock 500 25 50 100
-d FallingBlock 600 500 70 50
-d FallingBlock 1100 200 25 25
-d FallingBlock 1350 450 25 25
-d FallingBlock 1600 500 25 25
-d FallingBlock 2500 25 50 50
-d FallingBlock 2900 25 50 50
+d FallingBlock 470 25 50 100
+d FallingBlock 1025 25 50 100
+d FallingBlock 1175 25 50 100
+d FallingBlock 1325 25 50 100
+d FallingBlock 1475 25 50 100
 
-s CheckPoint 500 410 30 80
+s CheckPoint 800 615 30 80
+s CheckPoint 1700 115 30 80
+s CheckPoint 2400 115 30 80
 
 s Block 50 300 100 100
 s Block 50 600 100 100
-s Block 420 500 200 100
-s Block 600 800 50 50
+s Block 600 500 200 100
 s Block 800 700 100 100
-s Block 1650 350 50 400
-s Block 1650 800 50 100
-s Block 1700 500 50 100
-s Block 1700 700 50 300
-s Block 1700 200 100 100
-s Block 2000 500 400 100
-s Block 2300 500 50 50
-s Block 2700 500 400 100
+s Block 1350 1000 700 25
+s Block 1700 200 150 100
+s Block 1900 1000 50 25
+s Block 1950 500 100 100
+s Block 1950 200 50 25
+s Block 1950 500 100 100
+s Block 2200 400 100 25
+s Block 2150 800 150 100
+s Block 2400 200 100 100
+s Block 2550 450 200 100
+s Block 2700 500 100 100
+s Block 2800 450 100 100
+s Block 2900 500 100 100
+s Block 3000 450 100 100
+s Block 3100 500 100 100
+s Block 3200 450 100 100
+s Block 3300 500 100 100
+s Block 3400 450 100 100
+s Block 3600 400 100 25
+s Block 3020 250 850 100
+s Block 3600 650 400 100
 
-s Gift 70 450 35 35
-s Gift 500 300 35 35
-s Gift 1650 600 35 35
 
-s Rope 150 500 0 1000
-s Rope 300 200 0 400
-s Rope 950 350 0 700
-s Rope 1100 350 0 700
-s Rope 1350 350 0 700
-s Rope 1600 350 0 700
-s Rope 2400 300 0 600
+s Gift 70 450 25 25
+s Gift 600 300 25 25
+s Gift 850 13 25 25
+s Gift 1600 850 25 25
 
-d Archer 370 430 2.5 300 600 430
+s Rope 150 250 0 500
+s Rope 400 75 0 150
+s Rope 950 500 0 1000
+s Rope 1100 325 0 650
+s Rope 1250 325 0 650
+s Rope 1400 325 0 650
+s Rope 2300 325 0 650
+
+d Archer 1900 965 1.5 300 1600 965
+d Archer 1950 165 0.5 300 1850 300
+d Archer 2175 365 0.5 300 1850 800
+d Archer 2225 365 0.5 125 2300 365

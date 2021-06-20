@@ -21,6 +21,6 @@ void StandardMenuState::makeBut(sf::Vector2f& pos, int index, float height,
 {
 	float width = Resources::getResourceRef().getButLen(index) * pix4let;
 	addButton<T>(index, pos, width, height);
-	pos.y += buttonSpace + height;
+	pos.y += float(buttonSpace + height);
 }
 

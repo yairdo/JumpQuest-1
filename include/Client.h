@@ -3,7 +3,7 @@
 #include <unordered_set>
 #include <string>
 #include <NetworkObject.h>
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 #include <Macros.h>
 
 
@@ -28,4 +28,5 @@ private:
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void updateMovingObj();
 	void sendGameMembership(const char name[]);
+	void handleNetworkMessage();
 };

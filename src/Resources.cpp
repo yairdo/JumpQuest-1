@@ -59,8 +59,8 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("Multiplayer.png")));
 	m_textures.insert(TexturesPair(back,
 		loadSfObj<sf::Texture>("Back.png")));
-	//m_textures.insert(TexturesPair(blank,
-	//	loadSfObj<sf::Texture>("Blank.png")));
+	m_textures.insert(TexturesPair(blank,
+		loadSfObj<sf::Texture>("Blank.png")));
 	//m_textures.insert(TexturesPair(player0,
 	//	loadSfObj<sf::Texture>("player0.png")));
 	//m_textures.insert(TexturesPair(player1,
@@ -93,6 +93,8 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("mainMenu.png")));
 	m_textures.insert(TexturesPair(resume,
 		loadSfObj<sf::Texture>("resume.png")));
+	m_textures.insert(TexturesPair(chooseBoard,
+		loadSfObj<sf::Texture>("SelectTheme.png")));
 }
 void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, block),
@@ -156,6 +158,7 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(lobbyTitle, strlen("lobby")));
 	m_buttonStrLen.insert(ButtonPairStr(mainMenu, strlen("main menu")));
 	m_buttonStrLen.insert(ButtonPairStr(resume, strlen("resume")));
+	m_buttonStrLen.insert(ButtonPairStr(chooseBoard, strlen("choose theme")));
 }
 
 void Resources::setFonts(){

@@ -4,7 +4,7 @@
 //93,173,114,170 //sf::IpAddress::getLocalAddress()//25,72,141,58
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
-m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None),
+m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None), m_mapType(hell),
 m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m_isBind(false){
 	bindSocket(port);
 	m_selector.add(m_socket);
@@ -12,18 +12,18 @@ m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m
 	m_socket.setBlocking(false);
 }
 /*============================================================================
-* The method send the messege in the m_packet parameter.
-* if no ip or port received. the method will send the messege to the last
-* person the server received messege from.
+* The method send the message in the m_packet parameter.
+* if no ip or port received. the method will send the message to the last
+* person the server received message from.
 */
 void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port) {
 	
 	m_socket.send(m_packet, ip, port) != sf::Socket::Done;
 }
 /*============================================================================
-* The method return if there is messege wait in m_socket.
+* The method return if there is message wait in m_socket.
 */
-bool NetworkObject::receivedMessege(float seconds) {
+bool NetworkObject::receivedMessage(float seconds) {
 	return m_selector.wait(sf::seconds(seconds));
 }
 /*==========================================================================*/
@@ -41,15 +41,15 @@ void NetworkObject::setName(const char name[PLAYER_NAME_LEN], int index){
 	std::memcpy(m_info.m_name , name, PLAYER_NAME_LEN);
 }
 /*============================================================================
-* The method is receiving the messeges type. every messege reading need to
-* start with a Messege_Type receiving first.
+* The method is receiving the messages type. every message reading need to
+* start with a MessageType receiving first.
 */
 template<>
-Messege_type NetworkObject::receiveValue<Messege_type>() {
+MessageType NetworkObject::receiveValue<MessageType>() {
 	receiveUdp();
 	int value;
 	m_packet >> value;
-	return (Messege_type)value;
+	return (MessageType)value;
 }
 /*==========================================================================*/
 void NetworkObject::addMemberToList() {
