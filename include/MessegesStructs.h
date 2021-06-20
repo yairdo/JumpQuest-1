@@ -11,8 +11,10 @@ sf::Vector2f m_loc{ 50,50 };
 int m_row = 0;
 int m_col = 0;
 int m_direction = 0;
+//yair is trying stuff
+float m_totalTime = 0;
 };
-MemberInfo memberInfoCreator(unsigned short=0, const sf::Vector2f & = {0,0}, int = 0, int = 0, int = 0);
+MemberInfo memberInfoCreator(unsigned short=0, const sf::Vector2f & = {0,0}, int = 0, int = 0, int = 0,float=0);
 //============================================================================
 struct GameMember {
     sf::IpAddress m_memberIp = sf::IpAddress::None;

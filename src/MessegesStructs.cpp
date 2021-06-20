@@ -10,13 +10,14 @@ GameMember gameMemberCreator(const sf::IpAddress& ip, unsigned short port, const
     return value;
 }
 //============================================================================
-MemberInfo memberInfoCreator(unsigned short id, const sf::Vector2f & loc, int row, int col, int dir) {
+MemberInfo memberInfoCreator(unsigned short id, const sf::Vector2f & loc, int row, int col, int dir,float time) {
     MemberInfo value;
     value.m_id = id;
     value.m_loc = loc;
     value.m_row = row;
     value.m_col = col;
     value.m_direction = dir;
+    value.m_totalTime = time;
     return value;
 }
 //============================================================================

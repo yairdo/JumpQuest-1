@@ -16,6 +16,7 @@ public:
 
 	virtual void draw(sf::RenderWindow& window);
 private:
+	int m_faceTo;
 	float m_distance;
 	float m_timer;
 	sf::Vector2f m_shotStartPos;

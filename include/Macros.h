@@ -16,10 +16,14 @@ constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto FOOT = 3;
 constexpr auto MAX_LIST_NAMES_SIZE=4;
 
-const float PLAYER_PROJECTILE_DIS = 300;
+const float PLAYER_PROJECTILE_DIS = 500;
 const sf::Vector2f PROJECTILE_SIZE{25,25};
+
 const sf::Vector2f ARCHER_SIZE{ 40,40 };
+
 const b2Vec2 PROJECTILE_FORCE{ 0.5,-0.2 };
+
+const sf::Vector2f GIFT_SIZE{35,35};
 
 
 enum direction {
@@ -153,13 +157,14 @@ enum animPos {
 	climb,
 	idle
 };
-constexpr float PLAYER_SWITCH_TIME = 0.15;
+
+constexpr float PLAYER_SWITCH_TIME = 0.2;
 constexpr int PLAYER_WIDTH = 130;
 constexpr int PLAYER_HEIGHT = 155;
 
 constexpr float FALLING_SWITCH_TIME = 0.05;
 constexpr int FALLING_WIDTH = 200;
-constexpr int FALLING_HEIGHT = 193;
+constexpr int FALLING_HEIGHT = 200;
 constexpr int FALLING_LEN = 8;
 
 constexpr float CHECKPOINT_SWITCH_TIME = 0.15;
@@ -171,8 +176,14 @@ constexpr int ARCHER_WIDTH = 160;
 constexpr int ARCHER_HEIGHT = 146;
 constexpr int ARCHER_LEN = 6;
 
-//constexpr int ARROW_WIDTH = 
-//constexpr int ARROW_HEIGHT = 
+
+constexpr int ARROW_WIDTH = 100;
+constexpr int ARROW_HEIGHT = 100;
+constexpr int ARROW_LEN = 6;
+
+constexpr int GIFT_WIDTH = 100;
+constexpr int GIFT_HEIGHT = 100;
+constexpr int GIFT_LEN = 3;
 
 constexpr int WALKING = 3;
 constexpr int STAND = 3;

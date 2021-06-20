@@ -23,8 +23,10 @@ public:
 	void setDis(float);
 	sf::Vector2f getPos() const;
 	b2Vec2 getForce(sf::Vector2f) const;
-
+	void setFace(int);
+	void updateAnim(float deltaTime);
 private:
+	int m_faceTo;
 	float m_distance;
 	bool m_shot;
 	b2Vec2 m_vel;
