@@ -8,15 +8,17 @@ bool Archer::m_registerit = Factory<MovingObj>::registerit("Archer",
 
 Archer::Archer(b2World& world, const sf::Vector2f& pos,
     const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType,int mapEnum):m_distance(timerNDis.y),
-    MovingObj(world, pos, ARCHER_SIZE, bodyType), m_timer(timerNDis.x) ,m_shotTO(toPos),
+    MovingObj(world, pos, ARCHER_SIZE, bodyType,archer), m_timer(timerNDis.x) ,m_shotTO(toPos),
     m_proj(std::make_unique<Projectile>(world,PROJECTILE_SIZE , b2_dynamicBody,timerNDis.y)) {
 
+    m_sprite.setTextureRect(sf::IntRect(0, 0, ARCHER_WIDTH, ARCHER_HEIGHT));
     m_sprite.setScale(ARCHER_SIZE.x / m_sprite.getGlobalBounds().width, ARCHER_SIZE.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+
     sf::Vector2f temp= m_proj->getPosToShotFrom(toPos, pos, { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height });
     m_proj->setPos(temp);
     m_shotStartPos = temp;
-    m_sprite.setColor(sf::Color::Blue);
+    //m_sprite.setColor(sf::Color::Blue);
 
     b2PolygonShape groundBox(std::move(createPolygonShape({ (ARCHER_SIZE.x / SCALE) / 2, (ARCHER_SIZE.y / SCALE) / 2 })));
     createFixtureDef(groundBox, 0.f, 1.f, giftBits, false, ~noneBit);
@@ -26,7 +28,8 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
 
 void Archer::updateAnim(float deltaTime) {
     
-    //std::cout << time << "\n";
+    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
+        deltaTime, m_totalTime, archer, up));
 }
 
 void Archer::draw(sf::RenderWindow& window) {
@@ -59,10 +62,12 @@ void Archer::move() {
 
 MovingObjInfo Archer::getInfo() const
 {
-    return movingObjInfoCreator(m_proj->getPos(), m_timer);
+    return movingObjInfoCreator(m_proj->getPos(), m_timer, { float(m_proj->getShot()),m_proj->getDis()});
 }
 
 void Archer::setInfo(MovingObjInfo info){
     m_proj->setPos(info.m_loc);
     m_timer = info.m_timer;
+    m_proj->setShot(info.m_vel.x);
+    m_proj->setDis(info.m_vel.y);
 }

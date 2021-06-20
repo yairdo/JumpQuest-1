@@ -65,6 +65,8 @@ int Animation::findLineLen(int type, int row) {
 		return FALLING_LEN;
 	case checkPoint: 
 		return CHECKPOINT_LEN;
+	case archer :
+		return ARCHER_LEN;
 	default:
 		break;
 	}
@@ -84,5 +86,10 @@ void Animation::setWidthHeight(int type) {
 	case checkPoint:
 		m_width = CHECKPOINT_WIDTH;
 		m_height = CHECKPOINT_HEIGHT;
+		break;
+	case archer:
+		m_width = ARCHER_WIDTH;
+		m_height = ARCHER_HEIGHT;
+		break;
 	}
 }
