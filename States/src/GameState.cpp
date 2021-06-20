@@ -14,7 +14,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 {
 	
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
-	m_backGround.setTexture(Resources::getResourceRef().getTexture(map));
+	m_backGround.setTexture(Resources::getResourceRef().getTexture(map,gameBackground));
 	
 	m_backGround.setScale(0.35,window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
@@ -141,8 +141,9 @@ void GameState::updateGame() {
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
 	{
 		m_deltaTime = m_clock.restart().asSeconds();
-		updateBoard();
 		viewMover();
+		updateBoard();
+		
 		m_window.setView(m_view);
 		m_board->updateBoard(m_networkObj.get());
 	}

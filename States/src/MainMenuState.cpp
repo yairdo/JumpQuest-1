@@ -2,7 +2,7 @@
 #include "StateManager.h"
 #include "Macros.h"
 #include "MultiplayerMenuState.h"
-#include "GameState.h"
+#include "ChooseBoardState.h"
 MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 			bool replace,std::shared_ptr<NetworkObject> net ):
 	StandardMenuState(manager,window,replace,net,title,menuBackground)
@@ -13,7 +13,7 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 		- buttonSpace*2 - buttonSpace * 5 ) / 4;
 	float pix4let = m_window.getSize().x * 0.025f;
 	auto pos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace * 2.5f);
-	makeBut<GameState>(pos, singlePlayer, butHeight, pix4let, buttonSpace);
+	makeBut<ChooseBoardState>(pos, singlePlayer, butHeight, pix4let, buttonSpace);
 	makeBut<MultiplayerMenuState>(pos, multiplayer, butHeight, pix4let, buttonSpace);
 
 	//addButton<howToPlayState>(help,pos,width,butHeight);

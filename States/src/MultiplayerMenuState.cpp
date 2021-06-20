@@ -5,8 +5,8 @@
 #include "Client.h"
 #include "LobbyState.h"
 
-MultiplayerMenuState::MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window,
-	bool replace,std::shared_ptr<NetworkObject>net):
+MultiplayerMenuState::MultiplayerMenuState(StateManager& manager, sf::RenderWindow& window,
+	bool replace, std::shared_ptr<NetworkObject>net) :
 	StandardMenuState(manager, window, replace, net, title, menuBackground)
 {
 	auto buttonSpace = m_window.getSize().y * 0.05;

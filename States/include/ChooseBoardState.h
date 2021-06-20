@@ -29,8 +29,8 @@ void ChooseBoardState::makeButtons() {
 	addButton <StateT>(blank, pos, side, side);
 	pos.x += spaceBut + side;
 	addButton<StateT>(blank, pos, side, side);
-	auto width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3f;
+	auto width = Resources::getResourceRef().getButLen(mainMenu) * PIX4LET * 1.3f;
 	pos = { m_window.getSize().x / 2.f, m_window.getSize().y - m_window.getSize().y / 10.f };
 	auto butHeight = m_window.getSize().y - pos.y;
-	m_buttons.emplace_back(std::make_unique<BaseButton>(back, pos, width, butHeight));
+	m_buttons.emplace_back(std::make_unique<BaseButton>(mainMenu, pos, width, butHeight));
 }

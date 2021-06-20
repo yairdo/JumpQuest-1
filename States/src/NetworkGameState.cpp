@@ -6,7 +6,7 @@
 
 NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net):
-	GameState(manager,window,replace,net/*,net->getLvlInfo()*/)
+	GameState(manager,window,replace,net,net->getLvlInfo())
 {
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
