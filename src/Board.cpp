@@ -9,7 +9,7 @@
 #include <sstream>
 #include <Player.h>
 #include <Factory.h>
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 #include <NetworkObject.h>
 #include "CheckPoint.h"
 

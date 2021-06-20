@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 #include <Macros.h>
 #include <vector>
 #include <exception>
@@ -13,7 +13,7 @@ public:
 	NetworkObject(unsigned short port = 0);
 	virtual ~NetworkObject() = default;
 	//========================== inbox checkers ==============================
-	bool receivedMessege(float seconds = 0.000001f);
+	bool receivedMessage(float seconds = 0.000001f);
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
@@ -40,10 +40,10 @@ public:
 	void bindSocket(unsigned short);
 
 protected:
-	//====================== messeges handeling section ======================
+	//====================== messages handeling section ======================
 	//sending section
 	template <class T>
-	void sendMessege(Messege_type, const T&,
+	void sendMessage(MessageType, const T&,
 		const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0);
 	//receiving section
 	template <class T>
@@ -79,7 +79,7 @@ private:
 };
 /*==========================================================================*/
 template<class T>
- void NetworkObject::sendMessege(Messege_type type,const T& value,const sf::IpAddress& ip
+ void NetworkObject::sendMessage(MessageType type,const T& value,const sf::IpAddress& ip
 	 , unsigned short port){
 	m_packet.clear();
 	m_packet << type;
@@ -90,16 +90,16 @@ template<class T>
 	m_packet.clear();
 }
  /*===========================================================================
- * The mehod receiving the received messege value form the m_packet.
- * to know the vlue type, use receiveValue<Messege_type> first.
+ * The mehod receiving the received message value form the m_packet.
+ * to know the vlue type, use receiveValue<MessageType> first.
  */
 template<class T>
 T NetworkObject::receiveValue(){
-	//reading from the last char of the messege type the rest of the messege
-	T value = *((T*)(((char*)m_packet.getData()) + sizeof(Messege_type)));
+	//reading from the last char of the message type the rest of the message
+	T value = *((T*)(((char*)m_packet.getData()) + sizeof(MessageType)));
 	m_packet.clear();
 	return value;
 }
 /*==========================================================================*/
 template<>
-Messege_type NetworkObject::receiveValue<Messege_type>();
+MessageType NetworkObject::receiveValue<MessageType>();

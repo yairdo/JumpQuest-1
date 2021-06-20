@@ -3,7 +3,7 @@
 #include <unordered_set>
 #include <string>
 #include <NetworkObject.h>
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 #include <Macros.h>
 
 

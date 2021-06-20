@@ -3,7 +3,7 @@
 #include "box2d/box2d.h"
 #include <SFML/Network.hpp>
 
-//Each messege struct has creator out of the struct to make the struct lighter.
+//Each message struct has creator out of the struct to make the struct lighter.
 //============================================================================
 struct MemberInfo {
 unsigned short m_id = 0;

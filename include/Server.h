@@ -3,7 +3,7 @@
 #include <memory>
 #include <SFML/Network.hpp>
 #include <NetworkObject.h>
-#include <MessegesStructs.h>
+#include <MessagesStructs.h>
 
 
 class Server : public NetworkObject{
@@ -30,7 +30,7 @@ private:
     virtual void notifyClosing()override;
     void notifyCloser(int);
     void registerPlayer();
-    void handleNetworkMessege();
+    void handleNetworkMessage();
     void updateStaticObjState(const StaticObjInfo& info);
     void updateAboutNewMember(const AddMember&);
     int countServersInPort();
