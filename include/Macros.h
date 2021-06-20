@@ -158,7 +158,7 @@ enum animPos {
 	idle
 };
 
-constexpr float PLAYER_SWITCH_TIME = 0.2;
+constexpr float PLAYER_SWITCH_TIME = 0.2f;
 constexpr int PLAYER_WIDTH = 130;
 constexpr int PLAYER_HEIGHT = 155;
 
