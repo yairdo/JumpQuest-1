@@ -44,7 +44,7 @@ bool Client::handleRequests(int max) {
 			case closer:
 				setMember(receiveValue<int>(), nullptr);
 			case startGame:
-				setLvlInfo(receiveValue<StartMessage>());
+				setLvlInfo(receiveValue<MapType>());
 			default:
 				break;
 			}
