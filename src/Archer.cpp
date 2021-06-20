@@ -37,7 +37,7 @@ void Archer::draw(sf::RenderWindow& window) {
 void Archer::updatePhysics(float dt) {
     static float time=m_timer;
     m_timer -= dt;
-    if (time<=0) {
+    if (m_timer<=0) {
         m_timer = time;
         m_proj->shot(m_shotTO);
     }
@@ -53,7 +53,8 @@ void Archer::updatePhysics(float dt) {
 }
 
 void Archer::move() {
-    m_proj->move();
+    if (m_proj->getShot())
+         m_proj->move();
 }
 
 MovingObjInfo Archer::getInfo() const
