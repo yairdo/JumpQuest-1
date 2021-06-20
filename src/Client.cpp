@@ -45,7 +45,6 @@ bool Client::handleRequests(int max) {
 				setMember(receiveValue<int>(), nullptr);
 				break;
 			case startGame:
-				m_
 				setLvlInfo(receiveValue<MapType>());
 				setStarted(true);
 				break;
