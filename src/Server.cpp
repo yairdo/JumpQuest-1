@@ -82,7 +82,7 @@ void Server::notifyCloser(int index){
 * The method add the last message sender to the player list.
 */
 void Server::registerPlayer() {
-	if (renameMember() || m_requiting)
+	if (!m_requiting || renameMember())
 		return;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (!getMember(i)) {
