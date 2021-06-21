@@ -74,8 +74,7 @@ void NetworkObject::setId(int id) {
 	m_info.m_info.m_id = id;
 	if (!getMember(id))
 		setMember(id, 
-			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "", memberInfoCreator(id))));
-	//why not send m_info??
+			std::make_unique<GameMember>(gameMemberCreator(getIP(), getPort(), "",m_info.m_info)));
 }
 /*==========================================================================*/
 void NetworkObject::bindSocket(unsigned short port){
