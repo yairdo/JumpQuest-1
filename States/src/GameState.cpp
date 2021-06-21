@@ -10,8 +10,7 @@
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net,int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
-	m_world(b2Vec2(0, 9.8)),  m_deltaTime(1)
-{
+	m_world(b2Vec2(0, 9.8)),  m_deltaTime(1){
 	
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(map,gameBackground));
@@ -26,6 +25,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
 	m_view = sf::View(sf::Vector2f(viewSize.x / 2.f, viewSize.y / 2.f), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });
+
 	addBorders2World();
 	m_testPlayer = m_board->getPlayerRef();
 	m_clock.restart();

@@ -18,7 +18,7 @@ void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
 	//changed for map building
-	m_movingObj.emplace_back(new Player(world, { 25.f , 25.f }, { 50.f,50.f }, b2_dynamicBody,m_playerId,*this));
+	m_movingObj.emplace_back(new Player(world,{5000.f , 25.f }, { 50.f,50.f }, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
 	file.open("testLevel.txt");
 	//file.open("Level2.txt");
@@ -140,7 +140,7 @@ void Board::updateStaticMsgCollision(int index){
 void Board::addProjectile(const struct AddProjectileMessage& info) {
 	
 	std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(*m_world,
-		PROJECTILE_SIZE, b2_dynamicBody, PLAYER_PROJECTILE_DIS);
+		PROJECTILE_SIZE, b2_dynamicBody, PLAYER_PROJECTILE_DIS,m_mapEnum);
 	auto  temp = proj.get();
 	proj->setPos(proj->getPosToShotFrom(info.m_to, info.m_frome, info.m_bounds));
 		m_movingObj.emplace_back(proj.release());

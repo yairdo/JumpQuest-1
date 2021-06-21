@@ -144,7 +144,7 @@ void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gift),
 		loadSfObj<sf::Texture>("chest hell.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
-		loadSfObj<sf::Texture>("hell brick.png")));
+		loadSfObj<sf::Texture>("lava.jpg")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
 		loadSfObj<sf::Texture>("hell map.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),

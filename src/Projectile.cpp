@@ -6,8 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
-Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,float dis) :
-    MovingObj(world, { 0,0 }, size, bodyType,arrow), m_shot(false), m_elapaseTime(0),m_distance(dis)
+Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,float dis,int map) :
+    MovingObj(world, { 0,0 }, size, bodyType,arrow,map), m_shot(false), m_elapaseTime(0),m_distance(dis)
 {
     //m_sprite.setColor(sf::Color::Yellow);
     m_sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));

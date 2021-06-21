@@ -29,6 +29,7 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
 
     b2PolygonShape kinmatic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
     createFixtureDef(kinmatic, 1.0f, 0.3, fallingBlockBits);
+    m_body->SetFixedRotation(true);
     m_body->SetUserData(this);
     m_body->SetAwake(false);
 }
