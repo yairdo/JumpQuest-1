@@ -182,7 +182,7 @@ constexpr int ARROW_HEIGHT = 100;
 constexpr int ARROW_LEN = 6;
 
 constexpr int GIFT_WIDTH = 100;
-constexpr int GIFT_HEIGHT = 100;
+constexpr int GIFT_HEIGHT = 55;
 constexpr int GIFT_LEN = 3;
 
 constexpr int WALKING = 3;

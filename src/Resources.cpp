@@ -97,14 +97,16 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("SelectTheme.png")));
 }
 void Resources::setGameTextures() {
-	m_gameTextures.insert(GameTexturesPair(IntPair(castle, block),
+	/*m_gameTextures.insert(GameTexturesPair(IntPair(castle, block),
 		loadSfObj<sf::Texture>("bricks.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, gameBackground),
 		loadSfObj<sf::Texture>("castle map.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, rope),
 		loadSfObj<sf::Texture>("rope.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
-		loadSfObj<sf::Texture>("trap chandelier.png")));
+		loadSfObj<sf::Texture>("trap chandelier.png")));*/
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
+		loadSfObj<sf::Texture>("checkPoint.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle,player0),
 		loadSfObj<sf::Texture>("player0.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, player1),
@@ -119,14 +121,50 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("player5.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, blank),
 		loadSfObj<sf::Texture>("Blank.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
-		loadSfObj<sf::Texture>("checkPoint.png")));
+	//m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
+	//	loadSfObj<sf::Texture>("checkPoint.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, arrow),
-		loadSfObj<sf::Texture>("fire ball.png")));
+		loadSfObj<sf::Texture>("missle sprite.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, archer),
 		loadSfObj<sf::Texture>("clown castle.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, gift),
 		loadSfObj<sf::Texture>("chest castle.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, block),
+		loadSfObj<sf::Texture>("castle brick.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, gameBackground),
+		loadSfObj<sf::Texture>("castle map.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, rope),
+		loadSfObj<sf::Texture>("rope.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
+		loadSfObj<sf::Texture>("trap chandelier.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, arrow),
+		loadSfObj<sf::Texture>("fire ball.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, archer),
+		loadSfObj<sf::Texture>("hell archer.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gift),
+		loadSfObj<sf::Texture>("chest hell.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
+		loadSfObj<sf::Texture>("hell brick.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
+		loadSfObj<sf::Texture>("hell map.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),
+		loadSfObj<sf::Texture>("hell rope.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, fallingBlock),
+		loadSfObj<sf::Texture>("lava stone.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, arrow),
+		loadSfObj<sf::Texture>("heart arrow.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, archer),
+		loadSfObj<sf::Texture>("sky archer.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, gift),
+		loadSfObj<sf::Texture>("chest sky.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, block),
+		loadSfObj<sf::Texture>("sky brick.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, gameBackground),
+		loadSfObj<sf::Texture>("sky map.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, rope),
+		loadSfObj<sf::Texture>("sky rope.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
+		loadSfObj<sf::Texture>("star sprite.png")));
 	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
 	//	loadSfObj<sf::Texture>("bricks.png")));
 	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
