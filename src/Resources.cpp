@@ -134,7 +134,7 @@ void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, gameBackground),
 		loadSfObj<sf::Texture>("castle map.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, rope),
-		loadSfObj<sf::Texture>("rope.png")));
+		loadSfObj<sf::Texture>("castle rope.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
 		loadSfObj<sf::Texture>("trap chandelier.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, arrow),
