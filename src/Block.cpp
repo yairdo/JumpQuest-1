@@ -29,7 +29,7 @@ Block::Block(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     createFixtureDef(groundBox, 0.f, 1.f, wallBits);
 
     
-    //m_body->SetUserData(this);
+    m_body->SetUserData(this);
 }
 
 void Block::draw(sf::RenderWindow& window)

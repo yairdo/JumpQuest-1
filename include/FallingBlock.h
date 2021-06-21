@@ -6,18 +6,18 @@ class b2Body;
 class b2World;
 //class sf::RenderWindow;
 
-class FallingBlock : public MovingObj {
+class FallingObj : public MovingObj {
 public:
-	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
-	virtual ~FallingBlock() = default;
-	FallingBlock() = default;
+	FallingObj(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
+	virtual ~FallingObj() = default;
+	FallingObj() = default;
 	virtual void updatePhysics(float);
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 	virtual void updateAnim(float deltaTime);
 	virtual MovingObjInfo getInfo() const { return movingObjInfoCreator(getPos(), m_timer, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info);
-	void setActiveAnim(bool state);
+	void setActiveAnim();
 	virtual void reset() override;
 
 private:

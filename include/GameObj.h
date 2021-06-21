@@ -15,6 +15,7 @@ public:
     virtual void draw(sf::RenderWindow&);
     virtual void setRemoveObj(bool );
     virtual bool getIsRemoved() const;
+    //virtual void setSprite(int recWidth,int recHeight);
     void destroyBody();
     sf::Vector2f getPos()const  { return m_sprite.getPosition(); }
     void setPos(sf::Vector2f);
