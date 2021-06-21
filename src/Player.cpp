@@ -95,7 +95,7 @@ void Player::updatePhysics(float dt)
         animPos = jumping;
         moved = true;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         m_direction = right;
         animPos = walking;
         if (m_onRope)
