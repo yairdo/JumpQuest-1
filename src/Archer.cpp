@@ -69,7 +69,7 @@ void Archer::move() {
 
 MovingObjInfo Archer::getInfo() const
 {
-    return movingObjInfoCreator(m_proj->getPos(), m_timer, { float(m_proj->getShot()),m_proj->getDis()});
+    return MovingObjInfo(m_proj->getPos(), m_timer, { float(m_proj->getShot()),m_proj->getDis()});
 }
 
 void Archer::setInfo(MovingObjInfo info){

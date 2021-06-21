@@ -104,7 +104,7 @@ void Client::setName(const char name[PLAYER_NAME_LEN], int index) {
 */
 void Client::sendStaticCollision(int index){
 	sendMessage<StaticObjInfo>(staticObjInfo, 
-		staticObjInfoCreator(getInfo().m_info.m_id, index));
+		StaticObjInfo(getInfo().m_info.m_id, index));
 }
 /*============================================================================
 * The method is update the Board's moving objects as the server reported.
@@ -118,7 +118,7 @@ void Client::updateMovingObj() {
 * The method is singIn to the server.
 */
 void Client::sendGameMembership(const char name[]) {
-	sendMessage<GameMember>(singMeIn, gameMemberCreator(getIP(), getPort(), name));
+	sendMessage<GameMember>(singMeIn, GameMember(getIP(), getPort(), name));
 }
 //============================================================================
 void Client::handleNetworkMessage(){
