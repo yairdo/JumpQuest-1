@@ -6,7 +6,6 @@ struct ArgsHash {
 	std::size_t operator () (const std::pair<T,T>& p) const {
 		std::size_t h1 = std::hash<T>()(p.first);
 		std::size_t h2 = std::hash<T>()(p.second);
-		std::cout << "h1 : " << h1 << " h2: " << h2 << "\n";
 		return h1 ^ h2;
 	}
 };

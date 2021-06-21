@@ -17,7 +17,7 @@ constexpr auto MUSIC_VOLUME = 2;
 constexpr auto EFFECTS_VOLUME = 6;
 constexpr auto PLAYER_NAME_LEN = 20;
 
-
+const float MAP_SIZE = 6000;
 const float PLAYER_PROJECTILE_DIS = 500;
 const sf::Vector2f PROJECTILE_SIZE{25,25};
 
@@ -194,6 +194,8 @@ constexpr int ARROW_LEN = 6;
 constexpr int GIFT_WIDTH = 100;
 constexpr int GIFT_HEIGHT = 55;
 constexpr int GIFT_LEN = 3;
+
+constexpr int FLOOR_OBS_LEN = 6;
 
 constexpr int WALKING = 3;
 constexpr int STAND = 3;
