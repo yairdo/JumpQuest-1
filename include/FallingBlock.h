@@ -8,7 +8,7 @@ class b2World;
 
 class FallingBlock : public MovingObj {
 public:
-	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
+	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, const sf::Vector2f&, int, int);
 	virtual ~FallingBlock() = default;
 	FallingBlock() = default;
 	virtual void updatePhysics(float);
@@ -24,6 +24,8 @@ private:
 	bool m_activeAnim;
 	sf::Vector2f m_strtPos;
 	bool m_falling = false;
-	float m_timer = 3;
+	float m_timer;
+	float m_startingTime;
 	static bool m_registerit;
+
 };

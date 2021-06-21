@@ -1,5 +1,6 @@
-#include <MessagesStructs.h>
+#include <Utilities.h>
 #include <memory>
+
 //============================================================================
 GameMember gameMemberCreator(const sf::IpAddress& ip, unsigned short port, const char name[PLAYER_NAME_LEN], const MemberInfo& member ) {
     GameMember value;

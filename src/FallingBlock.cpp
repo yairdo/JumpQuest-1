@@ -5,11 +5,12 @@
 #include <Factory.h>
 bool FallingBlock::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
-    { return std::make_unique<FallingBlock>(world, vec[0], vec[1], b2_dynamicBody, map); });
+    { return std::make_unique<FallingBlock>(world, vec[0], vec[1], vec[2], b2_dynamicBody, map); });
 
-FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
-    int bodyType,int mapEnum) :
-    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum), m_activeAnim(false)
+FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, 
+    const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
+    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum),  
+    m_activeAnim(false), m_startingTime(startTimer.x),m_timer(startTimer.x)
 {
 
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
@@ -78,7 +79,7 @@ void FallingBlock::reset()
     m_falling = false;
     m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
     m_body->SetAwake(false);
-    m_timer = 3;
+    m_timer = m_startingTime;
     m_col = 0;
     m_activeAnim = false;
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
