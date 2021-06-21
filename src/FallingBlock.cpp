@@ -102,6 +102,6 @@ void FallingBlock::updateAnim(float deltaTime) {
     //        deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
 }
 
-void FallingObj::setActiveAnim() {
+void FallingBlock::setActiveAnim() {
     m_activeAnim = true;
 }

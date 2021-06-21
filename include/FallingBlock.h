@@ -6,7 +6,7 @@ class b2Body;
 class b2World;
 //class sf::RenderWindow;
 
-class FallingObj : public MovingObj {
+class FallingBlock : public MovingObj {
 public:
 	FallingBlock(b2World&, const sf::Vector2f&, const sf::Vector2f&, const sf::Vector2f&, int, int);
 	virtual ~FallingBlock() = default;
