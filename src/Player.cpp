@@ -253,10 +253,10 @@ void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
     if (m_gotGift) {
         Resources::getResourceRef().playSound(rocketSound);
         if (network)
-            network->addProjectile(addProjectileMessageCreator(m_sprite.getPosition(), mousePos,
+            network->addProjectile(AddProjectileMessage(m_sprite.getPosition(), mousePos,
                 { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
         else
-            m_board->addProjectile(addProjectileMessageCreator(m_sprite.getPosition(), mousePos,
+            m_board->addProjectile(AddProjectileMessage(m_sprite.getPosition(), mousePos,
                 { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
     }
     //    //m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),

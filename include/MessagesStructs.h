@@ -6,49 +6,60 @@
 //Each message struct has creator out of the struct to make the struct lighter.
 //============================================================================
 struct MemberInfo {
-unsigned short m_id = 0;
-sf::Vector2f m_loc{ 50,50 };
-int m_row = 0;
-int m_col = 0;
-int m_direction = 0;
-float m_totalTime = 0;
+    MemberInfo(unsigned short = 0, const sf::Vector2f & = { 50,50 }, int = 0, int = 0, int = 0, float = 0);
+    unsigned short m_id;
+    sf::Vector2f m_loc;
+    int m_row;
+    int m_col;
+    int m_direction;
+    float m_totalTime;
 };
 //============================================================================
 struct GameMember {
-    sf::IpAddress m_memberIp = sf::IpAddress::None;
-    unsigned short m_memberPort = 0;
-    char m_name[PLAYER_NAME_LEN] = "";
+    GameMember(const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0,
+        const char name[PLAYER_NAME_LEN] = "", const MemberInfo & = MemberInfo());
+    sf::IpAddress m_memberIp;
+    unsigned short m_memberPort;
+    char m_name[PLAYER_NAME_LEN];
     MemberInfo m_info;
 };
 //============================================================================
 struct AddMember {
-    unsigned short m_id = 0;
-    char m_name[PLAYER_NAME_LEN] = "";
+    AddMember(unsigned short id = 0, const char name[PLAYER_NAME_LEN] = "");
+    unsigned short m_id;
+    char m_name[PLAYER_NAME_LEN];
 };
 //============================================================================
 struct MovingObjInfo {
+    MovingObjInfo(const sf::Vector2f & = { 0,0 },
+        float = 0, const b2Vec2 & = { 0 , 0 });
     sf::Vector2f m_loc;
-    float m_timer = 0;
-    b2Vec2 m_vel = { 0,0 };
+    float m_timer;
+    b2Vec2 m_vel;
 };
 //============================================================================
 struct StaticObjInfo {
-    unsigned short m_id = 0;
-    int m_index=0;
+    StaticObjInfo(unsigned short id = 0, int index = 0);
+    unsigned short m_id;
+    int m_index;
 };
 //============================================================================
 struct MovingObjMembersRoport {
-    int m_size = 0;
+    MovingObjMembersRoport(const std::vector<MovingObjInfo> & = {});
+    int m_size;
     MovingObjInfo m_locs[MAX_OBJ_IN_LEVEL];
 };
 //============================================================================
 struct AddProjectileMessage {
-    sf::Vector2f m_frome{ 0, 0 };
-    sf::Vector2f m_to{ 0, 0 };
-    sf::Vector2f m_bounds{ 0,0 };
+    AddProjectileMessage(const sf::Vector2f& from = { 0,0 },
+        const sf::Vector2f& to = { 0,0 }, const sf::Vector2f& bounds = { 0,0 });
+    sf::Vector2f m_frome;
+    sf::Vector2f m_to;
+    sf::Vector2f m_bounds;
 };
 //============================================================================
 struct StartMessage {
-    int m_theme = 0;
-    int m_level = 0;
+    StartMessage(int theme = 0, int level = 0);
+    int m_theme;
+    int m_level;
 };
