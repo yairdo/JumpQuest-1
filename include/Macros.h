@@ -49,13 +49,6 @@ enum MapType {
 };
 
 enum TexturesNum {
-	block,
-	movingBlock,
-	gift,
-	shooter,
-	fallingBlock,
-	floorObs,
-	rope,
 	menuBackground,
 	title,
 	buttonShape,
@@ -83,6 +76,13 @@ enum TexturesNum {
 	arrow,
 	archer,
 	chooseBoard,
+	block,
+	movingBlock,
+	gift,
+	shooter,
+	fallingBlock,
+	floorObs,
+	rope,
 	nullpt
 };
 

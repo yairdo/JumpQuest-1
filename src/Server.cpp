@@ -82,7 +82,7 @@ void Server::notifyCloser(int index){
 * The method add the last message sender to the player list.
 */
 void Server::registerPlayer() {
-	if (renameMember())
+	if (renameMember() || m_requiting)
 		return;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (!getMember(i)) {
@@ -166,7 +166,7 @@ int Server::countServersInPort() {
 		max = 200,
 		messagesCounter = 0;
 	try {
-		sendMessage(networkMessage, whoIsAServer,
+		sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
 		while (receivedMessage(0.1) && messagesCounter++ < max) {
 			if (receiveValue<MessageType>() == networkMessage
@@ -226,7 +226,7 @@ void Server::handleNetworkMessage() {
 		break;
 	case whoIsFreeServer:
 		if (m_requiting && m_launched)
-			sendMessage(networkMessage, iAmFree);
+			sendMessage<NetworkMessages>(networkMessage, iAmFree);
 		break;
 	default:
 		break;
