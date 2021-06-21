@@ -10,7 +10,6 @@ using Key = std::pair< std::type_index,  std::type_index>;
 class CollisionHandler {
 	
 public:
-	
 	using CorrectFunc = void(CollisionHandler::*)(GameObj*, GameObj*);
 	//typedef void(CollisionHandler::* CorrectFunc)(GameObj*, GameObj*);
 	static CollisionHandler& getRef() ;
