@@ -8,20 +8,20 @@
 #include "PauseState.h"
 
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
-	std::shared_ptr<NetworkObject> net,int map) :
+	std::shared_ptr<NetworkObject> net, int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
-	m_world(b2Vec2(0, 9.8)),  m_deltaTime(1){
-	
+	m_world(b2Vec2(0, 9.8)), m_deltaTime(1) {
+
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
-	m_backGround.setTexture(Resources::getResourceRef().getTexture(map,gameBackground));
+	m_backGround.setTexture(Resources::getResourceRef().getTexture(map, gameBackground));
 	Resources::getResourceRef().playMusic(map);
-	m_backGround.setScale(0.6,window.getSize().y / m_backGround.getGlobalBounds().height);
+	m_backGround.setScale(0.6, window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	int id = (net == nullptr) ? 0 : net->getInfo().m_info.m_id;
 	m_board->setId(id);
 	m_board->setmapEnum(map);
 	m_board->generateMap(m_world);
-	
+
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
 	m_view = sf::View(sf::Vector2f(viewSize.x / 2.f, viewSize.y / 2.f), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });
@@ -29,7 +29,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	addBorders2World();
 	m_testPlayer = m_board->getPlayerRef();
 	m_clock.restart();
-	
+
 }
 
 void GameState::pause()
@@ -63,9 +63,9 @@ void GameState::update()
 					m_next = std::make_unique<PauseState>(m_manager, m_window, false);
 					break;
 
-				//case sf::Keyboard::M://maybe pause menue option
-				//	//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
-				//	break;
+					//case sf::Keyboard::M://maybe pause menue option
+					//	//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
+					//	break;
 
 				default:
 					break;
@@ -77,8 +77,8 @@ void GameState::update()
 			}
 		}
 	}
-	
-			
+
+
 	updateGame();
 
 }
@@ -96,7 +96,14 @@ void GameState::draw()
 */
 void GameState::viewMover() {
 	sf::Vector2f playerPos = m_testPlayer->getPos();
-	if (playerPos.x - m_window.getSize().x / 4 > 0)//we need here + player bounds width /2
+	if (playerPos.x - m_window.getSize().x / 4 < 0){
+		m_view.setCenter(m_window.getSize().x / 4, m_view.getCenter().y);
+	}
+	else if ((playerPos.x + m_window.getSize().x / 4) > MAP_SIZE){
+	m_view.setCenter(MAP_SIZE- m_window.getSize().x / 4, m_view.getCenter().y);
+	}
+	//if (playerPos.x - m_window.getSize().x / 4 > 0 && (playerPos.x + m_window.getSize().x / 4) < MAP_SIZE)
+	else
 		m_view.setCenter(playerPos.x, m_view.getCenter().y);
 	//need to add boundries
 }
