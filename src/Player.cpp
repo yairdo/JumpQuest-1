@@ -78,7 +78,7 @@ void Player::updatePhysics(float dt)
 
     if (getReset())
         reset();
-    if (/*m_timer > 0 && */m_projectileForce != b2Vec2({ 0,0 })) {
+    if (m_projectileForce != b2Vec2({ 0,0 })) {
         m_body->ApplyLinearImpulseToCenter(m_projectileForce, true);
         m_timer = 0.3;
         m_projectileForce = { 0,0 };
@@ -86,11 +86,11 @@ void Player::updatePhysics(float dt)
     int pos = animPos;
     int dir = m_direction;
     m_direction = none;
-    if (m_onRope) {
+    if (m_onRope && m_timer <= 0) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_timer <= 0) {
         jump(dt);
         animPos = jumping;
         moved = true;
@@ -114,7 +114,7 @@ void Player::updatePhysics(float dt)
         moved = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        if (m_canCatch && !m_onRope) {
+        if (m_canCatch && !m_onRope && m_timer <= 0) {
             m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
             setOnRope(true);
         }
@@ -145,12 +145,6 @@ void Player::updatePhysics(float dt)
     if(animPos!=pos){
         m_col = 0;
     }
- /*   for (int i = 0; i < m_projectile.size();++i) {
-        m_projectile[i]->updatePhysics(dt);
-        if (m_projectile[i]->getDis() <= 0) {
-            m_projectile[i]->destroyBody();
-            m_projectile.erase(m_projectile.begin() + i);
-       */
 }
 
 void Player::jump(float dt) {

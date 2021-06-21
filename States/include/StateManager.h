@@ -11,6 +11,7 @@ namespace sf {
 class StateManager
 {
 public:
+
 	StateManager();
 
 	void run(std::unique_ptr<State> state);
@@ -26,7 +27,7 @@ public:
 
 	void updateLastState();
 	void drawLastState();
-
+	bool isLast() const;
 	template <typename T>
 	static std::unique_ptr<T> build(StateManager& machine, sf::RenderWindow& window,
 		bool replace = true, std::shared_ptr<NetworkObject> netObj = nullptr);
