@@ -26,8 +26,8 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
-	m_collisionMap[Key(typeid(FallingObj), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
-	m_collisionMap[Key(typeid(Block), typeid(FallingObj))] = &CollisionHandler::blockFallingBlock;
+	m_collisionMap[Key(typeid(FallingBlock), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
+	m_collisionMap[Key(typeid(Block), typeid(FallingBlock))] = &CollisionHandler::blockFallingBlock;
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
@@ -101,7 +101,7 @@ void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
 
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {
-	FallingObj* fblock = dynamic_cast<FallingObj*> (fallingBlock);
+	FallingBlock* fblock = dynamic_cast<FallingBlock*> (fallingBlock);
 	if (fblock) {
 		fblock->setActiveAnim();
 		std::cout << "Block and falling block collision";

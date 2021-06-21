@@ -3,11 +3,11 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
-bool FallingObj::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
+bool FallingBlock::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
-    { return std::make_unique<FallingObj>(world, vec[0], vec[1], b2_dynamicBody, map); });
+    { return std::make_unique<FallingBlock>(world, vec[0], vec[1], b2_dynamicBody, map); });
 
-FallingObj::FallingObj(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
+FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     int bodyType,int mapEnum) :
     m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum), m_activeAnim(false)
 {
@@ -36,7 +36,7 @@ FallingObj::FallingObj(b2World& world, const sf::Vector2f& startPos, const sf::V
 
 //updates player velocity according to which key is pressed
 //applies impulse to jump
-void FallingObj::updatePhysics(float dt)
+void FallingBlock::updatePhysics(float dt)
 {
     if (!m_falling && m_timer <= 0)//going up or down
     {
@@ -49,7 +49,7 @@ void FallingObj::updatePhysics(float dt)
     m_timer -= dt;
 }
 
-void FallingObj::move()
+void FallingBlock::move()
 {
     auto position = m_body->GetPosition();
     auto rotation = m_body->GetAngle();
@@ -57,12 +57,12 @@ void FallingObj::move()
     m_sprite.setRotation(rotation);
 }
 
-void FallingObj::draw(sf::RenderWindow& window)
+void FallingBlock::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
 }
 
-void FallingObj::setInfo(MovingObjInfo info)
+void FallingBlock::setInfo(MovingObjInfo info)
 {
     setPos(info.m_loc);
     m_timer = info.m_timer;
@@ -73,19 +73,19 @@ void FallingObj::setInfo(MovingObjInfo info)
     m_body->SetLinearVelocity(info.m_vel);
 }
 
-void FallingObj::reset()
+void FallingBlock::reset()
 {
     m_falling = false;
     m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
     m_body->SetAwake(false);
     m_timer = 3;
     m_col = 0;
-    //m_activeAnim = false;
+    m_activeAnim = false;
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     setReset(false);
 }
 
-void FallingObj::updateAnim(float deltaTime) {
+void FallingBlock::updateAnim(float deltaTime) {
     //b2Vec2 vec{ 0, 0 };
     //double eps = 0.00001;
     //if (m_falling && (m_col < FALLING_LEN-1))
@@ -94,13 +94,13 @@ void FallingObj::updateAnim(float deltaTime) {
     //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
     //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
     // 
-    //if (m_falling && (m_col < FALLING_LEN - 1))
-    //    ++m_col;
-    //if(m_activeAnim)
-    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-    //        deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
+    if (m_falling && (m_col < FALLING_LEN - 1))
+        ++m_col;
+    if(m_activeAnim)
+        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
 }
 
-void FallingObj::setActiveAnim() {
+void FallingBlock::setActiveAnim() {
     m_activeAnim = true;
 }
