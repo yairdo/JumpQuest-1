@@ -27,7 +27,7 @@ bool Server::launch() {
 		return false;
 
 	setMember(0, std::make_unique<GameMember>(
-		gameMemberCreator(getIP(), getPort(), "", memberInfoCreator())));
+		GameMember(getIP(), getPort(), "", MemberInfo())));
 	setId(0);
 	m_launched = true;
 	m_requiting = true;
@@ -88,18 +88,18 @@ void Server::registerPlayer() {
 		if (!getMember(i)) {
 			//add member to the server's member list
 			setMember(i, std::make_unique<GameMember>(
-				gameMemberCreator(getSenderIP(), getSenderPort(),
-					receiveValue<GameMember>().m_name, memberInfoCreator(i))));
+				GameMember(getSenderIP(), getSenderPort(),
+					receiveValue<GameMember>().m_name, MemberInfo(i))));
 			//tell the new member his id
 			sendMessage<int>(memberId, i);
 			//notify old members about the new member
 			updateAboutNewMember(
-				addMemberCreator(getMember(i)->m_info.m_id, getMember(i)->m_name));
+				AddMember(getMember(i)->m_info.m_id, getMember(i)->m_name));
 			//send the new mebemer all the old members info.
 			for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
 				if (i != j && getMember(j)) {
 					sendMessage<AddMember>(addMember,
-						addMemberCreator(getMember(j)->m_info.m_id, getMember(j)->m_name),
+						AddMember(getMember(j)->m_info.m_id, getMember(j)->m_name),
 						getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 				}
 			m_packet.clear();
@@ -131,7 +131,7 @@ void Server::updateLoc(const MemberInfo& member) {
 }
 /*==========================================================================*/
 void Server::sendStaticCollision(int index) {
-	updateStaticObjState(staticObjInfoCreator(getInfo().m_info.m_id, index));
+	updateStaticObjState(StaticObjInfo(getInfo().m_info.m_id, index));
 }
 /*============================================================================
 * The method is notify the other players when another player collided with 
@@ -186,7 +186,7 @@ bool Server::renameMember() {
 		if (getMember(i))
 			if (getMember(i)->m_memberIp == getSenderIP()
 				&& getMember(i)->m_memberPort == getSenderPort()) {
-				updateAboutNewMember(addMemberCreator(i,
+				updateAboutNewMember(AddMember(i,
 					receiveValue<GameMember>().m_name));
 				sendMessage<int>(memberId, getMember(i)->m_info.m_id,
 					getSenderIP(), getSenderPort());
@@ -196,14 +196,14 @@ bool Server::renameMember() {
 }
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
-	updateAboutNewMember(addMemberCreator(
+	updateAboutNewMember(AddMember(
 		(index == -1) ? getInfo().m_info.m_id : index, name));
 }
 /*==========================================================================*/
 void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessage<MovingObjMembersRoport>(movingObj, testLocsCreator(vec),
+			sendMessage<MovingObjMembersRoport>(movingObj, MovingObjMembersRoport(vec),
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/

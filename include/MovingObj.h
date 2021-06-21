@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObj.h"
 //#include <Macros.h>
-#include "Utilities.h"
+#include<MessagesStructs.h>
 
 class MovingObj : public GameObj {
 public:
@@ -14,7 +14,7 @@ public:
 	virtual void draw(sf::RenderWindow&) = 0;
 	virtual void move() = 0;
 
-	virtual MovingObjInfo getInfo()const  { return movingObjInfoCreator(getPos(), 0, m_body->GetLinearVelocity()); }
+	virtual MovingObjInfo getInfo()const  { return MovingObjInfo(getPos(), 0, m_body->GetLinearVelocity()); }
 	virtual void setInfo(MovingObjInfo info) { setPos(info.m_loc); }
 
 	bool getReset() const { return m_reset; }
