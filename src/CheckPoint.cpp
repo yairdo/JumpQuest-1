@@ -42,6 +42,7 @@ void CheckPoint::setColor(sf::Color color){
 }
 
 void CheckPoint::activate(){
+    Resources::getResourceRef().playSound(checkPointSound);
     m_row = 0;
     m_activate = true;
 }

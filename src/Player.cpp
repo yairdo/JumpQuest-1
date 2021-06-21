@@ -161,15 +161,19 @@ void Player::jump(float dt) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             m_body->ApplyForce(b2Vec2(impulse/2, impulse/2), m_body->GetWorldCenter(), true);
             setOnRope(false);
+            Resources::getResourceRef().playSound(jumpingSound);
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             m_body->ApplyForce(b2Vec2(-impulse/2, impulse/2), m_body->GetWorldCenter(), true);
             setOnRope(false);
+            Resources::getResourceRef().playSound(jumpingSound);
         }
         return;
     }
-    if (m_numFootContact)
+    if (m_numFootContact) {
         m_body->ApplyForce(b2Vec2(0, impulse), m_body->GetWorldCenter(), true);
+        Resources::getResourceRef().playSound(jumpingSound);
+    }
 }
 
 void Player::move()
@@ -216,13 +220,13 @@ void Player::updateAnim(float deltaTime) {
 }
 
 void Player::reset() {
-
     sf::Vector2f vec(m_checkPoint.x/SCALE, m_checkPoint.y/SCALE);
     //sf::Vector2f vec(50/SCALE, 50/SCALE);
     m_body->SetTransform({ vec.x,vec.y }, m_body->GetAngle());
    //m_body->GetLocalPoint(m_body->GetWorldPoint()).Set(vec.x,vec.y);
     m_sprite.setPosition(m_checkPoint);
     //m_sprite.setPosition(50,50);
+    Resources::getResourceRef().playSound(teleportSound);
     setReset(false);
 }
 
@@ -253,6 +257,7 @@ void Player::center(const sf::Vector2f& ropePos) {
 void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
     
     if (m_gotGift) {
+        Resources::getResourceRef().playSound(rocketSound);
         if (network)
             network->addProjectile(addProjectileMessageCreator(m_sprite.getPosition(), mousePos,
                 { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));

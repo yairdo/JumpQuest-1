@@ -8,11 +8,15 @@ using GameTexturesPair = std::pair<IntPair, sf::Texture>;
 using ButtonPairStr = std::pair<int, int>;
 using FontPair = std::pair<int, sf::Font>;
 
-Resources::Resources() {
+Resources::Resources(): m_buttonStrLen(), m_textures(), m_fonts(),
+m_gameTextures(), m_sounds(),m_music(){
 	setTextures();
 	setGameTextures();
 	setButtonStrLengh();
 	setFonts();
+	setSounds();
+	m_music.setVolume(MUSIC_VOLUME);
+	m_sound.setVolume(EFFECTS_VOLUME);
 }
 const sf::Texture& Resources::getTexture(int index) const {
 	auto it = m_textures.find(index);
@@ -209,4 +213,43 @@ void Resources::print() {
 Resources& Resources::getResourceRef() {
 	static Resources resources;
 	return resources;
+}
+//============================================================================
+void Resources::setSounds() {
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(checkPointSound,
+		loadSfObj<sf::SoundBuffer>("checkPointSound.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(giftCollectSound,
+		loadSfObj<sf::SoundBuffer>("giftBreak.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(giftHitSound,
+		loadSfObj<sf::SoundBuffer>("GiftHit.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(jumpingSound,
+		loadSfObj<sf::SoundBuffer>("jumpsound.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(teleportSound,
+		loadSfObj<sf::SoundBuffer>("teleport.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(rocketSound,
+		loadSfObj<sf::SoundBuffer>("rocket.wav")));
+}
+//============================================================================
+void Resources::playMusic(int type) {
+	switch (type) {
+	case menu:
+		m_music.openFromFile("menu.wav");
+		break;
+	case hell:
+		m_music.openFromFile("lavaLvl.ogg");
+		break;
+	case sky:
+		m_music.openFromFile("skyLvl.wav");
+		break;
+	case castle:
+		m_music.openFromFile("castleMusic.ogg");
+		break;
+	}
+	m_music.play();
+	m_music.setLoop(true);
+}
+//============================================================================
+void Resources::playSound(int pos) {
+	m_sound.setBuffer(m_sounds.find(pos)->second);
+	m_sound.play();
 }

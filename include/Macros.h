@@ -12,9 +12,11 @@ constexpr auto SPACE_BUTTONS = 50.f;
 constexpr auto MAIN_MENU_BUTTONS = 4;
 constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
-constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto FOOT = 3;
-constexpr auto MAX_LIST_NAMES_SIZE=4;
+constexpr auto MUSIC_VOLUME = 2;
+constexpr auto EFFECTS_VOLUME = 6;
+constexpr auto PLAYER_NAME_LEN = 20;
+
 
 const float PLAYER_PROJECTILE_DIS = 500;
 const sf::Vector2f PROJECTILE_SIZE{25,25};
@@ -42,10 +44,12 @@ enum direction {
 //	floorObs,
 //	rope
 //};
+
 enum MapType {
 	castle,
 	hell,
-	sky
+	sky,
+	menu,
 };
 
 enum TexturesNum {
@@ -139,7 +143,6 @@ enum MessageType {
 	startGame, //StartMessage
 };
 constexpr auto SERVERS_PORT = 50000;
-constexpr auto NETWORK_MESSEGE_LEN = sizeof(NetworkMessages);
 constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 5;
 constexpr auto MAX_OBJ_IN_LEVEL = 200;
@@ -156,6 +159,15 @@ enum animPos {
 	jumping,
 	climb,
 	idle
+};
+
+enum Sounds {
+	jumpingSound,
+	giftHitSound,
+	giftCollectSound,
+	checkPointSound,
+	teleportSound,
+	rocketSound,
 };
 
 constexpr float PLAYER_SWITCH_TIME = 0.2f;
@@ -189,4 +201,3 @@ constexpr int WALKING = 3;
 constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
-

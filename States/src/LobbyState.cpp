@@ -144,11 +144,11 @@ void LobbyState::drawList(){
 	}
 }
 void LobbyState::setNameListText() {
-	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_LIST_NAMES_SIZE) / MAX_LIST_NAMES_SIZE;
+	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_SERVER_PLAYERS) / MAX_SERVER_PLAYERS;
 	auto startPos = sf::Vector2f{
 		m_listBackground.getPosition().x - m_listBackground.getSize().x / 2 + 10,
 		m_listBackground.getPosition().y - m_listBackground.getSize().y / 2 + 10 };
-	for (int i = 0; i < MAX_LIST_NAMES_SIZE; i++) {
+	for (int i = 0; i < MAX_SERVER_PLAYERS; i++) {
 		sf::Text text;
 		text.setFont(Resources::getResourceRef().getFont(lobbyFont));
 		text.setCharacterSize(24);
