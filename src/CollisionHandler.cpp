@@ -16,7 +16,6 @@ CollisionHandler::CollisionHandler(){
 	/*std::function<void(GameObj*, GameObj*)> Func=giftPlayer;
 	m_collisionMap[Key(typeid(Gift), typeid(Player))] = &[]() {return &giftPlayer; };*/
 	/*auto p = Key(typeid(Gift), typeid(Player));*/
-	m_collisionMap[Key(typeid(Block), typeid(FallingObj))] = &CollisionHandler::blockFallingBlock;
 	m_collisionMap[Key(typeid(Gift), typeid(Player))] = &CollisionHandler::giftPlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Gift))] = &CollisionHandler::playerGift;
 	m_collisionMap[Key(typeid(Rope), typeid(Player))] = &CollisionHandler::ropePlayer;
@@ -28,7 +27,7 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
 	m_collisionMap[Key(typeid(FallingObj), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
-	/*m_collisionMap[Key(typeid(Block), typeid(FallingObj))] = &CollisionHandler::blockFallingBlock;*/
+	m_collisionMap[Key(typeid(Block), typeid(FallingObj))] = &CollisionHandler::blockFallingBlock;
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
