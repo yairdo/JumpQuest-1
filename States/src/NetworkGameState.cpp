@@ -11,15 +11,18 @@ NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& wind
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 		if (m_networkObj->getMember(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
-			m_clones[m_networkObj->getMember(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMember(i)->m_info.m_id);
+			m_clones[m_networkObj->getMember(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMember(i)->m_info.m_id,
+				m_networkObj->getMember(i)->m_name);
 		}
 	}
 }
 
 void NetworkGameState::draw(){
 	GameState::draw();
-	for (auto clone : m_clones)
+	for (auto clone : m_clones) {
 		m_window.draw(clone.second.m_sprite);
+		m_window.draw(clone.second.m_name);
+	}
 }
 
 void NetworkGameState::updateBoard()
@@ -60,6 +63,7 @@ void NetworkGameState::updateClonesLoc() {
 			if (it == m_clones.end())
 				continue;
 			it->second.m_sprite.setPosition(info.m_loc);
+			it->second.m_name.setPosition(info.m_loc.x, info.m_loc.y- PLAYER_SIZE.y/1.5f);
 			it->second.m_row = info.m_row;
 			it->second.m_col = info.m_col;
 			it->second.m_totalTime = info.m_totalTime;

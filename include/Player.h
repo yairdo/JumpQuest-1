@@ -36,7 +36,9 @@ public:
 	void setCheckPoint(const sf::Vector2f&);
 	virtual void reset() override;
 	void center(const sf::Vector2f&);
+	void setName(std::string);
 private:
+	sf::Text m_name;
 	void updateRow();
 	sf::Vector2f m_checkPoint;
 	int m_id;

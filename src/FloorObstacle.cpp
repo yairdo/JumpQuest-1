@@ -98,19 +98,7 @@ void FloorObstacle::reset()
 }
 
 void FloorObstacle::updateAnim(float deltaTime) {
-    //b2Vec2 vec{ 0, 0 };
-    //double eps = 0.00001;
-    //if (m_falling && (m_col < FALLING_LEN-1))
-    //    ++m_col;
-    //if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
-    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-    //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
-    // 
-    if (m_falling && (m_col < FALLING_LEN - 1))
-        ++m_col;
-    if(m_activeAnim)
-        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
+    
 }
 
 void FloorObstacle::setActiveAnim() {

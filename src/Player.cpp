@@ -8,7 +8,6 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
     , m_gotGift(false), m_projectileForce({ 0,0 }), m_board(&board)
 {
-
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
     m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
@@ -174,6 +173,7 @@ void Player::move()
 {
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
+    m_name.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y - PLAYER_SIZE.y / 1.5f);
     //for (auto& projs : m_projectile) {
     //    projs->move();
     //}
@@ -181,10 +181,8 @@ void Player::move()
 
 void Player::draw(sf::RenderWindow& window)
 {
-    //for (auto& projs : m_projectile) {
-    //    projs->draw(window);
-    //}
     window.draw(m_sprite);
+    window.draw(m_name);
 }
 
 void Player::setOnRope(bool val){
@@ -248,6 +246,12 @@ void Player::center(const sf::Vector2f& ropePos) {
     m_offSet = ropePos;
 }
 
+void Player::setName(std::string name) {
+    m_name.setFont(Resources::getResourceRef().getFont(lobbyFont));
+    m_name.setString(name);
+    m_name.setOrigin(m_name.getGlobalBounds().width / 2, m_name.getGlobalBounds().height / 2);
+    m_name.setScale(0.4, 0.8);
+}
 void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
     
     if (m_gotGift) {
