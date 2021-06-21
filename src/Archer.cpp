@@ -9,7 +9,7 @@ bool Archer::m_registerit = Factory<MovingObj>::registerit("Archer",
 Archer::Archer(b2World& world, const sf::Vector2f& pos,
     const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType,int mapEnum):m_distance(timerNDis.y),
     MovingObj(world, pos, ARCHER_SIZE, bodyType,archer,mapEnum), m_timer(timerNDis.x) ,m_shotTO(toPos),
-    m_proj(std::make_unique<Projectile>(world,PROJECTILE_SIZE , b2_dynamicBody,timerNDis.y)) {
+    m_proj(std::make_unique<Projectile>(world,PROJECTILE_SIZE , b2_dynamicBody,timerNDis.y,mapEnum)) {
 
     m_sprite.setTextureRect(sf::IntRect(0, 0, ARCHER_WIDTH, ARCHER_HEIGHT));
     m_sprite.setScale(ARCHER_SIZE.x / m_sprite.getGlobalBounds().width, ARCHER_SIZE.y / m_sprite.getGlobalBounds().height);

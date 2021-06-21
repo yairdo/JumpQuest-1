@@ -11,6 +11,9 @@ public:
 	const sf::Texture& getTexture(int index) const;
 	const sf::Texture& getTexture(int map,int index) const;
 	const sf::Font& getFont(int index) const;
+	void playMusic(int);
+	void playSound(int);
+	
 	const int getButLen(int index) const;
 private:
 	//Singeltone class
@@ -21,12 +24,15 @@ private:
 	void setButtonStrLengh();
 	void setFonts();
 	void setGameTextures();
-
+	void setSounds();
+	
 	std::unordered_map <int, sf::Texture> m_textures;
 	std::unordered_map<int, sf::Font> m_fonts;
 	std::unordered_map<int, int> m_buttonStrLen;
 	std::unordered_map<std::pair<int, int>, sf::Texture,ArgsHash<int>,KeyEqual<int>> m_gameTextures;
-	std::unordered_map <int,std::pair<sf::SoundBuffer, sf::Sound>> m_sounds;
+	std::unordered_map <int, sf::SoundBuffer> m_sounds;
+	sf::Sound m_sound;
+	sf::Music m_music;
 
 	template <class SfObj>
 	SfObj loadSfObj(const std::string& str);

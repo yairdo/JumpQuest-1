@@ -20,16 +20,15 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(Gift))] = &CollisionHandler::playerGift;
 	m_collisionMap[Key(typeid(Rope), typeid(Player))] = &CollisionHandler::ropePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Rope))] = &CollisionHandler::playerRope;
-	m_collisionMap[Key(typeid(Block), typeid(Player))] = &CollisionHandler::blockPlayer;
+	m_collisionMap[Key(typeid(Block), typeid(Player))] = &CollisionHandler::blockPlayer; //why do we have this?!?!
 	m_collisionMap[Key(typeid(Player), typeid(Block))] = &CollisionHandler::playerBlock;
 	m_collisionMap[Key(typeid(CheckPoint), typeid(Player))] = &CollisionHandler::checkPointPlayer;
 	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
-	m_collisionMap[Key(typeid(FallingBlock), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
-	m_collisionMap[Key(typeid(Block), typeid(FallingBlock))] = &CollisionHandler::blockFallingBlock;
+	m_collisionMap[Key(typeid(FallingObj), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
+	m_collisionMap[Key(typeid(Block), typeid(FallingObj))] = &CollisionHandler::blockFallingBlock;
 
-	void blockFallingBlock(GameObj*, GameObj*);;
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
@@ -102,7 +101,11 @@ void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
 
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {
-	std::cout << "Block and falling block collision";
+	FallingObj* fblock = dynamic_cast<FallingObj*> (fallingBlock);
+	if (fblock) {
+		fblock->setActiveAnim();
+		std::cout << "Block and falling block collision";
+	}
 }
 
 CollisionHandler& CollisionHandler::getRef() {

@@ -15,7 +15,7 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 	auto pos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace * 2.5f);
 	makeBut<ChooseBoardState>(pos, singlePlayer, butHeight, pix4let, buttonSpace);
 	makeBut<MultiplayerMenuState>(pos, multiplayer, butHeight, pix4let, buttonSpace);
-
+	Resources::getResourceRef().playMusic(menu);
 	//addButton<howToPlayState>(help,pos,width,butHeight);
 	pos.y += float(buttonSpace + butHeight);
 

@@ -30,6 +30,7 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
     m_body->CreateFixture(&fixtureDef);*/
     b2PolygonShape kinmatic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
     createFixtureDef(kinmatic, 1.0f, 0.3, fallingBlockBits);
+    m_body->SetFixedRotation(true);
     m_body->SetUserData(this);
     m_body->SetAwake(false);
 }
@@ -80,20 +81,27 @@ void FallingBlock::reset()
     m_body->SetAwake(false);
     m_timer = m_startingTime;
     m_col = 0;
+    //m_activeAnim = false;
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     setReset(false);
 }
 
 void FallingBlock::updateAnim(float deltaTime) {
     //b2Vec2 vec{ 0, 0 };
-    double eps = 0.00001;
-    if (m_falling && (m_col < FALLING_LEN-1))
-        ++m_col;
-    if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
-        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-            deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
+    //double eps = 0.00001;
+    //if (m_falling && (m_col < FALLING_LEN-1))
+    //    ++m_col;
+    //if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
+    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+    //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
+    // 
+    //if (m_falling && (m_col < FALLING_LEN - 1))
+    //    ++m_col;
+    //if(m_activeAnim)
+    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+    //        deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
 }
 
-void FallingBlock::setActiveAnim(bool state) {
-    m_activeAnim = state;
+void FallingObj::setActiveAnim() {
+    m_activeAnim = true;
 }

@@ -52,8 +52,11 @@ void Gift::draw(sf::RenderWindow& window)
 bool Gift::collisionCounter(){
     if (!--m_counter) {
         this->setRemoveObj(true);
+        Resources::getResourceRef().playSound(giftCollectSound);
         return true;
     }
+    else
+        Resources::getResourceRef().playSound(giftHitSound);
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
        1, m_totalTime, gift, up,1));
     return false;

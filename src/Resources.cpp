@@ -8,11 +8,15 @@ using GameTexturesPair = std::pair<IntPair, sf::Texture>;
 using ButtonPairStr = std::pair<int, int>;
 using FontPair = std::pair<int, sf::Font>;
 
-Resources::Resources() {
+Resources::Resources(): m_buttonStrLen(), m_textures(), m_fonts(),
+m_gameTextures(), m_sounds(),m_music(){
 	setTextures();
 	setGameTextures();
 	setButtonStrLengh();
 	setFonts();
+	setSounds();
+	m_music.setVolume(MUSIC_VOLUME);
+	m_sound.setVolume(EFFECTS_VOLUME);
 }
 const sf::Texture& Resources::getTexture(int index) const {
 	auto it = m_textures.find(index);
@@ -97,14 +101,6 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("SelectTheme.png")));
 }
 void Resources::setGameTextures() {
-	/*m_gameTextures.insert(GameTexturesPair(IntPair(castle, block),
-		loadSfObj<sf::Texture>("bricks.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(castle, gameBackground),
-		loadSfObj<sf::Texture>("castle map.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(castle, rope),
-		loadSfObj<sf::Texture>("rope.png")));
-	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
-		loadSfObj<sf::Texture>("trap chandelier.png")));*/
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
 		loadSfObj<sf::Texture>("checkPoint.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle,player0),
@@ -121,8 +117,6 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("player5.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, blank),
 		loadSfObj<sf::Texture>("Blank.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
-	//	loadSfObj<sf::Texture>("checkPoint.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, arrow),
 		loadSfObj<sf::Texture>("missle sprite.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, archer),
@@ -144,7 +138,7 @@ void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gift),
 		loadSfObj<sf::Texture>("chest hell.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
-		loadSfObj<sf::Texture>("hell brick.png")));
+		loadSfObj<sf::Texture>("lava.jpg")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
 		loadSfObj<sf::Texture>("hell map.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),
@@ -165,23 +159,7 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("sky rope.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
 		loadSfObj<sf::Texture>("star sprite.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, block),
-	//	loadSfObj<sf::Texture>("bricks.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, gameBackground),
-	//	loadSfObj<sf::Texture>("castle map.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, rope),
-	//	loadSfObj<sf::Texture>("rope.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(hell, fallingBlock),
-	//	loadSfObj<sf::Texture>("trap chandelier.png")));
 
-	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, block),
-	//	loadSfObj<sf::Texture>("bricks.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, gameBackground),
-	//	loadSfObj<sf::Texture>("castle map.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, rope),
-	//	loadSfObj<sf::Texture>("rope.png")));
-	//m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
-	//	loadSfObj<sf::Texture>("trap chandelier.png")));
 }
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
@@ -209,4 +187,43 @@ void Resources::print() {
 Resources& Resources::getResourceRef() {
 	static Resources resources;
 	return resources;
+}
+//============================================================================
+void Resources::setSounds() {
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(checkPointSound,
+		loadSfObj<sf::SoundBuffer>("checkPointSound.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(giftCollectSound,
+		loadSfObj<sf::SoundBuffer>("giftBreak.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(giftHitSound,
+		loadSfObj<sf::SoundBuffer>("GiftHit.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(jumpingSound,
+		loadSfObj<sf::SoundBuffer>("jumpsound.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(teleportSound,
+		loadSfObj<sf::SoundBuffer>("teleport.wav")));
+	m_sounds.insert(std::pair<int, sf::SoundBuffer>(rocketSound,
+		loadSfObj<sf::SoundBuffer>("rocket.wav")));
+}
+//============================================================================
+void Resources::playMusic(int type) {
+	switch (type) {
+	case menu:
+		m_music.openFromFile("menu.wav");
+		break;
+	case hell:
+		m_music.openFromFile("lavaLvl.ogg");
+		break;
+	case sky:
+		m_music.openFromFile("skyLvl.wav");
+		break;
+	case castle:
+		m_music.openFromFile("castleMusic.ogg");
+		break;
+	}
+	m_music.play();
+	m_music.setLoop(true);
+}
+//============================================================================
+void Resources::playSound(int pos) {
+	m_sound.setBuffer(m_sounds.find(pos)->second);
+	m_sound.play();
 }

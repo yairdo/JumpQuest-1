@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObj.h"
 //#include <Macros.h>
-#include "MessagesStructs.h"
+#include "Utilities.h"
 
 class MovingObj : public GameObj {
 public:

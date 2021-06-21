@@ -20,6 +20,7 @@ add_subdirectory (resources/archers)
 add_subdirectory (resources/fallingBlocks)
 add_subdirectory (resources/other)
 add_subdirectory (resources/maps)
+add_subdirectory (resources/music)
 add_subdirectory (external/box2d/src)
 
 set (SFML_STATIC_LIBRARIES TRUE)
