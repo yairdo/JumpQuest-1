@@ -26,6 +26,10 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
+	m_collisionMap[Key(typeid(FallingBlock), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
+	m_collisionMap[Key(typeid(Block), typeid(FallingBlock))] = &CollisionHandler::blockFallingBlock;
+
+	void blockFallingBlock(GameObj*, GameObj*);;
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
@@ -90,6 +94,15 @@ void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2){
 
 void CollisionHandler::projectilePlayer(GameObj* obj1, GameObj* obj2) {
 	playerProjectile(obj2, obj1);
+}
+
+void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
+	blockFallingBlock(obj2, obj1);
+}
+
+void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
+{
+	std::cout << "Block and falling block collision";
 }
 
 CollisionHandler& CollisionHandler::getRef() {

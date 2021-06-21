@@ -57,4 +57,6 @@ private:
 	void playerCheckPoint(GameObj*, GameObj*);
 	void playerProjectile(GameObj*, GameObj*);
 	void projectilePlayer(GameObj*, GameObj*);
+	void fallingBlockBlock(GameObj*, GameObj*);
+	void blockFallingBlock(GameObj*, GameObj*);
 };
