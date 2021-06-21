@@ -99,18 +99,19 @@ enum FontsType {
 //	help,
 //	exit
 //};
-enum _entityCategory {
+enum EntityCategory {
 	playerBits = 0x0001,
 	giftBits = 0x0002,
 	wallBits = 0x0004,
 	boundryBits = 0x0008,
-	movingBlockBits = 0x00010,
-	playerSensorBits = 0x00020,
-	ladderBits = 0x00040,
-	fallingBlockBits = 0x00080,
-	footBits = 0x000100,
-	checkPointBits = 0x000200,
-	noneBit = 0x000400
+	movingBlockBits = 0x0010,
+	playerSensorBits = 0x0020,
+	ladderBits = 0x0040,
+	fallingBlockBits = 0x0080,
+	footBits = 0x0100,
+	checkPointBits = 0x0200,
+	noneBit = 0x0400,
+	floorObsBit = 0x0800
 };
 
 //============================================================================
