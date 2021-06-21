@@ -81,7 +81,7 @@ void FallingBlock::reset()
     m_body->SetAwake(false);
     m_timer = m_startingTime;
     m_col = 0;
-    //m_activeAnim = false;
+    m_activeAnim = false;
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     setReset(false);
 }
@@ -95,11 +95,11 @@ void FallingBlock::updateAnim(float deltaTime) {
     //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
     //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
     // 
-    //if (m_falling && (m_col < FALLING_LEN - 1))
-    //    ++m_col;
-    //if(m_activeAnim)
-    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-    //        deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
+    if (m_falling && (m_col < FALLING_LEN - 1))
+        ++m_col;
+    if(m_activeAnim)
+        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
 }
 
 void FallingBlock::setActiveAnim() {
