@@ -1,16 +1,16 @@
 d MovingBlock 1230 100 1230 500 100 20
 
-d FallingBlock 495 15 40 40
+d FallingBlock 175 20 40 40
 d FallingBlock 595 15 40 40
 
 s CheckPoint 420 450 30 100
 
-s Block 50 160 100 50
+s Block 50 1000 100 50
 s Block 350 160 30 30
 s Block 425 175 30 30  
 s Block 500 500 30 30
 
 s Gift 1000 450 25 25
 
-s Rope 225 250 0 500
+s Rope 225 500 0 1000
 s Rope 610 400 0 800
