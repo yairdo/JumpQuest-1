@@ -1,7 +1,8 @@
 #include <Controller.h>
+#include <Resources.h>
 
 int main() {
-	Controller c;
-	c.run();
+	Resources::getResourceRef();
+	Controller().run();
 	return EXIT_SUCCESS;
 }
