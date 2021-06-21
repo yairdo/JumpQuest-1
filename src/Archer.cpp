@@ -8,7 +8,7 @@ bool Archer::m_registerit = Factory<MovingObj>::registerit("Archer",
 
 Archer::Archer(b2World& world, const sf::Vector2f& pos,
     const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType,int mapEnum):m_distance(timerNDis.y),
-    MovingObj(world, pos, ARCHER_SIZE, bodyType,archer), m_timer(timerNDis.x) ,m_shotTO(toPos),
+    MovingObj(world, pos, ARCHER_SIZE, bodyType,archer,mapEnum), m_timer(timerNDis.x) ,m_shotTO(toPos),
     m_proj(std::make_unique<Projectile>(world,PROJECTILE_SIZE , b2_dynamicBody,timerNDis.y)) {
 
     m_sprite.setTextureRect(sf::IntRect(0, 0, ARCHER_WIDTH, ARCHER_HEIGHT));
@@ -18,8 +18,14 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
     sf::Vector2f temp= m_proj->getPosToShotFrom(toPos, pos, { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height });
     m_proj->setPos(temp);
     m_shotStartPos = temp;
+    if (temp.x > m_sprite.getPosition().x) {
+        m_faceTo = right;
+    }
+    else
+        m_faceTo = left;
+    m_proj->setFace(m_faceTo);
     //m_sprite.setColor(sf::Color::Blue);
-
+    
     b2PolygonShape groundBox(std::move(createPolygonShape({ (ARCHER_SIZE.x / SCALE) / 2, (ARCHER_SIZE.y / SCALE) / 2 })));
     createFixtureDef(groundBox, 0.f, 1.f, giftBits, false, ~noneBit);
 
@@ -29,7 +35,8 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
 void Archer::updateAnim(float deltaTime) {
     
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-        deltaTime, m_totalTime, archer, up));
+        deltaTime, m_totalTime, archer, m_faceTo));
+    m_proj->updateAnim(deltaTime);
 }
 
 void Archer::draw(sf::RenderWindow& window) {

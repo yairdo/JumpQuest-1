@@ -12,7 +12,6 @@ Controller::Controller() : m_window(sf::RenderWindow
 #include "ChooseBoardState.h"
 #include "GameState.h"
 void Controller::run() {
-	//m_manager.run(StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr));
 	m_manager.run(StateManager::build<MainMenuState>(m_manager, m_window, true, nullptr));
 	//m_manager.run(StateManager::build<GameState>(m_manager, m_window, true, nullptr));
 	//m_manager.run(StateManager::build<ServerGameState>(m_manager, m_window, true, std::make_shared<Server>()));

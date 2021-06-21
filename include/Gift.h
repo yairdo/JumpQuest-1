@@ -12,6 +12,7 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	bool collisionCounter();
 	virtual void MsgCollision();
+	//void updateAnim(float deltaTime);
 	//virtual void handleCollision();
 	/*virtual void handleCol(GameObj* obj) override;
 	virtual void handleGiftCol(Gift*) override {};
