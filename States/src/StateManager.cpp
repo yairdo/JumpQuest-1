@@ -1,6 +1,6 @@
 #include <StateManager.h>
 
-StateManager::StateManager(): m_resume( false ), m_running( false ){}
+StateManager::StateManager(): m_resume( false ), m_running( false ),m_lastState(nullptr){}
 
 void StateManager::run(std::unique_ptr<State> state)
 {
@@ -35,9 +35,11 @@ void StateManager::nextState()
 		// Only change states if there's a next one existing
 		if (temp != nullptr)
 		{
+			
 			// Replace the running state
 			if (temp->isReplacing())
 			{
+				m_lastState = nullptr;
 				while (!m_states.empty())
 					m_states.pop();
 			}
@@ -52,7 +54,9 @@ void StateManager::nextState()
 		}
 	}
 }
-
+bool StateManager::isLast() const {
+	return m_lastState;
+}
 void StateManager::lastState()
 {
     m_resume = true;

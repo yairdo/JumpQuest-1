@@ -35,11 +35,15 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 void GameState::pause()
 {
 	m_paused = true;
+	auto evnt = sf::Event{};
+	while (m_window.pollEvent(evnt));
 }
 
 void GameState::resume()
 {
 	m_paused = false;
+	auto evnt = sf::Event{};
+	while (m_window.pollEvent(evnt));
 }
 
 void GameState::update()
@@ -155,7 +159,7 @@ void GameState::updateGame() {
 	projTimer -= m_deltaTime;
 	//for (auto evnt = sf::Event{}; m_window.pollEvent(evnt);) {
 	//	if (evnt.type == sf::Event::MouseButtonReleased) {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+	if (!m_paused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
 		//m_testProjectile->shot(m_testProjectile->getPos(), m_window.mapPixelToCoords(sf::Mouse::getPosition()));
 		//std::cout << "shot\n";

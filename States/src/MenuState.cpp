@@ -44,6 +44,10 @@ void MenuState::update(){
 		case sf::Event::Closed:
 				m_manager.quit();
 				break;
+		case sf::Event::KeyReleased:
+			if (event.key.code == sf::Keyboard::Escape && m_manager.isLast())
+				m_manager.lastState();
+			break;
 		case::sf::Event::MouseButtonReleased:
 			location = m_window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, 
 															  event.mouseButton.y));
