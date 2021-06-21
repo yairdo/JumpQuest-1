@@ -19,6 +19,8 @@ s CheckPoint 2400 115 30 80
 s CheckPoint 4850 515 30 80
 s CheckPoint 5950 965 30 80
 
+d FloorObstacle 75 225 50 50 5 5
+
 s Block 50 300 100 100
 s Block 50 600 100 100
 s Block 600 500 200 100

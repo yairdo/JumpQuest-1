@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "StateManager.h"
 #include <cstring>
+#include <MultiplayerMenuState.h>
 #include "ServerGameState.h"
 #include "ClientGameState.h"
 #include "ChooseBoardState.h"
@@ -49,6 +50,11 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 
 void LobbyState::update(){
 	if (!m_connected) {
+		if (m_isServer) {
+			m_next = StateManager::build<MultiplayerMenuState>
+				(m_manager, m_window, true, nullptr);
+			return;
+		}
 		if (!m_networkObj->launch())
 			m_networkObj->handleRequests(10);
 		else
