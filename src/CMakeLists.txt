@@ -14,7 +14,7 @@
                                      "GameObj.cpp"
                                      "MovingBlock.cpp"
                                      "NetworkObject.cpp"
-                                     "MessagesStructs.cpp"
+                                     "Utilities.cpp"
                                      "Board.cpp"
                                      "Rope.cpp"
                                      "FallingBlock.cpp"
