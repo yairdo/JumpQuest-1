@@ -9,6 +9,7 @@ struct ArgsHash {
 		return h1 ^ h2;
 	}
 };
+
 template < class T>
 struct KeyEqual
 {
