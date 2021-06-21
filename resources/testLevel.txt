@@ -2,16 +2,16 @@ d MovingBlock 230 100 230 500 100 20
 d MovingBlock 850 300 850 600 10 300
 d MovingBlock 1575 200 1575 550 100 100
 
-d FallingBlock 470 25 50 100
-d FallingBlock 1025 25 50 100
-d FallingBlock 1175 25 50 100
-d FallingBlock 1325 25 50 100
-d FallingBlock 1475 25 50 100
-d FallingBlock 3850 25 50 100
-d FallingBlock 4050 25 50 100
-d FallingBlock 4250 25 50 100
-d FallingBlock 4450 25 50 100
-d FallingBlock 4650 25 50 100
+d FallingBlock 470 25 50 100 2 0
+d FallingBlock 1025 25 50 100 3 0
+d FallingBlock 1175 25 50 100 2.5 0
+d FallingBlock 1325 25 50 100 2 0
+d FallingBlock 1475 25 50 100 1 0
+d FallingBlock 3850 25 50 100 2 0
+d FallingBlock 4050 25 50 100 2.5 0
+d FallingBlock 4250 25 50 100 2 0
+d FallingBlock 4450 25 50 100 1.5 0
+d FallingBlock 4650 25 50 100 3 0
 
 s CheckPoint 800 615 30 80
 s CheckPoint 1700 115 30 80
