@@ -96,21 +96,21 @@ void Player::updatePhysics(float dt)
         moved = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        m_direction = right;
-        animPos = walking;
         if (m_onRope)
             return;
-        else if(m_timer <= 0)
+        else if (m_timer <= 0)
             m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
+        m_direction = right;
+        animPos = walking;
         moved = true;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        m_direction = left;
-        animPos = walking;
         if (m_onRope)
             return;
         else if (m_timer <= 0)
             m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
+        m_direction = left;
+        animPos = walking;
         moved = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
