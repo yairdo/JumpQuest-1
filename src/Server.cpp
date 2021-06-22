@@ -185,10 +185,9 @@ bool Server::renameMember() {
 		if (getMember(i))
 			if (getMember(i)->m_memberIp == getSenderIP()
 				&& getMember(i)->m_memberPort == getSenderPort()) {
-				updateAboutNewMember(AddMember(i,
-					receiveValue<GameMember>().m_name));
-				sendMessage<int>(memberId, getMember(i)->m_info.m_id,
-					getSenderIP(), getSenderPort());
+				updateAboutNewMember(AddMember(i, receiveValue<GameMember>().m_name));
+				sendMessage<int>(memberId, getMember(i)->m_info.m_id, getSenderIP(),
+					getSenderPort());
 				return true;
 			}
 	return false;
