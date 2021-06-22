@@ -25,9 +25,9 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	sf::Vector2f viewSize(m_window.getSize().x / 2, m_window.getSize().y);
 	m_view = sf::View(sf::Vector2f(viewSize.x / 2.f, viewSize.y / 2.f), viewSize);
 	m_view.setViewport({ 0.f,0.f,1,1 });
-
 	addBorders2World();
 	m_testPlayer = m_board->getPlayerRef();
+	if (net) m_testPlayer->setName(net->getInfo().m_name);
 	m_clock.restart();
 
 }

@@ -4,13 +4,16 @@
 #include "Resources.h"
 #include <iostream>
 GameObj::GameObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
-	int textureNum=blank,int mapEnum=castle) : m_isRemoved(false), m_col(0),m_row(0)
+	float recWidth, float recHeight,int textureNum,int mapEnum) : m_isRemoved(false), m_col(0),m_row(0),
+	m_sprite(Resources::getResourceRef().getTexture(mapEnum, textureNum))
 {
-	m_sprite.setTexture(Resources::getResourceRef().getTexture(mapEnum,textureNum));
+	//if (textureNum!=rope)
+	setSprite(recWidth, recHeight, size, pos);
+	//m_sprite.setTexture(Resources::getResourceRef().getTexture(mapEnum,textureNum));
 	//std::cout << mapEnum<<"\n";
 	/*m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
 	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
-	m_sprite.setPosition(pos);
+	//m_sprite.setPosition(pos);
 
     b2BodyDef bodyDef;
     bodyDef.type = (b2BodyType)bodyType;
@@ -24,6 +27,16 @@ void GameObj::setRemoveObj(bool removed){
 
 bool GameObj::getIsRemoved() const{
 	return m_isRemoved;
+}
+
+void GameObj::setSprite(float recWidth, float recHeight, const sf::Vector2f& size, const sf::Vector2f& pos)
+{
+	if (recWidth!=0 && recHeight!=0)
+		m_sprite.setTextureRect(sf::IntRect(0, 0, recWidth, recHeight));
+	m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
+	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+	m_sprite.setPosition(pos);
+	
 }
 
 void GameObj::destroyBody(){

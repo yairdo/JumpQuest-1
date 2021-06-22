@@ -6,15 +6,17 @@
 
 bool CheckPoint::m_registerit = Factory<StaticObj>::registerit("CheckPoint",
     [](b2World& world,int map, std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
-    { return std::make_unique<CheckPoint>(world, vec[0], vec[1], b2_staticBody, map); });
+    { return std::make_unique<CheckPoint>(world, vec[0], vec[1],vec[2], b2_staticBody, map); });
 
 CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
-    int bodyType,int mapEnum) :
-    StaticObj(world, pos, size, bodyType, checkPoint), m_activate(false) {
+    const sf::Vector2f& winner, int bodyType,int mapEnum) :
+    StaticObj(world, pos, size,bodyType, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT,checkPoint),
+    m_activate(false), m_win(winner.x)
+{
 
-    m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
+    /*m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 
     /*b2PolygonShape groundBox;
     groundBox.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
@@ -47,11 +49,12 @@ void CheckPoint::activate(){
     m_activate = true;
 }
 
-bool CheckPoint::getActive() const
-{
+bool CheckPoint::getActive() const{
     return m_activate;
 }
-
+bool CheckPoint::getWin() const{
+    return m_win;
+}
 void CheckPoint::updateAnim(float deltaTime) {
 
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,

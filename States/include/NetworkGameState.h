@@ -22,12 +22,18 @@ private:
 
 struct ClonePlayer {
 	ClonePlayer() = default;
-	ClonePlayer(int id) :m_sprite(Resources::getResourceRef().getTexture(castle,player0+id)) {
+	ClonePlayer(int id,std::string name) :m_sprite(Resources::getResourceRef().getTexture(castle,player0+id))
+	{
 		m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
-		m_sprite.setScale(50 / m_sprite.getGlobalBounds().width, 50 / m_sprite.getGlobalBounds().height);
+		m_sprite.setScale(PLAYER_SIZE.x / m_sprite.getGlobalBounds().width, PLAYER_SIZE.y / m_sprite.getGlobalBounds().height);
 		m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-		m_sprite.setPosition(50, 50);
+		//maybe setpos
+		m_name.setFont(Resources::getResourceRef().getFont(lobbyFont));
+		m_name.setString(name);
+		m_name.setOrigin(m_name.getGlobalBounds().width / 2, m_name.getGlobalBounds().height / 2);
+		
 	}
+	sf::Text m_name;
 	float m_totalTime;
 	sf::Sprite m_sprite;
 	int m_row;

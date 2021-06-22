@@ -9,13 +9,13 @@ bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle
 
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
-    MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum),  
+    MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum), 
     m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size)
 {
 
-    m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
+    /*m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 
    // m_sprite.setColor(sf::Color::Magenta);
     /*b2PolygonShape kinematic;
@@ -28,8 +28,8 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
     fixtureDef.filter.categoryBits = fallingBlockBits;
 
     m_body->CreateFixture(&fixtureDef);*/
-    b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
-    createFixtureDef(shape, 1.0f, 0.3, floorObsBit);
+    b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 4, (size.y / SCALE) / 2 })));
+    createFixtureDef(shape, 1.0f, 0.3, floorObsBit, true, playerBits);
     m_body->SetFixedRotation(true);
     m_body->SetUserData(this);
 }
@@ -41,28 +41,35 @@ void FloorObstacle::updatePhysics(float dt)
     static float timer = m_startingTime;
     static float ind = 0;
     static float scaler = m_size.y / 2;
+    float absScaler, scalerSign;
     timer -= dt;
-    if (timer <= 0 && !m_active) {//
+    if (timer <= 0 && !m_active) {//waiting to go up
         m_active = true;
         timer = 0;
     }
     else if (timer <= 0 && m_active && ind < FLOOR_OBS_LEN)//going up or down
     {
         m_body->DestroyFixture(m_body->GetFixtureList());
-        b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 2, (m_size.y+abs(scaler) / SCALE) / 2 })));
-        createFixtureDef(shape, 1.0f, 0.3, floorObsBit);
-        scaler += m_size.y/2;
+        auto test = m_body->GetFixtureList();
+        absScaler = (scaler != 0) ? abs(scaler) : 0;
+        b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 4, ((m_size.y+absScaler) / SCALE) / 2 })));
+        createFixtureDef(shape, 1.0f, 0.3, floorObsBit,true, playerBits);
+        scalerSign = (scaler != 0) ? scaler / absScaler : -1;
+        m_body->SetTransform({ m_body->GetPosition().x, 
+                               m_body->GetPosition().y - (((m_size.y / 4)*scalerSign)/SCALE)}, 0);
         ind++;
-        if (ind == FLOOR_OBS_LEN && scaler>0) {
+        if (ind == FLOOR_OBS_LEN && scaler > 0) {
             ind = 0;
             scaler *= -1;
         }
+        scaler += m_size.y/2;
         timer = m_timer;
     }
     else if(ind == FLOOR_OBS_LEN){
         m_active = false;
         timer = m_startingTime;
         ind = 0;
+        scaler = m_size.y / 2;
     }
 }
 
@@ -116,4 +123,8 @@ void FloorObstacle::updateAnim(float deltaTime) {
     if(m_activeAnim)
         m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
             deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));*/
+}
+
+bool FloorObstacle::getActive() const {
+    return m_active;
 }
