@@ -51,7 +51,7 @@ private:
 	//test
 	bool m_canCatch = false;
 	Board* m_board;
-	std::vector <std::unique_ptr<Projectile>> m_projectile;
+	//std::vector <std::unique_ptr<Projectile>> m_projectile;
 	bool m_gotGift;
 	int m_lives;
 	int m_numFootContact;

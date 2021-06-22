@@ -4,7 +4,7 @@ class ContactListner : public b2ContactListener
 {
 public:
     void BeginContact(b2Contact* contact);
-    void PreSolve(b2Contact* contact, const b2Manifold*) override;
+    //void PreSolve(b2Contact* contact, const b2Manifold*) override;
     void EndContact(b2Contact* contact);
 
 private:
@@ -15,5 +15,5 @@ private:
     bool movingBlockSolve(b2Contact* contact,float,bool);
     bool checkNoHandle(b2Contact*) const;
     bool m_preSolved = false;
-
+    int m_footContacts = 0;
 };
