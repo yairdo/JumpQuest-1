@@ -1,5 +1,7 @@
 #include "Controller.h"
 #include "MainMenuState.h"
+static sf::RenderWindow window(sf::VideoMode(), "Jump Quest",
+	sf::Style::Close | sf::Style::Titlebar | sf::Style::Fullscreen);
 
 Controller::Controller() : m_window(sf::RenderWindow
 (sf::VideoMode(), "Jump Quest",

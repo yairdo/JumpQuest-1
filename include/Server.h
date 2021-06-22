@@ -17,6 +17,7 @@ public:
     virtual void sendStaticCollision(int)override;
     virtual void addProjectile(const AddProjectileMessage&)override;
     void startGame(MapType);
+    virtual void notifyWinning(unsigned short) override;
 
     //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);
