@@ -1,6 +1,6 @@
 d MovingBlock 1230 100 1230 500 100 20
 
-d FallingBlock 175 20 40 40
+d FallingBlock 175 20 40 40 2 0
 
 s CheckPoint 420 450 30 100 0 0
 
