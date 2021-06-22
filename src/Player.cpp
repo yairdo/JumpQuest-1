@@ -5,14 +5,15 @@
 #include <NetworkObject.h>
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     int bodyType,int id,Board& board):
-    MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
-    , m_gotGift(false), m_projectileForce({ 0,0 }), m_board(&board), m_moving(false)
+    MovingObj(world, pos, size, b2_dynamicBody, PLAYER_WIDTH, PLAYER_HEIGHT,player0+id, castle),
+    m_numFootContact(0), m_checkPoint(pos), m_gotGift(false),
+    m_projectileForce({ 0,0 }), m_board(&board)
 {
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
-    m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
+    /*m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
     m_body->SetFixedRotation(true);
     //b2PolygonShape dynamicBox;
     //dynamicBox.SetAsBox(size.x/(4.f*SCALE), size.y / (2.f * SCALE));

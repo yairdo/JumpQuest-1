@@ -10,11 +10,11 @@ bool Block::m_registerit = Factory<StaticObj>::registerit("Block",
 
 Block::Block(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     int bodyType, int mapEnum): 
-    StaticObj(world, pos, size, bodyType,block,mapEnum)
+    StaticObj(world, pos, size, bodyType,0,0,block,mapEnum)
 {
 
-    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    /*m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
     //m_sprite.setColor(sf::Color::White);
 
     /*b2PolygonShape groundBox;

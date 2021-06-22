@@ -20,8 +20,8 @@ void Board::generateMap(b2World& world) {
 	//changed for map building
 	m_movingObj.emplace_back(new Player(world,{25.f , 25.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
-	file.open("testLevel.txt");
-	//file.open("Level2.txt");
+	//file.open("testLevel.txt");
+	file.open("Level2.txt");
 	if (!file.is_open()) {
 		std::cout << "cant open file, for debugging\n";
 	}

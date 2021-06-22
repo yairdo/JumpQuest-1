@@ -10,10 +10,11 @@ bool MovingBlock::m_registerit = Factory<MovingObj>::registerit("MovingBlock",
 
 MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& endPos,
     const sf::Vector2f& size, int bodyType,int mapEnum) :
-    m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE), MovingObj(world, startPos, size, bodyType,block, mapEnum)
+    m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE),
+    MovingObj(world, startPos, size, bodyType,0, 0, block, mapEnum)
 {
-    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    //m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
+   // m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
 
     //m_sprite.setColor(sf::Color::Red);
     //b2PolygonShape kinematic;
