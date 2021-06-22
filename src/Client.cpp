@@ -4,7 +4,6 @@
 
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
 m_isLinked(false){
-	m_packet.clear();
 }
 //============================================================================
 Client::~Client() {
@@ -47,6 +46,9 @@ bool Client::handleRequests(int max) {
 				setLvlInfo(receiveValue<MapType>());
 				setStarted(true);
 				break;
+			case notifyWin:
+				setWinner(receiveValue<unsigned short>());
+				break;
 			default:
 				break;
 			}
@@ -61,10 +63,8 @@ bool Client::handleRequests(int max) {
 * to receive the servers answer run handleRequests method.
 */
 void Client::searchForServers() {
-	m_packet.clear();
 	sendMessage(networkMessage, whoIsFreeServer, 
 		sf::IpAddress::Broadcast, SERVERS_PORT);
-	m_packet.clear();
 }
 /*============================================================================
 * The method notify the host Server that the client is disconnecting.
@@ -140,4 +140,8 @@ void Client::handleNetworkMessage(){
 */
 void Client::addProjectile(const AddProjectileMessage& projectile){
 	sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, m_serverIP, SERVERS_PORT);
+}
+/*============================================================================*/
+void Client::notifyWinning(unsigned short winner){
+	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT);
 }

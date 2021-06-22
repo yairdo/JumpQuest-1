@@ -102,7 +102,6 @@ void Server::registerPlayer() {
 						AddMember(getMember(j)->m_info.m_id, getMember(j)->m_name),
 						getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 				}
-			m_packet.clear();
 			break;
 		}
 	}
@@ -186,10 +185,9 @@ bool Server::renameMember() {
 		if (getMember(i))
 			if (getMember(i)->m_memberIp == getSenderIP()
 				&& getMember(i)->m_memberPort == getSenderPort()) {
-				updateAboutNewMember(AddMember(i,
-					receiveValue<GameMember>().m_name));
-				sendMessage<int>(memberId, getMember(i)->m_info.m_id,
-					getSenderIP(), getSenderPort());
+				updateAboutNewMember(AddMember(i, receiveValue<GameMember>().m_name));
+				sendMessage<int>(memberId, getMember(i)->m_info.m_id, getSenderIP(),
+					getSenderPort());
 				return true;
 			}
 	return false;
@@ -213,6 +211,13 @@ void Server::startGame(MapType lvl) {
 		if (getMember(i))
 			sendMessage<MapType>(MessageType::startGame, lvl, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort);
+}
+/*============================================================================*/
+void Server::notifyWinning(unsigned short winner){
+	setWinner(winner);
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i))
+			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*============================================================================
 * 
