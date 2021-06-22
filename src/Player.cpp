@@ -7,7 +7,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     int bodyType,int id,Board& board):
     MovingObj(world, pos, size, b2_dynamicBody, PLAYER_WIDTH, PLAYER_HEIGHT,player0+id, castle),
     m_numFootContact(0), m_checkPoint(pos), m_gotGift(false),
-    m_projectileForce({ 0,0 }), m_board(&board)
+    m_projectileForce({ 0,0 }), m_board(&board), m_moving(false)
 {
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
