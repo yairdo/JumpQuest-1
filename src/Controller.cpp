@@ -1,8 +1,9 @@
 #include "Controller.h"
 #include "MainMenuState.h"
 
+
 Controller::Controller() : m_window(sf::RenderWindow
-(sf::VideoMode(), "Jump Quest",
+(sf::VideoMode(sf::VideoMode::getDesktopMode()), "Jump Quest",
 	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen))
 {
 	m_window.setFramerateLimit(FRAME_RATE);
