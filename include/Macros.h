@@ -16,6 +16,7 @@ constexpr auto FOOT = 3;
 constexpr auto MUSIC_VOLUME = 0; //was 2
 constexpr auto EFFECTS_VOLUME = 0; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
+constexpr auto STUN_TIME = 1;
 
 const float MAP_SIZE = 6000;
 const float PLAYER_PROJECTILE_DIS = 500;
@@ -163,7 +164,8 @@ enum animPos {
 	walking,
 	jumping,
 	climb,
-	idle
+	idle,
+	stun
 };
 
 enum Sounds {

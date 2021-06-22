@@ -5,7 +5,6 @@
 
 class b2Body;
 class b2World;
-//class sf::RenderWindow;
 
 class Projectile : public MovingObj {
 public:

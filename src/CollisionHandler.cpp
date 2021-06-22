@@ -26,12 +26,12 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(MovingBlock))] = &CollisionHandler::playerMovingBlock;
 	m_collisionMap[Key(typeid(CheckPoint), typeid(Player))] = &CollisionHandler::checkPointPlayer;
 	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
-	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
-	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
 	m_collisionMap[Key(typeid(FallingBlock), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
 	m_collisionMap[Key(typeid(Block), typeid(FallingBlock))] = &CollisionHandler::blockFallingBlock;
 	m_collisionMap[Key(typeid(Player), typeid(FloorObstacle))] = &CollisionHandler::playerFloorObstacle;
 	m_collisionMap[Key(typeid(FloorObstacle), typeid(Player))] = &CollisionHandler::floorObstaclePlayer;
+	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
+	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {

@@ -51,7 +51,7 @@ private:
 	//test
 	bool m_canCatch = false;
 	Board* m_board;
-	std::vector <std::unique_ptr<Projectile>> m_projectile;
+	//std::vector <std::unique_ptr<Projectile>> m_projectile;
 	bool m_gotGift;
 	int m_lives;
 	int m_numFootContact;
@@ -59,5 +59,7 @@ private:
 	b2Vec2 m_projectileForce;
 	bool m_win;
 	bool m_moving;
+	bool m_stuned;
+	float m_stunTime;
 	//Animation m_anim;
 };
