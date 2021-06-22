@@ -41,13 +41,21 @@ void Projectile::shot(const sf::Vector2f& toPos){
     m_vel.Normalize();
 
 
-    float angle = -1/tan((m_vel.y / m_vel.x)* M_PI/180);
-   // float angle = acos(m_vel.x* M_PI/180);
+   // float angle = -1/tan((m_vel.y / m_vel.x)* M_PI/180);
+    float angle = -acos(m_vel.x)*180/M_PI;
+    if (toPos.y > m_sprite.getPosition().y) {
+        if (toPos.x < m_sprite.getPosition().x)
+            angle -= 90;
+        else
+            angle += 90;
+    }
+   // angle= -angle * 180 / M_PI;
     //std::cout << "angle :"<< angle<<"\n";
     //m_body->SetAngularVelocity(tan((m_vel.y/m_vel.x)));
     m_body->SetTransform(m_body->GetPosition(), angle);
   //  m_body->SetAngularDamping(angle);
    // m_sprite.rotate(angle);
+    
 }
 
 void Projectile::updatePhysics(float dt) {
@@ -110,7 +118,6 @@ b2Vec2 Projectile::getForce(sf::Vector2f playerPos) const
 void Projectile::setFace(int face){
     m_faceTo = face;
 }
-
 
 void Projectile::setShot(bool s) {
     m_shot = s;

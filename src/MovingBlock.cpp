@@ -30,7 +30,7 @@ MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf:
     b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 2, ((size.y-2) / SCALE) / 2 })));
     createFixtureDef(shape, 1.f, 0.f, noHandleBit);
     //top fixture
-    shape.SetAsBox((size.x-1) / (SCALE*2), 1 / SCALE*2, b2Vec2(0, -(size.y-0.5)/ (2.f * SCALE)),0);
+    shape.SetAsBox((size.x) / (SCALE*2), 0.5 / SCALE*2, b2Vec2(0, -(size.y-0.5)/ (2.f * SCALE)),0);
     createFixtureDef(shape, 1.f, 1.f, movingBlockBits);
 
     m_body->SetUserData(this);
