@@ -15,9 +15,10 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
 {
     if (winner.x) {
         sf::Sprite temp(Resources::getResourceRef().getTexture(mapEnum, finishLine));
+        temp.setTextureRect(sf::IntRect(0,0,600,300));
         temp.setScale(size.x*3 / temp.getGlobalBounds().width, size.y*2 / temp.getGlobalBounds().height);
         temp.setOrigin(temp.getTextureRect().width / 2.f, temp.getTextureRect().height/1.5f);
-        temp.setPosition(pos);
+        temp.setPosition(pos.x-size.x/2,pos.y);
         m_sprite = temp;
     }
     
