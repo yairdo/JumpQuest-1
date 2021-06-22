@@ -12,7 +12,8 @@
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net, int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
-	m_world(b2Vec2(0, 9.8)), m_deltaTime(1) {
+	m_world(b2Vec2(0, 9.8)), m_deltaTime(1), m_isWin(false),m_winTimer(0.f)
+{
 
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(map, gameBackground));
@@ -31,7 +32,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_testPlayer = m_board->getPlayerRef();
 	if (net) m_testPlayer->setName(net->getInfo().m_name);
 	m_clock.restart();
-
+	setWinText();
 }
 
 void GameState::pause()
@@ -82,20 +83,17 @@ void GameState::update()
 
 
 	updateGame();
-	if (m_testPlayer->getWin()) {
-		win();//show win title for 2 seconds and back to main menu
-		return;
-	}
-
 }
 
 
 void GameState::draw()
 {
-	
 	m_window.draw(m_backGround);
 	m_board->draw(m_window);
-	
+	if (m_isWin) {
+		m_winnerText->setPosition(m_window.getView().getCenter());
+		m_window.draw(*m_winnerText.get());
+	}
 	//m_testProjectile->draw(m_window);
 }
 //-----------------------------------------------------------------------------
@@ -171,6 +169,13 @@ void GameState::updateGame() {
 	if (!m_paused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
 	}
+	if (!m_isWin)
+		updateWin();
+	else {
+		m_winTimer += m_deltaTime;
+		if (m_winTimer >= 5.f)
+			m_next = std::make_unique<MainMenuState>(m_manager, m_window, true);
+	}
 }
 
 void GameState::updateBoard(){
@@ -182,20 +187,29 @@ b2World& GameState::getWorldRef(){
 	return m_world;
 }
 
-void GameState::win() {
-	sf::Text text;
-	text.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	text.setString("YOU WIN");
-	text.setCharacterSize(100);
-	text.setLetterSpacing(2.f);
-	text.setFillColor(sf::Color::White);
-	text.setOutlineColor(sf::Color::Black);
-	text.setOutlineThickness(5.f);
-	text.setOrigin(text.getGlobalBounds().width / 2.f, text.getGlobalBounds().height / 2.f);
-	text.setPosition(m_window.getView().getCenter());
-	m_window.draw(text);
+void GameState::setWinText() {
+	//sf::Text text;
+	m_winnerText = std::make_unique<sf::Text>();
+	m_winnerText->setFont(Resources::getResourceRef().getFont(lobbyFont));
+	//text.setString("YOU WIN");
+	m_winnerText->setCharacterSize(50);
+	m_winnerText->setLetterSpacing(2.f);
+	m_winnerText->setFillColor(sf::Color::White);
+	m_winnerText->setOutlineColor(sf::Color::Black);
+	m_winnerText->setOutlineThickness(5.f);
+	/*m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);*/
+	//m_winnerText->setPosition(m_window.getView().getCenter());
+	/*m_window.draw(text);
 	m_window.display();
 	using namespace std::chrono_literals;
 	std::this_thread::sleep_for(5s);
-	m_next= std::make_unique<MainMenuState>(m_manager, m_window, true);
+	m_next= std::make_unique<MainMenuState>(m_manager, m_window, true);*/
+}
+
+void GameState::updateWin() {
+	if (!m_isWin && m_testPlayer->getWin()) {
+		m_winnerText->setString("You Win!");
+		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
+		m_isWin = true;
+	}
 }
