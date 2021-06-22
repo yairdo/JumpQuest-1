@@ -27,7 +27,6 @@ private:
 	sf::Sprite m_backGround;
 
 	ContactListner m_contactListner;
-	Projectile* m_testProjectile;
 	//view stuff
 	sf::View m_view;
 	void viewMover();

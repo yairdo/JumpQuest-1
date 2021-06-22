@@ -12,7 +12,7 @@ void ContactListner::BeginContact(b2Contact* contact)
         return;
     if (checkNoHandle(contact))
         return;
-    if (movingBlockSolve(contact, 0, false))
+    if (movingBlockSolve(contact, 0.7, true))
         return;
     if (checkIfHitBoundry(contact))
         return;
@@ -45,6 +45,8 @@ bool ContactListner::checkFootContact(int fixtureUserData, int val, b2Body* body
     if (fixtureUserData == FOOT) {
         auto player = static_cast<Player*>(body->GetUserData());
         player->footContact(val);
+        m_footContacts += val;
+        std::cout << "Foot contacts: " << m_footContacts << "\n";
         return true;
     }
     return false;
@@ -74,19 +76,20 @@ void ContactListner::handleCollision(b2Body* body1, b2Body* body2){
 
 
 
-void ContactListner::PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
-    if(!m_preSolved)
-        if (movingBlockSolve(contact, 0.3f, true)) {
-            m_preSolved = true;
-            contact->SetFriction(0.7);
-        }
-}
+//void ContactListner::PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
+//    if(!m_preSolved)
+//        if (movingBlockSolve(contact, 0.3f, true)) {
+//            m_preSolved = true;
+//            contact->SetFriction(0.7);
+//        }
+//}
 bool ContactListner::movingBlockSolve(b2Contact* contact, float friction, bool enter)
 {
     if (contact->GetFixtureA()->GetFilterData().categoryBits == movingBlockBits ||
         contact->GetFixtureB()->GetFilterData().categoryBits == movingBlockBits) {
-        if (!enter)
-            return true;
+        /*if (!enter)
+            return true;*/
+        contact->SetFriction(friction);
         handleCollision(contact->GetFixtureA()->GetBody(), contact->GetFixtureB()->GetBody());
     }
     else
