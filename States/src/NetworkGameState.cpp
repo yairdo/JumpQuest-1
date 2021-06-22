@@ -91,7 +91,7 @@ void NetworkGameState::updateWin() {
 			str = "You";
 		else
 			str = (m_networkObj->getMember(m_networkObj->getWinner()))->m_name;
-		str += " Win!";
+		str += " Won!";
 		m_winnerText->setString(str);
 		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
 		m_isWin = true;
