@@ -4,10 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include <NetworkObject.h>
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
-    int bodyType,int id,Board& board):
-    MovingObj(world, pos, size, b2_dynamicBody, PLAYER_WIDTH, PLAYER_HEIGHT,player0+id, castle),
+    int bodyType, int id, Board& board) :
+    MovingObj(world, pos, size, b2_dynamicBody, PLAYER_WIDTH, PLAYER_HEIGHT, player0 + id, castle),
     m_numFootContact(0), m_checkPoint(pos), m_gotGift(false),
-    m_projectileForce({ 0,0 }), m_board(&board), m_moving(false)
+    m_projectileForce({ 0,0 }), m_board(&board), m_win(false), m_moving(false)
 {
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
@@ -17,7 +17,6 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     m_body->SetFixedRotation(true);
     //b2PolygonShape dynamicBox;
     //dynamicBox.SetAsBox(size.x/(4.f*SCALE), size.y / (2.f * SCALE));
-    
     //set player shape
     
     /*b2FixtureDef fixtureDef;
@@ -251,7 +250,7 @@ void Player::center(const sf::Vector2f& ropePos) {
     m_offSet = ropePos;
 }
 
-void Player::setName(std::string name) {
+void Player::setName(const std::string& name) {
     m_name.setFont(Resources::getResourceRef().getFont(lobbyFont));
     m_name.setString(name);
     m_name.setOrigin(m_name.getGlobalBounds().width / 2, m_name.getGlobalBounds().height / 2);
@@ -269,7 +268,7 @@ void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
                 { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
     }
 }
-void Player::setExternalForce(b2Vec2 force)
+void Player::setExternalForce(const b2Vec2& force)
 {
     m_projectileForce = force;
 }
@@ -280,5 +279,6 @@ void Player::setMoving(bool vel)
 }
 
 void Player::winGame() {
-    std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
+    //std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
+    m_win = true;
 }

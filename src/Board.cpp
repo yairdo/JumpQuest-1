@@ -18,7 +18,7 @@ void Board::generateMap(b2World& world) {
 	/*m_movingObj.resize(10);
 	m_staticObj.resize(10);*/
 	//changed for map building
-	m_movingObj.emplace_back(new Player(world,{4000.f , 25.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
+	m_movingObj.emplace_back(new Player(world,{ 5600.f, 15.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
 	//file.open("testLevel.txt");
 	file.open("Level2.txt");
