@@ -197,6 +197,8 @@ constexpr int GIFT_WIDTH = 100;
 constexpr int GIFT_HEIGHT = 55;
 constexpr int GIFT_LEN = 3;
 
+constexpr int FLOOR_OBS_WIDTH = 100;
+constexpr int FLOOR_OBS_HEIGHT = 200;
 constexpr int FLOOR_OBS_LEN = 6;
 
 constexpr int WALKING = 3;

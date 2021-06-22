@@ -31,7 +31,7 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 		if (col >= rowCount) {
 			col = 0;
 		}
-	} // for yair - player 1-5 , string shit, based on id
+	}
 	m_animRect.top = row * m_height;
 	if (faceLeft) {
 		m_animRect.left = col * m_animRect.width;
@@ -71,6 +71,8 @@ int Animation::findLineLen(int type, int row) {
 		return ARROW_LEN;
 	case gift:
 		return GIFT_LEN;
+	case floorObs:
+		return FLOOR_OBS_LEN;
 	default:
 		break;
 	}
@@ -103,5 +105,8 @@ void Animation::setWidthHeight(int type) {
 		m_width = GIFT_WIDTH;
 		m_height = GIFT_HEIGHT;
 		break;
+	case floorObs:
+		m_width = FLOOR_OBS_WIDTH;
+		m_height = FLOOR_OBS_HEIGHT;
 	}
 }

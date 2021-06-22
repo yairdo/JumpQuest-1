@@ -102,10 +102,8 @@ void GameState::viewMover() {
 	else if ((playerPos.x + m_window.getSize().x / 4) > MAP_SIZE){
 	m_view.setCenter(MAP_SIZE- m_window.getSize().x / 4, m_view.getCenter().y);
 	}
-	//if (playerPos.x - m_window.getSize().x / 4 > 0 && (playerPos.x + m_window.getSize().x / 4) < MAP_SIZE)
 	else
 		m_view.setCenter(playerPos.x, m_view.getCenter().y);
-	//need to add boundries
 }
 //-----------------------------------------------------------------------------
 /*
@@ -162,15 +160,8 @@ void GameState::updateGame() {
 
 
 	//-----------------------------------------------------
-	static float projTimer = 3;
-	projTimer -= m_deltaTime;
-	//for (auto evnt = sf::Event{}; m_window.pollEvent(evnt);) {
-	//	if (evnt.type == sf::Event::MouseButtonReleased) {
 	if (!m_paused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
-		//m_testProjectile->shot(m_testProjectile->getPos(), m_window.mapPixelToCoords(sf::Mouse::getPosition()));
-		//std::cout << "shot\n";
-		//m_testProjectile->setShot(false);
 	}
 }
 
