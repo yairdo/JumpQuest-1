@@ -7,7 +7,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     int bodyType, int id, Board& board) :
     MovingObj(world, pos, size, b2_dynamicBody, PLAYER_WIDTH, PLAYER_HEIGHT, player0 + id, castle),
     m_numFootContact(0), m_checkPoint(pos), m_gotGift(false),
-    m_projectileForce({ 0,0 }), m_board(&board), m_win(false), m_moving(false)
+    m_projectileForce({ 0,0 }), m_board(&board), m_win(false), m_moving(false), m_stuned(false), m_stunTime(0)
 {
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
@@ -77,7 +77,8 @@ void Player::updatePhysics(float dt)
     static float m_timer = 0;
     bool moved = false;
     m_timer -= dt;
-
+    if (m_stuned && m_stunTime >= STUN_TIME)
+        m_stuned = false;
     if (getReset())
         reset();
     if (m_projectileForce != b2Vec2({ 0,0 })) {
@@ -91,48 +92,52 @@ void Player::updatePhysics(float dt)
     if (m_onRope && m_timer <= 0) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
     }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_timer <= 0) {
-        jump(dt);
-        animPos = jumping;
-        moved = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        if (m_onRope)
-            return;
-        else if (m_timer <= 0)
-            m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
-        m_direction = right;
-        animPos = walking;
-        moved = true;
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        if (m_onRope)
-            return;
-        else if (m_timer <= 0)
-            m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
-        m_direction = left;
-        animPos = walking;
-        moved = true;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        if (m_canCatch && !m_onRope && m_timer <= 0) {
-            m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
-            setOnRope(true);
+    if (!m_stuned) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_timer <= 0) {
+            jump(dt);
+            animPos = jumping;
+            moved = true;
         }
-        if (m_onRope && m_timer <= 0) {
-            m_body->SetLinearVelocity({ 0.f, -75.f * dt });
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            if (m_onRope)
+                return;
+            else if (m_timer <= 0)
+                m_body->SetLinearVelocity({ dt * 75.f, m_body->GetLinearVelocity().y });
+            m_direction = right;
+            animPos = walking;
+            moved = true;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            if (m_onRope)
+                return;
+            else if (m_timer <= 0)
+                m_body->SetLinearVelocity({ -75.f * dt, m_body->GetLinearVelocity().y });
+            m_direction = left;
+            animPos = walking;
+            moved = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            if (m_canCatch && !m_onRope && m_timer <= 0) {
+                m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
+                setOnRope(true);
+            }
+            if (m_onRope && m_timer <= 0)
+                m_body->SetLinearVelocity({ 0.f, -75.f * dt });
+            moved = true;
+        }
+        else if (m_onRope && m_timer <= 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
+            m_body->SetLinearVelocity({ 0.f, dt * 75.f });
             moved = true;
         }
     }
-    else if (m_onRope && m_timer <= 0 &&(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
-        m_body->SetLinearVelocity({ 0.f, dt * 75.f });
-        moved = true;
+    else {
+        m_stunTime += dt;
+        animPos = stun;
     }
     if (!moved && m_numFootContact && m_timer <= 0 && !m_moving)
         m_body->SetLinearVelocity({ 0, m_body->GetLinearVelocity().y });
 
-    if (m_direction == none) {
+    if (m_direction == none&& !m_stuned) {
         animPos = idle;
         m_direction = dir;
     }
@@ -223,6 +228,9 @@ void Player::reset() {
     m_sprite.setPosition(m_checkPoint);
     //m_sprite.setPosition(50,50);
     Resources::getResourceRef().playSound(teleportSound);
+    m_stuned = true;
+    m_stunTime = 0;
+    m_body->SetLinearVelocity({0,0});
     setReset(false);
 }
 
@@ -244,6 +252,11 @@ void Player::updateRow() {
         break;
     case climb:
         m_row = 3;
+        break;
+    case stun:
+        m_row = 6;
+        break;
+
     }
 }
 

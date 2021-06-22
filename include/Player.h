@@ -59,5 +59,7 @@ private:
 	b2Vec2 m_projectileForce;
 	bool m_win;
 	bool m_moving;
+	bool m_stuned;
+	float m_stunTime;
 	//Animation m_anim;
 };
