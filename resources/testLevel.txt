@@ -1,4 +1,4 @@
-d MovingBlock 230 100 230 500 100 20
+d MovingBlock 220 200 300 200 100 20
 d MovingBlock 850 300 850 600 10 300
 d MovingBlock 1575 200 1575 550 100 100
 

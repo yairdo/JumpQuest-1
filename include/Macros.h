@@ -112,7 +112,8 @@ enum EntityCategory {
 	footBits = 0x0100,
 	checkPointBits = 0x0200,
 	noneBit = 0x0400,
-	floorObsBit = 0x0800
+	floorObsBit = 0x0800,
+	noHandleBit = 0x1000
 };
 
 //============================================================================

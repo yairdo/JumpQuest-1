@@ -6,7 +6,7 @@
 Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     int bodyType,int id,Board& board):
     MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
-    , m_gotGift(false), m_projectileForce({ 0,0 }), m_board(&board)
+    , m_gotGift(false), m_projectileForce({ 0,0 }), m_board(&board), m_moving(false)
 {
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
@@ -26,9 +26,6 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     fixtureDef.filter.categoryBits = playerBits;*/
     //m_body->CreateFixture(&fixtureDef);
 
-    b2PolygonShape dynamicBox(std::move(createPolygonShape({ size.x / (4.f * SCALE), size.y / (2.f * SCALE) })));
-    createFixtureDef(dynamicBox, 1.0f, 0.f, playerBits);
-
     //--sides fixture
     /*dynamicBox.SetAsBox(size.x / (4.f * SCALE)+0.01f, size.y / (2.f * SCALE)-0.02f);
     createFixtureDef(dynamicBox, 1.0f, 0.f, noneBit,false,~ladderBits);*/
@@ -46,8 +43,10 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //fixtureDef.filter.categoryBits = playerSensorBits;
     //fixtureDef.filter.maskBits = ladderBits | checkPointBits;
     //m_body->CreateFixture(&fixtureDef);
+    b2PolygonShape dynamicBox(std::move(createPolygonShape({ (1 / SCALE) / 2, size.y / (2.f * SCALE) })));
+
     dynamicBox.SetAsBox((1 / SCALE) / 2, size.y / (2.f * SCALE));
-    createFixtureDef(dynamicBox, 1.0f, 0.f, playerSensorBits, true, ladderBits | checkPointBits);
+    createFixtureDef(dynamicBox, 1.0f, 0.3f, playerSensorBits, true, ladderBits | checkPointBits);
 
     m_body->SetUserData(this);
     // add foot sensor fixture
@@ -59,8 +58,12 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     dynamicBox.SetAsBox(size.x / (SCALE * 6), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
     
     
-    b2Fixture* footSensorFixture = createFixtureDef(dynamicBox, 1.0f, 0.f, footBits, true);
+    b2Fixture* footSensorFixture = createFixtureDef(dynamicBox, 1.0f, 0.3f, footBits, true);
     footSensorFixture->SetUserData((void*)FOOT);
+
+    dynamicBox.SetAsBox(size.x / (4.f * SCALE), size.y / (2.f * SCALE));
+    //b2PolygonShape dynamicBox(std::move(createPolygonShape({ size.x / (4.f * SCALE), size.y / (2.f * SCALE) })));
+    createFixtureDef(dynamicBox, 1.0f, 0.f, playerBits);
 }
 
 void Player::collectGift(){
@@ -125,8 +128,8 @@ void Player::updatePhysics(float dt)
         m_body->SetLinearVelocity({ 0.f, dt * 75.f });
         moved = true;
     }
-    if (!moved && m_numFootContact && m_timer <= 0)
-        m_body->SetLinearVelocity({ 0.f, m_body->GetLinearVelocity().y });
+    if (!moved && m_numFootContact && m_timer <= 0 && !m_moving)
+        m_body->SetLinearVelocity({ 0, m_body->GetLinearVelocity().y });
 
     if (m_direction == none) {
         animPos = idle;
@@ -268,6 +271,11 @@ void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
 void Player::setExternalForce(b2Vec2 force)
 {
     m_projectileForce = force;
+}
+
+void Player::setMoving(bool vel)
+{
+    m_moving = vel;
 }
 
 void Player::winGame() {
