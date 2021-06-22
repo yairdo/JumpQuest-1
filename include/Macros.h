@@ -86,6 +86,7 @@ enum TexturesNum {
 	fallingBlock,
 	floorObs,
 	rope,
+	finishLine,
 	nullpt
 };
 
@@ -146,7 +147,7 @@ enum MessageType {
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto MAX_SERVERS_NUM = 1;
-constexpr auto MAX_SERVER_PLAYERS = 5;
+constexpr auto MAX_SERVER_PLAYERS = 6;
 constexpr auto MAX_OBJ_IN_LEVEL = 200;
 
 //exeptions type

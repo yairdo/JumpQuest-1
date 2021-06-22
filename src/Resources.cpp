@@ -112,6 +112,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("trap chandelier.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, floorObs),
 		loadSfObj<sf::Texture>("floor spikes.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, finishLine),
+		loadSfObj<sf::Texture>("finish castle.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, arrow),
 		loadSfObj<sf::Texture>("fire ball.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, archer),
@@ -128,6 +130,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("lava stone.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, floorObs),
 		loadSfObj<sf::Texture>("lil vulkan.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, finishLine),
+		loadSfObj<sf::Texture>("finish hell.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, arrow),
 		loadSfObj<sf::Texture>("heart arrow.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, archer),
@@ -144,6 +148,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("star sprite.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, floorObs),
 		loadSfObj<sf::Texture>("icy spike.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, finishLine),
+		loadSfObj<sf::Texture>("finish sky.png")));
 
 }
 void Resources::setButtonStrLengh() {

@@ -18,9 +18,11 @@ m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m
 * if no ip or port received. the method will send the message to the last
 * person the server received message from.
 */
-void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port) {
-	
-	m_socket.send(m_packet, ip, port) != sf::Socket::Done;
+void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port, bool validation) {
+	bool sent = false;
+	do {
+		sent = m_socket.send(m_packet, ip, port) == sf::Socket::Done;
+	} while (sent != true && validation);
 }
 /*============================================================================
 * The method return if there is message wait in m_socket.
