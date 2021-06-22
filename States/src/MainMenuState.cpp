@@ -3,6 +3,8 @@
 #include "Macros.h"
 #include "MultiplayerMenuState.h"
 #include "ChooseBoardState.h"
+#include "HowToPlayState.h"
+
 MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 			bool replace,std::shared_ptr<NetworkObject> net ):
 	StandardMenuState(manager,window,replace,net,title,menuBackground)
@@ -15,13 +17,8 @@ MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 	auto pos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace * 2.5f);
 	makeBut<ChooseBoardState>(pos, singlePlayer, butHeight, pix4let, buttonSpace);
 	makeBut<MultiplayerMenuState>(pos, multiplayer, butHeight, pix4let, buttonSpace);
-	Resources::getResourceRef().playMusic(menu);
-	//addButton<howToPlayState>(help,pos,width,butHeight);
-	pos.y += float(buttonSpace + butHeight);
-
+	makeBut<HowToPlayState>(pos, help, butHeight, pix4let, buttonSpace);
 	float width= Resources::getResourceRef().getButLen(ext) * pix4let;
-	
 	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, pos, width, butHeight, true));
-
-
+	Resources::getResourceRef().playMusic(menu);
 };

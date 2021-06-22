@@ -11,4 +11,5 @@
                                      "ServerGameState.cpp"
                                      "NetworkGameState.cpp"
                                      "PauseState.cpp"
-                                     "ChooseBoardState.cpp")
+                                     "ChooseBoardState.cpp"
+                                     "HowToPlayState.cpp")

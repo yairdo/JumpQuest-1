@@ -12,7 +12,6 @@ MultiplayerMenuState::MultiplayerMenuState(StateManager& manager, sf::RenderWind
 	auto buttonSpace = m_window.getSize().y * 0.05;
 	auto startButPos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace*2.5);
 	auto butHeight = (window.getSize().y - getTitlePosY()- buttonSpace *3 - buttonSpace * 4 ) / 3;
-	float width;
 	float pix4let = m_window.getSize().x * 0.025;
 	auto pos = startButPos;
 	makeBut<LobbyState>(pos, host, butHeight, pix4let, buttonSpace);
