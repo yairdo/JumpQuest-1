@@ -6,6 +6,8 @@
 #include <iostream>
 #include <Projectile.h>
 #include "PauseState.h"
+#include <thread>
+
 
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net, int map) :
@@ -47,7 +49,7 @@ void GameState::resume()
 }
 
 void GameState::update()
-{
+{	
 	if (!m_paused) {
 		for (auto event = sf::Event{}; m_window.pollEvent(event);) {
 			switch (event.type)
@@ -80,14 +82,20 @@ void GameState::update()
 
 
 	updateGame();
+	if (m_testPlayer->getWin()) {
+		win();//show win title for 2 seconds and back to main menu
+		return;
+	}
 
 }
 
 
 void GameState::draw()
 {
+	
 	m_window.draw(m_backGround);
 	m_board->draw(m_window);
+	
 	//m_testProjectile->draw(m_window);
 }
 //-----------------------------------------------------------------------------
@@ -175,11 +183,28 @@ void GameState::updateGame() {
 }
 
 void GameState::updateBoard(){
-	//m_testPlayer->
 	m_board->updatePhysics(m_deltaTime);
 	m_board->move();
 }
 
 b2World& GameState::getWorldRef(){
 	return m_world;
+}
+
+void GameState::win() {
+	sf::Text text;
+	text.setFont(Resources::getResourceRef().getFont(lobbyFont));
+	text.setString("YOU WIN");
+	text.setCharacterSize(100);
+	text.setLetterSpacing(2.f);
+	text.setFillColor(sf::Color::White);
+	text.setOutlineColor(sf::Color::Black);
+	text.setOutlineThickness(5.f);
+	text.setOrigin(text.getGlobalBounds().width / 2.f, text.getGlobalBounds().height / 2.f);
+	text.setPosition(m_window.getView().getCenter());
+	m_window.draw(text);
+	m_window.display();
+	using namespace std::chrono_literals;
+	std::this_thread::sleep_for(5s);
+	m_next= std::make_unique<MainMenuState>(m_manager, m_window, true);
 }

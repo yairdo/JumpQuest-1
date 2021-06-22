@@ -24,7 +24,7 @@ public:
 	bool getOnRope() { return m_onRope; };
 	void useGift(const sf::Vector2f&, NetworkObject* network);
 	void setGotGift(bool state){ m_gotGift = state; }
-	void setExternalForce(b2Vec2);
+	void setExternalForce(const b2Vec2&);
 	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	//test
@@ -36,8 +36,9 @@ public:
 	void setCheckPoint(const sf::Vector2f&);
 	virtual void reset() override;
 	void center(const sf::Vector2f&);
-	void setName(std::string);
+	void setName(const std::string&);
 	void winGame();
+	bool getWin() const { return m_win; }
 private:
 	sf::Text m_name;
 	void updateRow();
@@ -54,5 +55,6 @@ private:
 	int m_numFootContact;
 	sf::Vector2f m_offSet;
 	b2Vec2 m_projectileForce;
+	bool m_win;
 	//Animation m_anim;
 };

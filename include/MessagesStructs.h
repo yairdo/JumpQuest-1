@@ -6,13 +6,18 @@
 //Each message struct has creator out of the struct to make the struct lighter.
 //============================================================================
 struct MemberInfo {
-    MemberInfo(unsigned short = 0, const sf::Vector2f & = { 50,50 }, int = 0, int = 0, int = 0, float = 0);
+    MemberInfo(unsigned short = 0, const sf::Vector2f & = { 50,50 }, int = 0, int = 0, int = 0, float = 0,
+            //here too!!
+               bool =false);
     unsigned short m_id;
     sf::Vector2f m_loc;
     int m_row;
     int m_col;
     int m_direction;
     float m_totalTime;
+
+    //here!!
+    bool m_win;
 };
 //============================================================================
 struct GameMember {
