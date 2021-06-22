@@ -84,12 +84,13 @@ void NetworkGameState::sendInfo() {
 void NetworkGameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin() && m_networkObj->getWinner() == MAX_SERVER_PLAYERS) {
 		m_networkObj->notifyWinning();
-		m_winnerText->setString("You Win");
-		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
-		m_isWin = true;
 	}
-	if (!m_isWin && m_networkObj->getWinner() != MAX_SERVER_PLAYERS) {
-		std::string str = (m_networkObj->getMember(m_networkObj->getWinner()))->m_name;
+	else if (!m_isWin && m_networkObj->getWinner() != MAX_SERVER_PLAYERS) {
+		std::string str;
+		if (m_networkObj->getWinner() == m_networkObj->getInfo().m_info.m_id)
+			str = "You";
+		else
+			str = (m_networkObj->getMember(m_networkObj->getWinner()))->m_name;
 		str += " Win!";
 		m_winnerText->setString(str);
 		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
