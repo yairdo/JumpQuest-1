@@ -40,7 +40,6 @@ void Projectile::shot(const sf::Vector2f& toPos){
     m_vel.y = (toPos.y- m_sprite.getPosition().y)/SCALE;
     m_vel.Normalize();
 
-
     float angle = -1/tan((m_vel.y / m_vel.x)* M_PI/180);
    // float angle = acos(m_vel.x* M_PI/180);
     //std::cout << "angle :"<< angle<<"\n";

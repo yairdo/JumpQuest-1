@@ -76,7 +76,8 @@ void Server::notifyCloser(int index){
 	setMember(index, nullptr);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessage<int>(closer, index, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+			sendMessage<int>(closer, index, getMember(i)->m_memberIp, 
+				getMember(i)->m_memberPort);
 }
 /*============================================================================
 * The method add the last message sender to the player list.
@@ -219,7 +220,8 @@ void Server::notifyWinning(unsigned short winner){
 	setWinner(winner);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp, 
+				getMember(i)->m_memberPort);
 }
 /*============================================================================
 * 
