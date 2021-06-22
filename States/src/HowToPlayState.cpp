@@ -21,7 +21,7 @@ HowToPlayState::HowToPlayState(StateManager& manager, sf::RenderWindow& window, 
 	makeText();
 	m_rect.setSize({ float(m_window.getSize().x-m_window.getSize().x/10.f),m_window.getSize().y - getTitleHeight() - (butHeight)*2.7f });
 	
-	m_rect.setFillColor(sf::Color{ 224, 224, 224, 200 });
+	m_rect.setFillColor(sf::Color{ 224, 224, 224, 150 });
 	m_rect.setPosition({ m_window.getSize().x / 20.f,getTitleHeight()*1.5f });
 
 }
