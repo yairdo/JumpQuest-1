@@ -168,7 +168,7 @@ int Server::countServersInPort() {
 	try {
 		sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
 			sf::IpAddress::Broadcast, SERVERS_PORT);
-		while (receivedMessage(0.1) && messagesCounter++ < max) {
+		while (receivedMessage(0.5) && messagesCounter++ < max) {
 			if (receiveValue<MessageType>() == networkMessage
 				&& receiveValue<NetworkMessages>() == iAmAServer)
 				++counter;

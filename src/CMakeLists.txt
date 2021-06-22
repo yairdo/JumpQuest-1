@@ -23,4 +23,5 @@
                                      "ContactListner.cpp"
                                      "Factory.cpp"
                                      "CheckPoint.cpp"
-                                     "Archer.cpp")
+                                     "Archer.cpp"
+                                     "FloorObstacle.cpp")

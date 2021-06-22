@@ -12,6 +12,8 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
     m_strtPos(startPos / SCALE),
     MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum),
     m_activeAnim(false), m_startingTime(startTimer.x),m_timer(startTimer.x), m_size(size)
+    MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum),  
+    m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size)
 {
 
     /*m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
@@ -33,7 +35,6 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
     createFixtureDef(shape, 1.0f, 0.3, floorObsBit);
     m_body->SetFixedRotation(true);
     m_body->SetUserData(this);
-    m_body->SetAwake(false);
 }
 
 //updates player velocity according to which key is pressed
@@ -41,25 +42,31 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
 void FloorObstacle::updatePhysics(float dt)
 {
     static float timer = m_startingTime;
-    static float ind = FLOOR_OBS_LEN;
-    static float scaler = 1.5;
-
+    static float ind = 0;
+    static float scaler = m_size.y / 2;
+    timer -= dt;
     if (timer <= 0 && !m_active) {//
         m_active = true;
+        timer = 0;
+    }
+    else if (timer <= 0 && m_active && ind < FLOOR_OBS_LEN)//going up or down
+    {
+        m_body->DestroyFixture(m_body->GetFixtureList());
+        b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 2, (m_size.y+abs(scaler) / SCALE) / 2 })));
+        createFixtureDef(shape, 1.0f, 0.3, floorObsBit);
+        scaler += m_size.y/2;
+        ind++;
+        if (ind == FLOOR_OBS_LEN && scaler>0) {
+            ind = 0;
+            scaler *= -1;
+        }
         timer = m_timer;
     }
-    else if (m_active && ind < FLOOR_OBS_LEN)//going up or down
-    {
-        m_body->DestroyFixture(m_body->GetFixtureList()[0]);
-        b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 2, (m_size.y*scaler / SCALE) / 2 })));
-        createFixtureDef(shape, 1.0f, 0.3, floorObsBit, true);
-        scaler += 0.5;
-        ind++;
-
+    else if(ind == FLOOR_OBS_LEN){
+        m_active = false;
+        timer = m_startingTime;
+        ind = 0;
     }
-    if (getReset() || (m_timer <= 0))
-        reset();
-    m_timer -= dt;
 }
 
 void FloorObstacle::move()
@@ -77,43 +84,27 @@ void FloorObstacle::draw(sf::RenderWindow& window)
 
 void FloorObstacle::setInfo(MovingObjInfo info)
 {
-    setPos(info.m_loc);
-    m_timer = info.m_timer;
-    if (m_timer > 0) {
-        m_body->SetAwake(false);
-        m_falling = false;
-    }
-    m_body->SetLinearVelocity(info.m_vel);
+    //setPos(info.m_loc);
+    //m_timer = info.m_timer;
+    //if (m_timer > 0) {
+    //    m_body->SetAwake(false);
+    //    m_falling = false;
+    //}
+    //m_body->SetLinearVelocity(info.m_vel);
 }
 
 void FloorObstacle::reset()
 {
-    m_falling = false;
-    m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
-    m_body->SetAwake(false);
-    m_timer = m_startingTime;
-    m_col = 0;
-    m_activeAnim = false;
-    m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
-    setReset(false);
+    //m_falling = false;
+    //m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
+    //m_body->SetAwake(false);
+    //m_timer = m_startingTime;
+    //m_col = 0;
+    //m_activeAnim = false;
+    //m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
+    //setReset(false);
 }
 
 void FloorObstacle::updateAnim(float deltaTime) {
-    //b2Vec2 vec{ 0, 0 };
-    //double eps = 0.00001;
-    //if (m_falling && (m_col < FALLING_LEN-1))
-    //    ++m_col;
-    //if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
-    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-    //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
-    // 
-    if (m_falling && (m_col < FALLING_LEN - 1))
-        ++m_col;
-    if(m_activeAnim)
-        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
-}
 
-void FloorObstacle::setActiveAnim() {
-    m_activeAnim = true;
 }

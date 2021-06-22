@@ -13,12 +13,13 @@ constexpr auto MAIN_MENU_BUTTONS = 4;
 constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
 constexpr auto FOOT = 3;
-constexpr auto MUSIC_VOLUME = 2;
-constexpr auto EFFECTS_VOLUME = 6;
+constexpr auto MUSIC_VOLUME = 0; //was 2
+constexpr auto EFFECTS_VOLUME = 0; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 
 const float MAP_SIZE = 6000;
 const float PLAYER_PROJECTILE_DIS = 500;
+const sf::Vector2f PLAYER_SIZE = { 50,75 };
 const sf::Vector2f PROJECTILE_SIZE{25,25};
 
 const sf::Vector2f ARCHER_SIZE{ 40,40 };
