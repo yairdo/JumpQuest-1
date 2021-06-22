@@ -214,6 +214,8 @@ void Server::startGame(MapType lvl) {
 }
 /*============================================================================*/
 void Server::notifyWinning(unsigned short winner){
+	if (winner == MAX_SERVER_PLAYERS)
+		winner = 0;
 	setWinner(winner);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
