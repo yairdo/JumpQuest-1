@@ -23,6 +23,11 @@ void NetworkGameState::draw(){
 		m_window.draw(clone.second.m_sprite);
 		m_window.draw(clone.second.m_name);
 	}
+
+	//m_networkObj->getWinner()=(MAX_SERVER_PLAYERS there is no winner);
+	//if there is a winner, recive other id, may be mine.
+	//
+	//m_networkObj->notifyWinning(); report about win.
 }
 
 void NetworkGameState::updateBoard()
@@ -36,19 +41,15 @@ void NetworkGameState::updateBoard()
 		}
 	}
 	catch (std::exception& e) {
-		//if (e.what() == SERVER_CONNECTION_LOST)
-		//sf::Vector2f viewSize(m_window.getSize().x, m_window.getSize().y);
-		//sf::View view(sf::Vector2f(float(m_window.getSize().x), float(m_window.getSize().y)), 
-		//	sf::Vector2f(m_window.getSize()));
-		//view.setViewport({ 0.f,0.f,1,1 });
 		setView(m_window.getDefaultView());
-		//m_window.clear();
 		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
 		return;
 	}
 	GameState::updateBoard();
 	sendInfo();
 	updateClonesLoc();
+	
+		//report about winning
 }
 
 void NetworkGameState::updateClonesLoc() {
@@ -56,8 +57,6 @@ void NetworkGameState::updateClonesLoc() {
 		if (m_networkObj->getMember(i) &&
 			m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
 			auto info = m_networkObj->getMember(i)->m_info;
-			//auto = struct of the info coming back from the server
-			//update map about the players new parameters from the info struct above
 			auto it = m_clones.find(m_networkObj->getMember(i)->m_info.m_id);
 			if (it == m_clones.end())
 				continue;
@@ -80,7 +79,20 @@ void NetworkGameState::sendInfo() {
 	info.m_loc = m_testPlayer->getPos();
 	info.m_direction = m_testPlayer->getDirection();
 	m_networkObj->updateLoc(info);
-	
-	//////here
-	//info.m_win = m_testPlayer->getWin();
+}
+
+void NetworkGameState::updateWin() {
+	if (!m_isWin && m_testPlayer->getWin() && m_networkObj->getWinner() == MAX_SERVER_PLAYERS) {
+		m_networkObj->notifyWinning();
+		m_winnerText->setString("You Win");
+		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
+		m_isWin = true;
+	}
+	if (!m_isWin && m_networkObj->getWinner() != MAX_SERVER_PLAYERS) {
+		std::string str = (m_networkObj->getMember(m_networkObj->getWinner()))->m_name;
+		str += " Win!";
+		m_winnerText->setString(str);
+		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
+		m_isWin = true;
+	}
 }

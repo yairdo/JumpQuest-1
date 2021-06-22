@@ -55,7 +55,7 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //fixtureDef.filter.categoryBits = footBits;
     //fixtureDef.filter.maskBits = 0xFFFF;
 
-    dynamicBox.SetAsBox(size.x / (SCALE * 6), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
+    dynamicBox.SetAsBox(size.x / (SCALE * 4), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
     
     
     b2Fixture* footSensorFixture = createFixtureDef(dynamicBox, 1.0f, 0.3f, footBits, true,~noHandleBit);

@@ -11,7 +11,7 @@ public:
 	virtual void draw() override;
 	virtual void updateBoard() override;
 	virtual void updateNetwork() = 0;
-	
+	virtual void updateWin() override;
 
 private:
 	std::unordered_map<int, struct ClonePlayer> m_clones;
