@@ -20,7 +20,8 @@ d FallingBlock 5150 25 50 150 3 0
 
 s CheckPoint 850 90 30 80 0 0
 s CheckPoint 3000 870 30 80 0 0
-s CheckPoint 5500 210 30 80 1 0
+s CheckPoint 5500 210 30 80 0 0
+s CheckPoint 5985 910 30 80 1 0
 
 s Block 50 1000 100 50
 s Block 400 850 30 25
@@ -53,11 +54,10 @@ s Block 5350 500 100 100
 s Block 5350 600 100 100
 s Block 5350 700 100 100
 s Block 5350 800 100 100
-s Block 5350 900 100 100
 s Block 5350 300 100 100
 s Block 5750 500 500 100
 s Block 5650 800 500 100
-s Block 5650 1000 700 100
+s Block 5950 1000 100 100
 
 s Gift 1000 400 25 25
 
