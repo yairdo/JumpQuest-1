@@ -69,6 +69,7 @@ b2Fixture* GameObj::createFixtureDef( b2PolygonShape& shape, float density, floa
 	fixtureDef.shape = &shape;
 	fixtureDef.density = density;
 	fixtureDef.friction = friction;
+	fixtureDef.restitution = 0;
 	fixtureDef.filter.categoryBits = categoryBits;
 	fixtureDef.isSensor = isSensor;
 	fixtureDef.filter.maskBits = maskBits;
