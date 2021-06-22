@@ -5,12 +5,12 @@
 
 void ContactListner::BeginContact(b2Contact* contact)
 {
-    if (checkNoHandle(contact))
-        return;
     auto body1 = contact->GetFixtureA()->GetBody();
     auto body2 = contact->GetFixtureB()->GetBody();
     if (checkFootContact((int)contact->GetFixtureA()->GetUserData(), 1, body1) ||
         checkFootContact((int)contact->GetFixtureB()->GetUserData(), 1, body2))
+        return;
+    if (checkNoHandle(contact))
         return;
     if (movingBlockSolve(contact, 0, false))
         return;
