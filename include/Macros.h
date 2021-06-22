@@ -143,6 +143,7 @@ enum MessageType {
 	closer, //int
 	addProjectile, //AddProjectile
 	startGame, //StartMessage
+	notifyWin, //int
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto MAX_SERVERS_NUM = 1;

@@ -84,6 +84,8 @@ b2PolygonShape GameObj::createPolygonShape(const sf::Vector2f& halfSize)
 }
 
 void GameObj::draw(sf::RenderWindow& window) {
+	sf::Vector2f scale = m_sprite.getScale();
+	
 	window.draw(m_sprite);
 }
 

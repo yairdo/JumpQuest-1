@@ -21,6 +21,7 @@ public:
 	void setView(const sf::View&);
 	//game functions
 	void addBorders2World();
+	void win();
 
 private:
 	sf::Sprite m_backGround;

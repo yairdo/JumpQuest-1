@@ -13,13 +13,15 @@ public:
 	NetworkObject(unsigned short port = 0);
 	virtual ~NetworkObject() = default;
 	//========================== inbox checkers ==============================
-	bool receivedMessage(float seconds = 0.000001f);
+	bool receivedMessage(float seconds = 0.0001f);
 	//====================== pure abstracts methods ==========================
 	virtual bool handleRequests(int = 10) = 0;
 	virtual void notifyClosing() = 0;
 	virtual void updateLoc(const MemberInfo&) = 0;
 	virtual bool launch() = 0;
 	virtual void sendStaticCollision(int) = 0;
+	virtual void notifyWinning(unsigned short = MAX_SERVER_PLAYERS) = 0;
+
 	//============================= gets section =============================
 	const sf::IpAddress& getIP() const { return m_ip; }
 	unsigned short getPort() const { return m_port; }
@@ -32,13 +34,13 @@ public:
 	MapType getLvlInfo()const { return m_mapType; }
 	//not const because the method of selector isn't const. but it doesn't change the object values.
 	bool socketLaunched() { return m_isBind; }
+	unsigned short getWinner()const { return m_winner; }
 	//============================= sets section =============================
 	virtual void addProjectile(const AddProjectileMessage&) = 0;
 	virtual void setName(const char name[PLAYER_NAME_LEN], int index = -1);
 	void setId(int id);
 	void setBoard(Board* board) { m_board = board; }
 	void bindSocket(unsigned short);
-
 protected:
 	//====================== messages handeling section ======================
 	//sending section
@@ -54,8 +56,7 @@ protected:
 	void setMember(int index, std::unique_ptr<GameMember>);
 	void setStarted(bool value) { m_started = value; }
 	void setLvlInfo(MapType message) { m_mapType = message; }
-	//=========================== gets section ===============================
-	sf::Packet m_packet;
+	void setWinner(unsigned short winner) { m_winner = winner; }
 
 private:
 	//last sender info
@@ -73,6 +74,8 @@ private:
 	bool m_isBind;
 	Board* m_board;
 	MapType m_mapType;
+	unsigned short m_winner;
+	sf::Packet m_packet;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
 	void sendUdp(const sf::IpAddress& ip, unsigned short port);

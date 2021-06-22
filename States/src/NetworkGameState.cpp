@@ -80,4 +80,7 @@ void NetworkGameState::sendInfo() {
 	info.m_loc = m_testPlayer->getPos();
 	info.m_direction = m_testPlayer->getDirection();
 	m_networkObj->updateLoc(info);
+	
+	//////here
+	//info.m_win = m_testPlayer->getWin();
 }
