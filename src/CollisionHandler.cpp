@@ -3,6 +3,7 @@
 #include "Gift.h"
 #include "Player.h"
 #include "Rope.h"
+#include "MovingBlock.h"
 #include "Block.h"
 #include "CheckPoint.h"
 #include "FallingBlock.h"
@@ -21,8 +22,8 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(Gift))] = &CollisionHandler::playerGift;
 	m_collisionMap[Key(typeid(Rope), typeid(Player))] = &CollisionHandler::ropePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Rope))] = &CollisionHandler::playerRope;
-	m_collisionMap[Key(typeid(Block), typeid(Player))] = &CollisionHandler::blockPlayer; //why do we have this?!?!
-	m_collisionMap[Key(typeid(Player), typeid(Block))] = &CollisionHandler::playerBlock;
+	m_collisionMap[Key(typeid(MovingBlock), typeid(Player))] = &CollisionHandler::movingBlockPlayer; //why do we have this?!?!
+	m_collisionMap[Key(typeid(Player), typeid(MovingBlock))] = &CollisionHandler::playerMovingBlock;
 	m_collisionMap[Key(typeid(CheckPoint), typeid(Player))] = &CollisionHandler::checkPointPlayer;
 	m_collisionMap[Key(typeid(Player), typeid(CheckPoint))] = &CollisionHandler::playerCheckPoint;
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
@@ -60,9 +61,18 @@ void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 	player->toggleCanCatch();
 }
 
-void CollisionHandler::playerBlock(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
-	Block* block= static_cast<Block*> (obj2);
+	MovingBlock* mvBlock= static_cast<MovingBlock*> (obj2);
+	if (!player->getMoving()) {
+		player->setMoving(true);
+		std::cout << "first ";
+	}
+	else {
+		player->setMoving(false);
+		std::cout << "second \n";
+	}
+
 	//std::cout << "player collide with block\n";
 }
 void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
@@ -90,8 +100,8 @@ void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2) {
 void CollisionHandler::ropePlayer(GameObj* obj1, GameObj* obj2) {
 	playerRope(obj2, obj1);
 }
-void CollisionHandler::blockPlayer(GameObj* obj1, GameObj* obj2) {
-	playerBlock(obj2, obj1);
+void CollisionHandler::movingBlockPlayer(GameObj* obj1, GameObj* obj2) {
+	playerMovingBlock(obj2, obj1);
 }
 void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2){
 	playerCheckPoint(obj2, obj1);

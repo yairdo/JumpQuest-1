@@ -112,7 +112,8 @@ enum EntityCategory {
 	footBits = 0x0100,
 	checkPointBits = 0x0200,
 	noneBit = 0x0400,
-	floorObsBit = 0x0800
+	floorObsBit = 0x0800,
+	noHandleBit = 0x1000
 };
 
 //============================================================================
@@ -205,3 +206,6 @@ constexpr int WALKING = 3;
 constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
+
+constexpr int ROPE_WIDTH = 200;
+constexpr int ROPE_HEIGHT = 200;

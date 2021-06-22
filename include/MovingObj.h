@@ -6,8 +6,8 @@
 class MovingObj : public GameObj {
 public:
 	MovingObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
-		int textNum=blank, int mapEnum=castle)
-		: GameObj(world, pos, size, bodyType,textNum,mapEnum){}
+		float recWidth=0.f, float recHeight=0.f, int textNum=blank, int mapEnum=castle)
+		: GameObj(world, pos, size, bodyType,recWidth,recHeight,textNum,mapEnum){}
 	MovingObj() = default;
 	virtual ~MovingObj() = default;
 	virtual void updatePhysics(float) = 0;
