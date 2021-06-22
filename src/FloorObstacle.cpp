@@ -31,8 +31,8 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
     fixtureDef.filter.categoryBits = fallingBlockBits;
 
     m_body->CreateFixture(&fixtureDef);*/
-    b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
-    createFixtureDef(shape, 1.0f, 0.3, floorObsBit);
+    b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 4, (size.y / SCALE) / 2 })));
+    createFixtureDef(shape, 1.0f, 0.3, floorObsBit, true, playerBits);
     m_body->SetFixedRotation(true);
     m_body->SetUserData(this);
 }
@@ -44,28 +44,35 @@ void FloorObstacle::updatePhysics(float dt)
     static float timer = m_startingTime;
     static float ind = 0;
     static float scaler = m_size.y / 2;
+    float absScaler, scalerSign;
     timer -= dt;
-    if (timer <= 0 && !m_active) {//
+    if (timer <= 0 && !m_active) {//waiting to go up
         m_active = true;
         timer = 0;
     }
     else if (timer <= 0 && m_active && ind < FLOOR_OBS_LEN)//going up or down
     {
         m_body->DestroyFixture(m_body->GetFixtureList());
-        b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 2, (m_size.y+abs(scaler) / SCALE) / 2 })));
-        createFixtureDef(shape, 1.0f, 0.3, floorObsBit);
-        scaler += m_size.y/2;
+        auto test = m_body->GetFixtureList();
+        absScaler = (scaler != 0) ? abs(scaler) : 0;
+        b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 4, ((m_size.y+absScaler) / SCALE) / 2 })));
+        createFixtureDef(shape, 1.0f, 0.3, floorObsBit,true, playerBits);
+        scalerSign = (scaler != 0) ? scaler / absScaler : -1;
+        m_body->SetTransform({ m_body->GetPosition().x, 
+                               m_body->GetPosition().y - (((m_size.y / 4)*scalerSign)/SCALE)}, 0);
         ind++;
-        if (ind == FLOOR_OBS_LEN && scaler>0) {
+        if (ind == FLOOR_OBS_LEN && scaler > 0) {
             ind = 0;
             scaler *= -1;
         }
+        scaler += m_size.y/2;
         timer = m_timer;
     }
     else if(ind == FLOOR_OBS_LEN){
         m_active = false;
         timer = m_startingTime;
         ind = 0;
+        scaler = m_size.y / 2;
     }
 }
 
@@ -106,5 +113,21 @@ void FloorObstacle::reset()
 }
 
 void FloorObstacle::updateAnim(float deltaTime) {
+    //b2Vec2 vec{ 0, 0 };
+    //double eps = 0.00001;
+    //if (m_falling && (m_col < FALLING_LEN-1))
+    //    ++m_col;
+    //if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
+    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+    //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
+    // 
+   /* if (m_falling && (m_col < FALLING_LEN - 1))
+        ++m_col;
+    if(m_activeAnim)
+        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
+            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));*/
+}
 
+bool FloorObstacle::getActive() const {
+    return m_active;
 }

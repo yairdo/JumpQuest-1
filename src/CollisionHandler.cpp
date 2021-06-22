@@ -6,6 +6,7 @@
 #include "Block.h"
 #include "CheckPoint.h"
 #include "FallingBlock.h"
+#include "FloorObstacle.h"
 #include <iostream>
 #include <functional>
 #include <Macros.h>
@@ -28,6 +29,8 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
 	m_collisionMap[Key(typeid(FallingBlock), typeid(Block))] = &CollisionHandler::fallingBlockBlock;
 	m_collisionMap[Key(typeid(Block), typeid(FallingBlock))] = &CollisionHandler::blockFallingBlock;
+	m_collisionMap[Key(typeid(Player), typeid(FloorObstacle))] = &CollisionHandler::playerFloorObstacle;
+	m_collisionMap[Key(typeid(FloorObstacle), typeid(Player))] = &CollisionHandler::floorObstaclePlayer;
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
@@ -107,8 +110,21 @@ void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 	FallingBlock* fblock = dynamic_cast<FallingBlock*> (fallingBlock);
 	if (fblock) {
 		fblock->setActiveAnim();
-		std::cout << "Block and falling block collision";
+		//std::cout << "Block and falling block collision";
 	}
+}
+
+void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
+{
+	Player* plyer = static_cast<Player*> (player);
+	FloorObstacle* florObs = static_cast<FloorObstacle*> (floorObs);
+	if (florObs->getActive())
+		plyer->setReset(true);
+}
+
+void CollisionHandler::floorObstaclePlayer(GameObj* floorObs, GameObj* player)
+{
+	playerFloorObstacle(player, floorObs);
 }
 
 CollisionHandler& CollisionHandler::getRef() {
