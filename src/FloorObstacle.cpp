@@ -9,13 +9,14 @@ bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle
 
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
-    MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum), 
+    MovingObj(world, startPos, size, bodyType, floorObs, mapEnum),  
     m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size)
 {
-
-    /*m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
-    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
+    //scale y (size.y*(13/7))
+    m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
+    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, (size.y *3.5) / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setPosition(startPos.x, startPos.y-size.y*5/4);
 
    // m_sprite.setColor(sf::Color::Magenta);
     /*b2PolygonShape kinematic;
@@ -61,24 +62,34 @@ void FloorObstacle::updatePhysics(float dt)
         if (ind == FLOOR_OBS_LEN && scaler > 0) {
             ind = 0;
             scaler *= -1;
+            m_row = 1;
+            m_col = 1;
         }
         scaler += m_size.y/2;
         timer = m_timer;
     }
     else if(ind == FLOOR_OBS_LEN){
         m_active = false;
+        m_row = 0;
+        m_col = 0;
         timer = m_startingTime;
         ind = 0;
         scaler = m_size.y / 2;
+        m_sprite.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
     }
+    else {
+        m_sprite.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
+
+    }
+
 }
 
 void FloorObstacle::move()
 {
-    auto position = m_body->GetPosition();
-    auto rotation = m_body->GetAngle();
-    m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
-    m_sprite.setRotation(rotation);
+    //auto position = m_body->GetPosition();
+    //auto rotation = m_body->GetAngle();
+    //m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
+    //m_sprite.setRotation(rotation);
 }
 
 void FloorObstacle::draw(sf::RenderWindow& window)
@@ -110,19 +121,14 @@ void FloorObstacle::reset()
 }
 
 void FloorObstacle::updateAnim(float deltaTime) {
-    //b2Vec2 vec{ 0, 0 };
-    //double eps = 0.00001;
-    //if (m_falling && (m_col < FALLING_LEN-1))
-    //    ++m_col;
-    //if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
-    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-    //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
-    // 
-   /* if (m_falling && (m_col < FALLING_LEN - 1))
-        ++m_col;
-    if(m_activeAnim)
-        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));*/
+    static float timer = m_startingTime;
+    //timer -= deltaTime;
+    if (m_active && timer<=0) {
+        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
+            deltaTime, m_totalTime, floorObs, up, m_startingTime));
+        std::cout << "m:collll: " << m_col << "\n";
+    }
+     
 }
 
 bool FloorObstacle::getActive() const {

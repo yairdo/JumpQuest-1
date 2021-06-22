@@ -112,7 +112,8 @@ enum EntityCategory {
 	footBits = 0x0100,
 	checkPointBits = 0x0200,
 	noneBit = 0x0400,
-	floorObsBit = 0x0800
+	floorObsBit = 0x0800,
+	noHandleBit = 0x1000
 };
 
 //============================================================================
@@ -197,6 +198,8 @@ constexpr int GIFT_WIDTH = 100;
 constexpr int GIFT_HEIGHT = 55;
 constexpr int GIFT_LEN = 3;
 
+constexpr int FLOOR_OBS_WIDTH = 100;
+constexpr int FLOOR_OBS_HEIGHT = 200;
 constexpr int FLOOR_OBS_LEN = 6;
 
 constexpr int WALKING = 3;

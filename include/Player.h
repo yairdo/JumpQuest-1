@@ -25,6 +25,9 @@ public:
 	void useGift(const sf::Vector2f&, NetworkObject* network);
 	void setGotGift(bool state){ m_gotGift = state; }
 	void setExternalForce(const b2Vec2&);
+	void setExternalForce(b2Vec2);
+	bool getMoving()const { return m_moving; }
+	void setMoving(bool vel);
 	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	//test
@@ -56,5 +59,6 @@ private:
 	sf::Vector2f m_offSet;
 	b2Vec2 m_projectileForce;
 	bool m_win;
+	bool m_moving;
 	//Animation m_anim;
 };

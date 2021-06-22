@@ -50,8 +50,8 @@ private:
 	void giftPlayer(GameObj*, GameObj*);
 	void playerRope(GameObj*, GameObj*);
 	void ropePlayer(GameObj*, GameObj*);
-	void playerBlock(GameObj*, GameObj*);
-	void blockPlayer(GameObj*, GameObj*);
+	void playerMovingBlock(GameObj*, GameObj*);
+	void movingBlockPlayer(GameObj*, GameObj*);
 	void checkPointPlayer(GameObj*, GameObj*);
 	void playerCheckPoint(GameObj*, GameObj*);
 	void playerProjectile(GameObj*, GameObj*);

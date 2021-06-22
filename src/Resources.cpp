@@ -42,7 +42,6 @@ const sf::Font& Resources::getFont(int index) const {
 	throw std::out_of_range("Texture not found.");
 }
 void Resources::setTextures() {
-	
 	m_textures.insert(TexturesPair(menuBackground,
 		loadSfObj<sf::Texture>("menuBackground.jpg")));
 	m_textures.insert(TexturesPair(title,
@@ -111,6 +110,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("castle rope.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, fallingBlock),
 		loadSfObj<sf::Texture>("trap chandelier.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(castle, floorObs),
+		loadSfObj<sf::Texture>("floor spikes.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, arrow),
 		loadSfObj<sf::Texture>("fire ball.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, archer),
@@ -125,6 +126,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("hell rope.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, fallingBlock),
 		loadSfObj<sf::Texture>("lava stone.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, floorObs),
+		loadSfObj<sf::Texture>("lil vulkan.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, arrow),
 		loadSfObj<sf::Texture>("heart arrow.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, archer),
@@ -139,6 +142,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("sky rope.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(sky, fallingBlock),
 		loadSfObj<sf::Texture>("star sprite.png")));
+	m_gameTextures.insert(GameTexturesPair(IntPair(sky, floorObs),
+		loadSfObj<sf::Texture>("icy spike.png")));
 
 }
 void Resources::setButtonStrLengh() {
