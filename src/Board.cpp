@@ -15,13 +15,10 @@
 
 void Board::generateMap(b2World& world) {
 	m_world = &world;
-	/*m_movingObj.resize(10);
-	m_staticObj.resize(10);*/
-	//changed for map building
-	m_movingObj.emplace_back(new Player(world,{200.f , 25.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
+	m_movingObj.emplace_back(new Player(world,{25.f , 25.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
-	file.open("testLevel.txt");
-	//file.open("Level2.txt");
+	std::string fileName = "Level" + std::to_string(m_mapEnum) + ".txt";
+	file.open("Level" + std::to_string(m_mapEnum) + ".txt");
 	if (!file.is_open()) {
 		std::cout << "cant open file, for debugging\n";
 	}
@@ -30,8 +27,8 @@ void Board::generateMap(b2World& world) {
 	while (!file.eof()) {
 		file >> type;
 		file >> str;
-		std::vector<sf::Vector2f> vals; //m_staticObj//m_movingObj
-		getValues(vals, file);    //StaticObj//MovingObj
+		std::vector<sf::Vector2f> vals; 
+		getValues(vals, file);
 		if (type == 's')
 			m_staticObj.emplace_back(Factory<StaticObj>::create(str, vals,m_mapEnum, world));
 		else
@@ -39,7 +36,6 @@ void Board::generateMap(b2World& world) {
 
 		vals.clear();
 	}
-	//std::cout << "finished genereating, for debugging\n";
 }
 
 void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
@@ -52,33 +48,22 @@ void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 		vec.push_back(t);
 	}
 }
+
 void Board::setId(int id) {
 	m_playerId = id;
 }
+
 void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();
 }
 
 void Board::draw(sf::RenderWindow& window) {
-	//for (auto it = m_staticObj.begin(); it != m_staticObj.end();) {
-	//	if ((*it)->getIsRemoved()) {
-	//		(*it)->destroyBody();
-	//		it = m_staticObj.erase(it);
-
-	//	}
-	//	else {
-	//		(*it)->draw(window);
-	//		++it;
-	//	}
-	//}
-	
 	for(auto& stati :m_staticObj){
 		stati->draw(window);
 	}
 	for (auto& moving : m_movingObj)
 		moving->draw(window);
-	//std::cout << "finished drawing Board, for debugging\n";
 }
 
 void Board::updatePhysics(float deltaTime) {

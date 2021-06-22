@@ -42,11 +42,13 @@ void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 		player->collectGift();
 	gift->setCollision(true);
 	//collect gift
+	std::cout << "player col with gift\n";
 }
 
 void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Rope* rope= static_cast<Rope*> (obj2);
+	std::cout << "player col with rope\n";
 	//std::cout << "player collide with rope\n";
 	//if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)
 	//	|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -66,13 +68,13 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 	MovingBlock* mvBlock= static_cast<MovingBlock*> (obj2);
 	if (!player->getMoving()) {
 		player->setMoving(true);
-		std::cout << "first ";
+	//	std::cout << "first ";
 	}
 	else {
 		player->setMoving(false);
-		std::cout << "second \n";
+		//std::cout << "second \n";
 	}
-
+	std::cout << "player col with block\n";
 	//std::cout << "player collide with block\n";
 }
 void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
@@ -85,12 +87,14 @@ void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 		player->setCheckPoint(checkP->getPos());
 		checkP->activate();
 	}
+	std::cout << "player col with cpoint\n";
 }
 
 void CollisionHandler::playerProjectile(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Projectile* projectile = static_cast<Projectile*> (obj2);
 	player->setExternalForce(projectile->getForce(player->getPos()));
+	std::cout << "player col with projectile\n";
 }
 
 void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2) {
@@ -122,6 +126,7 @@ void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 		fblock->setActiveAnim();
 		//std::cout << "Block and falling block collision";
 	}
+	std::cout << "block col with fblock\n";
 }
 
 void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
@@ -130,6 +135,7 @@ void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
 	FloorObstacle* florObs = static_cast<FloorObstacle*> (floorObs);
 	if (florObs->getActive())
 		plyer->setReset(true);
+		std::cout << "player col with spikes\n";;
 }
 
 void CollisionHandler::floorObstaclePlayer(GameObj* floorObs, GameObj* player)

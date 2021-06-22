@@ -18,10 +18,11 @@ public:
 	virtual void resume();
 	virtual void update();
 	virtual void draw();
-	void setView(const sf::View&);
+	
 	//game functions
-	void addBorders2World();
-	void win();
+	
+	
+	
 
 private:
 	sf::Sprite m_backGround;
@@ -31,6 +32,8 @@ private:
 	sf::View m_view;
 	void viewMover();
 	void updateGame();
+	float m_winTimer;
+	void addBorders2World();
 
 protected:
 	b2World m_world;
@@ -40,4 +43,9 @@ protected:
 	std::unique_ptr<Board> m_board;
 	virtual void updateBoard();
 	b2World& getWorldRef();
+	bool m_isWin;
+	std::unique_ptr<sf::Text> m_winnerText;
+	void setWinText();
+	virtual void updateWin();
+	void setView(const sf::View&);
 };
