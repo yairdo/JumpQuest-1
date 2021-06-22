@@ -9,13 +9,14 @@ bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle
 
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
-    m_strtPos(startPos / SCALE), MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum),  
+    m_strtPos(startPos / SCALE),
+    MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum),
     m_activeAnim(false), m_startingTime(startTimer.x),m_timer(startTimer.x), m_size(size)
 {
 
-    m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
+    /*m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 
    // m_sprite.setColor(sf::Color::Magenta);
     /*b2PolygonShape kinematic;

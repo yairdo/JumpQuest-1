@@ -10,11 +10,13 @@ bool CheckPoint::m_registerit = Factory<StaticObj>::registerit("CheckPoint",
 
 CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     int bodyType,int mapEnum) :
-    StaticObj(world, pos, size, bodyType, checkPoint), m_activate(false) {
+    StaticObj(world, pos, size,bodyType, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT,checkPoint),
+    m_activate(false) 
+{
 
-    m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
+    /*m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 
     /*b2PolygonShape groundBox;
     groundBox.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);

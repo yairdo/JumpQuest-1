@@ -9,12 +9,14 @@ bool Rope::m_registerit = Factory<StaticObj>::registerit("Rope",
 
 Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     int bodyType,int mapEnum) :
-    StaticObj(world, pos, size, bodyType,rope, mapEnum)
+    StaticObj(world, pos, {0.8f*ROPE_WIDTH,size.y}, bodyType, ROPE_WIDTH,ROPE_HEIGHT, rope, mapEnum)
 {
-
+    //m_sprite=std::move(sf::Sprite(Resources::getResourceRef().getTexture(mapEnum, rope)));
+    //setSprite(0.f, 0.f, { 0.8,size.y }, pos);
     //m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setScale(0.8, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    //setSprite(0, 0, { 0.8,size.y }, pos);
+    /*m_sprite.setScale(0.8, size.y / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
 
     /*b2PolygonShape groundBox;
     groundBox.SetAsBox((10 / SCALE)/2, (size.y / SCALE) / 2);
@@ -36,4 +38,10 @@ Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
 void Rope::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
+}
+void Rope::setSprite(float recWidth , float recHeight , const sf::Vector2f& size ,
+    const sf::Vector2f& pos ) {
+    m_sprite.setScale(size.x, size.y / m_sprite.getGlobalBounds().height);
+    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+    m_sprite.setPosition(pos);
 }

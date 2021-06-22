@@ -202,3 +202,6 @@ constexpr int WALKING = 3;
 constexpr int STAND = 3;
 constexpr int CLIMB = 2;
 constexpr int JUMP = 1;
+
+constexpr int ROPE_WIDTH = 200;
+constexpr int ROPE_HEIGHT = 200;

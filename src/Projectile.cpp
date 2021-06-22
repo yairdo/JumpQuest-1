@@ -7,12 +7,13 @@
 #include <math.h>
 
 Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,float dis,int map) :
-    MovingObj(world, { 0,0 }, size, bodyType,arrow,map), m_shot(false), m_elapaseTime(0),m_distance(dis)
+    MovingObj(world, { 0,0 }, size, bodyType, 100,100,arrow,map),
+    m_shot(false), m_elapaseTime(0),m_distance(dis)
 {
     //m_sprite.setColor(sf::Color::Yellow);
-    m_sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
+    /*m_sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
+	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
     /*b2PolygonShape kinematic;
     kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
 
