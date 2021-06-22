@@ -114,7 +114,7 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("floor spikes.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, arrow),
 		loadSfObj<sf::Texture>("fire ball.png")));
-	/*m_gameTextures.insert(GameTexturesPair(IntPair(hell, archer),
+	m_gameTextures.insert(GameTexturesPair(IntPair(hell, archer),
 		loadSfObj<sf::Texture>("hell archer.png")));
 	m_gameTextures.insert(GameTexturesPair(IntPair(hell, gift),
 		loadSfObj<sf::Texture>("chest hell.png")));
@@ -191,7 +191,7 @@ void Resources::setSounds() {
 //============================================================================
 void Resources::playMusic(int type) {
 	switch (type) {
-	/*case menu:
+	case menu:
 		m_music.openFromFile("menu.wav");
 		break;
 	case hell:
@@ -199,7 +199,7 @@ void Resources::playMusic(int type) {
 		break;
 	case sky:
 		m_music.openFromFile("skyLvl.wav");
-		break;*/
+		break;
 	case castle:
 		m_music.openFromFile("castleMusic.ogg");
 		break;
