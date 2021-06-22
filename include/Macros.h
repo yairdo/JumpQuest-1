@@ -87,6 +87,8 @@ enum TexturesNum {
 	floorObs,
 	rope,
 	finishLine,
+	loading,
+	pleaseWait,
 	nullpt
 };
 

@@ -7,6 +7,14 @@ Controller::Controller() : m_window(sf::RenderWindow
 	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen))
 {
 	m_window.setFramerateLimit(FRAME_RATE);
+	sf::Texture text;
+	text.loadFromFile("loading.png");
+	sf::Sprite sprite(text);
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2.f, sprite.getGlobalBounds().height / 2.f);
+	sprite.setPosition(m_window.getView().getCenter());
+	m_window.draw(sprite);
+	m_window.display();
+	Resources::getResourceRef();
 }
 #include<GameState.h>
 //#include <Server.h>
