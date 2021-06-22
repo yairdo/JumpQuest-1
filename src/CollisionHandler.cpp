@@ -66,6 +66,9 @@ void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 	Player* player = static_cast<Player*> (obj1);
 	CheckPoint* checkP = static_cast<CheckPoint*> (obj2);
 	if (!checkP->getActive()) {
+		if (checkP->getWin()) {
+			player->winGame();
+		}
 		player->setCheckPoint(checkP->getPos());
 		checkP->activate();
 	}

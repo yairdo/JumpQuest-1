@@ -13,11 +13,11 @@ d FallingBlock 4250 25 50 100 2 0
 d FallingBlock 4450 25 50 100 1.5 0
 d FallingBlock 4650 25 50 100 3 0
 
-s CheckPoint 800 615 30 80
-s CheckPoint 1700 115 30 80
-s CheckPoint 2400 115 30 80
-s CheckPoint 4850 515 30 80
-s CheckPoint 5950 965 30 80
+s CheckPoint 800 615 30 80 0 0
+s CheckPoint 1700 115 30 80 0 0
+s CheckPoint 2400 115 30 80 0 0
+s CheckPoint 4850 515 30 80 0 0
+s CheckPoint 5950 965 30 80 1 0
 
 d FloorObstacle 75 225 50 50 5 5
 

@@ -37,6 +37,7 @@ public:
 	virtual void reset() override;
 	void center(const sf::Vector2f&);
 	void setName(std::string);
+	void winGame();
 private:
 	sf::Text m_name;
 	void updateRow();

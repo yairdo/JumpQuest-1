@@ -223,6 +223,7 @@ void Player::reset() {
 }
 
 void Player::setCheckPoint(const sf::Vector2f& cp){
+    
     m_checkPoint=cp;
 }
 
@@ -263,35 +264,12 @@ void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
             m_board->addProjectile(AddProjectileMessage(m_sprite.getPosition(), mousePos,
                 { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
     }
-    //    //m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
-    //    //    PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
-    //    //m_projectile[m_projectile.size()-1]->setPos(m_projectile[m_projectile.size() - 1]->getPosToShotFrom(mousePos,
-    //    //    m_sprite.getPosition(), { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
-    //    //m_projectile[m_projectile.size() - 1]->shot(mousePos);
-    //    //m_gotGift = false;
-    
 }
 void Player::setExternalForce(b2Vec2 force)
 {
     m_projectileForce = force;
 }
-//sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
-//    float playerx = m_sprite.getPosition().x;
-//    float playery= m_sprite.getPosition().y;
-//    float boundsx = m_sprite.getGlobalBounds().width;
-//    float boundsy = m_sprite.getGlobalBounds().height;
-//    if (playerx < mousePos.x - boundsx / 2) {
-//        return { playerx + boundsx/2,playery };
-//    }
-//    else if (playerx > mousePos.x + boundsx / 2) {
-//        return { playerx - boundsx/2,playery };
-//    }
-//    else {
-//        if (playery < mousePos.y) {
-//            return { playerx,playery + boundsy/2  };
-//        }
-//        else {
-//            return { playerx,playery - boundsy/2  };
-//        }
-//    }
-//}
+
+void Player::winGame() {
+    std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
+}
