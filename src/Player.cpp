@@ -8,7 +8,6 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     MovingObj(world, pos, size, b2_dynamicBody,player0+id, castle), m_numFootContact(0), m_checkPoint(pos)
     , m_gotGift(false), m_projectileForce({ 0,0 }), m_board(&board)
 {
-
   //  m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f); 
   //  m_sprite.setColor(sf::Color::Green);
     m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
@@ -174,6 +173,7 @@ void Player::move()
 {
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
+    m_name.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y - PLAYER_SIZE.y / 1.5f);
     //for (auto& projs : m_projectile) {
     //    projs->move();
     //}
@@ -181,10 +181,8 @@ void Player::move()
 
 void Player::draw(sf::RenderWindow& window)
 {
-    //for (auto& projs : m_projectile) {
-    //    projs->draw(window);
-    //}
     window.draw(m_sprite);
+    window.draw(m_name);
 }
 
 void Player::setOnRope(bool val){
@@ -225,6 +223,7 @@ void Player::reset() {
 }
 
 void Player::setCheckPoint(const sf::Vector2f& cp){
+    
     m_checkPoint=cp;
 }
 
@@ -248,6 +247,12 @@ void Player::center(const sf::Vector2f& ropePos) {
     m_offSet = ropePos;
 }
 
+void Player::setName(std::string name) {
+    m_name.setFont(Resources::getResourceRef().getFont(lobbyFont));
+    m_name.setString(name);
+    m_name.setOrigin(m_name.getGlobalBounds().width / 2, m_name.getGlobalBounds().height / 2);
+    m_name.setScale(0.4, 0.8);
+}
 void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
     
     if (m_gotGift) {
@@ -259,35 +264,12 @@ void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
             m_board->addProjectile(AddProjectileMessage(m_sprite.getPosition(), mousePos,
                 { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
     }
-    //    //m_projectile.emplace_back(std::make_unique<Projectile>(*m_body->GetWorld(),
-    //    //    PROJECTILE_SIZE, b2_dynamicBody , PLAYER_PROJECTILE_DIS));
-    //    //m_projectile[m_projectile.size()-1]->setPos(m_projectile[m_projectile.size() - 1]->getPosToShotFrom(mousePos,
-    //    //    m_sprite.getPosition(), { m_sprite.getGlobalBounds().width,m_sprite.getGlobalBounds().height }));
-    //    //m_projectile[m_projectile.size() - 1]->shot(mousePos);
-    //    //m_gotGift = false;
-    
 }
 void Player::setExternalForce(b2Vec2 force)
 {
     m_projectileForce = force;
 }
-//sf::Vector2f Player::getPosToShotFrom(sf::Vector2f mousePos ) {
-//    float playerx = m_sprite.getPosition().x;
-//    float playery= m_sprite.getPosition().y;
-//    float boundsx = m_sprite.getGlobalBounds().width;
-//    float boundsy = m_sprite.getGlobalBounds().height;
-//    if (playerx < mousePos.x - boundsx / 2) {
-//        return { playerx + boundsx/2,playery };
-//    }
-//    else if (playerx > mousePos.x + boundsx / 2) {
-//        return { playerx - boundsx/2,playery };
-//    }
-//    else {
-//        if (playery < mousePos.y) {
-//            return { playerx,playery + boundsy/2  };
-//        }
-//        else {
-//            return { playerx,playery - boundsy/2  };
-//        }
-//    }
-//}
+
+void Player::winGame() {
+    std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
+}
