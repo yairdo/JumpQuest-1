@@ -9,10 +9,7 @@ bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle
 
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
-    m_strtPos(startPos / SCALE),
-    MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum),
-    m_activeAnim(false), m_startingTime(startTimer.x),m_timer(startTimer.x), m_size(size)
-    MovingObj(world, startPos, size, bodyType, fallingBlock, mapEnum),  
+    MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum), 
     m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size)
 {
 
