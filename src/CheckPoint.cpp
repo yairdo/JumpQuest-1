@@ -13,7 +13,14 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
     StaticObj(world, pos, size,bodyType, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT,checkPoint),
     m_activate(false), m_win(winner.x)
 {
-
+    if (winner.x) {
+        sf::Sprite temp(Resources::getResourceRef().getTexture(mapEnum, finishLine));
+        temp.setScale(size.x*3 / temp.getGlobalBounds().width, size.y*2 / temp.getGlobalBounds().height);
+        temp.setOrigin(temp.getTextureRect().width / 2.f, temp.getTextureRect().height/1.5f);
+        temp.setPosition(pos);
+        m_sprite = temp;
+    }
+    
     /*m_sprite.setTextureRect(sf::IntRect(0, 0, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
@@ -56,7 +63,7 @@ bool CheckPoint::getWin() const{
     return m_win;
 }
 void CheckPoint::updateAnim(float deltaTime) {
-
-    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-        deltaTime, m_totalTime, checkPoint, up));
+    if(!m_win)
+     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
+            deltaTime, m_totalTime, checkPoint, up));
 } 

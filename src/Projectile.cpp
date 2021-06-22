@@ -36,21 +36,18 @@ Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,fl
 void Projectile::shot(const sf::Vector2f& toPos){
     m_shot = true;
     m_body->SetAwake(true);
-    //float angle = 30;
-    //float targetDist = b2Distance({fromPos.x/SCALE, fromPos.y/SCALE}, { toPos.x / SCALE, toPos.y / SCALE });
-    //float projectileVel = targetDist / (sin(2 * angle * M_PI/180) / m_body->GetWorld()->GetGravity().y);
-    //m_vel.x = sqrt(projectileVel) * cos(angle * M_PI / 180);
-    //m_vel.y = sqrt(projectileVel) * sin(angle * M_PI / 180);
-   /* float time = 1;
-
-    float y = -((toPos.y - fromPos.y)-(0.5 * m_body->GetWorld()->GetGravity().y * (time) * (time)))/(time);
-    float x = (toPos.x - fromPos.x) / time;
-    m_vel.x = x;
-    m_vel.y = y;*/
-    //m_vel = { toPos.x - fromPos.x, toPos.y - fromPos.y };
     m_vel.x = (toPos.x- m_sprite.getPosition().x)/SCALE;
     m_vel.y = (toPos.y- m_sprite.getPosition().y)/SCALE;
     m_vel.Normalize();
+
+
+    float angle = -1/tan((m_vel.y / m_vel.x)* M_PI/180);
+   // float angle = acos(m_vel.x* M_PI/180);
+    //std::cout << "angle :"<< angle<<"\n";
+    //m_body->SetAngularVelocity(tan((m_vel.y/m_vel.x)));
+    m_body->SetTransform(m_body->GetPosition(), angle);
+  //  m_body->SetAngularDamping(angle);
+   // m_sprite.rotate(angle);
 }
 
 void Projectile::updatePhysics(float dt) {
@@ -85,7 +82,7 @@ void Projectile::move()
 }
 void Projectile::updateAnim(float deltaTime) {
     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-        deltaTime, m_totalTime, arrow, m_faceTo));
+        deltaTime, m_totalTime, arrow, up));
 }
 void Projectile::draw(sf::RenderWindow& window)
 {

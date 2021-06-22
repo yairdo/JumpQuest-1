@@ -27,7 +27,6 @@ void NetworkGameState::draw(){
 
 void NetworkGameState::updateBoard()
 {
-
 	try {
 		updateNetwork();
 		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {

@@ -73,6 +73,9 @@ void FallingBlock::setInfo(MovingObjInfo info)
         m_falling = false;
     }
     m_body->SetLinearVelocity(info.m_vel);
+    if (m_activeAnim && !info.m_active)
+        reset();
+    m_activeAnim = info.m_active;
 }
 
 void FallingBlock::reset()
@@ -88,19 +91,8 @@ void FallingBlock::reset()
 }
 
 void FallingBlock::updateAnim(float deltaTime) {
-    //b2Vec2 vec{ 0, 0 };
-    //double eps = 0.00001;
-    //if (m_falling && (m_col < FALLING_LEN-1))
-    //    ++m_col;
-    //if (m_falling && (m_body->GetLinearVelocity().x <eps && m_body->GetLinearVelocity().y <eps))
-    //    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-    //        deltaTime, m_totalTime, fallingBlock, left,FALLING_SWITCH_TIME));
-    // 
-    if (m_falling && (m_col < FALLING_LEN - 1))
-        ++m_col;
-    if(m_activeAnim)
-        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(0, m_col,
-            deltaTime, m_totalTime, fallingBlock, left, FALLING_SWITCH_TIME));
+    if (m_activeAnim)
+        m_sprite.setTextureRect(sf::IntRect(FALLING_WIDTH*(FALLING_LEN-1), 0, FALLING_WIDTH, FALLING_HEIGHT));
 }
 
 void FallingBlock::setActiveAnim() {
