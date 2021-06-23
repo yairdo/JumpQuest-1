@@ -1,10 +1,10 @@
-#include "PauseState.h"
+#include "GameMenuState.h"
 #include "MainMenuState.h"
 #include "BaseButton.h"
 #include <memory>
 #include "Macros.h"
 //-----------------------------------------------------------------------------
-PauseState::PauseState(StateManager& manager, sf::RenderWindow& window, bool replace):
+GameMenuState::GameMenuState(StateManager& manager, sf::RenderWindow& window, bool replace):
 	StandardMenuState(manager,window,replace){
 	auto buttonSpace = m_window.getSize().y * BUTTUN_SPACE_PREC;
 	auto butHeight = (m_window.getSize().y/ BUT3 - SPACES2 *buttonSpace) / BUT3;
@@ -18,7 +18,7 @@ PauseState::PauseState(StateManager& manager, sf::RenderWindow& window, bool rep
 	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, pos, width, butHeight, true));
 }
 //-----------------------------------------------------------------------------
-void PauseState::updateNextState(const sf::Vector2f& loc) {
+void GameMenuState::updateNextState(const sf::Vector2f& loc) {
 	if (m_buttons[FIRST_BUT]->checkCollision(loc)) {
 		m_manager.lastState();
 	}
@@ -30,7 +30,7 @@ void PauseState::updateNextState(const sf::Vector2f& loc) {
 
 }
 //-----------------------------------------------------------------------------
-void PauseState::update() {
+void GameMenuState::update() {
 	
 	m_manager.updateLastState();
 	updateButtonsPos();
@@ -38,12 +38,12 @@ void PauseState::update() {
 
 }
 //-----------------------------------------------------------------------------
-void PauseState::draw() {
+void GameMenuState::draw() {
 	m_manager.drawLastState();
 	MenuState::draw();
 }
 //-----------------------------------------------------------------------------
-void PauseState::updateButtonsPos() {
+void GameMenuState::updateButtonsPos() {
 	for (auto& but : m_buttons) {
 		but->setPos(m_window.getView().getCenter().x);
 	}

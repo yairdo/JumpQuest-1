@@ -31,7 +31,7 @@ public:
 	template <typename T>
 	static std::unique_ptr<T> build(StateManager& machine, sf::RenderWindow& window,
 		bool replace = true, std::shared_ptr<NetworkObject> netObj = nullptr);
-	void setErrorMessage(std::string);
+	void setErrorMessage(const std::string&);
 	void setStateManagerText();
 
 

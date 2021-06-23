@@ -25,7 +25,7 @@ HowToPlayState::HowToPlayState(StateManager& manager, sf::RenderWindow& window, 
 					 m_rect.getGlobalBounds().height / m_howTo.getGlobalBounds().height);
 	m_howTo.setPosition({ m_window.getSize().x / 20.f,getTitleHeight() * 1.5f });
 
-	m_rect.setFillColor(sf::Color{ 0, 0, 0, 150 });
+	m_rect.setFillColor(BLACK_TRANSP_CLR);
 	m_rect.setPosition({ m_window.getSize().x / 20.f,getTitleHeight()*1.5f });
 
 }

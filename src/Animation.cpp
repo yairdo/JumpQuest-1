@@ -26,7 +26,7 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 	totalTime += deltaTime;
 	if (totalTime >= switchTime) {
 		totalTime -= switchTime;
-		if(type!=fallingBlock)
+		if(type!=fallingBlock && type!=floorObs)
 			col++;
 		if (col >= rowCount) {
 			col = 0;

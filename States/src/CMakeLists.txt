@@ -10,6 +10,6 @@
                                      "ClientGameState.cpp"
                                      "ServerGameState.cpp"
                                      "NetworkGameState.cpp"
-                                     "PauseState.cpp"
+                                     "GameMenuState.cpp"
                                      "ChooseBoardState.cpp"
                                      "HowToPlayState.cpp")

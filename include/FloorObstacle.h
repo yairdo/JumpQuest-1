@@ -27,5 +27,6 @@ private:
 	float m_startingTime;
 	static bool m_registerit;
 	sf::Vector2f m_size;
+	sf::Vector2f m_currentSize;
 
 };
