@@ -13,10 +13,10 @@ ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window
 //-----------------------------------------------------------------------------
 void ServerGameState::updateNetwork(){
 	m_networkObj->handleRequests(50);
-//	if (m_networkObj->gameStarted())
-	//	m_started = true;
-	//if (!m_started)
-	//	return;
+	if (m_networkObj->gameStarted())
+		m_started = true;
+	if (!m_started)
+		return;
 	m_lastUpdate += m_deltaTime;
 	/*projTimer -= m_deltaTime;*/
 	///change to member and use reserve

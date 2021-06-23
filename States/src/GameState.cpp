@@ -183,12 +183,10 @@ b2World& GameState::getWorldRef(){
 
 //-----------------------------------------------------------------------------
 void GameState::setWinText() {
-	//sf::Text text;
 	m_winnerText = std::make_unique<sf::Text>();
 	m_winnerText->setFont(Resources::getResourceRef().getFont(lobbyFont));
-	//text.setString("YOU WIN");
 	m_winnerText->setCharacterSize(50);
-	m_winnerText->setLetterSpacing(2.f);
+	m_winnerText->setLetterSpacing(1.f);
 	m_winnerText->setFillColor(sf::Color::White);
 	m_winnerText->setOutlineColor(sf::Color::Black);
 	m_winnerText->setOutlineThickness(5.f);

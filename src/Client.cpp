@@ -15,6 +15,7 @@ Client::~Client() {
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
+
 	while (receivedMessage()&& counter++ < max) {
 			switch (receiveValue<MessageType>())
 			{
@@ -70,7 +71,7 @@ void Client::searchForServers() {
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
+	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, m_isLinked);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
@@ -150,4 +151,8 @@ void Client::addProjectile(const AddProjectileMessage& projectile){
 /*============================================================================*/
 void Client::notifyWinning(unsigned short winner){
 	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
+}
+/*============================================================================*/
+void Client::sendImReady(){
+	sendMessage<int>(iAmReady, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }

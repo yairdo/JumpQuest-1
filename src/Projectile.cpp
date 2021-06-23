@@ -141,18 +141,26 @@ void Projectile::setDis(float dis){
 
 sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::Vector2f& loc, const sf::Vector2f& bounds) {
 
-    if (loc.x < mouse.x - bounds.x / 2) {
-        return { loc.x + bounds.x / 2+PROJECTILE_SIZE.x/2,loc.y };
+    if (loc.x < mouse.x - (bounds.x / 2)) {
+        return { loc.x+5 + bounds.x / 2+PROJECTILE_SIZE.x/2,loc.y };
     }
-    else if (loc.x > mouse.x + bounds.x / 2) {
-        return { loc.x - bounds.x/2 -PROJECTILE_SIZE.x / 2,loc.y };
+    else if (loc.x > mouse.x + (bounds.x / 2)) {
+        return { loc.x -5- bounds.x/2 -PROJECTILE_SIZE.x / 2,loc.y };
     }
     else {
         if (loc.y < mouse.y) {
-            return { loc.x,loc.y + bounds.y/2+ PROJECTILE_SIZE.y / 2+5};
+            return { loc.x,loc.y + bounds.y/2+ PROJECTILE_SIZE.y / 2+10};
         }
         else {
-            return { loc.x,loc.y - bounds.y / 2 - PROJECTILE_SIZE.y / 2-5};
+            return { loc.x,loc.y - bounds.y / 2 - PROJECTILE_SIZE.y / 2-10};
         }
     }
+}
+
+void Projectile::ShotFromFx(const sf::Vector2f& loc, const sf::Vector2f& bounds) {
+    
+}
+
+void Projectile::ShotFromGx(const sf::Vector2f& loc, const sf::Vector2f& bounds) {
+
 }

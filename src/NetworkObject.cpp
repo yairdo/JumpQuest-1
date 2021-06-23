@@ -91,4 +91,6 @@ void NetworkObject::bindSocket(unsigned short port){
 	if (!m_port) {
 		m_port = m_socket.getLocalPort();
 	}
+	if (!m_selector.isReady(m_socket))
+		throw(std::exception("Socket binding failure, please try again"));
 }
