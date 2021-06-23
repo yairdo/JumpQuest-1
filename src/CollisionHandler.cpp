@@ -72,7 +72,7 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 	MovingBlock* mvBlock= static_cast<MovingBlock*> (obj2);
 	if (!player->getMoving()) {
 		player->setMoving(true);
-		if (abs(mvBlock->getPos().x - player->getPos().x) >= (mvBlock->getWidth() / 2) + player->getWidth() / 4)
+		if ((abs(mvBlock->getPos().x - player->getPos().x)) >= (mvBlock->getWidth() / 2) + (player->getWidth() / 4)+1)
 			player->setPush(true);
 		else
 			player->setPush(false);
