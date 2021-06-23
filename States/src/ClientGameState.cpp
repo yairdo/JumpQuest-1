@@ -1,5 +1,7 @@
 #include "ClientGameState.h"
-#include "Player.h"
+#include "Client.h"
+
+
 //-----------------------------------------------------------------------------
 void ClientGameState::updateNetwork() {
 	//((Client*)m_networkObj.get())->sendIAmReady();
