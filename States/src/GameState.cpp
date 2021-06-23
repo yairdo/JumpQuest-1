@@ -17,7 +17,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(map, gameBackground));
 	Resources::getResourceRef().playMusic(map);
-	m_backGround.setScale(0.6, window.getSize().y / m_backGround.getGlobalBounds().height);
+	m_backGround.setScale(GAME_BACK, window.getSize().y / m_backGround.getGlobalBounds().height);
 	m_world.SetContactListener(&m_contactListner);
 	int id = (net == nullptr) ? 0 : net->getInfo().m_info.m_id;
 	m_board->setId(id);
