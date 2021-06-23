@@ -266,6 +266,7 @@ bool Server::gameStarted() {
 		if (getMember(i) && !m_PlayersReady[i])
 			return false;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i))
 		sendMessage<int>(networkMessage, NetworkMessages::startGameMessage, 
 			getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 	return true;
