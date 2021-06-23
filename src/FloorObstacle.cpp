@@ -19,7 +19,7 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
     temp.setOrigin(temp.getTextureRect().width / 2.f, temp.getTextureRect().height / 2.f);
     temp.setPosition(startPos.x, startPos.y-size.y*5/4);
     m_sprite = temp;
-
+    m_sprite.setColor(sf::Color(255, 255, 255, 140));
    // m_sprite.setColor(sf::Color::Magenta);
     /*b2PolygonShape kinematic;
     kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
@@ -50,6 +50,7 @@ void FloorObstacle::updatePhysics(float dt)
     if (m_currTimer <= 0 && !m_active) {//waiting to go up
         m_active = true;
         m_currTimer = 0;
+        m_sprite.setColor(sf::Color(255, 255, 255,255));
     }
     else if (m_currTimer <= 0 && m_active && m_currIndex < FLOOR_OBS_LEN)//going up or down
     {
@@ -74,6 +75,7 @@ void FloorObstacle::updatePhysics(float dt)
         m_currTimer = m_timer;
     }
     else if(m_currIndex == FLOOR_OBS_LEN){
+        m_sprite.setColor(sf::Color(255, 255, 255, 140));
         m_col = 0;
         m_sprite.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
         m_row = 0;
