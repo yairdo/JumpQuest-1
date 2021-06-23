@@ -36,7 +36,6 @@ const int Resources::getButLen(int index) const{
 }
 const sf::Font& Resources::getFont(int index) const {
 	auto it = m_fonts.find(index);
-	std::cout << typeid(it).name() << std::endl;
 	if (it != m_fonts.end())
 		return it->second;
 	throw std::out_of_range("Texture not found.");
