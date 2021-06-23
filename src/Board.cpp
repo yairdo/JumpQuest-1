@@ -15,10 +15,10 @@
 
 void Board::generateMap(b2World& world) {
 	m_world = &world;
-	m_movingObj.emplace_back(new Player(world,{25.f , 25.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
+	m_movingObj.emplace_back(new Player(world,{25 , 90.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
-	std::string fileName = "Level" + std::to_string(m_mapEnum) + ".txt";
-	file.open("Level" + std::to_string(m_mapEnum) +  + ".txt");
+	std::string fileName = "Level" + std::to_string(m_mapEnum) + ".txt"; //"Level2.txt";
+	file.open("Level" + std::to_string(m_mapEnum) +  + ".txt"); //("Level2.txt");
 	if (!file.is_open()) {
 		std::cout << "cant open file, for debugging\n";
 	}
@@ -115,6 +115,15 @@ void Board::updateBoard(NetworkObject* netObj) {
 			--i;
 		}
 	}
+	if (netObj) {
+		for (int i = 0; i < m_movingObj.size(); ++i) {
+			if (m_movingObj[i]->getCollision()) {
+				auto info = m_movingObj[i]->getInfo();
+				info.m_index = i;
+				netObj->updateSingleMovingObjInfo(info);
+			}
+		}
+	}
 }
 
 void Board::updateStaticMsgCollision(int index){
@@ -130,6 +139,6 @@ void Board::addProjectile(const struct AddProjectileMessage& info) {
 	proj->setPos(proj->getPosToShotFrom(info.m_to, info.m_frome, info.m_bounds));
 		m_movingObj.emplace_back(proj.release());
 	temp->shot(info.m_to);
-	getPlayerRef()->setGotGift(false);
+	//getPlayerRef()->setGotGift(false);
 	
 }

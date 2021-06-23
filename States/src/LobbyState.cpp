@@ -77,6 +77,7 @@ void LobbyState::update(){
 	}
 	catch (std::exception& e) {
 		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+		m_manager.setErrorMessage(e.what());
 		return;
 	}
 }

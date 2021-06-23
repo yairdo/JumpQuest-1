@@ -25,6 +25,7 @@ public:
 	void setFace(int);
 	void updateAnim(float deltaTime);
 private:
+	bool m_activeAnim;
 	int m_faceTo;
 	float m_distance;
 	bool m_shot;

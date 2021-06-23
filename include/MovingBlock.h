@@ -18,7 +18,7 @@ public:
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 	b2Vec2 getVel() const { return m_body->GetLinearVelocity(); }
-
+	float getWidth();
 private:
 	sf::Vector2f m_strtPos;
 	sf::Vector2f m_endPos;

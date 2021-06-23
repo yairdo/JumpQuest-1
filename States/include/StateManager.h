@@ -12,7 +12,7 @@ class StateManager
 {
 public:
 
-	StateManager();
+	StateManager(sf::RenderWindow&);
 
 	void run(std::unique_ptr<State> state);
 
@@ -31,6 +31,9 @@ public:
 	template <typename T>
 	static std::unique_ptr<T> build(StateManager& machine, sf::RenderWindow& window,
 		bool replace = true, std::shared_ptr<NetworkObject> netObj = nullptr);
+	void setErrorMessage(std::string);
+	void setStateManagerText();
+
 
 private:
 	// The stack of states
@@ -38,6 +41,10 @@ private:
 	State* m_lastState;
 	bool m_resume;
 	bool m_running;
+
+	float m_errorMessageTimer;
+	sf::Text m_errorMessage;
+	sf::RenderWindow& m_window;
 };
 
 template <typename T>

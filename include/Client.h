@@ -16,12 +16,15 @@ public:
 	virtual bool launch();
 	virtual void updateLoc(const MemberInfo&);
 	virtual void sendStaticCollision(int);
+	void updateSingleMovingObjInfo(const MovingObjInfo& info);//test
 	virtual void addProjectile(const AddProjectileMessage& projectile)override;
 	virtual void notifyWinning(unsigned short) override;
+	virtual bool gameStarted() { return m_gameStarted; }
 private:
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;
 	bool m_isLinked;
+	bool m_gameStarted;
 
 	virtual void notifyClosing();
 	void searchForServers();

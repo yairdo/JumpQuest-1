@@ -32,10 +32,15 @@ public:
 
     int getAnimRow() { return m_row; }
     int getAnimCol() { return m_col; }
+
+    bool getCollision() const { return m_collision; }
+    void setCollision(bool collision) { m_collision = collision; }
+    //virtual void handleCollision();
   //  int m_row=1, m_col;
    // float m_width=130, m_height=160;
     //float m_totalTime=0;
 protected:
+    bool m_collision;
     int animPos=idle;
     float m_totalTime = 0;
     int m_row, m_col;

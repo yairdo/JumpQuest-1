@@ -41,7 +41,10 @@ public:
 	void setName(const std::string&);
 	void winGame();
 	bool getWin() const { return m_win; }
+	float getWidth();
+	void setPush(bool push) { m_pushDown = push; }
 private:
+	bool m_pushDown;
 	sf::Text m_name;
 	void updateRow();
 	sf::Vector2f m_checkPoint;

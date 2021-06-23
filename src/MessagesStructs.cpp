@@ -26,11 +26,12 @@ AddMember::AddMember(unsigned short id, const char name[PLAYER_NAME_LEN]) {
     std::memcpy(m_name, name, PLAYER_NAME_LEN);
 }
 //============================================================================
-MovingObjInfo::MovingObjInfo(const sf::Vector2f& loc, float time, const b2Vec2& vel,bool active){
+MovingObjInfo::MovingObjInfo(const sf::Vector2f& loc, float time, const b2Vec2& vel,bool active, unsigned short index){
     m_loc = loc;
     m_timer = time;
     m_vel = vel;
     m_active = active;
+    m_index = index;
    // m_col = col;
 }
 //============================================================================

@@ -1,7 +1,13 @@
 #include <StateManager.h>
-
+#include <Macros.h>
 //-----------------------------------------------------------------------------
-StateManager::StateManager(): m_resume( false ), m_running( false ),m_lastState(nullptr){}
+StateManager::StateManager(sf::RenderWindow& window): m_window(window), m_resume( false ), m_running( false ),m_lastState(nullptr), m_errorMessageTimer(0){
+	/*m_errorMessage.setFont(Resources::getResourceRef().getFont(lobbyFont));
+	m_errorMessage.setCharacterSize(50);
+	m_errorMessage.setString("");
+	m_errorMessage.setFillColor(sf::Color::White);*/
+	//m_errorMessage.setPosition();
+}
 //-----------------------------------------------------------------------------
 void StateManager::run(std::unique_ptr<State> state)
 {
@@ -75,6 +81,10 @@ void StateManager::update()
 void StateManager::draw()
 {
 	m_states.top()->draw();
+	if (m_errorMessageTimer > 0) {
+		m_window.draw(m_errorMessage);
+		m_errorMessageTimer -= 0.01f;
+	}
 }
 //-----------------------------------------------------------------------------
 bool StateManager::running() const
@@ -93,4 +103,15 @@ void StateManager::updateLastState() {
 //-----------------------------------------------------------------------------
 void StateManager::drawLastState() {
 	m_lastState->draw();
+}
+void StateManager::setErrorMessage(std::string str) {
+	m_errorMessage.setString(str);
+	m_errorMessage.setPosition({ m_window.getSize().x / 2.f - m_errorMessage.getGlobalBounds().width / 2.f, 200 });
+	m_errorMessageTimer = 5;
+}
+void StateManager::setStateManagerText() {
+	m_errorMessage.setFont(Resources::getResourceRef().getFont(lobbyFont));
+	m_errorMessage.setCharacterSize(50);
+	m_errorMessage.setString("");
+	m_errorMessage.setFillColor(sf::Color::White);
 }

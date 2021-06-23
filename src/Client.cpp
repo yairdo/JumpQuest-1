@@ -3,7 +3,7 @@
 #include <Board.h>
 
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
-m_isLinked(false){
+m_isLinked(false), m_gameStarted(false){
 }
 //============================================================================
 Client::~Client() {
@@ -64,7 +64,7 @@ bool Client::handleRequests(int max) {
 */
 void Client::searchForServers() {
 	sendMessage(networkMessage, whoIsFreeServer, 
-		sf::IpAddress::Broadcast, SERVERS_PORT, true);
+		sf::IpAddress::Broadcast, SERVERS_PORT, false);
 }
 /*============================================================================
 * The method notify the host Server that the client is disconnecting.
@@ -107,6 +107,12 @@ void Client::sendStaticCollision(int index){
 		StaticObjInfo(getInfo().m_info.m_id, index));
 }
 /*============================================================================
+* The method is notify the server about collision with moving obj
+*/
+void Client::updateSingleMovingObjInfo(const MovingObjInfo& info) {
+	sendMessage<MovingObjInfo>(movingObjInfo,info);
+}
+/*============================================================================
 * The method is update the Board's moving objects as the server reported.
 */
 void Client::updateMovingObj() {
@@ -128,6 +134,9 @@ void Client::handleNetworkMessage(){
 		break;
 	case closing:
 		throw std::exception(SERVER_CONNECTION_LOST);
+		break;
+	case NetworkMessages::startGameMessage:
+		m_gameStarted = true;
 		break;
 	default:
 		break;
