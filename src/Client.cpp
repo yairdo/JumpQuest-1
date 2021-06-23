@@ -2,7 +2,7 @@
 #include <iostream>
 #include <Board.h>
 
-Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
+Client::Client() : NetworkObject(), m_serverIP(), m_gameStarted(false),
 m_isLinked(false){
 }
 //============================================================================
@@ -44,7 +44,6 @@ bool Client::handleRequests(int max) {
 				break;
 			case startGame:
 				setLvlInfo(receiveValue<MapType>());
-				setStarted(true);
 				break;
 			case notifyWin:
 				setWinner(receiveValue<unsigned short>());
@@ -127,7 +126,7 @@ void Client::handleNetworkMessage(){
 		sendGameMembership("client");
 		break;
 	case startGame:
-		setStarted(true);
+		m_gameStarted = true;
 		break;
 	case closing:
 		throw std::exception(SERVER_CONNECTION_LOST);
@@ -144,4 +143,8 @@ void Client::addProjectile(const AddProjectileMessage& projectile){
 /*============================================================================*/
 void Client::notifyWinning(unsigned short winner){
 	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
+}
+/*============================================================================*/
+void Client::sendImReady(){
+	sendMessage<int>(networkMessage, startGame, m_serverIP, SERVERS_PORT, true);
 }
