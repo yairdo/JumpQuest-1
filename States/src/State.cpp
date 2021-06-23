@@ -13,3 +13,7 @@ bool State::isReplacing() const
 {
 	return m_replacing;
 }
+
+void updateNext(std::unique_ptr<State> next) {
+	;
+}
