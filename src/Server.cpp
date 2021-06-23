@@ -25,6 +25,8 @@ bool Server::launch() {
 		bindSocket(SERVERS_PORT);
 	if (countServersInPort() >= MAX_SERVERS_NUM || !socketLaunched())
 		return false;
+	if (!socketLaunched())
+		throw(std::exception("Bind socket failure! please try again."));
 
 	setMember(0, std::make_unique<GameMember>(
 		GameMember(getIP(), getPort(), "", MemberInfo())));

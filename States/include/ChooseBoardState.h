@@ -20,8 +20,8 @@ private:
 template <class StateT>
 void ChooseBoardState::makeButtons() {
 	auto recWidth = m_window.getSize().x * 0.7f;
-	auto side = recWidth / (3.f + 3 * 0.2f);
-	auto spaceBut = (recWidth - side * 3.f) / (3 - 1);
+	auto side = recWidth / (BUT3 + BUT3 * 0.2f);
+	auto spaceBut = (recWidth - side * BUT3) / (BUT3 - 1);
 	auto pos = sf::Vector2f{ (m_window.getSize().x - recWidth) / 2.f + 0.5f * side,
 		3.5f * getTitleHeight() };
 	addButton <StateT>(blank, pos, side, side);

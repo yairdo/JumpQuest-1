@@ -7,7 +7,7 @@
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
 m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None), m_mapType(hell),
-m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false), m_isBind(false),
+m_senderPort(0), m_port(port),m_members(MAX_SERVER_PLAYERS), m_started(false),
 m_winner(MAX_SERVER_PLAYERS){
 	bindSocket(port);
 	m_selector.add(m_socket);
@@ -19,11 +19,12 @@ m_winner(MAX_SERVER_PLAYERS){
 * if no ip or port received. the method will send the message to the last
 * person the server received message from.
 */
-void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port, bool validation) {
+bool NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port, bool validation) {
 	bool sent = false;
 	do {
 		sent = m_socket.send(m_packet, ip, port) == sf::Socket::Done;
 	} while (sent != true && validation);
+	return sent;
 }
 /*============================================================================
 * The method return if there is message wait in m_socket.
@@ -85,12 +86,13 @@ void NetworkObject::setId(int id) {
 /*==========================================================================*/
 void NetworkObject::bindSocket(unsigned short port){
 	if (port == 0)
-		m_isBind = m_socket.bind(sf::Socket::AnyPort, m_ip) == sf::Socket::Done;
+		m_binded = m_socket.bind(sf::Socket::AnyPort, m_ip) == sf::Socket::Done;
 	else
-		m_isBind = m_socket.bind(SERVERS_PORT, m_ip) == sf::Socket::Done;
+		m_binded = m_socket.bind(SERVERS_PORT, m_ip) == sf::Socket::Done;
 	if (!m_port) {
 		m_port = m_socket.getLocalPort();
 	}
-	if (!m_selector.isReady(m_socket))
-		throw(std::exception("Socket binding failure, please try again"));
+	m_socket.setBlocking(false);
+	sendMessage<int>(noType, 0, sf::IpAddress::Broadcast, SERVERS_PORT);
+	m_binded = receivedMessage();
 }

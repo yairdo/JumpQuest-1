@@ -3,6 +3,27 @@
 #include <SFML/Graphics.hpp>
 #include "box2d/box2d.h"
 
+constexpr auto BUTTUN_SPACE_PREC = 0.05f;
+constexpr auto PREC4LET = 0.022f;
+constexpr auto TENTH_PREC = 0.1f;
+constexpr auto PREC70 = 0.7f;
+constexpr auto THIRD = 3.f;
+constexpr auto FORTH = 4.f;
+constexpr auto BUT3 = 3;
+constexpr auto BUT4 = 4;
+constexpr auto SPACES2 = 2;
+constexpr auto SPACES3 = 2;
+constexpr auto FIRST_BUT = 0;
+constexpr auto SEC_BUT = 1;
+constexpr auto THIRD_BUT = 2;
+constexpr auto FORTH_BUT = 3;
+constexpr auto GAME_BACK = 0.6f;
+constexpr auto CLIENT_STATE_MSG = 300;
+constexpr auto SERVER_STATE_MSG = 0.6f;
+const sf::Color WHITE_TRANSP_CLR { 255,255,255,120 };
+const sf::Color BROWN_TRANSP_CLR{ 102,0,0,150 };
+
+
 constexpr auto TIME_STEP = 1.0f / 60.0f;
 constexpr signed int VEL_ITERS = 6;
 constexpr signed int POS_ITERS = 2;
@@ -17,6 +38,7 @@ constexpr auto MUSIC_VOLUME = 0; //was 2
 constexpr auto EFFECTS_VOLUME = 0; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
+
 
 const float MAP_SIZE = 6000;
 const float PLAYER_PROJECTILE_DIS = 500;

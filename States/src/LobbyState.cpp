@@ -12,14 +12,15 @@
 #include "ChooseBoardState.h"
 
 //-----------------------------------------------------------------------------
-LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
-	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
-	m_listBackground({ window.getSize().x / 3.f, window.getSize().y / 3.f }), m_signedUp(false),
-	m_nameTextBox({ window.getSize().x / 4.f,window.getSize().y / 4.f })/*,
-	m_nameList(4)*/
+LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace,
+	std::shared_ptr<NetworkObject>& net) :
+	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground),
+	m_connected(false), m_isServer(false), m_signedUp(false),
+	m_listBackground({ window.getSize().x / THIRD, window.getSize().y / THIRD }),
+	m_nameTextBox({ window.getSize().x / FORTH,window.getSize().y / FORTH })
 {
-	createBoxShape(m_listBackground, sf::Color(255, 255, 255, 120));
-	createBoxShape(m_nameTextBox, sf::Color(102,0,0,150));
+	createBoxShape(m_listBackground, WHITE_TRANSP_CLR);
+	createBoxShape(m_nameTextBox, BROWN_TRANSP_CLR);
 	auto pos = sf::Vector2f{ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
 		m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2 + 10 };
 	m_text = createText(lobbyFont, 24, sf::Color::Black, "Enter your nickname:\n",pos);
@@ -28,8 +29,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	m_inputText = createText(lobbyFont, 24, sf::Color::Black, "", pos);
 
 	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3;
-	pos = { width, m_window.getSize().y - m_window.getSize().y / 10.f };
-	//sf::Vector2f pos = { 0,0 };
+	pos = { width, m_window.getSize().y - m_window.getSize().y * TENTH_PREC };
 	float butHeight = m_window.getSize().y - pos.y;
 	addButton<MultiplayerMenuState>(back, pos, width, butHeight);
 	//build prompt
