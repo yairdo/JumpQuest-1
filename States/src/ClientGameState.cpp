@@ -4,8 +4,9 @@
 
 //-----------------------------------------------------------------------------
 void ClientGameState::updateNetwork() {
-	//((Client*)m_networkObj.get())->sendIAmReady();
+	//if (!m_started)
+//		((Client*)m_networkObj.get())->sendImReady();
 	m_networkObj->handleRequests(300);
 	//if (m_networkObj->gameStarted())
-		m_started = true;
+		//m_started = true;
 }
