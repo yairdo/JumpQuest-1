@@ -247,7 +247,6 @@ void Server::handleNetworkMessage() {
 	case whoIsFreeServer:
 		if (m_requiting && m_launched)
 			sendMessage<NetworkMessages>(networkMessage, iAmFree);
-		break;
 	default:
 		break;
 	}

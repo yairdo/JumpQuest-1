@@ -152,7 +152,7 @@ void Client::addProjectile(const AddProjectileMessage& projectile){
 void Client::notifyWinning(unsigned short winner){
 	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }
-
+/*============================================================================*/
 void Client::sendImReady(){
-	sendMessage<NetworkMessages>(networkMessage, iAmAServer, m_serverIP, SERVERS_PORT, true);
+	sendMessage<int>(iAmReady, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }
