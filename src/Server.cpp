@@ -241,7 +241,7 @@ bool Server::gameStarted(){
 			return false;
 	for (int i = 1; i < MAX_SERVERS_NUM; ++i)
 		if (getMember(i))
-			sendMessage<int>(networkMessage, NetworkMessages::startGame, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+			sendMessage<int>(networkMessage, startGameMessage, getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 	return true;
 }
 /*============================================================================

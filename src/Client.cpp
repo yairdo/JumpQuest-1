@@ -125,7 +125,7 @@ void Client::handleNetworkMessage(){
 	case iAmFree:
 		sendGameMembership("client");
 		break;
-	case NetworkMessages::startGame:
+	case startGameMessage:
 		m_gameStarted = true;
 		break;
 	case closing:

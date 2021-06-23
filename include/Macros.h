@@ -130,7 +130,7 @@ enum NetworkMessages {
 	whoIsFreeServer,
 	registered,
 	closing,
-	startGame,
+	startGameMessage,
 };
 //============================================================================
 //in command, the value received after the Message type.
