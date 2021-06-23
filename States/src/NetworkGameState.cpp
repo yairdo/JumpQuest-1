@@ -43,6 +43,7 @@ void NetworkGameState::updateBoard()
 	catch (std::exception& e) {
 		setView(m_window.getDefaultView());
 		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+		m_manager.setErrorMessage(e.what());
 		return;
 	}
 	GameState::updateBoard();

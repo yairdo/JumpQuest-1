@@ -107,6 +107,12 @@ void Client::sendStaticCollision(int index){
 		StaticObjInfo(getInfo().m_info.m_id, index));
 }
 /*============================================================================
+* The method is notify the server about collision with moving obj
+*/
+void Client::updateSingleMovingObjInfo(const MovingObjInfo& info) {
+	sendMessage<MovingObjInfo>(movingObjInfo,info);
+}
+/*============================================================================
 * The method is update the Board's moving objects as the server reported.
 */
 void Client::updateMovingObj() {

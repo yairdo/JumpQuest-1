@@ -32,6 +32,10 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(FloorObstacle), typeid(Player))] = &CollisionHandler::floorObstaclePlayer;
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
+	//--
+	m_collisionMap[Key(typeid(FallingBlock), typeid(Player))] = &CollisionHandler::fallingBlockPlayer;
+	m_collisionMap[Key(typeid(Player), typeid(FallingBlock))] = &CollisionHandler::playerFallingBlock;
+
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
@@ -68,12 +72,15 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 	MovingBlock* mvBlock= static_cast<MovingBlock*> (obj2);
 	if (!player->getMoving()) {
 		player->setMoving(true);
-		if (abs(mvBlock->getPos().x - player->getPos().x)>= (mvBlock->getWidth() / 2)+player->getWidth()/2)
+		if (abs(mvBlock->getPos().x - player->getPos().x) >= (mvBlock->getWidth() / 2) + player->getWidth() / 4)
 			player->setPush(true);
+		else
+			player->setPush(false);
 	//	std::cout << "first ";
 	}
 	else {
 		player->setMoving(false);
+		//player->setPush(false);
 		//std::cout << "second \n";
 	}
 	std::cout << "player col with block\n";
@@ -120,6 +127,14 @@ void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
 	blockFallingBlock(obj2, obj1);
 }
 
+void CollisionHandler::fallingBlockPlayer(GameObj* obj1, GameObj* obj2) {
+	playerFallingBlock(obj2, obj1);
+}
+
+void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
+	FallingBlock* fBlock = static_cast<FallingBlock*> (obj2);
+	fBlock->setCollision(true);
+}
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {
 	FallingBlock* fblock = dynamic_cast<FallingBlock*> (fallingBlock);

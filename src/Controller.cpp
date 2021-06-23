@@ -4,7 +4,7 @@
 
 Controller::Controller() : m_window(sf::RenderWindow
 (sf::VideoMode(sf::VideoMode::getDesktopMode()), "Jump Quest",
-	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen))
+	sf::Style::Close | sf::Style::Titlebar |sf::Style::Fullscreen)), m_manager(m_window)
 {
 	m_window.setFramerateLimit(FRAME_RATE);
 	sf::Texture text;
@@ -15,6 +15,7 @@ Controller::Controller() : m_window(sf::RenderWindow
 	m_window.draw(sprite);
 	m_window.display();
 	Resources::getResourceRef();
+	m_manager.setStateManagerText();
 }
 #include<GameState.h>
 //#include <Server.h>

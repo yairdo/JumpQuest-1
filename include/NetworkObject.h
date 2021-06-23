@@ -20,6 +20,7 @@ public:
 	virtual void updateLoc(const MemberInfo&) = 0;
 	virtual bool launch() = 0;
 	virtual void sendStaticCollision(int) = 0;
+	virtual void updateSingleMovingObjInfo(const MovingObjInfo&) = 0;//test
 	virtual void notifyWinning(unsigned short = MAX_SERVER_PLAYERS) = 0;
 	virtual bool gameStarted() = 0;
 

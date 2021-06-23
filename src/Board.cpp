@@ -115,6 +115,15 @@ void Board::updateBoard(NetworkObject* netObj) {
 			--i;
 		}
 	}
+	if (netObj) {
+		for (int i = 0; i < m_movingObj.size(); ++i) {
+			if (m_movingObj[i]->getCollision()) {
+				auto info = m_movingObj[i]->getInfo();
+				info.m_index = i;
+				netObj->updateSingleMovingObjInfo(info);
+			}
+		}
+	}
 }
 
 void Board::updateStaticMsgCollision(int index){
