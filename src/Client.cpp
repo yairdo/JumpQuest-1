@@ -44,6 +44,7 @@ bool Client::handleRequests(int max) {
 				break;
 			case startGame:
 				setLvlInfo(receiveValue<MapType>());
+				setStarted(true);
 				break;
 			case notifyWin:
 				setWinner(receiveValue<unsigned short>());
