@@ -3,6 +3,7 @@
 #include "Macros.h"
 #include "Resources.h"
 
+//-----------------------------------------------------------------------------
 MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	const bool replace ,std::shared_ptr<NetworkObject> net,int titl,
 	int background):
@@ -19,11 +20,12 @@ MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	m_background->setPosition({ 0.f,0.f });
 	setTitle(titl);
 }
+//-----------------------------------------------------------------------------
 MenuState::MenuState(StateManager& manager, sf::RenderWindow& window, bool replace):
 	State(manager,window,replace),
 	m_middle(m_window.getView().getSize().x / 2.f, m_window.getView().getSize().y / 2.f){}
 
-
+//-----------------------------------------------------------------------------
 void MenuState::draw(){
 	if (m_background)
 		m_window.draw(*(m_background.get()));
@@ -32,11 +34,12 @@ void MenuState::draw(){
 	std::for_each(m_buttons.begin(), m_buttons.end(),
 	[&](const std::unique_ptr<BaseButton>& button) {button->draw(m_window); });
 }
-
+//-----------------------------------------------------------------------------
 void MenuState::setTransp(const sf::Vector2f& location) const{
 	std::for_each(m_buttons.begin(), m_buttons.end(),
 		[&](const std::unique_ptr<BaseButton>& but){but->setTransp(location); });
 }
+//-----------------------------------------------------------------------------
 void MenuState::update(){
 	auto location = sf::Vector2f{ 0,0 };
 	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
@@ -65,21 +68,22 @@ void MenuState::update(){
 		}
 	}
 }
-
+//-----------------------------------------------------------------------------
 void MenuState::setTitle(sf::Sprite&& title){
 	m_title = std::make_unique<sf::Sprite>(title);
 }
-
+//-----------------------------------------------------------------------------
 float MenuState::getTitleHeight() const
 {
 	//return m_title->getGlobalBounds().height;
 	return m_title->getPosition().y;
 }
-
+//-----------------------------------------------------------------------------
 float MenuState::getTitlePosY() const
 {
 	return (m_title->getPosition().y+m_title->getGlobalBounds().height/2);
 }
+//-----------------------------------------------------------------------------
 
 
 void MenuState::updateNextState(const sf::Vector2f& loc){
@@ -93,6 +97,7 @@ void MenuState::updateNextState(const sf::Vector2f& loc){
 		}
 	}
 }
+//-----------------------------------------------------------------------------
 void MenuState::setTitle(int titl) {
 	
 	m_title->setOrigin(m_title->getGlobalBounds().width / 2,

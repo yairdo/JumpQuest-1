@@ -11,6 +11,7 @@
 #include "ClientGameState.h"
 #include "ChooseBoardState.h"
 
+//-----------------------------------------------------------------------------
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground), m_connected(false), m_isServer(false),
 	m_listBackground({ window.getSize().x / 3.f, window.getSize().y / 3.f }), m_signedUp(false),
@@ -47,7 +48,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		m_waitingText = createText(lobbyFont, 50, sf::Color::Black, "Waiting for Host\n", pos, true);
 	setNameListText();
 }
-
+//-----------------------------------------------------------------------------
 void LobbyState::update(){
 	if (!m_connected) {
 		if (m_isServer) {
@@ -79,7 +80,7 @@ void LobbyState::update(){
 		return;
 	}
 }
-
+//-----------------------------------------------------------------------------
 void LobbyState::signUp() {
 	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
 		if (event.type == sf::Event::TextEntered) {
@@ -104,7 +105,7 @@ void LobbyState::signUp() {
 		}
 	}
 }
-
+//-----------------------------------------------------------------------------
 void LobbyState::draw() {
 	MenuState::draw();
 	if (!m_connected) {
@@ -120,7 +121,7 @@ void LobbyState::draw() {
 		m_window.draw(m_inputText);
 	}
 }
-
+//-----------------------------------------------------------------------------
 void LobbyState::updateList(){
 	auto it = m_nameList.begin();
 	for (int i = 0 ; i < MAX_SERVER_PLAYERS ; ++i) {
@@ -134,7 +135,7 @@ void LobbyState::updateList(){
 	}
 	std::for_each(it, m_nameList.end(), [&](sf::Text&) { it->setString(""); });
 }
-
+//-----------------------------------------------------------------------------
 void LobbyState::updateNextState(const sf::Vector2f& loc) {
 	if (m_buttons[0]->checkCollision(loc)) {
 		m_next = m_buttons[0]->ButtonState(m_manager, m_window, true, nullptr);
@@ -143,12 +144,13 @@ void LobbyState::updateNextState(const sf::Vector2f& loc) {
 		m_next = m_buttons[1]->ButtonState(m_manager, m_window, true, m_networkObj);
 	}
 }
-
+//-----------------------------------------------------------------------------
 void LobbyState::drawList(){
 	for (auto& name : m_nameList) {
 		m_window.draw(name);
 	}
 }
+//-----------------------------------------------------------------------------
 void LobbyState::setNameListText() {
 	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_SERVER_PLAYERS) / MAX_SERVER_PLAYERS;
 	auto startPos = sf::Vector2f{
@@ -163,6 +165,7 @@ void LobbyState::setNameListText() {
 		startPos.y += textHeight + 10;
 	}
 }
+//-----------------------------------------------------------------------------
 void LobbyState::createBoxShape(sf::RectangleShape& rec,const sf::Color& clr){
 	rec.setFillColor(clr);
 	rec.setOrigin({ rec.getSize().x / 2.f, rec.getSize().y / 2.f });

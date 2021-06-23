@@ -6,7 +6,7 @@
 #include "MainMenuState.h"
 #include "BaseButton.h"
 
-
+//-----------------------------------------------------------------------------
 HowToPlayState::HowToPlayState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net ):
 	MenuState(manager, window, replace, net, title, menuBackground)
@@ -25,7 +25,7 @@ HowToPlayState::HowToPlayState(StateManager& manager, sf::RenderWindow& window, 
 	m_rect.setPosition({ m_window.getSize().x / 20.f,getTitleHeight()*1.5f });
 
 }
-
+//-----------------------------------------------------------------------------
 void HowToPlayState::makeText() {
 	m_text.setFont(Resources::getResourceRef().getFont(lobbyFont));
 	std::string str;
@@ -51,6 +51,7 @@ void HowToPlayState::makeText() {
 	m_text.setPosition(m_window.getView().getCenter().x, m_window.getView().getCenter().y+70);
 
 }
+//-----------------------------------------------------------------------------
 void HowToPlayState::draw() {
 	MenuState::draw();
 	m_window.draw(m_rect);

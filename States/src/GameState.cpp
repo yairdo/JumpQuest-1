@@ -6,9 +6,8 @@
 #include <iostream>
 #include <Projectile.h>
 #include "PauseState.h"
-#include <thread>
 
-
+//-----------------------------------------------------------------------------
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net, int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
@@ -34,21 +33,21 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_clock.restart();
 	setWinText();
 }
-
+//-----------------------------------------------------------------------------
 void GameState::pause()
 {
 	m_paused = true;
 	auto evnt = sf::Event{};
 	while (m_window.pollEvent(evnt));
 }
-
+//-----------------------------------------------------------------------------
 void GameState::resume()
 {
 	m_paused = false;
 	auto evnt = sf::Event{};
 	while (m_window.pollEvent(evnt));
 }
-
+//-----------------------------------------------------------------------------
 void GameState::update()
 {	
 	if (!m_paused) {
@@ -65,11 +64,6 @@ void GameState::update()
 				case sf::Keyboard::Escape:
 					m_next = std::make_unique<PauseState>(m_manager, m_window, false);
 					break;
-
-					//case sf::Keyboard::M://maybe pause menue option
-					//	//m_next = StateMachine::build<MenuState>(m_machine, m_window, false);
-					//	break;
-
 				default:
 					break;
 				}
@@ -80,12 +74,10 @@ void GameState::update()
 			}
 		}
 	}
-
-
 	updateGame();
 }
 
-
+//-----------------------------------------------------------------------------
 void GameState::draw()
 {
 	m_window.draw(m_backGround);
@@ -94,7 +86,6 @@ void GameState::draw()
 		m_winnerText->setPosition(m_window.getView().getCenter());
 		m_window.draw(*m_winnerText.get());
 	}
-	//m_testProjectile->draw(m_window);
 }
 //-----------------------------------------------------------------------------
 /*
@@ -148,10 +139,12 @@ void GameState::addBorders2World() {
 	screenBorderBody->CreateFixture(&fixture);
 }
 
+//-----------------------------------------------------------------------------
 void GameState::setView(const sf::View& view) {
 	m_view = std::move(view);
 }
 
+//-----------------------------------------------------------------------------
 void GameState::updateGame() {
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
@@ -177,16 +170,18 @@ void GameState::updateGame() {
 			m_next = std::make_unique<MainMenuState>(m_manager, m_window, true);
 	}
 }
-
+//-----------------------------------------------------------------------------
 void GameState::updateBoard(){
 	m_board->updatePhysics(m_deltaTime);
 	m_board->move();
 }
 
+//-----------------------------------------------------------------------------
 b2World& GameState::getWorldRef(){
 	return m_world;
 }
 
+//-----------------------------------------------------------------------------
 void GameState::setWinText() {
 	//sf::Text text;
 	m_winnerText = std::make_unique<sf::Text>();
@@ -197,15 +192,9 @@ void GameState::setWinText() {
 	m_winnerText->setFillColor(sf::Color::White);
 	m_winnerText->setOutlineColor(sf::Color::Black);
 	m_winnerText->setOutlineThickness(5.f);
-	/*m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);*/
-	//m_winnerText->setPosition(m_window.getView().getCenter());
-	/*m_window.draw(text);
-	m_window.display();
-	using namespace std::chrono_literals;
-	std::this_thread::sleep_for(5s);
-	m_next= std::make_unique<MainMenuState>(m_manager, m_window, true);*/
 }
 
+//-----------------------------------------------------------------------------
 void GameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin()) {
 		m_winnerText->setString("You Won!");
