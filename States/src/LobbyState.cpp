@@ -39,7 +39,16 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3f;
 		pos.x = m_window.getSize().x - width;
 		addButton<ChooseBoardState>(start, pos, width, butHeight);
-		m_connected = m_networkObj->launch();
+		try {
+			m_connected = m_networkObj->launch();
+		}
+		catch (const std::exception& e) {
+			m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+			m_manager.setErrorMessage(e.what());
+			return;
+		}
+
+		
 	}
 	pos = m_nameTextBox.getPosition();
 	if (m_isServer)
@@ -56,12 +65,20 @@ void LobbyState::update(){
 				(m_manager, m_window, true, nullptr);
 			return;
 		}
-		if (!m_networkObj->launch())
-			m_networkObj->handleRequests(10);
-		else
-			m_connected = true;
-		MenuState::update();
-		return;
+		try {
+			if (!m_networkObj->launch())
+				m_networkObj->handleRequests(10);
+
+			else
+				m_connected = true;
+			MenuState::update();
+			return;
+		}
+		catch (const std::exception& e) {
+			m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+			m_manager.setErrorMessage(e.what());
+			return;
+		}
 	}
 	if (!m_signedUp)
 		signUp();

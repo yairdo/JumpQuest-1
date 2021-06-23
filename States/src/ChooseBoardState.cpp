@@ -9,6 +9,10 @@
 #include "MainMenuState.h"
 
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+	the c-tor build 
+*/
 ChooseBoardState::ChooseBoardState(StateManager& manager, sf::RenderWindow& window,
 	bool replace, std::shared_ptr<NetworkObject>net) :
 	MenuState(manager, window, replace, net, chooseBoard, lobbyBackground) {
