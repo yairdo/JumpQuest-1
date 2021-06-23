@@ -2,7 +2,7 @@
 #include <iostream>
 #include <Board.h>
 
-Client::Client() : NetworkObject(), m_serverIP(), m_gameStarted(false),
+Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
 m_isLinked(false){
 }
 //============================================================================
@@ -70,7 +70,7 @@ void Client::searchForServers() {
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, m_isLinked);
+	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
@@ -126,9 +126,6 @@ void Client::handleNetworkMessage(){
 	case iAmFree:
 		sendGameMembership("client");
 		break;
-	case startGameMessage:
-		m_gameStarted = true;
-		break;
 	case closing:
 		throw std::exception(SERVER_CONNECTION_LOST);
 		break;
@@ -144,8 +141,4 @@ void Client::addProjectile(const AddProjectileMessage& projectile){
 /*============================================================================*/
 void Client::notifyWinning(unsigned short winner){
 	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
-}
-/*============================================================================*/
-void Client::sendImReady(){
-	sendMessage<int>(iAmReady, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }

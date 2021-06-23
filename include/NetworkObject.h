@@ -21,8 +21,6 @@ public:
 	virtual bool launch() = 0;
 	virtual void sendStaticCollision(int) = 0;
 	virtual void notifyWinning(unsigned short = MAX_SERVER_PLAYERS) = 0;
-	virtual bool getStarted() { return true; }
-	virtual bool gameStarted() = 0;
 
 	//============================= gets section =============================
 	const sf::IpAddress& getIP() const { return m_ip; }
@@ -56,9 +54,9 @@ protected:
 	void addMemberToList();
 	void updateMember(const MemberInfo& member);
 	void setMember(int index, std::unique_ptr<GameMember>);
+	void setStarted(bool value) { m_started = value; }
 	void setLvlInfo(MapType message) { m_mapType = message; }
 	void setWinner(unsigned short winner) { m_winner = winner; }
-	void setStarted(bool mod) { m_started = mod; }
 
 private:
 	//last sender info
