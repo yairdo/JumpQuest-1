@@ -89,7 +89,8 @@ MovingObjInfo Board::getInfo(unsigned int index) {
 	return m_movingObj[index]->getInfo();
 }
 void Board::setInfo(unsigned int index, const MovingObjInfo& info) {
-	m_movingObj[index]->setInfo(info);
+	if(index < m_movingObj.size())
+		m_movingObj[index]->setInfo(info);
 	//TEST!!!!!!!!!!!!!!!!!!!!!
 	//m_movingObj[index]->fixed(loc);
 }
@@ -139,6 +140,6 @@ void Board::addProjectile(const struct AddProjectileMessage& info) {
 	proj->setPos(proj->getPosToShotFrom(info.m_to, info.m_frome, info.m_bounds));
 		m_movingObj.emplace_back(proj.release());
 	temp->shot(info.m_to);
-	//getPlayerRef()->setGotGift(false);
+	getPlayerRef()->setGotGift(false);
 	
 }
