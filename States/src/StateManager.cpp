@@ -1,13 +1,8 @@
 #include <StateManager.h>
 #include <Macros.h>
 //-----------------------------------------------------------------------------
-StateManager::StateManager(sf::RenderWindow& window): m_window(window), m_resume( false ), m_running( false ),m_lastState(nullptr), m_errorMessageTimer(0){
-	/*m_errorMessage.setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_errorMessage.setCharacterSize(50);
-	m_errorMessage.setString("");
-	m_errorMessage.setFillColor(sf::Color::White);*/
-	//m_errorMessage.setPosition();
-}
+StateManager::StateManager(sf::RenderWindow& window): m_window(window), m_resume( false ),
+	m_running( false ),m_lastState(nullptr), m_errorMessageTimer(0){}
 //-----------------------------------------------------------------------------
 void StateManager::run(std::unique_ptr<State> state)
 {
@@ -74,8 +69,14 @@ void StateManager::lastState()
 
 void StateManager::update()
 {
-	// Let the state update the game
-	m_states.top()->update();
+	try {
+		m_states.top()->update();
+	}
+	catch(const std::exception& e){
+		m_states.top()->resetNext();
+		m_window.setView(m_window.getDefaultView());
+		setErrorMessage(e.what());
+	}
 }
 //-----------------------------------------------------------------------------
 void StateManager::draw()

@@ -12,7 +12,7 @@ ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window
 }
 //-----------------------------------------------------------------------------
 void ServerGameState::updateNetwork(){
-	m_networkObj->handleRequests(200);
+	m_networkObj->handleRequests(SERVER_STATE_MSG);
 	if (m_networkObj->gameStarted())
 		m_started = true;
 	if (!m_started)
@@ -21,7 +21,7 @@ void ServerGameState::updateNetwork(){
 	/*projTimer -= m_deltaTime;*/
 	///change to member and use reserve
 	std::vector<MovingObjInfo> vec;
-	if (m_networkObj && m_lastUpdate >= 0.06) {
+	if (m_networkObj && m_lastUpdate >= UPDATE_TIMER) {
 		for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
 			vec.push_back(m_board->getInfo(i));
 		}
