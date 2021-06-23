@@ -86,6 +86,9 @@ void Player::updatePhysics(float dt)
         m_timer = 0.3;
         m_projectileForce = { 0,0 };
     }
+    if (m_moving && m_numFootContact==0 && m_pushDown) {
+        m_body->SetLinearVelocity({ 0,2 });
+    }
     int pos = animPos;
     int dir = m_direction;
     m_direction = none;
@@ -296,4 +299,8 @@ void Player::setMoving(bool vel)
 void Player::winGame() {
     //std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
     m_win = true;
+}
+
+float Player::getWidth() {
+    return m_sprite.getGlobalBounds().width;
 }
