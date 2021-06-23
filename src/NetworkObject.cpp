@@ -85,12 +85,10 @@ void NetworkObject::setId(int id) {
 /*==========================================================================*/
 void NetworkObject::bindSocket(unsigned short port){
 	if (port == 0)
-		m_isBind = m_socket.bind(sf::Socket::AnyPort, m_ip) == sf::Socket::Done;
+		m_socket.bind(sf::Socket::AnyPort, m_ip);
 	else
-		m_isBind = m_socket.bind(SERVERS_PORT, m_ip) == sf::Socket::Done;
+		m_socket.bind(SERVERS_PORT, m_ip);
 	if (!m_port) {
 		m_port = m_socket.getLocalPort();
 	}
-	if (!m_selector.isReady(m_socket))
-		throw(std::exception("Socket binding failure, please try again"));
 }
