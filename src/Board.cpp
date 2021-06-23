@@ -140,6 +140,4 @@ void Board::addProjectile(const struct AddProjectileMessage& info) {
 	proj->setPos(proj->getPosToShotFrom(info.m_to, info.m_frome, info.m_bounds));
 		m_movingObj.emplace_back(proj.release());
 	temp->shot(info.m_to);
-	getPlayerRef()->setGotGift(false);
-	
 }

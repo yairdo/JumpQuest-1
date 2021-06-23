@@ -161,6 +161,7 @@ void GameState::updateGame() {
 	//-----------------------------------------------------
 	if (!m_paused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
+		m_testPlayer->setGotGift(false);
 	}
 	if (!m_isWin)
 		updateWin();

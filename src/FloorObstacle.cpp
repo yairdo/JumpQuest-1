@@ -3,6 +3,7 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
+
 bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
     { return std::make_unique<FloorObstacle>(world, vec[0], vec[1], vec[2], b2_staticBody, map); });
