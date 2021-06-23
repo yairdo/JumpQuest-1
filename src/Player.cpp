@@ -151,7 +151,7 @@ void Player::updatePhysics(float dt)
     
     if(m_onRope)
         animPos = climb;
-    else if (m_numFootContact == 0) {
+    else if (m_numFootContact == 0 && !m_moving) {
         animPos = jumping;
     }
     if(animPos!=pos){
