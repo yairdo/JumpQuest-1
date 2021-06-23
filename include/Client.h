@@ -16,6 +16,7 @@ public:
 	virtual bool launch();
 	virtual void updateLoc(const MemberInfo&);
 	virtual void sendStaticCollision(int);
+	void updateSingleMovingObjInfo(const MovingObjInfo& info);//test
 	virtual void addProjectile(const AddProjectileMessage& projectile)override;
 	virtual void notifyWinning(unsigned short) override;
 	virtual bool gameStarted() { return m_gameStarted; }

@@ -90,7 +90,8 @@ enum TexturesNum {
 	finishLine,
 	loading,
 	pleaseWait,
-	nullpt
+	nullpt,
+	howTo
 };
 
 enum FontsType {
@@ -149,6 +150,7 @@ enum MessageType {
 	startGame, //StartMessage
 	notifyWin, //int
 	iAmReady, //unsigned short (id)
+	movingObjInfo //MovingObjInfo
 };
 constexpr auto SERVERS_PORT = 50000;
 constexpr auto MAX_SERVERS_NUM = 1;

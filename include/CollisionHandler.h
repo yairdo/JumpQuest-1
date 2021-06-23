@@ -60,4 +60,6 @@ private:
 	void blockFallingBlock(GameObj*, GameObj*);
 	void playerFloorObstacle(GameObj*, GameObj*);
 	void floorObstaclePlayer(GameObj*, GameObj*);
+	void fallingBlockPlayer(GameObj*, GameObj*);
+	void playerFallingBlock(GameObj*, GameObj*);
 };

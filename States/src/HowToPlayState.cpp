@@ -9,7 +9,8 @@
 //-----------------------------------------------------------------------------
 HowToPlayState::HowToPlayState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net ):
-	MenuState(manager, window, replace, net, title, menuBackground)
+	MenuState(manager, window, replace, net, title, menuBackground), 
+	m_howTo(Resources::getResourceRef().getTexture(howTo))
 {
 	auto width = Resources::getResourceRef().getButLen(back) * PIX4LET ;
 	auto tenthOfScreen = m_window.getSize().y / 10.f;
@@ -21,7 +22,11 @@ HowToPlayState::HowToPlayState(StateManager& manager, sf::RenderWindow& window, 
 	makeText();
 	m_rect.setSize({ float(m_window.getSize().x-m_window.getSize().x/10.f),m_window.getSize().y - getTitleHeight() - (butHeight)*2.7f });
 	
-	m_rect.setFillColor(sf::Color{ 224, 224, 224, 150 });
+	m_howTo.setScale(m_rect.getGlobalBounds().width/m_howTo.getGlobalBounds().width, 
+					 m_rect.getGlobalBounds().height / m_howTo.getGlobalBounds().height);
+	m_howTo.setPosition({ m_window.getSize().x / 20.f,getTitleHeight() * 1.5f });
+
+	m_rect.setFillColor(sf::Color{ 0, 0, 0, 150 });
 	m_rect.setPosition({ m_window.getSize().x / 20.f,getTitleHeight()*1.5f });
 
 }
@@ -55,5 +60,6 @@ void HowToPlayState::makeText() {
 void HowToPlayState::draw() {
 	MenuState::draw();
 	m_window.draw(m_rect);
-	m_window.draw(m_text);
+	//m_window.draw(m_text);
+	m_window.draw(m_howTo);
 }

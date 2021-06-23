@@ -37,12 +37,13 @@ struct AddMember {
 //============================================================================
 struct MovingObjInfo {
     MovingObjInfo(const sf::Vector2f & = { 0,0 },
-        float = 0, const b2Vec2 & = { 0 , 0 },bool=0);
+        float = 0, const b2Vec2 & = { 0 , 0 },bool=0, unsigned short=0);
     sf::Vector2f m_loc;
     float m_timer;
     //int m_col;
     b2Vec2 m_vel;
     bool m_active;
+    unsigned short m_index;
 };
 //============================================================================
 struct StaticObjInfo {

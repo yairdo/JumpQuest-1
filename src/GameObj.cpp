@@ -5,7 +5,7 @@
 #include <iostream>
 GameObj::GameObj(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, int bodyType,
 	float recWidth, float recHeight,int textureNum,int mapEnum) : m_isRemoved(false), m_col(0),m_row(0),
-	m_sprite(Resources::getResourceRef().getTexture(mapEnum, textureNum))
+	m_sprite(Resources::getResourceRef().getTexture(mapEnum, textureNum)), m_collision(false)
 {
 	//if (textureNum!=rope)
 	setSprite(recWidth, recHeight, size, pos);
