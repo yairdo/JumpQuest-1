@@ -104,14 +104,18 @@ void StateManager::updateLastState() {
 void StateManager::drawLastState() {
 	m_lastState->draw();
 }
-void StateManager::setErrorMessage(std::string str) {
+//-----------------------------------------------------------------------------
+void StateManager::setErrorMessage(const std::string& str) {
 	m_errorMessage.setString(str);
-	m_errorMessage.setPosition({ m_window.getSize().x / 2.f - m_errorMessage.getGlobalBounds().width / 2.f, 200 });
-	m_errorMessageTimer = 5;
+	m_errorMessage.setPosition({ m_window.getSize().x / 2.f - m_errorMessage.getGlobalBounds().width / 2.f,250});
+	m_errorMessageTimer = 3;
 }
+//-----------------------------------------------------------------------------
 void StateManager::setStateManagerText() {
 	m_errorMessage.setFont(Resources::getResourceRef().getFont(lobbyFont));
 	m_errorMessage.setCharacterSize(50);
 	m_errorMessage.setString("");
 	m_errorMessage.setFillColor(sf::Color::White);
+	m_errorMessage.setOutlineColor(sf::Color::Black);
+	m_errorMessage.setOutlineThickness(1.f);
 }

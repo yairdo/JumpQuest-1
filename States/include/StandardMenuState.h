@@ -7,12 +7,22 @@ class StateManger;
 class StandardMenuState : public MenuState {
 public:
 	using MenuState::MenuState;
+	StandardMenuState(StateManager& manager, sf::RenderWindow& window,
+		bool replace, std::shared_ptr<NetworkObject> net, int title, int backGround,
+		float mulSpaces, float divHeight);
 	virtual ~StandardMenuState()=default;
 
 protected:
 	template <class T>
 	void makeBut(sf::Vector2f& pos, int index, float height, float pix4let, double buttonSpace);
 
+	template <class T>
+	void makeBut(int index);
+
+	float m_buttonSpace;
+	sf::Vector2f m_pos;
+	float m_butHeight;
+	float m_pix4let;
 };
 
 template <class T>
@@ -22,5 +32,13 @@ void StandardMenuState::makeBut(sf::Vector2f& pos, int index, float height,
 	float width = Resources::getResourceRef().getButLen(index) * pix4let;
 	addButton<T>(index, pos, width, height);
 	pos.y += float(buttonSpace + height);
+}
+
+template <class T>
+void StandardMenuState::makeBut(int index)
+{
+	float width = Resources::getResourceRef().getButLen(index) * m_pix4let;
+	addButton<T>(index, m_pos, width, m_butHeight);
+	m_pos.y += float(m_buttonSpace + m_butHeight);
 }
 

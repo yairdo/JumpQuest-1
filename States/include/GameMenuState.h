@@ -4,10 +4,10 @@
 
 class StateManager;
 
-class PauseState:public StandardMenuState {
+class GameMenuState :public StandardMenuState {
 public:
-	PauseState(StateManager& m_manager, sf::RenderWindow& m_window, bool);
-	virtual ~PauseState() = default;
+	GameMenuState(StateManager& m_manager, sf::RenderWindow& m_window, bool);
+	virtual ~GameMenuState() = default;
 	void updateNextState(const sf::Vector2f& loc);
 	virtual void update() override;
 	virtual void draw() override;
