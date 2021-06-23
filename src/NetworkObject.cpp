@@ -19,11 +19,12 @@ m_winner(MAX_SERVER_PLAYERS){
 * if no ip or port received. the method will send the message to the last
 * person the server received message from.
 */
-void NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port, bool validation) {
+bool NetworkObject::sendUdp(const sf::IpAddress& ip, unsigned short port, bool validation) {
 	bool sent = false;
 	do {
 		sent = m_socket.send(m_packet, ip, port) == sf::Socket::Done;
 	} while (sent != true && validation);
+	return sent;
 }
 /*============================================================================
 * The method return if there is message wait in m_socket.
@@ -92,4 +93,6 @@ void NetworkObject::bindSocket(unsigned short port){
 		m_port = m_socket.getLocalPort();
 	}
 	m_socket.setBlocking(false);
+	sendMessage<int>(noType, 0, sf::IpAddress::Broadcast, SERVERS_PORT);
+	m_binded = receivedMessage();
 }
