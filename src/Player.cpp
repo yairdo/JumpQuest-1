@@ -121,9 +121,10 @@ void Player::updatePhysics(float dt)
                 m_body->SetTransform({ m_offSet.x / SCALE, getPos().y / SCALE }, 0);
                 setOnRope(true);
             }
-            if (m_onRope && m_timer <= 0)
+            if (m_onRope && m_timer <= 0) {
                 m_body->SetLinearVelocity({ 0.f, -75.f * dt });
-            moved = true;
+                moved = true;
+            }
         }
         else if (m_onRope && m_timer <= 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
             m_body->SetLinearVelocity({ 0.f, dt * 75.f });
