@@ -133,7 +133,10 @@ void CollisionHandler::fallingBlockPlayer(GameObj* obj1, GameObj* obj2) {
 
 void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
 	FallingBlock* fBlock = static_cast<FallingBlock*> (obj2);
-	fBlock->setCollision(true);
+	if(!fBlock->getCollision())
+		fBlock->setCollision(true);
+	else
+		fBlock->setCollision(false);
 }
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {

@@ -34,7 +34,9 @@ void ContactListner::EndContact(b2Contact* contact)
     if(movingBlockSolve(contact, 0, true))
         m_preSolved = false;
     if (contact->GetFixtureA()->GetFilterData().categoryBits == ladderBits ||
-        contact->GetFixtureB()->GetFilterData().categoryBits == ladderBits)
+        contact->GetFixtureB()->GetFilterData().categoryBits == ladderBits ||
+        contact->GetFixtureA()->GetFilterData().categoryBits == fallingBlockBits ||
+        contact->GetFixtureB()->GetFilterData().categoryBits == fallingBlockBits)
     
     {
         handleCollision(body1, body2);
@@ -70,25 +72,13 @@ void ContactListner::handleCollision(b2Body* body1, b2Body* body2){
     GameObj* a = static_cast<GameObj*>(body1->GetUserData());
     GameObj* b = static_cast<GameObj*>(body2->GetUserData());
     if (!a || !b) return;
-    //std::cout << typeid(*a).name() << "  b: " << typeid(*b).name() << "\n";
     CollisionHandler::getRef().handleCollision(a, b);
 }
 
-
-
-//void ContactListner::PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
-//    if(!m_preSolved)
-//        if (movingBlockSolve(contact, 0.3f, true)) {
-//            m_preSolved = true;
-//            contact->SetFriction(0.7);
-//        }
-//}
 bool ContactListner::movingBlockSolve(b2Contact* contact, float friction, bool enter)
 {
     if (contact->GetFixtureA()->GetFilterData().categoryBits == movingBlockBits ||
         contact->GetFixtureB()->GetFilterData().categoryBits == movingBlockBits) {
-        /*if (!enter)
-            return true;*/
         contact->SetFriction(friction);
         handleCollision(contact->GetFixtureA()->GetBody(), contact->GetFixtureB()->GetBody());
     }

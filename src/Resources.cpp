@@ -79,6 +79,10 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("SelectTheme.png")));
 	m_textures.insert(TexturesPair(howTo,
 		loadSfObj<sf::Texture>("HowTo.png")));
+	m_textures.insert(TexturesPair(hellScreenShot,
+		loadSfObj<sf::Texture>("hellScreenShot.png")));
+	m_textures.insert(TexturesPair(castleScreenShot,
+		loadSfObj<sf::Texture>("castleScreenShot.png")));
 
 }
 void Resources::setGameTextures() {
@@ -173,10 +177,7 @@ void Resources::setButtonStrLengh() {
 void Resources::setFonts(){
 	m_fonts.insert(FontPair(lobbyFont, loadSfObj<sf::Font>("SNAP.TTF")));
 }
-void Resources::print() {
-	static int i = 0;
-	std::cout << ++i << std::endl;
-}
+
 Resources& Resources::getResourceRef() {
 	static Resources resources;
 	return resources;

@@ -25,6 +25,8 @@ public:
 	virtual void update() = 0;
 	virtual void draw() = 0;
 
+	virtual void resetNext();
+
 	std::unique_ptr<State> next();
 
 	bool isReplacing() const;

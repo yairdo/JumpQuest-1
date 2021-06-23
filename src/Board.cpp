@@ -122,7 +122,6 @@ void Board::updateBoard(NetworkObject* netObj) {
 				auto info = m_movingObj[i]->getInfo();
 				info.m_index = i;
 				netObj->updateSingleMovingObjInfo(info);
-				m_movingObj[i]->setCollision(false);
 			}
 		}
 	}
