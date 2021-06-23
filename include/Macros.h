@@ -5,6 +5,10 @@
 
 constexpr auto BUTTUN_SPACE_PREC = 0.05f;
 constexpr auto PREC4LET = 0.022f;
+constexpr auto TENTH_PREC = 0.1f;
+constexpr auto PREC70 = 0.7f;
+constexpr auto THIRD = 3.f;
+constexpr auto FORTH = 4.f;
 constexpr auto BUT3 = 3;
 constexpr auto BUT4 = 4;
 constexpr auto SPACES2 = 2;
@@ -14,7 +18,10 @@ constexpr auto SEC_BUT = 1;
 constexpr auto THIRD_BUT = 2;
 constexpr auto FORTH_BUT = 3;
 constexpr auto GAME_BACK = 0.6f;
-
+constexpr auto CLIENT_STATE_MSG = 300;
+constexpr auto SERVER_STATE_MSG = 0.6f;
+const sf::Color WHITE_TRANSP_CLR { 255,255,255,120 };
+const sf::Color BROWN_TRANSP_CLR{ 102,0,0,150 };
 
 
 constexpr auto TIME_STEP = 1.0f / 60.0f;

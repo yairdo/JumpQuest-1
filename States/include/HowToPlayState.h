@@ -9,8 +9,6 @@ public:
 	HowToPlayState(StateManager& manager, sf::RenderWindow& window, bool, std::shared_ptr<NetworkObject> net = nullptr);
 	virtual void draw() override;
 private:
-	sf::Text m_text;
 	sf::Sprite m_howTo;
 	sf::RectangleShape m_rect;
-	void makeText();
 };
