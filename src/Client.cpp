@@ -69,7 +69,7 @@ void Client::searchForServers() {
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
+	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, m_isLinked);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
@@ -125,7 +125,7 @@ void Client::handleNetworkMessage(){
 	case iAmFree:
 		sendGameMembership("client");
 		break;
-	case startGame:
+	case NetworkMessages::startGame:
 		m_gameStarted = true;
 		break;
 	case closing:
