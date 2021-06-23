@@ -64,13 +64,13 @@ bool Client::handleRequests(int max) {
 */
 void Client::searchForServers() {
 	sendMessage(networkMessage, whoIsFreeServer, 
-		sf::IpAddress::Broadcast, SERVERS_PORT);
+		sf::IpAddress::Broadcast, SERVERS_PORT, true);
 }
 /*============================================================================
 * The method notify the host Server that the client is disconnecting.
 */
 void Client::notifyClosing() {
-	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT);
+	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }
 /*==========================================================================*/
 void Client::updateLoc( const MemberInfo& member){
@@ -97,7 +97,7 @@ void Client::regesterServer() {
 */
 void Client::setName(const char name[PLAYER_NAME_LEN], int index) {
 	NetworkObject::setName(name);
-	sendMessage<GameMember>(singMeIn, getInfo());
+	sendMessage<GameMember>(singMeIn, getInfo(), m_serverIP, SERVERS_PORT, true);
 }
 /*============================================================================
 * The method is notify the server about collision with static obj
@@ -118,7 +118,7 @@ void Client::updateMovingObj() {
 * The method is singIn to the server.
 */
 void Client::sendGameMembership(const char name[]) {
-	sendMessage<GameMember>(singMeIn, GameMember(getIP(), getPort(), name));
+	sendMessage<GameMember>(singMeIn, GameMember(getIP(), getPort(), name, true));
 }
 //============================================================================
 void Client::handleNetworkMessage(){
@@ -139,9 +139,9 @@ void Client::handleNetworkMessage(){
 /*============================================================================
 */
 void Client::addProjectile(const AddProjectileMessage& projectile){
-	sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, m_serverIP, SERVERS_PORT);
+	sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, m_serverIP, SERVERS_PORT, true);
 }
 /*============================================================================*/
 void Client::notifyWinning(unsigned short winner){
-	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT);
+	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }
