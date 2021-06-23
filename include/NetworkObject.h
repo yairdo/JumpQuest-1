@@ -35,7 +35,7 @@ public:
 	Board* getBoard() { return m_board; }
 	MapType getLvlInfo()const { return m_mapType; }
 	//not const because the method of selector isn't const. but it doesn't change the object values.
-	bool socketLaunched() { return m_selector.isReady(m_socket); }
+	bool socketLaunched() { return m_binded; }
 	unsigned short getWinner()const { return m_winner; }
 	//============================= sets section =============================
 	virtual void addProjectile(const AddProjectileMessage&) = 0;
@@ -73,6 +73,7 @@ private:
 	std::vector<std::unique_ptr<GameMember>> m_members;
 	GameMember m_info;
 	bool m_started;
+	bool m_binded;
 	Board* m_board;
 	MapType m_mapType;
 	unsigned short m_winner;
