@@ -23,7 +23,7 @@ void PauseState::updateNextState(const sf::Vector2f& loc) {
 		m_manager.lastState();
 	}
 	if (m_buttons[SEC_BUT]->checkCollision(loc)) {
-		m_next = m_buttons[FIRST_BUT]->ButtonState(m_manager, m_window, true, m_networkObj);
+		m_next = m_buttons[SEC_BUT]->ButtonState(m_manager, m_window, true, m_networkObj);
 	}
 	if (m_buttons[THIRD_BUT]->checkCollision(loc))
 		m_manager.quit();
