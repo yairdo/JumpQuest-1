@@ -74,7 +74,7 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 		player->setMoving(false);
 		//std::cout << "second \n";
 	}
-	std::cout << "player col with block\n";
+	std::cout << "player col with fblock\n";
 	//std::cout << "player collide with block\n";
 }
 void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
