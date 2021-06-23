@@ -47,7 +47,7 @@ protected:
 	//====================== messages handeling section ======================
 	//sending section
 	template <class T>
-	void sendMessage(MessageType, const T&,
+	bool sendMessage(MessageType, const T&,
 		const sf::IpAddress& ip = sf::IpAddress::None, unsigned short port = 0, bool validation = false);
 	//receiving section
 	template <class T>
@@ -80,19 +80,21 @@ private:
 	sf::Packet m_packet;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
-	void sendUdp(const sf::IpAddress& , unsigned short , bool = false);
+	bool sendUdp(const sf::IpAddress& , unsigned short , bool = false);
 };
 /*==========================================================================*/
 template<class T>
- void NetworkObject::sendMessage(MessageType type,const T& value,const sf::IpAddress& ip, 
+ bool NetworkObject::sendMessage(MessageType type,const T& value,const sf::IpAddress& ip, 
 	 unsigned short port, bool validation){
-	m_packet.clear();
+	 bool sent;
+	 m_packet.clear();
 	m_packet << type;
 	int size = sizeof(T);
 	m_packet.append(&value, sizeof(T)); ;
-	(ip == sf::IpAddress::None || port == 0) ? sendUdp(m_senderIP, m_senderPort, validation) 
-		: sendUdp(ip, port, validation);
+	(ip == sf::IpAddress::None || port == 0) ? sent = sendUdp(m_senderIP, m_senderPort, validation) 
+		: sent = sendUdp(ip, port, validation);
 	m_packet.clear();
+	return sent;
 }
  /*===========================================================================
  * The mehod receiving the received message value form the m_packet.
