@@ -1,13 +1,14 @@
 #include <StateManager.h>
 
+//-----------------------------------------------------------------------------
 StateManager::StateManager(): m_resume( false ), m_running( false ),m_lastState(nullptr){}
-
+//-----------------------------------------------------------------------------
 void StateManager::run(std::unique_ptr<State> state)
 {
 	m_running = true;
 	m_states.push(std::move(state));
 }
-
+//-----------------------------------------------------------------------------
 void StateManager::nextState()
 {
     if (m_resume)
@@ -54,38 +55,42 @@ void StateManager::nextState()
 		}
 	}
 }
+//-----------------------------------------------------------------------------
 bool StateManager::isLast() const {
 	return m_lastState;
 }
+//-----------------------------------------------------------------------------
 void StateManager::lastState()
 {
     m_resume = true;
 }
+//-----------------------------------------------------------------------------
 
 void StateManager::update()
 {
 	// Let the state update the game
 	m_states.top()->update();
 }
-
+//-----------------------------------------------------------------------------
 void StateManager::draw()
 {
 	m_states.top()->draw();
 }
-
+//-----------------------------------------------------------------------------
 bool StateManager::running() const
 {
 	return m_running;
 }
-
+//-----------------------------------------------------------------------------
 void StateManager::quit()
 {
 	m_running = false;
 }
-
+//-----------------------------------------------------------------------------
 void StateManager::updateLastState() {
 	m_lastState->update();
 }
+//-----------------------------------------------------------------------------
 void StateManager::drawLastState() {
 	m_lastState->draw();
 }

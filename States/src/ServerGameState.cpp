@@ -2,6 +2,7 @@
 #include "Server.h"
 #include "Projectile.h"
 
+//-----------------------------------------------------------------------------
 ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	NetworkGameState(manager,window,replace,net), m_lastUpdate(0)
 {
@@ -9,7 +10,7 @@ ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window
 	//m_testProjectile = new Projectile(getWorldRef(), { 50, 150 }, { 10, 10 }, b2_dynamicBody);
 	//---------------------
 }
-
+//-----------------------------------------------------------------------------
 void ServerGameState::updateNetwork(){
 	m_networkObj->handleRequests(50);
 
@@ -17,7 +18,7 @@ void ServerGameState::updateNetwork(){
 	/*projTimer -= m_deltaTime;*/
 	///change to member and use reserve
 	std::vector<MovingObjInfo> vec;
-	if (m_networkObj && m_lastUpdate >= 0.03) {
+	if (m_networkObj && m_lastUpdate >= 0.1) {
 		for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
 			vec.push_back(m_board->getInfo(i));
 		}
@@ -37,7 +38,7 @@ void ServerGameState::updateNetwork(){
 	//------
 
 }
-
+//-----------------------------------------------------------------------------
 void ServerGameState::draw(){
 	NetworkGameState::draw();
 	/*m_testProjectile->draw(m_window);*/

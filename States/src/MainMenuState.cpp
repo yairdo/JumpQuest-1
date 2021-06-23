@@ -5,6 +5,7 @@
 #include "ChooseBoardState.h"
 #include "HowToPlayState.h"
 
+//-----------------------------------------------------------------------------
 MainMenuState::MainMenuState(StateManager& manager,sf::RenderWindow& window,
 			bool replace,std::shared_ptr<NetworkObject> net ):
 	StandardMenuState(manager,window,replace,net,title,menuBackground)

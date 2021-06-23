@@ -5,6 +5,7 @@
 #include "Client.h"
 #include "LobbyState.h"
 
+//-----------------------------------------------------------------------------
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager, sf::RenderWindow& window,
 	bool replace, std::shared_ptr<NetworkObject>net) :
 	StandardMenuState(manager, window, replace, net, title, menuBackground)
@@ -18,7 +19,7 @@ MultiplayerMenuState::MultiplayerMenuState(StateManager& manager, sf::RenderWind
 	makeBut<LobbyState>(pos, client, butHeight, pix4let, buttonSpace);
 	makeBut<MainMenuState>(pos, back, butHeight, pix4let, buttonSpace);
 }
-
+//-----------------------------------------------------------------------------
 void MultiplayerMenuState::updateNextState(const sf::Vector2f& loc){
 	if (m_buttons[0]->checkCollision(loc)){
 		m_networkObj = std::make_shared<Server>();

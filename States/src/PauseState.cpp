@@ -3,7 +3,7 @@
 #include "BaseButton.h"
 #include <memory>
 #include "Macros.h"
-
+//-----------------------------------------------------------------------------
 PauseState::PauseState(StateManager& manager, sf::RenderWindow& window, bool replace):
 	StandardMenuState(manager,window,replace){
 	auto buttonSpace = m_window.getSize().y * 0.05f;
@@ -17,6 +17,7 @@ PauseState::PauseState(StateManager& manager, sf::RenderWindow& window, bool rep
 	width = Resources::getResourceRef().getButLen(ext) * pix4let;
 	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, pos, width, butHeight, true));
 }
+//-----------------------------------------------------------------------------
 void PauseState::updateNextState(const sf::Vector2f& loc) {
 	if (m_buttons[0]->checkCollision(loc)) {
 		m_manager.lastState();
@@ -28,6 +29,7 @@ void PauseState::updateNextState(const sf::Vector2f& loc) {
 		m_manager.quit();
 
 }
+//-----------------------------------------------------------------------------
 void PauseState::update() {
 	
 	m_manager.updateLastState();
@@ -35,11 +37,12 @@ void PauseState::update() {
 	MenuState::update();
 
 }
-
+//-----------------------------------------------------------------------------
 void PauseState::draw() {
 	m_manager.drawLastState();
 	MenuState::draw();
 }
+//-----------------------------------------------------------------------------
 void PauseState::updateButtonsPos() {
 	for (auto& but : m_buttons) {
 		but->setPos(m_window.getView().getCenter().x);

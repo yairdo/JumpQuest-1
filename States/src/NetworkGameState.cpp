@@ -4,6 +4,7 @@
 #include <StateManager.h>
 #include <MultiplayerMenuState.h>
 
+//-----------------------------------------------------------------------------
 NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net):
 	GameState(manager,window,replace,net,net->getLvlInfo())
@@ -16,20 +17,16 @@ NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& wind
 		}
 	}
 }
-
+//-----------------------------------------------------------------------------
 void NetworkGameState::draw(){
 	GameState::draw();
 	for (auto clone : m_clones) {
 		m_window.draw(clone.second.m_sprite);
 		m_window.draw(clone.second.m_name);
 	}
-
-	//m_networkObj->getWinner()=(MAX_SERVER_PLAYERS there is no winner);
-	//if there is a winner, recive other id, may be mine.
-	//
-	//m_networkObj->notifyWinning(); report about win.
 }
 
+//-----------------------------------------------------------------------------
 void NetworkGameState::updateBoard()
 {
 	try {
@@ -48,10 +45,8 @@ void NetworkGameState::updateBoard()
 	GameState::updateBoard();
 	sendInfo();
 	updateClonesLoc();
-	
-		//report about winning
 }
-
+//-----------------------------------------------------------------------------
 void NetworkGameState::updateClonesLoc() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 		if (m_networkObj->getMember(i) &&
@@ -71,7 +66,7 @@ void NetworkGameState::updateClonesLoc() {
 		}
 	}
 }
-
+//-----------------------------------------------------------------------------
 void NetworkGameState::sendInfo() {
 	MemberInfo info = m_networkObj->getInfo().m_info;
 	info.m_row = m_testPlayer->getAnimRow();
@@ -80,7 +75,7 @@ void NetworkGameState::sendInfo() {
 	info.m_direction = m_testPlayer->getDirection();
 	m_networkObj->updateLoc(info);
 }
-
+//-----------------------------------------------------------------------------
 void NetworkGameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin() && m_networkObj->getWinner() == MAX_SERVER_PLAYERS) {
 		m_networkObj->notifyWinning();
