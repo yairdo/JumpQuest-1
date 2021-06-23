@@ -25,6 +25,7 @@ MultiplayerMenuState::MultiplayerMenuState(StateManager& manager, sf::RenderWind
 void MultiplayerMenuState::updateNextState(const sf::Vector2f& loc){
 	if (m_buttons[FIRST_BUT]->checkCollision(loc)){
 		m_networkObj = std::make_shared<Server>();
+		m_networkObj->launch();
 		m_next = m_buttons[FIRST_BUT]->ButtonState(m_manager, m_window, true,m_networkObj);
 	}
 	if (m_buttons[SEC_BUT]->checkCollision(loc)) {

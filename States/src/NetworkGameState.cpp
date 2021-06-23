@@ -30,22 +30,23 @@ void NetworkGameState::draw(){
 //-----------------------------------------------------------------------------
 void NetworkGameState::updateBoard()
 {
-	try {
+	/*try {*/
 		updateNetwork();
-		//if (!m_started)
-			//return;
+		if (!m_started)
+			return;
 		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-			if (m_clones.find(i) != m_clones.end() && !m_networkObj->getMember(i)) {
+			if (m_clones.find(i) != m_clones.end() && !m_networkObj->getMember(i))
 				m_clones.erase(i);
-			}
 		}
-	}
-	catch (std::exception& e) {
+	/*		}
+		}
+	}*/
+	/*catch (std::exception& e) {
 		setView(m_window.getDefaultView());
 		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
 		m_manager.setErrorMessage(e.what());
 		return;
-	}
+	}*/
 	GameState::updateBoard();
 	sendInfo();
 	updateClonesLoc();

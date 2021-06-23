@@ -35,7 +35,6 @@ void GameMenuState::update() {
 	m_manager.updateLastState();
 	updateButtonsPos();
 	MenuState::update();
-
 }
 //-----------------------------------------------------------------------------
 void GameMenuState::draw() {

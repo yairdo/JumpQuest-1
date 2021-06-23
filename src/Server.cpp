@@ -23,8 +23,8 @@ bool Server::launch() {
 		return true;
 	if (!socketLaunched())
 		bindSocket(SERVERS_PORT);
-	if (countServersInPort() >= MAX_SERVERS_NUM || !socketLaunched())
-		return false;
+	if (countServersInPort() >= MAX_SERVERS_NUM )
+		throw(std::exception("Too many servers are opened."));
 	if (!socketLaunched())
 		throw(std::exception("Bind socket failure! please try again."));
 
@@ -178,17 +178,12 @@ int Server::countServersInPort() {
 	int counter = 0,
 		max = 200,
 		messagesCounter = 0;
-	try {
-		sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
-			sf::IpAddress::Broadcast, SERVERS_PORT, true);
-		while (receivedMessage(0.5) && messagesCounter++ < max) {
-			if (receiveValue<MessageType>() == networkMessage
-				&& receiveValue<NetworkMessages>() == iAmAServer)
-				++counter;
-		}
-	}
-	catch (std::exception& e) {
-		std::cout << e.what();
+	sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
+		sf::IpAddress::Broadcast, SERVERS_PORT, true);
+	while (receivedMessage(0.5) && messagesCounter++ < max) {
+		if (receiveValue<MessageType>() == networkMessage
+			&& receiveValue<NetworkMessages>() == iAmAServer)
+			++counter;
 	}
 	return counter;
 }
