@@ -38,7 +38,6 @@ private:
 	SfObj loadSfObj(const std::string& str);
 	template<class Container, class Return>
 	Return findInMap(Container map, int index) const;
-	void print();
 };
 template<class Container, class Return>
 Return Resources::findInMap(Container map, int index) const{

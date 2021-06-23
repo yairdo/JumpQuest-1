@@ -77,11 +77,13 @@ void Player::updatePhysics(float dt)
     static float m_timer = 0;
     bool moved = false;
     m_timer -= dt;
+   // std::cout << "timer :" << m_timer << "\n"; %%%%%
     if (m_stuned && m_stunTime >= STUN_TIME)
         m_stuned = false;
     if (getReset())
         reset();
     if (m_projectileForce != b2Vec2({ 0,0 })) {
+        m_body->SetLinearVelocity({ 0.f, 0.f });
         m_body->ApplyLinearImpulseToCenter(m_projectileForce, true);
         m_timer = 0.3;
         m_projectileForce = { 0,0 };

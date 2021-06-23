@@ -71,16 +71,8 @@ s Rope 5550 500 0 1000
 s Rope 5650 500 0 1000
 s Rope 5750 500 0 1000
 
-d Archer 1950 525 1.5 550 1400 525 1
-d Archer 1975 525 2 550 1400 525 1
+d Archer 1950 512.5 1.5 550 1400 525 1
+d Archer 1975 512.5 2 550 1400 525 1
 
-d FloorObstacle 900 275 25 25 5 0.1
-d FloorObstacle 2100 875 25 25 3 0.1
-d FloorObstacle 2300 875 25 25 3 0.1
-d FloorObstacle 2500 875 25 25 3 0.1
-d FloorObstacle 2700 875 25 25 3 0.1
-d FloorObstacle 2900 875 25 25 3 0.1
-d FloorObstacle 5100 875 50 1000 3 0.1
-d FloorObstacle 5200 875 50 1000 3 0.1
-d FloorObstacle 5300 875 50 1000 3 0.1
-d FloorObstacle 5400 875 50 1000 3 0.1
+d FloorObstacle 900 255 25 40 5 0.1
+d FloorObstacle 2100 830 25 40 3 0.1

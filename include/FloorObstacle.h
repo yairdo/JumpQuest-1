@@ -25,8 +25,10 @@ private:
 	bool m_active;
 	float m_timer;
 	float m_startingTime;
+	float m_currTimer;
+	int m_currIndex;
+	float m_scaler;
 	static bool m_registerit;
 	sf::Vector2f m_size;
 	sf::Vector2f m_currentSize;
-
 };

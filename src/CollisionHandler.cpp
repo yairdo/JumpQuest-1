@@ -140,11 +140,8 @@ void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
 }
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {
-	FallingBlock* fblock = dynamic_cast<FallingBlock*> (fallingBlock);
-	if (fblock) {
-		fblock->setActiveAnim();
-		//std::cout << "Block and falling block collision";
-	}
+	FallingBlock* fblock = static_cast<FallingBlock*> (fallingBlock);
+	fblock->setActiveAnim();
 	std::cout << "block col with fblock\n";
 }
 

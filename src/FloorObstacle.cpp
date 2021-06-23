@@ -10,10 +10,9 @@ bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle
 
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
-    MovingObj(world, startPos, size, bodyType, floorObs, mapEnum),  
-    m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size), m_currentSize(size)
+    MovingObj(world, startPos, size, bodyType, floorObs, mapEnum),  m_currTimer(startTimer.x), m_currIndex(0),
+    m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size), m_currentSize(size), m_scaler(size.y / 2)
 {
-    //scale y (size.y*(13/7))
     sf::Sprite temp(Resources::getResourceRef().getTexture(mapEnum, floorObs));
     temp.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
     temp.setScale(size.x / temp.getGlobalBounds().width, (size.y *3.5) / temp.getGlobalBounds().height);
@@ -42,45 +41,46 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
 //applies impulse to jump
 void FloorObstacle::updatePhysics(float dt)
 {
-    static float timer = m_startingTime;
-    static float ind = 0;
-    static float scaler = m_size.y / 2;
+    //static float timer = m_startingTime;
+    //static float ind = 0;
+    //static float scaler = m_size.y / 2;
+
     float absScaler, scalerSign;
-    timer -= dt;
-    if (timer <= 0 && !m_active) {//waiting to go up
+    m_currTimer -= dt;
+    if (m_currTimer <= 0 && !m_active) {//waiting to go up
         m_active = true;
-        timer = 0;
+        m_currTimer = 0;
     }
-    else if (timer <= 0 && m_active && ind < FLOOR_OBS_LEN)//going up or down
+    else if (m_currTimer <= 0 && m_active && m_currIndex < FLOOR_OBS_LEN)//going up or down
     {
         m_body->DestroyFixture(m_body->GetFixtureList());
         auto test = m_body->GetFixtureList();
-        absScaler = (scaler != 0) ? abs(scaler) : 0;
+        absScaler = (m_scaler != 0) ? abs(m_scaler) : 0;
         b2PolygonShape shape(std::move(createPolygonShape({ (m_size.x / SCALE) / 4, ((m_size.y+absScaler) / SCALE) / 2 })));
         createFixtureDef(shape, 1.0f, 0.3, floorObsBit,true, playerBits);
-        scalerSign = (scaler != 0) ? scaler / absScaler : -1;
+        scalerSign = (m_scaler != 0) ? m_scaler / absScaler : -1;
         m_body->SetTransform({ m_body->GetPosition().x, 
                                m_body->GetPosition().y - (((m_size.y / 4)*scalerSign)/SCALE)}, 0);
-        ind++;
-        m_col = ind-1;
+        m_currIndex++;
+        m_col = m_currIndex -1;
         m_sprite.setTextureRect(sf::IntRect(FLOOR_OBS_WIDTH*m_col, FLOOR_OBS_HEIGHT*m_row, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
-        if (ind == FLOOR_OBS_LEN && scaler > 0) {
-            ind = 0;
-            scaler *= -1;
+        if (m_currIndex == FLOOR_OBS_LEN && m_scaler > 0) {
+            m_currIndex = 0;
+            m_scaler *= -1;
             m_row=1;
             m_col = 0;
         }
-        scaler += m_size.y/2;
-        timer = m_timer;
+        m_scaler += m_size.y/2;
+        m_currTimer = m_timer;
     }
-    else if(ind == FLOOR_OBS_LEN){
+    else if(m_currIndex == FLOOR_OBS_LEN){
         m_col = 0;
         m_sprite.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
         m_row = 0;
         m_active = false;
-        timer = m_startingTime;
-        ind = 0;
-        scaler = m_size.y / 2;
+        m_currTimer = m_startingTime;
+        m_currIndex = 0;
+        m_scaler = m_size.y / 2;
     }
 }
 

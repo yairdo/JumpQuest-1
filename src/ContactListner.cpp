@@ -35,10 +35,10 @@ void ContactListner::EndContact(b2Contact* contact)
         m_preSolved = false;
     if (contact->GetFixtureA()->GetFilterData().categoryBits == ladderBits ||
         contact->GetFixtureB()->GetFilterData().categoryBits == ladderBits ||
-        contact->GetFixtureA()->GetFilterData().categoryBits == fallingBlockBits ||
-        contact->GetFixtureB()->GetFilterData().categoryBits == fallingBlockBits)
-    
-    {
+        ((contact->GetFixtureA()->GetFilterData().categoryBits |
+        contact->GetFixtureB()->GetFilterData().categoryBits) == (fallingBlockBits | playerBits))){ 
+       // std::cout << " fixtures bits : " << (contact->GetFixtureA()->GetFilterData().categoryBits &
+           // contact->GetFixtureB()->GetFilterData().categoryBits) << " falling player bits" << (fallingBlockBits & playerBits) << "\n";
         handleCollision(body1, body2);
     }
 }

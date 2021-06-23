@@ -173,10 +173,7 @@ void Resources::setButtonStrLengh() {
 void Resources::setFonts(){
 	m_fonts.insert(FontPair(lobbyFont, loadSfObj<sf::Font>("SNAP.TTF")));
 }
-void Resources::print() {
-	static int i = 0;
-	std::cout << ++i << std::endl;
-}
+
 Resources& Resources::getResourceRef() {
 	static Resources resources;
 	return resources;
