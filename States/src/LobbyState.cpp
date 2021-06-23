@@ -35,6 +35,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	addButton<MultiplayerMenuState>(back, pos, width, butHeight);
 	//build prompt
 	if ( typeid(*m_networkObj.get()).name() == typeid(Server).name()){
+		m_connected = true;
 		m_isServer = true;	
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3f;
 		pos.x = m_window.getSize().x - width;
