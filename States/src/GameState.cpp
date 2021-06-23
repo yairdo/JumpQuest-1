@@ -5,7 +5,7 @@
 #include "Server.h"
 #include <iostream>
 #include <Projectile.h>
-#include "PauseState.h"
+#include "GameMenuState.h"
 
 //-----------------------------------------------------------------------------
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
@@ -62,7 +62,7 @@ void GameState::update()
 				switch (event.key.code)
 				{
 				case sf::Keyboard::Escape:
-					m_next = std::make_unique<PauseState>(m_manager, m_window, false);
+					m_next = std::make_unique<GameMenuState>(m_manager, m_window, false);
 					break;
 				default:
 					break;
@@ -161,6 +161,7 @@ void GameState::updateGame() {
 	//-----------------------------------------------------
 	if (!m_paused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
+		m_testPlayer->setGotGift(false);
 	}
 	if (!m_isWin)
 		updateWin();
