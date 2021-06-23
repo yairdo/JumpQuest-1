@@ -3,7 +3,7 @@
 #include <Board.h>
 
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
-m_isLinked(false){
+m_isLinked(false), m_gameStarted(false){
 }
 //============================================================================
 Client::~Client() {
@@ -128,6 +128,9 @@ void Client::handleNetworkMessage(){
 		break;
 	case closing:
 		throw std::exception(SERVER_CONNECTION_LOST);
+		break;
+	case NetworkMessages::startGameMessage:
+		m_gameStarted = true;
 		break;
 	default:
 		break;

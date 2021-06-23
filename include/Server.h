@@ -18,6 +18,8 @@ public:
     virtual void addProjectile(const AddProjectileMessage&)override;
     void startGame(MapType);
     virtual void notifyWinning(unsigned short) override;
+    virtual bool gameStarted();
+
 
     //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);
@@ -27,6 +29,7 @@ private:
     //state
     bool m_launched;
     bool m_requiting;
+    std::vector<bool> m_PlayersReady;
 
     virtual void notifyClosing()override;
     void notifyCloser(int);

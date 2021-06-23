@@ -5,7 +5,7 @@
 #include <Board.h>
 
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
-	m_launched(false){
+	m_launched(false), m_PlayersReady(MAX_SERVER_PLAYERS, false){
 }
 /*==========================================================================*/
 Server::~Server() {
@@ -62,6 +62,10 @@ bool Server::handleRequests(int max) {
 					break;
 				case notifyWin:
 					notifyWinning(receiveValue<unsigned short>());
+					break;
+				case iAmReady:
+					m_PlayersReady[receiveValue<int>()] = true;
+					break;
 				default:
 					break;
 				}
@@ -252,3 +256,13 @@ void Server::addProjectile(const AddProjectileMessage& projectile){
 			 sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
  }
+/*============================================================================*/
+bool Server::gameStarted() {
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i) && !m_PlayersReady[i])
+			return false;
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		sendMessage<int>(networkMessage, NetworkMessages::startGameMessage, 
+			getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+	return true;
+}

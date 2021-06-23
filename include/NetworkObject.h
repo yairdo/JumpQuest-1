@@ -21,6 +21,7 @@ public:
 	virtual bool launch() = 0;
 	virtual void sendStaticCollision(int) = 0;
 	virtual void notifyWinning(unsigned short = MAX_SERVER_PLAYERS) = 0;
+	virtual bool gameStarted() = 0;
 
 	//============================= gets section =============================
 	const sf::IpAddress& getIP() const { return m_ip; }
