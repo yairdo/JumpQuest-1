@@ -1,4 +1,5 @@
 #include "ClientGameState.h"
+#include "Client.h"
 #include "Player.h"
 #include "Client.h"
 //-----------------------------------------------------------------------------
