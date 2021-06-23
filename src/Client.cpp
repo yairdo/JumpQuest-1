@@ -126,9 +126,6 @@ void Client::handleNetworkMessage(){
 	case iAmFree:
 		sendGameMembership("client");
 		break;
-	case startGame:
-		setStarted(true);
-		break;
 	case closing:
 		throw std::exception(SERVER_CONNECTION_LOST);
 		break;
