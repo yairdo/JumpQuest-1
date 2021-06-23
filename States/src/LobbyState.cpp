@@ -10,6 +10,7 @@
 #include "ServerGameState.h"
 #include "ClientGameState.h"
 #include "ChooseBoardState.h"
+#include "MainMenuState.h"
 
 //-----------------------------------------------------------------------------
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace,
@@ -35,20 +36,17 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	//build prompt
 	if ( typeid(*m_networkObj.get()).name() == typeid(Server).name()){
 		m_isServer = true;	
-		//std::cout << "is server\n";
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3f;
 		pos.x = m_window.getSize().x - width;
 		addButton<ChooseBoardState>(start, pos, width, butHeight);
 		//try {
-			m_connected = m_networkObj->launch();
+		//	m_connected = m_networkObj->launch();
 		//}
 		//catch (const std::exception& e) {
 		//	m_next = m_manager.build<MainMenuState>(m_manager, m_window, true, nullptr);
 		//	m_manager.setErrorMessage(e.what());
-		//	return;
+		////	return;
 		//}
-
-		
 	}
 	pos = m_nameTextBox.getPosition();
 	if (m_isServer)

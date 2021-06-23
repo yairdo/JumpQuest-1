@@ -108,7 +108,8 @@ void StateManager::drawLastState() {
 //-----------------------------------------------------------------------------
 void StateManager::setErrorMessage(const std::string& str) {
 	m_errorMessage.setString(str);
-	m_errorMessage.setPosition({ m_window.getSize().x / 2.f - m_errorMessage.getGlobalBounds().width / 2.f,250});
+	m_errorMessage.setPosition({ m_window.getSize().x / 2.f - 
+		m_errorMessage.getGlobalBounds().width / 2.f,250});
 	m_errorMessageTimer = 3;
 }
 //-----------------------------------------------------------------------------
