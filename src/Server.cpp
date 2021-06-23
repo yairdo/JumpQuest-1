@@ -62,6 +62,9 @@ bool Server::handleRequests(int max) {
 					break;
 				case notifyWin:
 					notifyWinning(receiveValue<unsigned short>());
+				case iAmReady:
+					m_readyPlayers[receiveValue<int>()] = true;
+					break;
 				default:
 					break;
 				}

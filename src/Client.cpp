@@ -147,5 +147,5 @@ void Client::notifyWinning(unsigned short winner){
 }
 /*============================================================================*/
 void Client::sendImReady(){
-	sendMessage<int>(networkMessage, startGame, m_serverIP, SERVERS_PORT, true);
+	sendMessage<int>(iAmReady, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }
