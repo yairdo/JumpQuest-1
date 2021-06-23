@@ -155,12 +155,7 @@ sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::V
             return { loc.x,loc.y - bounds.y / 2 - PROJECTILE_SIZE.y / 2-10};
         }
     }
-}
-
-void Projectile::ShotFromFx(const sf::Vector2f& loc, const sf::Vector2f& bounds) {
-    
-}
-
-void Projectile::ShotFromGx(const sf::Vector2f& loc, const sf::Vector2f& bounds) {
 
 }
+
+

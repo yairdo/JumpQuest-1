@@ -25,8 +25,6 @@ public:
 	void setFace(int);
 	void updateAnim(float deltaTime);
 private:
-	void ShotFromFx(const sf::Vector2f& loc, const sf::Vector2f& bounds);
-	void ShotFromGx(const sf::Vector2f& loc, const sf::Vector2f& bounds);
 	bool m_activeAnim;
 	int m_faceTo;
 	float m_distance;
