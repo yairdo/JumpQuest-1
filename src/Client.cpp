@@ -15,6 +15,7 @@ Client::~Client() {
 */
 bool Client::handleRequests(int max) {
 	int counter = 0;
+
 	while (receivedMessage()&& counter++ < max) {
 			switch (receiveValue<MessageType>())
 			{
@@ -150,4 +151,8 @@ void Client::addProjectile(const AddProjectileMessage& projectile){
 /*============================================================================*/
 void Client::notifyWinning(unsigned short winner){
 	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
+}
+
+void Client::sendImReady(){
+	sendMessage<NetworkMessages>(networkMessage, iAmAServer, m_serverIP, SERVERS_PORT, true);
 }
