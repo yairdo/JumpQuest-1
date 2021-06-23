@@ -8,7 +8,7 @@
 
 Projectile::Projectile(b2World& world, const sf::Vector2f& size, int bodyType,float dis,int map) :
     MovingObj(world, { 0,0 }, size, bodyType, 100,100,arrow,map),
-    m_shot(false), m_elapaseTime(0),m_distance(dis)
+    m_shot(false), m_elapaseTime(0),m_distance(dis),m_activeAnim(false)
 {
     //m_sprite.setColor(sf::Color::Yellow);
     /*m_sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
@@ -40,19 +40,23 @@ void Projectile::shot(const sf::Vector2f& toPos){
     m_vel.y = (toPos.y- m_sprite.getPosition().y)/SCALE;
     m_vel.Normalize();
 
-
+    float angle;
    // float angle = -1/tan((m_vel.y / m_vel.x)* M_PI/180);
-    float angle = -acos(m_vel.x)*180/M_PI;
-    if (toPos.y > m_sprite.getPosition().y) {
-        if (toPos.x < m_sprite.getPosition().x)
-            angle -= 90;
-        else
-            angle += 90;
-    }
+    if(toPos.y<m_sprite.getPosition().y)
+         angle = -acos(m_vel.x)*180/M_PI;
+    else
+         angle = acos(m_vel.x) * 180 / M_PI;
+    //if (toPos.y > m_sprite.getPosition().y) {
+    //    if (toPos.x < m_sprite.getPosition().x)
+    //        angle -= 90;
+    //    else
+    //        angle += 90;
+    //}
    // angle= -angle * 180 / M_PI;
     //std::cout << "angle :"<< angle<<"\n";
     //m_body->SetAngularVelocity(tan((m_vel.y/m_vel.x)));
     m_body->SetTransform(m_body->GetPosition(), angle);
+    m_activeAnim = true;
   //  m_body->SetAngularDamping(angle);
    // m_sprite.rotate(angle);
     
@@ -89,8 +93,9 @@ void Projectile::move()
     m_distance -= b2Distance({ spritePos.x,spritePos.y }, { m_sprite.getPosition().x, m_sprite.getPosition().y });
 }
 void Projectile::updateAnim(float deltaTime) {
-    m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-        deltaTime, m_totalTime, arrow, up));
+    if(m_activeAnim)
+        m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
+           deltaTime, m_totalTime, arrow, up,m_distance/(65*ARROW_LEN)));
 }
 void Projectile::draw(sf::RenderWindow& window)
 {
@@ -100,8 +105,11 @@ void Projectile::draw(sf::RenderWindow& window)
 void Projectile::reset()
 {
    // m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
+    m_col = 0;
+    m_sprite.setTextureRect(sf::IntRect(0, 0, PROJECTILE_SIZE.x, PROJECTILE_SIZE.y));
     m_body->SetAwake(false);
     m_shot = false;
+    m_activeAnim = false;
 }
 
 sf::Vector2f Projectile::getPos() const {

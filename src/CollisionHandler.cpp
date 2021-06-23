@@ -68,6 +68,8 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 	MovingBlock* mvBlock= static_cast<MovingBlock*> (obj2);
 	if (!player->getMoving()) {
 		player->setMoving(true);
+		if (abs(mvBlock->getPos().x - player->getPos().x)>= (mvBlock->getWidth() / 2)+player->getWidth()/2)
+			player->setPush(true);
 	//	std::cout << "first ";
 	}
 	else {
@@ -75,7 +77,6 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 		//std::cout << "second \n";
 	}
 	std::cout << "player col with block\n";
-	//std::cout << "player collide with block\n";
 }
 void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 	Player* player = static_cast<Player*> (obj1);

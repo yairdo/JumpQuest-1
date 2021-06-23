@@ -55,10 +55,10 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     //fixtureDef.filter.categoryBits = footBits;
     //fixtureDef.filter.maskBits = 0xFFFF;
 
-    dynamicBox.SetAsBox(size.x / (SCALE * 4), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
+    dynamicBox.SetAsBox((size.x) / (SCALE * 6), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
     
     
-    b2Fixture* footSensorFixture = createFixtureDef(dynamicBox, 1.0f, 0.3f, footBits, true,~(noHandleBit | noneBit));
+    b2Fixture* footSensorFixture = createFixtureDef(dynamicBox, 1.0f, 0.3f, footBits, true,~(noHandleBit | noneBit | fallingBlockBits));
     footSensorFixture->SetUserData((void*)FOOT);
 
     dynamicBox.SetAsBox(size.x / (4.f * SCALE), size.y / (2.f * SCALE));
@@ -85,6 +85,9 @@ void Player::updatePhysics(float dt)
         m_body->ApplyLinearImpulseToCenter(m_projectileForce, true);
         m_timer = 0.3;
         m_projectileForce = { 0,0 };
+    }
+    if (m_moving && m_numFootContact==0 && m_pushDown) {
+        m_body->SetLinearVelocity({ 0,2 });
     }
     int pos = animPos;
     int dir = m_direction;
@@ -296,4 +299,8 @@ void Player::setMoving(bool vel)
 void Player::winGame() {
     //std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
     m_win = true;
+}
+
+float Player::getWidth() {
+    return m_sprite.getGlobalBounds().width;
 }

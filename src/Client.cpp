@@ -64,7 +64,7 @@ bool Client::handleRequests(int max) {
 */
 void Client::searchForServers() {
 	sendMessage(networkMessage, whoIsFreeServer, 
-		sf::IpAddress::Broadcast, SERVERS_PORT, true);
+		sf::IpAddress::Broadcast, SERVERS_PORT, false);
 }
 /*============================================================================
 * The method notify the host Server that the client is disconnecting.
