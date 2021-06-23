@@ -63,9 +63,6 @@ void FloorObstacle::updatePhysics(float dt)
                                m_body->GetPosition().y - (((m_size.y / 4)*scalerSign)/SCALE)}, 0);
         ind++;
         m_col = ind-1;
-        if (ind == 5) {
-            std::cout << "blahds klsdklfslfmg";
-        }
         m_sprite.setTextureRect(sf::IntRect(FLOOR_OBS_WIDTH*m_col, FLOOR_OBS_HEIGHT*m_row, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
         if (ind == FLOOR_OBS_LEN && scaler > 0) {
             ind = 0;
