@@ -20,11 +20,9 @@ public:
     virtual void notifyWinning(unsigned short) override;
     virtual bool gameStarted();
 
-
     //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);
 
-    
 private:
     //state
     bool m_launched;
