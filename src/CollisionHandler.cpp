@@ -32,6 +32,10 @@ CollisionHandler::CollisionHandler(){
 	m_collisionMap[Key(typeid(FloorObstacle), typeid(Player))] = &CollisionHandler::floorObstaclePlayer;
 	m_collisionMap[Key(typeid(Projectile), typeid(Player))] = &CollisionHandler::projectilePlayer;
 	m_collisionMap[Key(typeid(Player), typeid(Projectile))] = &CollisionHandler::playerProjectile;
+	//--
+	m_collisionMap[Key(typeid(FallingBlock), typeid(Player))] = &CollisionHandler::fallingBlockPlayer;
+	m_collisionMap[Key(typeid(Player), typeid(FallingBlock))] = &CollisionHandler::playerFallingBlock;
+
 
 }
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
@@ -123,6 +127,14 @@ void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
 	blockFallingBlock(obj2, obj1);
 }
 
+void CollisionHandler::fallingBlockPlayer(GameObj* obj1, GameObj* obj2) {
+	playerFallingBlock(obj2, obj1);
+}
+
+void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
+	FallingBlock* fBlock = static_cast<FallingBlock*> (obj2);
+	fBlock->setCollision(true);
+}
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {
 	FallingBlock* fblock = dynamic_cast<FallingBlock*> (fallingBlock);

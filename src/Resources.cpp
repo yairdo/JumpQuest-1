@@ -77,6 +77,9 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("resume.png")));
 	m_textures.insert(TexturesPair(chooseBoard,
 		loadSfObj<sf::Texture>("SelectTheme.png")));
+	m_textures.insert(TexturesPair(howTo,
+		loadSfObj<sf::Texture>("HowTo.png")));
+
 }
 void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),

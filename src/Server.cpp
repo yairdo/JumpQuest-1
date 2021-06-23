@@ -38,6 +38,7 @@ bool Server::launch() {
 */
 bool Server::handleRequests(int max) {
 	int counter = 0;
+	MovingObjInfo movingInfo;
 	while (receivedMessage() && counter++ < max) {
 			MessageType type = receiveValue<MessageType>();
 			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
@@ -53,6 +54,10 @@ bool Server::handleRequests(int max) {
 					break;
 				case staticObjInfo:
 					updateStaticObjState(receiveValue<StaticObjInfo>());
+					break;
+				case movingObjInfo:
+					movingInfo = receiveValue<MovingObjInfo>();
+					getBoard()->setInfo(movingInfo.m_index, movingInfo);
 					break;
 				case closer:
 					notifyCloser(receiveValue<int>());

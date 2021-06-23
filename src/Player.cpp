@@ -87,7 +87,7 @@ void Player::updatePhysics(float dt)
         m_projectileForce = { 0,0 };
     }
     if (m_moving && m_numFootContact==0 && m_pushDown) {
-        m_body->SetLinearVelocity({ 0,2 });
+        m_body->SetLinearVelocity({ 0,4 });
     }
     int pos = animPos;
     int dir = m_direction;
