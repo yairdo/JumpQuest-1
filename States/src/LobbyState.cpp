@@ -43,7 +43,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 			m_connected = m_networkObj->launch();
 		//}
 		//catch (const std::exception& e) {
-		//	m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
+		//	m_next = m_manager.build<MainMenuState>(m_manager, m_window, true, nullptr);
 		//	m_manager.setErrorMessage(e.what());
 		//	return;
 		//}
