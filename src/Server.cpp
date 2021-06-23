@@ -5,7 +5,8 @@
 #include <Board.h>
 
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
-	m_launched(false){
+	m_launched(false), m_readyPlayers(MAX_SERVER_PLAYERS){
+	m_readyPlayers = { false };
 }
 /*==========================================================================*/
 Server::~Server() {
@@ -195,6 +196,14 @@ bool Server::renameMember() {
 			}
 	return false;
 }
+/*============================================================================*/
+bool Server::allPlayersReady(){
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i))
+			if (!m_readyPlayers[i])
+				return false;
+	return true;
+}
 /*==========================================================================*/
 void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 	updateAboutNewMember(AddMember(
@@ -224,6 +233,13 @@ void Server::notifyWinning(unsigned short winner){
 		if (getMember(i))
 			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp, 
 				getMember(i)->m_memberPort, true);
+}
+/*============================================================================*/
+bool Server::gameStarted(){
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i) && !m_readyPlayers[i])
+			return false;
+	return true;
 }
 /*============================================================================
 * 

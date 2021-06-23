@@ -18,10 +18,12 @@ public:
 	virtual void sendStaticCollision(int);
 	virtual void addProjectile(const AddProjectileMessage& projectile)override;
 	virtual void notifyWinning(unsigned short) override;
+	virtual bool gameStarted() { return m_gameStarted; }
+	void sendImReady();
 private:
 	sf::IpAddress m_serverIP;
-	std::unordered_set<std::string> m_servers;
 	bool m_isLinked;
+	bool m_gameStarted;
 
 	virtual void notifyClosing();
 	void searchForServers();

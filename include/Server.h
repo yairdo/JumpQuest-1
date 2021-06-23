@@ -18,6 +18,7 @@ public:
     virtual void addProjectile(const AddProjectileMessage&)override;
     void startGame(MapType);
     virtual void notifyWinning(unsigned short) override;
+    virtual bool gameStarted()override;
 
     //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);
@@ -27,6 +28,7 @@ private:
     //state
     bool m_launched;
     bool m_requiting;
+    std::vector<bool>m_readyPlayers;
 
     virtual void notifyClosing()override;
     void notifyCloser(int);
@@ -36,5 +38,5 @@ private:
     void updateAboutNewMember(const AddMember&);
     int countServersInPort();
     bool renameMember();
-    
+    bool allPlayersReady();
 };
