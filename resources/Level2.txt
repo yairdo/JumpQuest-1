@@ -1,9 +1,26 @@
 d MovingBlock 475 400 475 800 25 100
 d MovingBlock 1350 600 1700 600 100 100
+d MovingBlock 3400 400 4000 400 100 100
+d MovingBlock 3400 300 3500 300 25 25
+d MovingBlock 3600 300 3700 300 25 25
+d MovingBlock 3800 300 3900 300 25 25
+d MovingBlock 4300 400 4850 400 100 100
+d MovingBlock 4350 300 4450 300 25 25
+d MovingBlock 4500 300 4600 300 25 25
+d MovingBlock 4750 300 4850 300 25 25
 
-d FallingBlock 3075 20 40 40 1 1
+d FallingBlock 3200 25 50 100 1 0
+d FallingBlock 5100 25 50 100 1 0
+d FallingBlock 5200 25 50 100 1 0
+d FallingBlock 5300 25 50 100 1 0
+d FallingBlock 5400 25 50 100 1 0
+d FallingBlock 5500 25 50 100 1 0
+d FallingBlock 5600 25 50 100 1 0
+d FallingBlock 5800 25 50 100 1 0
 
-s CheckPoint 1900 815 30 100 0 0
+s CheckPoint 1900 800 30 100 0 0
+s CheckPoint 5000 300 30 100 0 0
+s CheckPoint 5900 400 30 100 1 0
 
 s Block 50 300 100 100
 s Block 300 500 200 100
@@ -22,8 +39,20 @@ s Block 975 800 25 100
 s Block 1200 300 200 100
 s Block 1962.5 550 100 25
 s Block 1900 900 200 100
+s Block 2100 900 100 100
+s Block 2300 900 100 100
+s Block 2500 900 100 100
+s Block 2700 900 100 100
+s Block 2900 900 100 100
+s Block 3100 900 100 100
+s Block 3100 550 100 100
+s Block 4200 400 100 100
+s Block 5000 400 100 100
+s Block 5900 500 100 100
 
 s Gift 950 100 25 25
+s Gift 1900 800 25 25
+s Gift 3100 350 25 25
 
 s Rope 150 500 0 1000
 s Rope 450 400 0 100
@@ -33,6 +62,25 @@ s Rope 750 400 0 100
 s Rope 750 600 0 100
 s Rope 750 800 0 100
 s Rope 1050 300 0 600
+s Rope 3300 500 0 1000
+s Rope 5150 500 0 1000
+s Rope 5250 500 0 1000
+s Rope 5350 500 0 1000
+s Rope 5450 500 0 1000
+s Rope 5550 500 0 1000
+s Rope 5650 500 0 1000
+s Rope 5750 500 0 1000
 
 d Archer 1950 525 1.5 550 1400 525 1
 d Archer 1975 525 2 550 1400 525 1
+
+d FloorObstacle 900 275 25 25 5 0.1
+d FloorObstacle 2100 875 25 25 3 0.1
+d FloorObstacle 2300 875 25 25 3 0.1
+d FloorObstacle 2500 875 25 25 3 0.1
+d FloorObstacle 2700 875 25 25 3 0.1
+d FloorObstacle 2900 875 25 25 3 0.1
+d FloorObstacle 5100 875 50 1000 3 0.1
+d FloorObstacle 5200 875 50 1000 3 0.1
+d FloorObstacle 5300 875 50 1000 3 0.1
+d FloorObstacle 5400 875 50 1000 3 0.1

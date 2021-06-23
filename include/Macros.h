@@ -25,6 +25,7 @@ const sf::Color WHITE_TRANSP_CLR { 255,255,255,120 };
 const sf::Color BROWN_TRANSP_CLR{ 102,0,0,150 };
 const sf::Color BLACK_TRANSP_CLR{ 0,0,0,150 };
 
+const sf::Vector2f PLAYERS_NAMES_SCALE{ 0.4f,0.8f };
 
 
 constexpr auto TIME_STEP = 1.0f / 60.0f;
