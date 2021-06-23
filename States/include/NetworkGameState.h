@@ -33,6 +33,7 @@ struct ClonePlayer {
 		m_name.setFont(Resources::getResourceRef().getFont(lobbyFont));
 		m_name.setString(name);
 		m_name.setOrigin(m_name.getGlobalBounds().width / 2, m_name.getGlobalBounds().height / 2);
+		m_name.setScale(PLAYERS_NAMES_SCALE);
 		
 	}
 	sf::Text m_name;

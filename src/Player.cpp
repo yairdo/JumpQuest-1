@@ -272,7 +272,7 @@ void Player::setName(const std::string& name) {
     m_name.setFont(Resources::getResourceRef().getFont(lobbyFont));
     m_name.setString(name);
     m_name.setOrigin(m_name.getGlobalBounds().width / 2, m_name.getGlobalBounds().height / 2);
-    m_name.setScale(0.4, 0.8);
+    m_name.setScale(PLAYERS_NAMES_SCALE);
 }
 void Player::useGift(const sf::Vector2f& mousePos, NetworkObject* network) {
     
