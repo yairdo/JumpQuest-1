@@ -28,6 +28,7 @@ public:
 	std::unique_ptr<State> next();
 
 	bool isReplacing() const;
+	void updateNext(std::unique_ptr<State> next);
 
 protected:
 	StateManager& m_manager;

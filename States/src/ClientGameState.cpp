@@ -1,7 +1,7 @@
 #include "ClientGameState.h"
 #include "Client.h"
-#include "Player.h"
-#include "Client.h"
+
+
 //-----------------------------------------------------------------------------
 void ClientGameState::updateNetwork() {
 	if (!m_started)
