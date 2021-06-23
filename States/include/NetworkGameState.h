@@ -18,6 +18,8 @@ private:
 	void updateClonesLoc();
 	void sendInfo();
 
+protected:
+	bool m_started;
 };
 
 struct ClonePlayer {

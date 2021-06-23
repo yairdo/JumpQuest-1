@@ -6,8 +6,9 @@
 
 //-----------------------------------------------------------------------------
 NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
-	std::shared_ptr<NetworkObject> net):
-	GameState(manager,window,replace,net,net->getLvlInfo())
+	std::shared_ptr<NetworkObject> net) :
+	GameState(manager, window, replace, net, net->getLvlInfo()),
+	m_started(false)
 {
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
@@ -31,6 +32,8 @@ void NetworkGameState::updateBoard()
 {
 	try {
 		updateNetwork();
+		if (!m_started)
+			return;
 		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 			if (m_clones.find(i) != m_clones.end() && !m_networkObj->getMember(i)) {
 				m_clones.erase(i);
