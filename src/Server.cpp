@@ -60,6 +60,8 @@ bool Server::handleRequests(int max) {
 				case MessageType::addProjectile:
 					addProjectile(receiveValue<AddProjectileMessage>());
 					break;
+				case notifyWin:
+					notifyWinning(receiveValue<unsigned short>());
 				default:
 					break;
 				}
@@ -115,7 +117,7 @@ void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if(getMember(i))
 			sendMessage<NetworkMessages>(networkMessage, closing,
-				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
 }
 /*============================================================================
 * The method is update the received member location on the map. 
@@ -156,7 +158,7 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 		if (getMember(i))
 			if (i != newMember.m_id)
 				sendMessage<AddMember>(addMember, newMember,
-					getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+					getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
 }
 /*==========================================================================
 * The method 
@@ -167,7 +169,7 @@ int Server::countServersInPort() {
 		messagesCounter = 0;
 	try {
 		sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
-			sf::IpAddress::Broadcast, SERVERS_PORT);
+			sf::IpAddress::Broadcast, SERVERS_PORT, true);
 		while (receivedMessage(0.5) && messagesCounter++ < max) {
 			if (receiveValue<MessageType>() == networkMessage
 				&& receiveValue<NetworkMessages>() == iAmAServer)
@@ -188,7 +190,7 @@ bool Server::renameMember() {
 				&& getMember(i)->m_memberPort == getSenderPort()) {
 				updateAboutNewMember(AddMember(i, receiveValue<GameMember>().m_name));
 				sendMessage<int>(memberId, getMember(i)->m_info.m_id, getSenderIP(),
-					getSenderPort());
+					getSenderPort(), true);
 				return true;
 			}
 	return false;
@@ -211,7 +213,7 @@ void Server::startGame(MapType lvl) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
 			sendMessage<MapType>(MessageType::startGame, lvl, getMember(i)->m_memberIp,
-				getMember(i)->m_memberPort);
+				getMember(i)->m_memberPort, true);
 }
 /*============================================================================*/
 void Server::notifyWinning(unsigned short winner){
@@ -221,7 +223,7 @@ void Server::notifyWinning(unsigned short winner){
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
 			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp, 
-				getMember(i)->m_memberPort);
+				getMember(i)->m_memberPort, true);
 }
 /*============================================================================
 * 
@@ -248,5 +250,5 @@ void Server::addProjectile(const AddProjectileMessage& projectile){
 	 for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		 if (getMember(i))
 			 sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
-				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
  }
