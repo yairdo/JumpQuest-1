@@ -10,13 +10,11 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     m_projectileForce({ 0,0 }), m_board(&board), m_win(false), m_moving(false), m_stuned(false), m_stunTime(0)
 {
     m_activeTimer = 0;
-    m_body->SetFixedRotation(true);
     b2PolygonShape dynamicBox(std::move(createPolygonShape({ (1 / SCALE) / 2, size.y / (2.f * SCALE) })));
 
     dynamicBox.SetAsBox((1 / SCALE) / 2, size.y / (2.f * SCALE));
     createFixtureDef(dynamicBox, 1.0f, 0.3f, playerSensorBits, true, ladderBits | checkPointBits);
 
-    m_body->SetUserData(this);
     dynamicBox.SetAsBox((size.x) / (SCALE * 6), 1 / (SCALE * 2), b2Vec2(0, size.y / (2.f * SCALE)), 0);
     
     
@@ -26,6 +24,8 @@ Player::Player(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size
     dynamicBox.SetAsBox(size.x / (4.f * SCALE), size.y / (2.f * SCALE));
     //b2PolygonShape dynamicBox(std::move(createPolygonShape({ size.x / (4.f * SCALE), size.y / (2.f * SCALE) })));
     createFixtureDef(dynamicBox, 1.0f, 0.f, playerBits);
+    m_body->SetFixedRotation(true);
+    m_body->SetUserData(this);
 }
 
 void Player::collectGift(){
