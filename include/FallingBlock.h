@@ -1,10 +1,7 @@
 #pragma once
 #include "MovingObj.h"
-#include "iostream"
 
-class b2Body;
 class b2World;
-//class sf::RenderWindow;
 
 class FallingBlock : public MovingObj {
 public:
@@ -21,8 +18,7 @@ public:
 private:
 	bool m_activeAnim;
 	sf::Vector2f m_strtPos;
-	bool m_falling = false;
-	//float m_timer;
+	bool m_falling;
 	float m_startingTime;
 	static bool m_registerit;
 

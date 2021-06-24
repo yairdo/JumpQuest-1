@@ -29,10 +29,7 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
     m_body->SetUserData(this);
     m_row = 1;
 }
-//-----------------------------------------------------------------------------
-void CheckPoint::setColor(sf::Color color){
-    m_sprite.setColor(color);
-}
+
 //-----------------------------------------------------------------------------
 //when a player collides with the checkpoint 
 void CheckPoint::activate(){

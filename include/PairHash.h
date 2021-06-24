@@ -1,6 +1,4 @@
 #pragma once
-#include <iostream>
-//the hash is not good when there are many same object collisons
 template<class T>
 struct ArgsHash {
 	std::size_t operator () (const std::pair<T,T>& p) const {
@@ -15,7 +13,6 @@ struct KeyEqual
 {
 	bool operator()(const std::pair<T,T>& a1, const std::pair<T,T>& a2) const
 	{
-		return (a1.first == a2.first && a1.second == a2.second);/* ||
-			(a1.first == a2.second && a1.second == a2.first);*/
+		return (a1.first == a2.first && a1.second == a2.second);
 	}
 };

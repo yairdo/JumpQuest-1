@@ -8,10 +8,8 @@
 #include "CheckPoint.h"
 #include "FallingBlock.h"
 #include "FloorObstacle.h"
-#include <functional>
-#include <Macros.h>
 #include <Projectile.h>
-#include "box2d/box2d.h"
+
 
 //-----------------------------------------------------------------------------
 //CollisionHnadle c-tor , builds the map for the multimethods

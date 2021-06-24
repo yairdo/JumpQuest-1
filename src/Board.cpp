@@ -1,17 +1,11 @@
 #include "Board.h"
 #include <fstream>
-#include<Block.h>
-#include <MovingBlock.h>
-#include <Gift.h>
-#include <Rope.h>
-#include <FallingBlock.h>
 #include <sstream>
 #include <Player.h>
 #include <Factory.h>
 #include <MessagesStructs.h>
 #include <NetworkObject.h>
 #include "Projectile.h"
-#include "CheckPoint.h"
 #include "box2d/box2d.h"
 
 //-----------------------------------------------------------------------------
@@ -27,7 +21,7 @@ void Board::generateMap(b2World& world) {
 	std::string fileName = "Level" + std::to_string(m_mapEnum) + ".txt"; 
 	file.open("Level" + std::to_string(m_mapEnum) +  + ".txt"); 
 	if (!file.is_open()) {
-		std::cout << "cant open file, for debugging\n";
+		throw std::out_of_range("Cant open file, for debugging\n");
 	}
 	char type;
 	std::string str;
@@ -43,6 +37,7 @@ void Board::generateMap(b2World& world) {
 
 		vals.clear();
 	}
+	file.close();
 }
 //-----------------------------------------------------------------------------
 /*reads the line in the file and gather the info neededd to create the object
@@ -65,13 +60,13 @@ void Board::setId(int id) {
 }
 //-----------------------------------------------------------------------------
 //move all the moving objects
-void Board::move() {
+void Board::move() const{
 	for (auto& moving : m_movingObj)
 		moving->move();
 }
 //-----------------------------------------------------------------------------
 //draws all objects
-void Board::draw(sf::RenderWindow& window) {
+void Board::draw(sf::RenderWindow& window) const{
 	for(auto& stati :m_staticObj){
 		stati->draw(window);
 	}
@@ -96,23 +91,23 @@ void Board::updatePhysics(float deltaTime) {
 }
 //-----------------------------------------------------------------------------
 //sends player reference to the gameState
-Player* Board::getPlayerRef() {
+Player* Board::getPlayerRef() const{
 	return static_cast<Player*>(m_movingObj[0].get());
 }
 //-----------------------------------------------------------------------------
 //gets the info so the server can sync all objects between all players 
-MovingObjInfo Board::getInfo(unsigned int index) {
+MovingObjInfo Board::getInfo(unsigned int index) const{
 	return m_movingObj[index]->getInfo();
 }
 //-----------------------------------------------------------------------------
 //sets the info the clients got from the server to sync all objects
-void Board::setInfo(unsigned int index, const MovingObjInfo& info) {
+void Board::setInfo(unsigned int index, const MovingObjInfo& info)  const{
 	if(index < m_movingObj.size())
 		m_movingObj[index]->setInfo(info);
 }
 //-----------------------------------------------------------------------------
 //returns the size of the moving objects vector
-unsigned int Board::numOfMovingObjs() {
+unsigned int Board::numOfMovingObjs() const{
 	return m_movingObj.size();
 }
 //-----------------------------------------------------------------------------
@@ -143,7 +138,7 @@ void Board::updateBoard(NetworkObject* netObj) {
 	}
 }
 //-----------------------------------------------------------------------------
-void Board::updateStaticMsgCollision(int index){
+void Board::updateStaticMsgCollision(int index) const{
 	m_staticObj[index]->MsgCollision();
 }
 //-----------------------------------------------------------------------------

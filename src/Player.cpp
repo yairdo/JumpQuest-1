@@ -285,6 +285,6 @@ void Player::winGame() {
     m_win = true;
 }
 //---------------------------------------------------------------------------------------------------------
-float Player::getWidth() {
+float Player::getWidth() const {
     return m_sprite.getGlobalBounds().width;
 }

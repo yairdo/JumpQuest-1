@@ -3,15 +3,18 @@
 #include <unordered_set>
 #include <string>
 #include <NetworkObject.h>
-#include <MessagesStructs.h>
-#include <Macros.h>
 
+class MessagesStructs;
 
 class Client : public NetworkObject{
 public:
+	//------------c-tor-----------
 	Client();
+
+	//------------d-tor-----------
 	virtual ~Client();
 
+	//----------Functions---------
 	bool handleRequests(int = 10);
 	virtual bool launch();
 	virtual void updateLoc(const MemberInfo&);
@@ -19,15 +22,19 @@ public:
 	virtual void updateSingleMovingObjInfo(const MovingObjInfo& info) override;
 	virtual void addProjectile(const AddProjectileMessage& projectile)override;
 	virtual void notifyWinning(unsigned short) override;
-	void sendImReady();
+	void sendImReady() ;
 
 	virtual bool gameStarted() { return m_gameStarted; }
 
 private:
+	//---------Membmbers----------
+
 	sf::IpAddress m_serverIP;
 	std::unordered_set<std::string> m_servers;
 	bool m_isLinked;
 	bool m_gameStarted;
+
+	//----------Functions---------
 
 	virtual void notifyClosing();
 	void searchForServers();

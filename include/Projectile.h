@@ -1,9 +1,7 @@
 #pragma once
 
 #include "MovingObj.h"
-#include "iostream"
 
-class b2Body;
 class b2World;
 
 class Projectile : public MovingObj {

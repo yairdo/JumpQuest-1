@@ -1,16 +1,12 @@
 #pragma once
 #include "MovingObj.h"
-#include "iostream"
 
-class b2Body;
 class b2World;
-//class sf::RenderWindow;
 
 class FloorObstacle : public MovingObj {
 public:
 	FloorObstacle(b2World&, const sf::Vector2f&, const sf::Vector2f&, const sf::Vector2f&, int, int);
 	virtual ~FloorObstacle() = default;
-	FloorObstacle() = default;
 	virtual void updatePhysics(float);
 	virtual void move() {}
 	virtual void updateAnim(float deltaTime) {}
@@ -22,7 +18,6 @@ public:
 private:
 	bool m_active;
 	float m_timer;
-	//float m_startingTime;
 	float m_currTimer;
 	int m_currIndex;
 	float m_scaler;

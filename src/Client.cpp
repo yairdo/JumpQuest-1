@@ -1,5 +1,7 @@
 #include <Client.h>
 #include <Board.h>
+#include <MessagesStructs.h>
+#include <Macros.h>
 
 //-----------------------------------------------------------------------------
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
@@ -171,6 +173,6 @@ void Client::notifyWinning(unsigned short winner){
 /*
 * telling the server he is connected and ready to start
 */
-void Client::sendImReady(){
+void Client::sendImReady() {
 	sendMessage<int>(iAmReady, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }

@@ -1,14 +1,12 @@
 #pragma once
 #include "StaticObj.h"
 
-class b2Body;
 class b2World;
 
 class Gift : public StaticObj {
 public:
 	Gift(b2World& , const sf::Vector2f& , const sf::Vector2f&, int,int);
 	virtual ~Gift() =default;
-	Gift()=default;
 	bool collisionCounter();
 	virtual void MsgCollision();
 

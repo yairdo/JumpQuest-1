@@ -1,7 +1,5 @@
 #include "GameObj.h"
 #include "box2d/box2d.h"
-#include "Macros.h"
-#include "Resources.h"
 //-----------------------------------------------------------------------------
 /*
 * the base class for all objects in the game

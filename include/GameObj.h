@@ -1,9 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <Macros.h>
-#include <Animation.h>
 #include <memory>
+#include <Animation.h>
 #include "box2d/box2d.h"
+#include <Resources.h>
 class b2Body;
 class b2World;
 

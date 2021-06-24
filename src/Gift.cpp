@@ -14,11 +14,11 @@ Gift::Gift(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size, in
 {
     b2PolygonShape groundBox(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
     createFixtureDef(groundBox, 0.f, 1.f, giftBits, false, ~noneBit);
-    m_body->SetUserData((GameObj*)this);
+    m_body->SetUserData(this);
 }
 //-----------------------------------------------------------------------------
 //decrease the gift counter when a player collides with the gift
-//when the counter reaches 0 , the gift is being collected\removes
+//when the counter reaches 0 , the gift is being collected\removed
 bool Gift::collisionCounter(){
     if (!--m_counter) {
         this->setRemoveObj(true);
@@ -32,8 +32,7 @@ bool Gift::collisionCounter(){
     return false;
 }
 //-----------------------------------------------------------------------------
-//sends a MSG to the other players so they will know a player hit
-// the gift
+// called when a another player hit a gift will mark the hit in this gift
 void Gift::MsgCollision(){
     collisionCounter();
 }

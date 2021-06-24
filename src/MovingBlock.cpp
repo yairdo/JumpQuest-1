@@ -34,29 +34,29 @@ void MovingBlock::updatePhysics(float dt)
     if (m_strtPos.y == m_endPos.y)//going up or down
     {
         if(pos.x <= m_strtPos.x)
-            m_body->SetLinearVelocity({ .5f, 0 });
+            m_body->SetLinearVelocity({ MOVING_BLOCK_SPEED, 0 });
         else if (pos.x >= m_endPos.x)
-            m_body->SetLinearVelocity({ -.5f, 0 });
+            m_body->SetLinearVelocity({ -MOVING_BLOCK_SPEED, 0 });
         else 
             m_body->SetLinearVelocity(vel);
     }
     else {
         if (pos.y <= m_strtPos.y)
-            m_body->SetLinearVelocity({ 0, .5f});
+            m_body->SetLinearVelocity({ 0, MOVING_BLOCK_SPEED});
         else if (pos.y >= m_endPos.y)
-            m_body->SetLinearVelocity({ 0, -.5f });
+            m_body->SetLinearVelocity({ 0, -MOVING_BLOCK_SPEED });
         else
             m_body->SetLinearVelocity(vel);
     }
 }
 //-----------------------------------------------------------------------------
-//moves the block
+//moves the block according to physics body position
 void MovingBlock::move()
 {
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
 }
 //-----------------------------------------------------------------------------
-float MovingBlock::getWidth() {
+float MovingBlock::getWidth() const {
     return m_sprite.getGlobalBounds().width;
 }

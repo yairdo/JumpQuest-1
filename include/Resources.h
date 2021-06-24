@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
-#include "PairHush.h"
+#include "PairHash.h"
 class Resources {
 public:
 	//----------------functions-------------------

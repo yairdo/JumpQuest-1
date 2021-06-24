@@ -34,8 +34,7 @@ void ContactListner::EndContact(b2Contact* contact)
     if (checkFootContact((int)contact->GetFixtureA()->GetUserData(), -1, body1) ||
         checkFootContact((int)contact->GetFixtureB()->GetUserData(), -1, body2))
         return;
-    if(movingBlockSolve(contact, 0, true))
-        m_preSolved = false;
+    movingBlockSolve(contact, 0, true);
     if (contact->GetFixtureA()->GetFilterData().categoryBits == ladderBits ||
         contact->GetFixtureB()->GetFilterData().categoryBits == ladderBits ||
         ((contact->GetFixtureA()->GetFilterData().categoryBits |
@@ -79,7 +78,7 @@ bool ContactListner::checkIfHitBoundry(b2Contact* contact) const {
 /*
 this function calls the Collision Handler with the 2 objects that collided
 */
-void ContactListner::handleCollision(b2Body* body1, b2Body* body2){
+void ContactListner::handleCollision(b2Body* body1, b2Body* body2) const{
     GameObj* obj1 = static_cast<GameObj*>(body1->GetUserData());
     GameObj* obj2 = static_cast<GameObj*>(body2->GetUserData());
     if (!obj1 || !obj2) return;
@@ -88,7 +87,7 @@ void ContactListner::handleCollision(b2Body* body1, b2Body* body2){
 //-----------------------------------------------------------------------------
 /*This function handles the contact of the player with a moving block, will
   set the contact friction to a value in the perametes and calls collision handler*/
-bool ContactListner::movingBlockSolve(b2Contact* contact, float friction, bool enter)
+bool ContactListner::movingBlockSolve(b2Contact* contact, float friction, bool enter) const
 {
     if (contact->GetFixtureA()->GetFilterData().categoryBits == movingBlockBits ||
         contact->GetFixtureB()->GetFilterData().categoryBits == movingBlockBits) {

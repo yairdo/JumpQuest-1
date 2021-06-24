@@ -15,16 +15,15 @@ public:
 	//---------Functions----------
 
 	void generateMap(b2World& world);
-	void move();
-	void draw(sf::RenderWindow& window);
+	void move() const;
+	void draw(sf::RenderWindow& window) const;
 	void updatePhysics(float deltaTime);
-	Player* getPlayerRef();
-	void setInfo(unsigned int index, const MovingObjInfo& );
-	MovingObjInfo getInfo(unsigned int index);
-	unsigned int numOfMovingObjs();
-	void updateStaticMsgCollision(int index);
+	Player* getPlayerRef() const;
+	void setInfo(unsigned int index, const MovingObjInfo& )const;
+	MovingObjInfo getInfo(unsigned int index) const;
+	unsigned int numOfMovingObjs() const;
+	void updateStaticMsgCollision(int index) const;
 	void updateBoard(NetworkObject*);
-	int getMap() { return m_mapEnum; }
 	void setId(int);
 	void setmapEnum(int map=castle) { m_mapEnum=map; }
 	void addProjectile(const struct AddProjectileMessage&);

@@ -1,5 +1,4 @@
 #pragma once
-#include "Resources.h"
 #include <SFML/Graphics.hpp>
 #include "box2d/box2d.h"
 
@@ -52,6 +51,7 @@ constexpr auto PLAYER_SPEED = 75.f; //secounds
 constexpr auto PLAYER_PROJ_EFFECT = 0.3f; //secounds
 constexpr auto MOVING_BLOCK_FRICTION = 0.6f; 
 constexpr auto JUMP_FORCE = 150.f; 
+constexpr auto MOVING_BLOCK_SPEED = .5f; 
 
 
 const float MAP_SIZE = 6000;
@@ -70,16 +70,6 @@ enum direction {
 	down,
 	none
 };
-
-//enum objectType {
-//	block,
-//	movingBlock,
-//	gift,
-//	shooter,
-//	fallingBlock,
-//	floorObs,
-//	rope
-//};
 
 enum MapType {
 	castle,
@@ -138,13 +128,6 @@ enum FontsType {
 	lobbyFont
 };
 
-//enum class ButtonNum {
-//	singlePlayer,
-//	host,
-//	client,
-//	help,
-//	exit
-//};
 enum EntityCategory {
 	playerBits = 0x0001,
 	giftBits = 0x0002,

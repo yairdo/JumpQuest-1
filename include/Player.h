@@ -1,8 +1,8 @@
 #pragma once
 #include "MovingObj.h"
 
-class b2World;
 class NetworkObject;
+class b2World;
 class sf::RenderWindow;
 class Board;
 
@@ -10,7 +10,7 @@ class Player : public MovingObj {
 public:
 	Player(b2World&, const sf::Vector2f&, const sf::Vector2f&, int, int , Board& board);
 	virtual ~Player()=default;
-
+	//----class functions----
 	void collectGift();
 	virtual void updatePhysics(float);
 	virtual void move();
@@ -23,10 +23,10 @@ public:
 	void center(const sf::Vector2f&);
 	void winGame();
 
-	//----Setters/getters
+	//----Setters/getters----
 	void setOnRope(bool);
 	bool getOnRope() const { return m_onRope; };
-	void setGotGift(bool state){ m_gotGift = state; }
+	void setGotGift(bool state) { m_gotGift = state; }
 	bool getGotGift() const { return m_gotGift; }
 	void setExternalForce(const b2Vec2&);
 	bool getMoving()const { return m_moving; }
@@ -35,7 +35,7 @@ public:
 	void setCheckPoint(const sf::Vector2f&);
 	void setName(const std::string&);
 	bool getWin() const { return m_win; }
-	float getWidth();
+	float getWidth() const;
 	void setPush(bool push) { m_pushDown = push; }
 
 private:
@@ -48,7 +48,6 @@ private:
 	int m_direction;
 	int m_numFootContact;
 	float m_stunTime;
-
 	bool m_onRope;
 	bool m_canCatch;
 	bool m_gotGift;
@@ -56,7 +55,7 @@ private:
 	bool m_win;
 	bool m_moving;
 	bool m_stuned;
-
+	//--- Assisting functions ---
 	void ropeJump(float, int);
 	void applyProjectileImpulse();
 	bool horizontalMove(int, bool&, int&, float, int);

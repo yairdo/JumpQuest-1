@@ -1,9 +1,8 @@
 #pragma once
-#include <map>
 #include <typeindex>
 #include "GameObj.h"
 #include <unordered_map>
-#include "PairHush.h"
+#include "PairHash.h"
 
 using Key = std::pair< std::type_index,  std::type_index>;
 
