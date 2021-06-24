@@ -100,7 +100,7 @@ void FloorObstacle::draw(sf::RenderWindow& window)
     window.draw(m_sprite);
 }
 
-void FloorObstacle::setInfo(MovingObjInfo info)
+void FloorObstacle::setInfo(const MovingObjInfo& info)
 {
     //setPos(info.m_loc);
     //m_timer = info.m_timer;

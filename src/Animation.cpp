@@ -1,20 +1,21 @@
 #include <Animation.h>
 
-
-//Animation::Animation(){}
-
+//-----------------------------------------------------------------------------
 Animation& Animation::getAnimRef()
 {
 	static Animation anim;
 	return anim;
 }
-
-//Animation::Animation(float width,float height ,sf::Texture& pic,std::vector<short> vec) {
-//	;
-//}
-//types right now : player =1 
-const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, float& totalTime ,int type
-,int dir,float switchTime) {
+//-----------------------------------------------------------------------------
+/*
+	Function: update animation
+	This functions is findig the correct int rect of the texture and return 
+	int rect.
+	input: row,col,delta time,totla time, type, direction and switch time
+	output: the int rectangle
+*/
+const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime,
+	float& totalTime ,int type,int dir,float switchTime) {
 	bool faceLeft = (dir == left) ? true : false;
 	int rowCount=findLineLen(type,row);
 	setWidthHeight(type);
@@ -44,6 +45,13 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime, floa
 	return m_animRect;
 }
 
+//-----------------------------------------------------------------------------
+/*
+	Function:find line len
+	This function is finding the lenth of the wanted animation row.
+	input: type and row
+	output: the lenth of the the wanted row
+*/
 int Animation::findLineLen(int type, int row) {
 
 	switch (type) {
@@ -78,7 +86,12 @@ int Animation::findLineLen(int type, int row) {
 	}
 	return 0;
 }
-
+//-----------------------------------------------------------------------------
+/*
+	Function: set width height
+	This function is setting the width and height of the wanted texture.
+	input: wanted type
+*/
 void Animation::setWidthHeight(int type) {
 	switch (type) {
 	case player0:

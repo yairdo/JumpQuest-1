@@ -64,7 +64,7 @@ void FallingBlock::draw(sf::RenderWindow& window)
     window.draw(m_sprite);
 }
 
-void FallingBlock::setInfo(MovingObjInfo info)
+void FallingBlock::setInfo(const MovingObjInfo& info)
 {
     setPos(info.m_loc);
     m_activeTimer = info.m_timer;

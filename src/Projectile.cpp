@@ -153,6 +153,6 @@ void Projectile::setPosition(const sf::Vector2f& loc) {
     m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, m_body->GetAngle());
 }
 
-void Projectile::setInfo(MovingObjInfo info) {
+void Projectile::setInfo(const MovingObjInfo& info) {
     setPosition(info.m_loc);
 }
