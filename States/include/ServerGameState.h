@@ -5,11 +5,20 @@ class Projectile;
 
 class ServerGameState:public NetworkGameState {
 public:
-	using NetworkGameState::NetworkGameState;
-	ServerGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net);
+	//-----------c-tor------------
+	ServerGameState(StateManager& manager, sf::RenderWindow& window,
+		bool replace, std::shared_ptr<NetworkObject> net);
+
+	//-----------d-tor------------
 	virtual ~ServerGameState()=default;
+
+
+protected:
+	//----------Functions---------
+
 	virtual void updateNetwork() override;
-	virtual void draw()override;
 private:
+	//-----------Members----------
+
 	float m_lastUpdate;
 };

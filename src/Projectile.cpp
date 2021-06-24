@@ -87,10 +87,6 @@ void Projectile::updateAnim(float deltaTime) {
         m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
            deltaTime, m_totalTime, arrow, up,m_distance/(65*ARROW_LEN)));
 }
-void Projectile::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
-}
 
 void Projectile::reset()
 {

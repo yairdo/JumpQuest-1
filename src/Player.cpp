@@ -194,7 +194,7 @@ void Player::move()
     m_name.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y - PLAYER_SIZE.y / 1.5f);
 }
 
-void Player::draw(sf::RenderWindow& window)
+void Player::draw(sf::RenderWindow& window) const 
 {
     window.draw(m_sprite);
     window.draw(m_name);

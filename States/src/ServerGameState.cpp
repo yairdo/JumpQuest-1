@@ -5,12 +5,13 @@
 //-----------------------------------------------------------------------------
 ServerGameState::ServerGameState(StateManager& manager, sf::RenderWindow& window, bool replace, std::shared_ptr<NetworkObject> net):
 	NetworkGameState(manager,window,replace,net), m_lastUpdate(0)
-{
-	//------projectile test-------
-	//m_testProjectile = new Projectile(getWorldRef(), { 50, 150 }, { 10, 10 }, b2_dynamicBody);
-	//---------------------
-}
+{}
 //-----------------------------------------------------------------------------
+/*
+	Function: update network
+	This function is updating the clients about the game messages and sending 
+	sever messages.
+*/
 void ServerGameState::updateNetwork(){
 	m_networkObj->handleRequests(SERVER_STATE_MSG);
 	if (m_networkObj->gameStarted())
@@ -18,8 +19,6 @@ void ServerGameState::updateNetwork(){
 	if (!m_started)
 		return;
 	m_lastUpdate += m_deltaTime;
-	/*projTimer -= m_deltaTime;*/
-	///change to member and use reserve
 	std::vector<MovingObjInfo> vec;
 	if (m_networkObj && m_lastUpdate >= UPDATE_TIMER) {
 		for (int i = 1; i < int(m_board->numOfMovingObjs()); ++i) {
@@ -30,8 +29,4 @@ void ServerGameState::updateNetwork(){
 		m_clock.restart().asSeconds();
 	}
 }
-//-----------------------------------------------------------------------------
-void ServerGameState::draw(){
-	NetworkGameState::draw();
-	/*m_testProjectile->draw(m_window);*/
-}
+

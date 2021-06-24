@@ -35,10 +35,6 @@ Rope::Rope(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
    // m_sprite.setColor(sf::Color::Cyan);
 }
 
-void Rope::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
-}
 void Rope::setSprite(float recWidth , float recHeight , const sf::Vector2f& size ,
     const sf::Vector2f& pos ) {
     m_sprite.setScale(size.x, size.y / m_sprite.getGlobalBounds().height);

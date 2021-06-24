@@ -68,11 +68,6 @@ void MovingBlock::move()
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
 }
 
-void MovingBlock::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
-}
-
 float MovingBlock::getWidth() {
     return m_sprite.getGlobalBounds().width;
 }

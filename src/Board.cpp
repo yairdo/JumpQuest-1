@@ -13,6 +13,11 @@
 #include <NetworkObject.h>
 #include "CheckPoint.h"
 
+/*
+input: the box2d world
+this function is called after choosing a map, goes to the right file of the map chosen
+and generates the info of the level, uses the factory method to do so
+*/
 void Board::generateMap(b2World& world) {
 	m_world = &world;
 	m_movingObj.emplace_back(new Player(world,{25.f , 90.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
@@ -37,7 +42,9 @@ void Board::generateMap(b2World& world) {
 		vals.clear();
 	}
 }
-
+/*reads the line in the file and gather the info neededd to create the object
+i
+*/
 void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 	std::string temp;
 	std::getline(file, temp);
@@ -48,16 +55,16 @@ void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 		vec.push_back(t);
 	}
 }
-
+//sets the player id
 void Board::setId(int id) {
 	m_playerId = id;
 }
-
+//move all the moving objects
 void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();
 }
-
+//draws all objects
 void Board::draw(sf::RenderWindow& window) {
 	for(auto& stati :m_staticObj){
 		stati->draw(window);
@@ -65,7 +72,7 @@ void Board::draw(sf::RenderWindow& window) {
 	for (auto& moving : m_movingObj)
 		moving->draw(window);
 }
-
+//updates the objects physics and animation based on deltaTime
 void Board::updatePhysics(float deltaTime) {
 	for (int i = 0; i < m_movingObj.size(); ++i) {
 		m_movingObj[i]->updatePhysics(deltaTime);
@@ -80,38 +87,36 @@ void Board::updatePhysics(float deltaTime) {
 	}
 
 }
-
+//sends player reference to the gameState
 Player* Board::getPlayerRef() {
 	return static_cast<Player*>(m_movingObj[0].get());
 }
-
+//gets the info so the server can sync all objects between all players 
 MovingObjInfo Board::getInfo(unsigned int index) {
 	return m_movingObj[index]->getInfo();
 }
+//sets the info the clients got from the server to sync all objects
 void Board::setInfo(unsigned int index, const MovingObjInfo& info) {
 	if(index < m_movingObj.size())
 		m_movingObj[index]->setInfo(info);
-	//TEST!!!!!!!!!!!!!!!!!!!!!
-	//m_movingObj[index]->fixed(loc);
 }
-
+//returns the size of the moving objects vector
 unsigned int Board::numOfMovingObjs() {
 	return m_movingObj.size();
 }
 
+/*
+this function gets the network obejct pointer
+updates the board each step and checks if we need to
+remove any objects
+*/
 void Board::updateBoard(NetworkObject* netObj) {
 	for (int i = 0; i < m_staticObj.size(); ++i) {
 		if (netObj && m_staticObj[i]->getCollision()){
 				netObj->sendStaticCollision(i);
 				m_staticObj[i]->setCollision(false);
 		}
-/*		if (m_staticObj[i]->getIsRemoved()) {
-			m_staticObj[i]->destroyBody();
-			m_staticObj.erase(m_staticObj.begin() + i);
-			--i;
-		}*/	
 		if (m_staticObj[i]->remove()) {
-			//m_staticObj[i]->destroyBody();
 			m_staticObj.erase(m_staticObj.begin() + i);
 			--i;
 		}
@@ -131,7 +136,11 @@ void Board::updateStaticMsgCollision(int index){
 	m_staticObj[index]->MsgCollision();
 }
 
-
+/*this function is called after a player used a gift in single player, 
+or when the server confirms the client that he can shot his projectile
+after updating all the other players about it -in multiplayer mode
+the function creates the object and shots the projectile
+*/
 void Board::addProjectile(const struct AddProjectileMessage& info) {
 	
 	std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(*m_world,

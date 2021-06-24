@@ -16,7 +16,6 @@ public:
 	//--added for tests
 	virtual void updatePhysics(float);
 	virtual void move();
-	virtual void draw(sf::RenderWindow&);
 	b2Vec2 getVel() const { return m_body->GetLinearVelocity(); }
 	float getWidth();
 private:

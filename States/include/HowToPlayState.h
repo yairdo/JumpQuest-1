@@ -6,9 +6,17 @@ class NetworkObject;
 
 class HowToPlayState : public MenuState {
 public:
-	HowToPlayState(StateManager& manager, sf::RenderWindow& window, bool, std::shared_ptr<NetworkObject> net = nullptr);
+	//-----------c-tor------------
+	HowToPlayState(StateManager& manager, sf::RenderWindow& window,
+		bool, std::shared_ptr<NetworkObject> net = nullptr);
+
+	//-----------d-tor------------
+	virtual ~HowToPlayState() = default;
+
+	//----------Functions---------
 	virtual void draw() override;
 private:
+	//-----------Members----------
 	sf::Sprite m_howTo;
 	sf::RectangleShape m_rect;
 };

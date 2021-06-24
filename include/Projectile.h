@@ -13,7 +13,6 @@ public:
 	virtual void updatePhysics(float);
 	virtual void move();
 	virtual void shot(const sf::Vector2f&);
-	virtual void draw(sf::RenderWindow&);
 	sf::Vector2f getPosToShotFrom(const sf::Vector2f&, const sf::Vector2f&, const sf::Vector2f&);
 	bool getShot() { return m_shot; };
 	void reset();
