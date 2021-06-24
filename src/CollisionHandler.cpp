@@ -37,7 +37,7 @@ CollisionHandler::CollisionHandler(){
 }
 //-----------------------------------------------------------------------------
 //when player collides with gift
-void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) const {
 	Player* player = static_cast<Player*> (obj1);
 	Gift* gift= static_cast<Gift*> (obj2);
 
@@ -47,7 +47,7 @@ void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 }
 //-----------------------------------------------------------------------------
 //when player collides with rope
-void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) const {
 	Player* player = static_cast<Player*> (obj1);
 	Rope* rope= static_cast<Rope*> (obj2);
 	player->center({ rope->getPos().x, player->getPos().y });
@@ -55,7 +55,7 @@ void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 }
 //-----------------------------------------------------------------------------
 //when player collides with movingBlock
-void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2)const {
 	Player* player = static_cast<Player*> (obj1);
 	MovingBlock* mvBlock= static_cast<MovingBlock*> (obj2);
 	if (!player->getMoving()) {
@@ -71,7 +71,7 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 }
 //-----------------------------------------------------------------------------
 //when player collides with CheckPoint
-void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
+void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2)const {
 	Player* player = static_cast<Player*> (obj1);
 	CheckPoint* checkP = static_cast<CheckPoint*> (obj2);
 	if (!checkP->getActive()) {
@@ -84,49 +84,49 @@ void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 }
 //-----------------------------------------------------------------------------
 //when player collides with Projectile
-void CollisionHandler::playerProjectile(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::playerProjectile(GameObj* obj1, GameObj* obj2) const {
 	Player* player = static_cast<Player*> (obj1);
 	Projectile* projectile = static_cast<Projectile*> (obj2);
 	player->setExternalForce(projectile->getForce(player->getPos()));
 }
 //-----------------------------------------------------------------------------
 //when player collides with gift
-void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2)const {
 	playerGift(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when player collides with rope
-void CollisionHandler::ropePlayer(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::ropePlayer(GameObj* obj1, GameObj* obj2)const {
 	playerRope(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when player collides with movingBlock
-void CollisionHandler::movingBlockPlayer(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::movingBlockPlayer(GameObj* obj1, GameObj* obj2)const {
 	playerMovingBlock(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when player collides with CheckPoint
-void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2){
+void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2)const {
 	playerCheckPoint(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when player collides with Projectiile
-void CollisionHandler::projectilePlayer(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::projectilePlayer(GameObj* obj1, GameObj* obj2)const {
 	playerProjectile(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when Block collides with fallingBlock
-void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2)const {
 	blockFallingBlock(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when player collides with fallingBlock
-void CollisionHandler::fallingBlockPlayer(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::fallingBlockPlayer(GameObj* obj1, GameObj* obj2)const {
 	playerFallingBlock(obj2, obj1);
 }
 //-----------------------------------------------------------------------------
 //when player collides with falling block
-void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
+void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) const {
 	FallingBlock* fBlock = static_cast<FallingBlock*> (obj2);
 	if(!fBlock->getCollision())
 		fBlock->setCollision(true);
@@ -135,14 +135,14 @@ void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
 }
 //-----------------------------------------------------------------------------
 //when Block collides with FallingBlock
-void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
+void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)const
 {
 	FallingBlock* fblock = static_cast<FallingBlock*> (fallingBlock);
 	fblock->setActiveAnim();
 }
 //-----------------------------------------------------------------------------
 //when player collides with FloorObstacle
-void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
+void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)const
 {
 	Player* plyer = static_cast<Player*> (player);
 	FloorObstacle* florObs = static_cast<FloorObstacle*> (floorObs);
@@ -151,7 +151,7 @@ void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
 }
 //-----------------------------------------------------------------------------
 //when player collides with FloorObstacle
-void CollisionHandler::floorObstaclePlayer(GameObj* floorObs, GameObj* player)
+void CollisionHandler::floorObstaclePlayer(GameObj* floorObs, GameObj* player)const
 {
 	playerFloorObstacle(player, floorObs);
 }
