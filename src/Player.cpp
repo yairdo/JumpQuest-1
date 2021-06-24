@@ -182,7 +182,7 @@ void Player::applyProjectileImpulse() {
     if (m_projectileForce != b2Vec2({ 0,0 })) {
         m_body->SetLinearVelocity({ 0.f, 0.f });
         m_body->ApplyLinearImpulseToCenter(m_projectileForce, true);
-        m_activeTimer = 0.3;
+        m_activeTimer = PLAYER_PROJ_EFFECT;
         m_projectileForce = { 0,0 };
     }
 }
