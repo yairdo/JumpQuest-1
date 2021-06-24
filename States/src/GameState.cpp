@@ -196,6 +196,7 @@ void GameState::setWinText() {
 //-----------------------------------------------------------------------------
 void GameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin()) {
+		Resources::getResourceRef().playMusic(win);
 		m_winnerText->setString("You Won!");
 		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
 		m_isWin = true;

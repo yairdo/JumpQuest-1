@@ -29,7 +29,7 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		m_text.getGlobalBounds().height + 10 };
 	m_inputText = createText(lobbyFont, 24, sf::Color::Black, "", pos);
 
-	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3;
+	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3f;
 	pos = { width, m_window.getSize().y - m_window.getSize().y * TENTH_PREC };
 	float butHeight = m_window.getSize().y - pos.y;
 	addButton<MultiplayerMenuState>(back, pos, width, butHeight);
@@ -40,14 +40,6 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		width= Resources::getResourceRef().getButLen(start)* PIX4LET * 1.3f;
 		pos.x = m_window.getSize().x - width;
 		addButton<ChooseBoardState>(start, pos, width, butHeight);
-		//try {
-		//	m_connected = m_networkObj->launch();
-		//}
-		//catch (const std::exception& e) {
-		//	m_next = m_manager.build<MainMenuState>(m_manager, m_window, true, nullptr);
-		//	m_manager.setErrorMessage(e.what());
-		////	return;
-		//}
 	}
 	pos = m_nameTextBox.getPosition();
 	if (m_isServer)
@@ -64,38 +56,25 @@ void LobbyState::update(){
 				(m_manager, m_window, true, nullptr);
 			return;
 		}
-		//try {
-			if (!m_networkObj->launch())
-				m_networkObj->handleRequests(10);
+		if (!m_networkObj->launch())
+			m_networkObj->handleRequests(10);
 
-			else
-				m_connected = true;
-			MenuState::update();
-			return;
-		//}
-		//catch (const std::exception& e) {
-		//	m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
-		//	m_manager.setErrorMessage(e.what());
-		//	return;
-		//}
+		else
+			m_connected = true;
+		MenuState::update();
+		return;
 	}
 	if (!m_signedUp)
 		signUp();
 	if (m_connected && m_signedUp)
 		MenuState::update();
-	//try {
-		if (m_networkObj->handleRequests()) {
-			if (m_networkObj->getStarted())
-				m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
-			else
-				updateList();
-		}
-	//}
-	/*catch (std::exception& e) {
-		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
-		m_manager.setErrorMessage(e.what());
-		return;
-	}*/
+
+	if (m_networkObj->handleRequests()) {
+		if (m_networkObj->getStarted())
+			m_next = StateManager::build<ClientGameState>(m_manager, m_window, true, m_networkObj);
+		else
+			updateList();
+	}
 }
 //-----------------------------------------------------------------------------
 void LobbyState::signUp() {

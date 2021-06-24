@@ -6,16 +6,16 @@
 //-----------------------------------------------------------------------------
 GameMenuState::GameMenuState(StateManager& manager, sf::RenderWindow& window, bool replace):
 	StandardMenuState(manager,window,replace){
-	auto buttonSpace = m_window.getSize().y * BUTTUN_SPACE_PREC;
-	auto butHeight = (m_window.getSize().y/ BUT3 - SPACES2 *buttonSpace) / BUT3;
-	float pix4let = m_window.getSize().x * PREC4LET;
-	auto pos = sf::Vector2f(m_middle.x, (window.getSize().y - butHeight* BUT3)/ SPACES2);
-	float width = Resources::getResourceRef().getButLen(TexturesNum::resume) * pix4let;
-	m_buttons.emplace_back(std::make_unique<BaseButton>(TexturesNum::resume, pos, width, butHeight, false));
-	pos.y += float(buttonSpace + butHeight);
-	makeBut<MainMenuState>(pos, mainMenu, butHeight, pix4let, buttonSpace);
-	width = Resources::getResourceRef().getButLen(ext) * pix4let;
-	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, pos, width, butHeight, true));
+	m_buttonSpace = m_window.getSize().y * BUTTUN_SPACE_PREC;
+	m_butHeight = (m_window.getSize().y/ BUT3 - SPACES2 *m_buttonSpace) / BUT3;
+	m_pix4let = m_window.getSize().x * PREC4LET;
+	m_pos = sf::Vector2f(m_middle.x, (window.getSize().y - m_butHeight* BUT3)/ SPACES2);
+	float width = Resources::getResourceRef().getButLen(TexturesNum::resume) * m_pix4let;
+	m_buttons.emplace_back(std::make_unique<BaseButton>(TexturesNum::resume, m_pos, width, m_butHeight, false));
+	m_pos.y += float(m_buttonSpace + m_butHeight);
+	makeBut<MainMenuState>(m_pos, mainMenu, m_butHeight, m_pix4let, m_buttonSpace);
+	width = Resources::getResourceRef().getButLen(ext) * m_pix4let;
+	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, m_pos, width, m_butHeight, true));
 }
 //-----------------------------------------------------------------------------
 void GameMenuState::updateNextState(const sf::Vector2f& loc) {
