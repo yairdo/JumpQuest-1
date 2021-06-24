@@ -214,6 +214,8 @@ void Resources::playMusic(int type) {
 	case castle:
 		m_music.openFromFile("castleMusic.ogg");
 		break;
+	case win:
+		m_music.openFromFile("winSound.ogg");
 	}
 	m_music.play();
 	m_music.setLoop(true);

@@ -78,6 +78,7 @@ enum MapType {
 	hell,
 	sky,
 	menu,
+	win,
 };
 
 enum TexturesNum {
