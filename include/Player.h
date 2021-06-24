@@ -22,16 +22,15 @@ public:
 	virtual void draw(sf::RenderWindow&);
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
-	void useGift(const sf::Vector2f&, NetworkObject* network);
+	void useGift(const sf::Vector2f&, NetworkObject*);
 	void setGotGift(bool state){ m_gotGift = state; }
+	bool getGotGift() const { return m_gotGift; }
 	void setExternalForce(const b2Vec2&);
 	bool getMoving()const { return m_moving; }
 	void setMoving(bool vel);
 	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
-	//test
 	void toggleCanCatch() { m_canCatch = !m_canCatch; };
-
 	int getDirection();
 	void footContact(int val);
 	void updateAnim(float deltaTime);
@@ -50,11 +49,10 @@ private:
 	sf::Vector2f m_checkPoint;
 	int m_id;
 	int m_direction;
-	bool m_onRope = false;
+	bool m_onRope;
 	//test
-	bool m_canCatch = false;
+	bool m_canCatch;
 	Board* m_board;
-	//std::vector <std::unique_ptr<Projectile>> m_projectile;
 	bool m_gotGift;
 	int m_lives;
 	int m_numFootContact;
@@ -64,5 +62,6 @@ private:
 	bool m_moving;
 	bool m_stuned;
 	float m_stunTime;
+
 	//Animation m_anim;
 };

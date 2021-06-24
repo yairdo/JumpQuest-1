@@ -13,8 +13,6 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
 	m_world(b2Vec2(0, 9.8)), m_deltaTime(1), m_isWin(false),m_winTimer(0.f)
 {
-
-	//m_testProjectile = new Projectile(getWorldRef(), PROJECTILE_SIZE, b2_dynamicBody);
 	m_backGround.setTexture(Resources::getResourceRef().getTexture(map, gameBackground));
 	Resources::getResourceRef().playMusic(map);
 	m_backGround.setScale(GAME_BACK, window.getSize().y / m_backGround.getGlobalBounds().height);
@@ -30,8 +28,13 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	addBorders2World();
 	m_testPlayer = m_board->getPlayerRef();
 	if (net) m_testPlayer->setName(net->getInfo().m_name);
+	
 	m_clock.restart();
-	setWinText();
+	//setWinText();
+	setText(m_winnerText, 50, 1.f, sf::Color::White, sf::Color::Black, 5.f);
+	setText(m_projectileActive, 20, 1.f, sf::Color::Red, sf::Color::Black, 1.f);
+	m_projectileActive->setString("LEFT CLICK TO SHOT");
+
 }
 //-----------------------------------------------------------------------------
 void GameState::pause()
@@ -85,6 +88,10 @@ void GameState::draw()
 	if (m_isWin) {
 		m_winnerText->setPosition(m_window.getView().getCenter());
 		m_window.draw(*m_winnerText.get());
+	}
+	if (m_testPlayer->getGotGift()) {
+		m_projectileActive->setPosition({ m_window.getView().getCenter().x-m_projectileActive->getGlobalBounds().width/2, m_window.getSize().y - 50.f });
+		m_window.draw(*m_projectileActive.get());
 	}
 }
 //-----------------------------------------------------------------------------
@@ -183,16 +190,25 @@ b2World& GameState::getWorldRef(){
 }
 
 //-----------------------------------------------------------------------------
-void GameState::setWinText() {
-	m_winnerText = std::make_unique<sf::Text>();
-	m_winnerText->setFont(Resources::getResourceRef().getFont(lobbyFont));
-	m_winnerText->setCharacterSize(50);
-	m_winnerText->setLetterSpacing(1.f);
-	m_winnerText->setFillColor(sf::Color::White);
-	m_winnerText->setOutlineColor(sf::Color::Black);
-	m_winnerText->setOutlineThickness(5.f);
+//void GameState::setWinText() {
+//	m_winnerText = std::make_unique<sf::Text>();
+//	m_winnerText->setFont(Resources::getResourceRef().getFont(lobbyFont));
+//	m_winnerText->setCharacterSize(50);
+//	m_winnerText->setLetterSpacing(1.f);
+//	m_winnerText->setFillColor(sf::Color::White);
+//	m_winnerText->setOutlineColor(sf::Color::Black);
+//	m_winnerText->setOutlineThickness(5.f);
+//}
+void GameState::setText(std::unique_ptr<sf::Text>& text, unsigned int size, float spacing,
+						const sf::Color& fillColor, const sf::Color& outlineColor, float outline) {
+	text = std::make_unique<sf::Text>();
+	text->setFont(Resources::getResourceRef().getFont(lobbyFont));
+	text->setCharacterSize(size);
+	text->setLetterSpacing(spacing);
+	text->setFillColor(fillColor);
+	text->setOutlineColor(outlineColor);
+	text->setOutlineThickness(outline);
 }
-
 //-----------------------------------------------------------------------------
 void GameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin()) {

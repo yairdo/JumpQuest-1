@@ -41,7 +41,7 @@ constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
 constexpr auto FOOT = 3;
 constexpr auto MUSIC_VOLUME = 0; //was 2
-constexpr auto EFFECTS_VOLUME = 0; //was 6
+constexpr auto EFFECTS_VOLUME = 6; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
 
