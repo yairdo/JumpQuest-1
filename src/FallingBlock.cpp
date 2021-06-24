@@ -8,12 +8,13 @@
 bool FallingBlock::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
     { return std::make_unique<FallingBlock>(world, vec[0], vec[1], vec[2], b2_dynamicBody, map); });
-
-/*FallingBlock c-tor 
+//-----------------------------------------------------------------------------
+/*
+* FallingBlock c-tor
 */
 FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, 
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
-    m_strtPos(startPos / SCALE),
+    m_strtPos(startPos / SCALE), m_falling(false),
     MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum),
     m_activeAnim(false), m_startingTime(startTimer.x)
 {
@@ -24,9 +25,8 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
     m_body->SetUserData(this);
     m_body->SetAwake(false);
 }
-
-//updates player velocity according to which key is pressed
-//applies impulse to jump
+//-----------------------------------------------------------------------------
+//updates FallingBlock physics - when to push him down and when to reset him
 void FallingBlock::updatePhysics(float dt)
 {
     if (!m_falling && m_activeTimer <= 0)//going up or down
@@ -39,7 +39,8 @@ void FallingBlock::updatePhysics(float dt)
         reset();
     m_activeTimer -= dt;
 }
-
+//-----------------------------------------------------------------------------
+//moves the object each step
 void FallingBlock::move()
 {
     auto position = m_body->GetPosition();
@@ -47,7 +48,8 @@ void FallingBlock::move()
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
     m_sprite.setRotation(rotation);
 }
-
+//-----------------------------------------------------------------------------
+//sets the info so the clients will sync with the server
 void FallingBlock::setInfo(const MovingObjInfo& info)
 {
     setPos(info.m_loc);
@@ -61,7 +63,8 @@ void FallingBlock::setInfo(const MovingObjInfo& info)
         reset();
     m_activeAnim = info.m_active;
 }
-
+//-----------------------------------------------------------------------------
+//resets the object,returns it to his starting position and resets his timer
 void FallingBlock::reset()
 {
     m_falling = false;
@@ -73,12 +76,14 @@ void FallingBlock::reset()
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     setReset(false);
 }
-
+//-----------------------------------------------------------------------------
+//update animation
 void FallingBlock::updateAnim(float deltaTime) {
     if (m_activeAnim)
         m_sprite.setTextureRect(sf::IntRect(FALLING_WIDTH*(FALLING_LEN-1), 0, FALLING_WIDTH, FALLING_HEIGHT));
 }
-
+//-----------------------------------------------------------------------------
+//sets the animation to active so we will know when to start drawing the animation
 void FallingBlock::setActiveAnim() {
     m_activeAnim = true;
 }

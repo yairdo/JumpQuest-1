@@ -1,13 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <Macros.h>
 
 class Animation {
 public:
 	//----------Functions---------
 	static Animation& getAnimRef();
 	const sf::IntRect updateAnim(int row, int& col, float deltaTime,
-		float& totalTime, int type,int dir, float switchTime=0.15);
+		float& totalTime, int type,int dir, float switchTime=0.15f);
 private:
 	//Singeltone class
 
@@ -17,7 +16,7 @@ private:
 	int m_height;
 
 	//------Private Functions-----
-	int findLineLen(int obejct, int row);
+	int findLineLen(int obejct, int row) const;
 	void setWidthHeight(int type);
 
 	//-------c-tor, copy c-tor..--

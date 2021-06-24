@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObj.h"
-//#include <Macros.h>
 #include<MessagesStructs.h>
 
 class MovingObj : public GameObj {
@@ -24,11 +23,5 @@ protected :
 	float m_activeTimer;
 private:
 	bool m_reset = false;
-	//virtual void fixed(const sf::Vector2f& vec){
-	//	m_body->SetTransform({ vec.x / SCALE, vec.y / SCALE }, 0);
-	//}
-
-	/*virtual void move();
-	virtual void handleCollision();*/
 
 };

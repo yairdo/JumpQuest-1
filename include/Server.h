@@ -1,5 +1,4 @@
 #pragma once
-#include <unordered_map>
 #include <memory>
 #include <SFML/Network.hpp>
 #include <NetworkObject.h>
@@ -20,7 +19,6 @@ public:
     virtual void notifyWinning(unsigned short) override;
     virtual bool gameStarted();
 
-    //test
     void sendNewInfo(const std::vector<MovingObjInfo>& vec);
 
 private:

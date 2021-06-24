@@ -1,4 +1,5 @@
 #include <Animation.h>
+#include <Macros.h>
 
 //-----------------------------------------------------------------------------
 Animation& Animation::getAnimRef()
@@ -52,7 +53,7 @@ const sf::IntRect Animation::updateAnim(int row, int& col, float deltaTime,
 	input: type and row
 	output: the lenth of the the wanted row
 */
-int Animation::findLineLen(int type, int row) {
+int Animation::findLineLen(int type, int row) const{
 
 	switch (type) {
 	case player0:

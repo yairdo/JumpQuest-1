@@ -223,6 +223,7 @@ void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 }
 /*==========================================================================*/
+// notfies all players to start the game
 void Server::startGame(MapType lvl) {
 	m_requiting = false;
 	setLvlInfo(lvl);
@@ -231,7 +232,8 @@ void Server::startGame(MapType lvl) {
 			sendMessage<MapType>(MessageType::startGame, lvl, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort, true);
 }
-/*============================================================================*/
+/*============================================================================
+ * notifies all players that of the winner */
 void Server::notifyWinning(unsigned short winner){
 	if (winner == MAX_SERVER_PLAYERS)
 		winner = 0;
@@ -261,7 +263,9 @@ void Server::handleNetworkMessage() {
 		break;
 	}
 }
-/*==========================================================================*/
+/*==========================================================================
+ * notifies all players to add a projectile to thier board*/
+
 void Server::addProjectile(const AddProjectileMessage& projectile){
 	 getBoard()->addProjectile(projectile);
 	 for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
@@ -269,7 +273,9 @@ void Server::addProjectile(const AddProjectileMessage& projectile){
 			 sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
  }
-/*==========================================================================*/
+/*==========================================================================
+ * syncs the starting time of the game with all players returns true when  
+ * all players ready are */
 bool Server::gameStarted() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i) && !m_PlayersReady[i])

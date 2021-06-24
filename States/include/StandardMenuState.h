@@ -32,16 +32,12 @@ protected:
 	float m_butHeight;
 	float m_pix4let;
 };
-
-template <class T>
-void StandardMenuState::makeBut(sf::Vector2f& pos, int index, float height,
-	float pix4let, double buttonSpace) 
-{
-	float width = Resources::getResourceRef().getButLen(index) * pix4let;
-	addButton<T>(index, pos, width, height);
-	pos.y += float(buttonSpace + height);
-}
-
+//-----------------------------------------------------------------------------
+/*
+	Function: make button
+	This function is creating standard menu (the buttons centered and going 
+	up-down).
+*/
 template <class T>
 void StandardMenuState::makeBut(int index)
 {

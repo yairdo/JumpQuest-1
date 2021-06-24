@@ -5,15 +5,16 @@
 #include <stack>
 
 class NetworkObject;
-namespace sf {
-	class RenderWindow;
-}
+class sf::RenderWindow;
+
 class StateManager
 {
 public:
-
+	
+	//-----------c-tor------------
 	StateManager(sf::RenderWindow&);
 
+	//---------Functions----------
 	void run(std::unique_ptr<State> state);
 
 	void nextState();
@@ -36,6 +37,8 @@ public:
 
 
 private:
+
+	//----------Members-----------
 	// The stack of states
 	std::stack<std::unique_ptr<State>> m_states;
 	State* m_lastState;
@@ -46,7 +49,11 @@ private:
 	sf::Text m_errorMessage;
 	sf::RenderWindow& m_window;
 };
-
+//-----------------------------------------------------------------------------
+/*
+	Function: build
+	This function is building new state.
+*/
 template <typename T>
 std::unique_ptr<T> StateManager::build(StateManager& machine, sf::RenderWindow& window,
 	bool replace, std::shared_ptr<NetworkObject> netObj)

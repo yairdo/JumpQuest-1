@@ -1,11 +1,12 @@
 #pragma once
 #include <BaseButton.h>
+
 template<class StateType>
 class Button : public BaseButton {
 public:
 	using BaseButton::BaseButton;
 
-	//----------Fuinction---------
+	//----------Function---------
 	std::unique_ptr<State> ButtonState(StateManager&, sf::RenderWindow&, bool,
 		std::shared_ptr<NetworkObject>) const override;
 private:

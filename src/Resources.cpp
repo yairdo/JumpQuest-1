@@ -7,7 +7,11 @@ using GameTexturesPair = std::pair<IntPair, sf::Texture>;
 
 using ButtonPairStr = std::pair<int, int>;
 using FontPair = std::pair<int, sf::Font>;
-
+//-----------------------------------------------------------------------------
+/*
+* Singeltone that holds all the Resources in the game
+* c-tor
+*/
 Resources::Resources(): m_buttonStrLen(), m_textures(), m_fonts(),
 m_gameTextures(), m_sounds(),m_music(){
 	setTextures();
@@ -18,28 +22,43 @@ m_gameTextures(), m_sounds(),m_music(){
 	m_music.setVolume(MUSIC_VOLUME);
 	m_sound.setVolume(EFFECTS_VOLUME);
 }
+//-----------------------------------------------------------------------------
+/*
+* returns the texture in the index place in textures map
+*/
 const sf::Texture& Resources::getTexture(int index) const {
 	auto it = m_textures.find(index);
 	if (it != m_textures.end())
 		return it->second;
 	throw std::out_of_range("Texture not found.");
 }
+//-----------------------------------------------------------------------------
+/*
+*  returns the texture in the index place and the map type index
+*  from the gameTextures map
+*/
 const sf::Texture& Resources::getTexture(int map, int index) const {
 	auto it = m_gameTextures.find(std::pair(map,index));
 	if (it != m_gameTextures.end())
 		return it->second;
 	throw std::out_of_range("Texture not found.");
 }
-
+//-----------------------------------------------------------------------------
+/*
+* returns the butten len from the map
+*/
 const int Resources::getButLen(int index) const{
 	return findInMap<std::unordered_map<int, int>, int>(m_buttonStrLen, index);
 }
+//-----------------------------------------------------------------------------
 const sf::Font& Resources::getFont(int index) const {
 	auto it = m_fonts.find(index);
 	if (it != m_fonts.end())
 		return it->second;
 	throw std::out_of_range("Texture not found.");
 }
+//-----------------------------------------------------------------------------
+// sets all textures  of textures map
 void Resources::setTextures() {
 	m_textures.insert(TexturesPair(menuBackground,
 		loadSfObj<sf::Texture>("menuBackground.jpg")));
@@ -87,6 +106,8 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("skyScreenShot.png")));
 
 }
+//-----------------------------------------------------------------------------
+//sets the gameTextures map textures
 void Resources::setGameTextures() {
 	m_gameTextures.insert(GameTexturesPair(IntPair(castle, checkPoint),
 		loadSfObj<sf::Texture>("checkPoint.png")));
@@ -160,6 +181,8 @@ void Resources::setGameTextures() {
 		loadSfObj<sf::Texture>("sky finito.png")));
 
 }
+//-----------------------------------------------------------------------------
+//sets the butten len based on the string len
 void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(singlePlayer, strlen("single player")));
 	m_buttonStrLen.insert(ButtonPairStr(multiplayer, strlen("multiplayer")));
@@ -175,16 +198,17 @@ void Resources::setButtonStrLengh() {
 	m_buttonStrLen.insert(ButtonPairStr(resume, strlen("resume")));
 	m_buttonStrLen.insert(ButtonPairStr(chooseBoard, strlen("choose theme")));
 }
-
+//-----------------------------------------------------------------------------
 void Resources::setFonts(){
 	m_fonts.insert(FontPair(lobbyFont, loadSfObj<sf::Font>("SNAP.TTF")));
 }
-
+//-----------------------------------------------------------------------------
 Resources& Resources::getResourceRef() {
 	static Resources resources;
 	return resources;
 }
 //============================================================================
+//sets all sounds in map
 void Resources::setSounds() {
 	m_sounds.insert(std::pair<int, sf::SoundBuffer>(checkPointSound,
 		loadSfObj<sf::SoundBuffer>("checkPointSound.wav")));

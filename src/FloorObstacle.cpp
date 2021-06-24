@@ -7,7 +7,10 @@
 bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
     { return std::make_unique<FloorObstacle>(world, vec[0], vec[1], vec[2], b2_staticBody, map); });
-
+//-----------------------------------------------------------------------------
+/*
+* the FloorObstacle c-tor 
+*/
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
     MovingObj(world, startPos, size, bodyType, floorObs, mapEnum),  m_currTimer(startTimer.x), m_currIndex(0),
@@ -21,30 +24,20 @@ FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const
     temp.setPosition(startPos.x, startPos.y-size.y*5/4);
     m_sprite = temp;
     m_sprite.setColor(sf::Color(255, 255, 255, 140));
-   // m_sprite.setColor(sf::Color::Magenta);
-    /*b2PolygonShape kinematic;
-    kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &kinematic;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-    fixtureDef.filter.categoryBits = fallingBlockBits;
-
-    m_body->CreateFixture(&fixtureDef);*/
     b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 4, (size.y / SCALE) / 2 })));
     createFixtureDef(shape, 1.0f, 0.3, floorObsBit, true, playerBits);
     m_body->SetFixedRotation(true);
     m_body->SetUserData(this);
 }
-
-//updates player velocity according to which key is pressed
-//applies impulse to jump
+//-----------------------------------------------------------------------------
+/*
+* this object increasing and decreasing in size according to a timer which he gets in the c-tor
+* after a certain time, he becomes inactive until the next couple of steps
+//updates FloorObstacle(aka spikes) phiysics body size and animation
+//according to the state the obstacle in right now.
+*/
 void FloorObstacle::updatePhysics(float dt)
 {
-    //static float timer = m_startingTime;
-    //static float ind = 0;
-    //static float scaler = m_size.y / 2;
 
     float absScaler, scalerSign;
     m_currTimer -= dt;
@@ -86,44 +79,8 @@ void FloorObstacle::updatePhysics(float dt)
         m_scaler = m_size.y / 2;
     }
 }
-
-void FloorObstacle::move()
-{
-    //auto position = m_body->GetPosition();
-    //auto rotation = m_body->GetAngle();
-    //m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
-    //m_sprite.setRotation(rotation);
-}
-
-void FloorObstacle::setInfo(const MovingObjInfo& info)
-{
-    //setPos(info.m_loc);
-    //m_timer = info.m_timer;
-    //if (m_timer > 0) {
-    //    m_body->SetAwake(false);
-    //    m_falling = false;
-    //}
-    //m_body->SetLinearVelocity(info.m_vel);
-}
-
-void FloorObstacle::reset()
-{
-    //m_falling = false;
-    //m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
-    //m_body->SetAwake(false);
-    //m_timer = m_startingTime;
-    //m_col = 0;
-    //m_activeAnim = false;
-    //m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
-    //setReset(false);
-}
-
-void FloorObstacle::updateAnim(float deltaTime) {
-   /*     m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
-            deltaTime, m_totalTime, floorObs, up, m_startingTime));*/
-    //    std::cout << "m:collll: " << m_col << "\n";
-}
-
+//-----------------------------------------------------------------------------
+//returns the active state of the object
 bool FloorObstacle::getActive() const {
     return m_active;
 }
