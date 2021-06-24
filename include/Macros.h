@@ -46,6 +46,8 @@ constexpr auto MUSIC_VOLUME = 10; //was 2
 constexpr auto EFFECTS_VOLUME = 10; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
+constexpr auto PLAYER_SPEED = 75.f; //secounds
+constexpr auto PLAYER_PROJ_EFFECT = 0.3f; //secounds
 
 
 const float MAP_SIZE = 6000;
