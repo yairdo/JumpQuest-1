@@ -74,3 +74,12 @@ d Archer 400 820 3 200 200 820
 d Archer 2950 255 2 1650 1350 255
 d Archer 2950 455 2 1250 1750 455
 d Archer 2950 655 2 850 2150 655
+
+d FloorObstacle 5850 430 25 40 1 0.1
+d FloorObstacle 5550 430 25 40 1 0.1
+d FloorObstacle 5650 430 25 40 1 0.1
+d FloorObstacle 5650 730 25 40 1 0.1
+d FloorObstacle 5750 430 25 40 1 0.1
+d FloorObstacle 5750 730 25 40 1 0.1
+d FloorObstacle 5850 730 25 40 1 0.1
+d FloorObstacle 5550 730 25 40 1 0.1
