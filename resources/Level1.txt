@@ -15,7 +15,6 @@ d FallingBlock 4650 25 50 100 3 0
 
 s CheckPoint 800 615 30 80 0 0
 s CheckPoint 1700 115 30 80 0 0
-s CheckPoint 2400 115 30 80 0 0
 s CheckPoint 4850 515 30 80 0 0
 s CheckPoint 5950 965 30 80 1 0
 
@@ -70,6 +69,11 @@ s Gift 70 450 35 35
 s Gift 600 300 35 35
 s Gift 850 13 35 35
 s Gift 1600 850 35 35
+s Gift 2400 10 35 35
+s Gift 3950 350 35 35
+s Gift 4150 350 35 35
+s Gift 4350 350 35 35
+s Gift 4550 350 35 35
 
 s Rope 150 350 0 700
 s Rope 400 75 0 150

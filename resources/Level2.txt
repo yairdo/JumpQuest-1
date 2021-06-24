@@ -4,20 +4,20 @@ d MovingBlock 3400 400 4000 400 100 100
 d MovingBlock 3400 300 3500 300 25 25
 d MovingBlock 3600 300 3700 300 25 25
 d MovingBlock 3800 300 3900 300 25 25
-d MovingBlock 4300 400 4850 400 100 100
+d MovingBlock 4400 400 4800 400 100 100
 d MovingBlock 4350 300 4450 300 25 25
-d MovingBlock 4500 300 4600 300 25 25
+d MovingBlock 4550 300 4650 300 25 25
 d MovingBlock 4750 300 4850 300 25 25
 
 d FallingBlock 3250 25 50 100 1 0
-d FallingBlock 5100 25 50 100 1 0
-d FallingBlock 5200 25 50 100 1.4 0
-d FallingBlock 5300 25 50 100 1.3 0
-d FallingBlock 5400 25 50 100 1.7 0
-d FallingBlock 5500 25 50 100 1.9 0
-d FallingBlock 5600 25 50 100 1.6 0
+d FallingBlock 5100 25 50 100 0.6 0
+d FallingBlock 5200 25 50 100 0.4 0
+d FallingBlock 5300 25 50 100 0.8 0
+d FallingBlock 5400 25 50 100 1.1 0
+d FallingBlock 5500 25 50 100 0.3 0
+d FallingBlock 5600 25 50 100 0.7 0
 d FallingBlock 5700 25 50 100 1.2 0
-d FallingBlock 5800 25 50 100 1.1 0
+d FallingBlock 5800 25 50 100 1.3 0
 
 s CheckPoint 1900 800 30 100 0 0
 s CheckPoint 5000 300 30 100 0 0
@@ -52,7 +52,12 @@ s Block 5000 400 100 100
 s Block 5900 500 100 100
 
 s Gift 950 100 25 25
-s Gift 1900 700 25 25
+s Gift 1900 650 25 25
+s Gift 2150 700 25 25
+s Gift 2350 700 25 25
+s Gift 2550 700 25 25
+s Gift 2750 700 25 25
+s Gift 2950 700 25 25
 s Gift 3150 350 25 25
 
 s Rope 150 500 0 1000
@@ -75,9 +80,9 @@ s Rope 5750 500 0 1000
 d Archer 1950 512.5 1.5 550 1400 525 1
 d Archer 1975 512.5 2 550 1400 525 1
 
-d FloorObstacle 900 255 25 40 5 0.1
-d FloorObstacle 2150 830 25 40 5 0.1
-d FloorObstacle 2350 830 25 40 5 0.1
-d FloorObstacle 2550 830 25 40 5 0.1
-d FloorObstacle 2750 830 25 40 5 0.1
-d FloorObstacle 2950 830 25 40 5 0.1
+d FloorObstacle 900 255 25 40 1 0.1
+d FloorObstacle 2150 830 25 40 1.5 0.1
+d FloorObstacle 2350 830 25 40 1.8 0.1
+d FloorObstacle 2550 830 25 40 2 0.1
+d FloorObstacle 2750 830 25 40 1.7 0.1
+d FloorObstacle 2950 830 25 40 2.2 0.1
