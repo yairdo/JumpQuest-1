@@ -88,8 +88,8 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("start.png")));
 	m_textures.insert(TexturesPair(lobbyTitle,
 		loadSfObj<sf::Texture>("lobbyTitle.png")));
-	m_textures.insert(TexturesPair(castle,
-		loadSfObj<sf::Texture>("castle map.png")));
+	/*m_textures.insert(TexturesPair(castle,
+		loadSfObj<sf::Texture>("castle map.png")));*/
 	m_textures.insert(TexturesPair(mainMenu,
 		loadSfObj<sf::Texture>("mainMenu.png")));
 	m_textures.insert(TexturesPair(resume,

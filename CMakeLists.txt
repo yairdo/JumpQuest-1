@@ -8,7 +8,7 @@ if (MSVC)
     add_compile_options (/permissive-)
 endif ()
 
-add_executable (OPP_FinalProject_2nd_semester "")
+add_executable (OPP_FinalProject_2nd_semester WIN32)
 
 add_subdirectory (include)
 add_subdirectory (src)
