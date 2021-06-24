@@ -80,7 +80,7 @@ private:
 	sf::Packet m_packet;
 
 	void receiveUdp() { m_socket.receive(m_packet, m_senderIP, m_senderPort); }
-	bool sendUdp(const sf::IpAddress& , unsigned short , bool = false);
+	bool sendUdp (const sf::IpAddress& , unsigned short , bool = false);
 };
 /*==========================================================================*/
 template<class T>
