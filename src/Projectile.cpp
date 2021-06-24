@@ -82,7 +82,7 @@ void Projectile::move()
     auto rotation = m_body->GetAngle();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
     m_sprite.setRotation(rotation);
-    m_distance -= b2Distance({ spritePos.x,spritePos.y }, { spritePos.x, spritePos.y });
+    m_distance -= b2Distance({ spritePos.x,spritePos.y }, { m_sprite.getPosition().x, m_sprite.getPosition().y });
 }
 void Projectile::updateAnim(float deltaTime) {
     if(m_activeAnim)
@@ -96,7 +96,7 @@ void Projectile::draw(sf::RenderWindow& window)
 
 void Projectile::reset()
 {
-   // m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
+  //  m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
     m_col = 0;
     m_sprite.setTextureRect(sf::IntRect(0, 0, PROJECTILE_SIZE.x, PROJECTILE_SIZE.y));
     m_body->SetAwake(false);
