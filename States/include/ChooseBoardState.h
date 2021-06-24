@@ -28,7 +28,7 @@ void ChooseBoardState::makeButtons() {
 	pos.x += spaceBut + side;
 	addButton <StateT>(hellScreenShot, pos, side, side);
 	pos.x += spaceBut + side;
-	addButton<StateT>(blank, pos, side, side);
+	addButton<StateT>(skyScreenShot, pos, side, side);
 	auto width = Resources::getResourceRef().getButLen(mainMenu) * PIX4LET * 1.3f;
 	pos = { m_window.getSize().x / 2.f, m_window.getSize().y - m_window.getSize().y / 10.f };
 	auto butHeight = m_window.getSize().y - pos.y;

@@ -24,6 +24,7 @@ public:
 	b2Vec2 getForce(sf::Vector2f) const;
 	void setFace(int);
 	void updateAnim(float deltaTime);
+	void setPosition(const sf::Vector2f& loc);
 private:
 	bool m_activeAnim;
 	int m_faceTo;

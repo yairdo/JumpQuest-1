@@ -16,6 +16,7 @@ public:
 
 	virtual void draw(sf::RenderWindow& window);
 private:
+	float m_startTime;
 	int m_faceTo;
 	float m_distance;
 	float m_timer;

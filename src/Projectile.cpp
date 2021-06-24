@@ -56,6 +56,7 @@ void Projectile::shot(const sf::Vector2f& toPos){
     //std::cout << "angle :"<< angle<<"\n";
     //m_body->SetAngularVelocity(tan((m_vel.y/m_vel.x)));
     m_body->SetTransform(m_body->GetPosition(), angle);
+    std::cout << "shot shot shot angle: " << m_body->GetAngle() << "\n";
     m_activeAnim = true;
   //  m_body->SetAngularDamping(angle);
    // m_sprite.rotate(angle);
@@ -70,18 +71,9 @@ void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
         m_elapaseTime += dt;
-        //std::cout << "yo yo im here\n";
         m_body->SetLinearVelocity({ m_vel.x * /*220*/130 * dt, m_vel.y * /*220*/130 * dt });
-        //m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
-       // m_body->ApplyForceToCenter({ m_vel.x, m_vel.y}, true);
-      //  m_body->ApplyForceToCenter({m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))}, true);
-       // m_shot = false;
-        return;
     }
- /*   if (m_shot && !m_body->IsAwake())
-        reset();*/
-   // if (!m_body->IsAwake())
-       // reset();
+    std::cout << " update physics: " << m_body->GetAngle() << "\n";
 }
 void Projectile::move()
 {
@@ -104,7 +96,7 @@ void Projectile::draw(sf::RenderWindow& window)
 
 void Projectile::reset()
 {
-   // m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
+  //  m_body->SetTransform({ m_strtPos.x, m_strtPos.y }, 0);
     m_col = 0;
     m_sprite.setTextureRect(sf::IntRect(0, 0, PROJECTILE_SIZE.x, PROJECTILE_SIZE.y));
     m_body->SetAwake(false);
@@ -158,4 +150,7 @@ sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::V
 
 }
 
-
+void Projectile::setPosition(const sf::Vector2f& loc) {
+    m_sprite.setPosition(loc);
+    m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, m_body->GetAngle());
+}

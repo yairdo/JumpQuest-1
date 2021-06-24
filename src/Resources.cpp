@@ -83,6 +83,8 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("hellScreenShot.png")));
 	m_textures.insert(TexturesPair(castleScreenShot,
 		loadSfObj<sf::Texture>("castleScreenShot.png")));
+	m_textures.insert(TexturesPair(skyScreenShot,
+		loadSfObj<sf::Texture>("skyScreenShot.png")));
 
 }
 void Resources::setGameTextures() {
@@ -212,6 +214,8 @@ void Resources::playMusic(int type) {
 	case castle:
 		m_music.openFromFile("castleMusic.ogg");
 		break;
+	case win:
+		m_music.openFromFile("winSound.ogg");
 	}
 	m_music.play();
 	m_music.setLoop(true);
