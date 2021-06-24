@@ -15,7 +15,7 @@
 
 void Board::generateMap(b2World& world) {
 	m_world = &world;
-	m_movingObj.emplace_back(new Player(world,{4100.f , 90.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
+	m_movingObj.emplace_back(new Player(world,{25.f , 90.f }, PLAYER_SIZE, b2_dynamicBody,m_playerId,*this));
 	std::ifstream file;
 	std::string fileName = "Level" + std::to_string(m_mapEnum) + ".txt"; 
 	file.open("Level" + std::to_string(m_mapEnum) +  + ".txt"); 
