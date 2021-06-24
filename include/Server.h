@@ -36,7 +36,7 @@ private:
     void updateStaticObjState(const StaticObjInfo& info);
     void updateSingleMovingObjInfo(const MovingObjInfo& info) {}
     void updateAboutNewMember(const AddMember&);
-    int countServersInPort();
+    bool portInUse();
     bool renameMember();
     
 };

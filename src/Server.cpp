@@ -23,7 +23,7 @@ bool Server::launch() {
 		return true;
 	if (!socketLaunched())
 		bindSocket(SERVERS_PORT);
-	if (countServersInPort() >= MAX_SERVERS_NUM )
+	if (portInUse() )
 		throw(std::exception("Too many servers are opened."));
 	if (!socketLaunched())
 		throw(std::exception("Bind socket failure! please try again."));
@@ -174,18 +174,18 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 /*==========================================================================
 * The method 
 */
-int Server::countServersInPort() {
-	int counter = 0,
-		max = 200,
+bool Server::portInUse() {
+	int max = 50,
 		messagesCounter = 0;
 	sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
 		sf::IpAddress::Broadcast, SERVERS_PORT, true);
 	while (receivedMessage(0.5) && messagesCounter++ < max) {
 		if (receiveValue<MessageType>() == networkMessage
-			&& receiveValue<NetworkMessages>() == iAmAServer)
-			++counter;
+			&& receiveValue<NetworkMessages>() == iAmAServer
+			&& getSenderIP() != getIP())
+			return true;
 	}
-	return counter;
+	return false;
 }
 /*============================================================================*/
 bool Server::renameMember() {
@@ -245,6 +245,9 @@ void Server::handleNetworkMessage() {
 	case whoIsFreeServer:
 		if (m_requiting && m_launched)
 			sendMessage<NetworkMessages>(networkMessage, iAmFree);
+		break;
+	case iAmAServer:
+		throw(std::exception("Too many servers are opened."));
 	default:
 		break;
 	}
