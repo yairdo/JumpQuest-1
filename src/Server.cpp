@@ -99,28 +99,25 @@ void Server::registerPlayer() {
 	if (!m_requiting || renameMember())
 		return;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if (!getMember(i))
-			addNewMember(i);
-}
-/*============================================================================
-*/
-void Server::addNewMember(int index) {
-	//add member to the server's member list
-	setMember(index, std::make_unique<GameMember>(GameMember(getSenderIP(), 
-		getSenderPort(), receiveValue<GameMember>().m_name, MemberInfo(index))));
-	//tell the new member his id
-	sendMessage<int>(memberId, index);
-	//notify old members about the new member
-	updateAboutNewMember(AddMember(getMember(index)->m_info.m_id, 
-		getMember(index)->m_name));
-	//send the new mebemer all the old members info.
-	for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
-		if (index != j && getMember(j)) {
-			sendMessage<AddMember>(addMember,
-				AddMember(getMember(j)->m_info.m_id, getMember(j)->m_name),
-				getMember(index)->m_memberIp, getMember(index)->m_memberPort);
-		}
-	return;
+			if (!getMember(i)) {
+				//add member to the server's member list
+				setMember(i, std::make_unique<GameMember>(
+					GameMember(getSenderIP(), getSenderPort(),
+						receiveValue<GameMember>().m_name, MemberInfo(i))));
+				//tell the new member his id
+				sendMessage<int>(memberId, i);
+				//notify old members about the new member
+				updateAboutNewMember(
+					AddMember(getMember(i)->m_info.m_id, getMember(i)->m_name));
+				//send the new mebemer all the old members info.
+				for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
+					if (i != j && getMember(j)) {
+						sendMessage<AddMember>(addMember,
+							AddMember(getMember(j)->m_info.m_id, getMember(j)->m_name),
+							getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+					}
+				break;
+			}
 }
 /*============================================================================
 * The method notify all of the server's clients that the server is closing
