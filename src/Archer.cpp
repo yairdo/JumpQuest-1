@@ -46,10 +46,10 @@ void Archer::draw(sf::RenderWindow& window) {
 }
 
 void Archer::updatePhysics(float dt) {
-    static float time=m_timer;
+    m_currTime=m_timer;
     m_timer -= dt;
     if (m_timer<=0) {
-        m_timer = time;
+        m_timer = m_currTime;
         m_proj->shot(m_shotTO);
     }
 
@@ -74,7 +74,8 @@ MovingObjInfo Archer::getInfo() const
 }
 
 void Archer::setInfo(MovingObjInfo info){
-    m_proj->setPos(info.m_loc);
+    m_sprite.setPosition(info.m_loc);
+    m_body->SetTransform({ info.m_loc.x / SCALE, info.m_loc.y / SCALE }, m_body->GetAngle());
     m_timer = info.m_timer;
     m_proj->setShot(info.m_vel.x);
     m_proj->setDis(info.m_vel.y);
