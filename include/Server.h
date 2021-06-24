@@ -5,7 +5,7 @@
 #include <MessagesStructs.h>
 
 
-class Server : public NetworkObject{
+class Server : public NetworkObject {
 public:
     Server();
     virtual ~Server();
@@ -19,7 +19,7 @@ public:
     virtual void notifyWinning(unsigned short) override;
     virtual bool gameStarted();
 
-    void sendNewInfo(const std::vector<MovingObjInfo>& vec);//
+    void sendNewInfo(const std::vector<MovingObjInfo>& vec);
 
 private:
     //state
@@ -36,4 +36,5 @@ private:
     void updateAboutNewMember(const AddMember&);
     bool portInUse();
     bool renameMember();
+    void addNewMember(int);
 };

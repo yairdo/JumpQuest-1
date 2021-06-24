@@ -5,7 +5,7 @@
 #include <Board.h>
 
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
-	m_launched(false), m_PlayersReady(MAX_SERVER_PLAYERS, false){}
+m_launched(false), m_PlayersReady(MAX_SERVER_PLAYERS, false) {}
 /*==========================================================================*/
 Server::~Server() {
 	notifyClosing();
@@ -22,7 +22,7 @@ bool Server::launch() {
 		return true;
 	if (!socketLaunched())
 		bindSocket(SERVERS_PORT);
-	if (portInUse() )
+	if (portInUse())
 		throw(std::exception("Too many servers are opened."));
 	if (!socketLaunched())
 		throw(std::exception("Bind socket failure! please try again."));
@@ -41,42 +41,42 @@ bool Server::handleRequests(int max) {
 	int counter = 0;
 	MovingObjInfo movingInfo;
 	while (receivedMessage() && counter++ < max) {
-			MessageType type = receiveValue<MessageType>();
-			if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
-				switch (type){
-				case networkMessage:
-					handleNetworkMessage();
-					break;
-				case memberInfo:
-					updateLoc(receiveValue<MemberInfo>());
-					break;
-				case singMeIn:
-					registerPlayer();
-					break;
-				case staticObjInfo:
-					updateStaticObjState(receiveValue<StaticObjInfo>());
-					break;
-				case movingObjInfo:
-					movingInfo = receiveValue<MovingObjInfo>();
-					getBoard()->setInfo(movingInfo.m_index, movingInfo);
-					break;
-				case closer:
-					notifyCloser(receiveValue<int>());
-					break;
-				case MessageType::addProjectile:
-					addProjectile(receiveValue<AddProjectileMessage>());
-					break;
-				case notifyWin:
-					notifyWinning(receiveValue<unsigned short>());
-					break;
-				case iAmReady:
-					m_PlayersReady[receiveValue<int>()] = true;
-					break;
-				default:
-					break;
-				}
+		MessageType type = receiveValue<MessageType>();
+		if (getIP() != getSenderIP() || getPort() != getSenderPort()) {
+			switch (type) {
+			case networkMessage:
+				handleNetworkMessage();
+				break;
+			case memberInfo:
+				updateLoc(receiveValue<MemberInfo>());
+				break;
+			case singMeIn:
+				registerPlayer();
+				break;
+			case staticObjInfo:
+				updateStaticObjState(receiveValue<StaticObjInfo>());
+				break;
+			case movingObjInfo:
+				movingInfo = receiveValue<MovingObjInfo>();
+				getBoard()->setInfo(movingInfo.m_index, movingInfo);
+				break;
+			case closer:
+				notifyCloser(receiveValue<int>());
+				break;
+			case MessageType::addProjectile:
+				addProjectile(receiveValue<AddProjectileMessage>());
+				break;
+			case notifyWin:
+				notifyWinning(receiveValue<unsigned short>());
+				break;
+			case iAmReady:
+				m_PlayersReady[receiveValue<int>()] = true;
+				break;
+			default:
+				break;
 			}
 		}
+	}
 	if (counter > 0)
 		return true;
 	return false;
@@ -85,11 +85,11 @@ bool Server::handleRequests(int max) {
 * The method notify the regestered members about closing member, and sing him
 * out.
 */
-void Server::notifyCloser(int index){
+void Server::notifyCloser(int index) {
 	setMember(index, nullptr);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessage<int>(closer, index, getMember(i)->m_memberIp, 
+			sendMessage<int>(closer, index, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort);
 }
 /*============================================================================
@@ -108,12 +108,12 @@ void Server::registerPlayer() {
 */
 void Server::addNewMember(int index) {
 	//add member to the server's member list
-	setMember(index, std::make_unique<GameMember>(GameMember(getSenderIP(), 
+	setMember(index, std::make_unique<GameMember>(GameMember(getSenderIP(),
 		getSenderPort(), receiveValue<GameMember>().m_name, MemberInfo(index))));
 	//tell the new member his id
 	sendMessage<int>(memberId, index);
 	//notify old members about the new member
-	updateAboutNewMember(AddMember(getMember(index)->m_info.m_id, 
+	updateAboutNewMember(AddMember(getMember(index)->m_info.m_id,
 		getMember(index)->m_name));
 	//send the new mebemer all the old members info.
 	for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
@@ -130,12 +130,12 @@ void Server::addNewMember(int index) {
 */
 void Server::notifyClosing() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if(getMember(i))
+		if (getMember(i))
 			sendMessage<NetworkMessages>(networkMessage, closing,
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
 }
 /*============================================================================
-* The method is update the received member location on the map. 
+* The method is update the received member location on the map.
 */
 void Server::updateLoc(const MemberInfo& member) {
 	updateMember(member);
@@ -151,11 +151,11 @@ void Server::sendStaticCollision(int index) {
 	updateStaticObjState(StaticObjInfo(getInfo().m_info.m_id, index));
 }
 /*============================================================================
-* The method is notify the other players when another player collided with 
+* The method is notify the other players when another player collided with
 * something
 */
 void Server::updateStaticObjState(const StaticObjInfo& info) {
-	if(info.m_id != getInfo().m_info.m_id)
+	if (info.m_id != getInfo().m_info.m_id)
 		getBoard()->updateStaticMsgCollision(info.m_index);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
 		if (getMember(i) && i != info.m_id) {
@@ -236,13 +236,13 @@ void Server::startGame(MapType lvl) {
 }
 /*============================================================================
  * notifies all players that of the winner */
-void Server::notifyWinning(unsigned short winner){
+void Server::notifyWinning(unsigned short winner) {
 	if (winner == MAX_SERVER_PLAYERS)
 		winner = 0;
 	setWinner(winner);
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp, 
+			sendMessage<unsigned short>(notifyWin, winner, getMember(i)->m_memberIp,
 				getMember(i)->m_memberPort, true);
 }
 /*============================================================================
@@ -268,15 +268,15 @@ void Server::handleNetworkMessage() {
 /*==========================================================================
  * notifies all players to add a projectile to thier board*/
 
-void Server::addProjectile(const AddProjectileMessage& projectile){
-	 getBoard()->addProjectile(projectile);
-	 for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		 if (getMember(i))
-			 sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
+void Server::addProjectile(const AddProjectileMessage& projectile) {
+	getBoard()->addProjectile(projectile);
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (getMember(i))
+			sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile,
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
- }
+}
 /*==========================================================================
- * syncs the starting time of the game with all players returns true when  
+ * syncs the starting time of the game with all players returns true when
  * all players ready are */
 bool Server::gameStarted() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
@@ -284,7 +284,7 @@ bool Server::gameStarted() {
 			return false;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
-		sendMessage<int>(networkMessage, NetworkMessages::startGameMessage, 
-			getMember(i)->m_memberIp, getMember(i)->m_memberPort);
+			sendMessage<int>(networkMessage, NetworkMessages::startGameMessage,
+				getMember(i)->m_memberIp, getMember(i)->m_memberPort);
 	return true;
 }
