@@ -296,7 +296,6 @@ void Player::setMoving(bool vel)
 }
 
 void Player::winGame() {
-    //std::cout << "ALLLHAAAA WACABARRRR $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$$$$\n$$$$$$$$$$$$$$$$";
     m_win = true;
 }
 
