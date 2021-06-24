@@ -57,6 +57,10 @@ MessageType NetworkObject::receiveValue<MessageType>() {
 	return (MessageType)value;
 }
 /*==========================================================================*/
+/*
+* adds the names of the other players to the lobby - notify the other players
+* that you logged in
+*/
 void NetworkObject::addMemberToList() {
 	AddMember member = receiveValue<AddMember>();
 	if (!m_members[member.m_id])

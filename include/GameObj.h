@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-//#include <Macros.h>
+#include <Macros.h>
 #include <Animation.h>
 #include <memory>
 #include "box2d/box2d.h"
@@ -22,23 +22,13 @@ public:
     void setPos(sf::Vector2f);
     virtual void MsgCollision(){} //this needs to be abstract 
     bool remove();
-    //=====temp polichecker
-    /*virtual void handleCol(GameObj*) = 0;
-    virtual void handleGiftCol(Gift*) = 0;*/
-    //virtual void handleGiftCol(Block*) = 0;
-
-    //trying stuff for anime -yair
-    virtual void updateAnim(float deltaTime);
+    virtual void updateAnim(float deltaTime) {}
 
     int getAnimRow() { return m_row; }
     int getAnimCol() { return m_col; }
 
     bool getCollision() const { return m_collision; }
     void setCollision(bool collision) { m_collision = collision; }
-    //virtual void handleCollision();
-  //  int m_row=1, m_col;
-   // float m_width=130, m_height=160;
-    //float m_totalTime=0;
 protected:
     bool m_collision;
     int animPos=idle;

@@ -8,12 +8,12 @@
 #include "CheckPoint.h"
 #include "FallingBlock.h"
 #include "FloorObstacle.h"
-#include <iostream>
 #include <functional>
 #include <Macros.h>
 #include <Projectile.h>
 #include "box2d/box2d.h"
 
+//-----------------------------------------------------------------------------
 //CollisionHnadle c-tor , builds the map for the multimethods
 CollisionHandler::CollisionHandler(){
 
@@ -37,6 +37,7 @@ CollisionHandler::CollisionHandler(){
 
 
 }
+//-----------------------------------------------------------------------------
 //when player collides with gift
 void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
@@ -46,6 +47,7 @@ void CollisionHandler::playerGift(GameObj* obj1, GameObj* obj2) {
 		player->collectGift();
 	gift->setCollision(true);
 }
+//-----------------------------------------------------------------------------
 //when player collides with rope
 void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
@@ -53,6 +55,7 @@ void CollisionHandler::playerRope(GameObj* obj1, GameObj* obj2) {
 	player->center({ rope->getPos().x, player->getPos().y });
 	player->toggleCanCatch();
 }
+//-----------------------------------------------------------------------------
 //when player collides with movingBlock
 void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
@@ -68,6 +71,7 @@ void CollisionHandler::playerMovingBlock(GameObj* obj1, GameObj* obj2) {
 		player->setMoving(false);
 	}
 }
+//-----------------------------------------------------------------------------
 //when player collides with CheckPoint
 void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 	Player* player = static_cast<Player*> (obj1);
@@ -80,40 +84,49 @@ void CollisionHandler::playerCheckPoint(GameObj*obj1, GameObj*obj2){
 		checkP->activate();
 	}
 }
+//-----------------------------------------------------------------------------
 //when player collides with Projectile
 void CollisionHandler::playerProjectile(GameObj* obj1, GameObj* obj2) {
 	Player* player = static_cast<Player*> (obj1);
 	Projectile* projectile = static_cast<Projectile*> (obj2);
 	player->setExternalForce(projectile->getForce(player->getPos()));
 }
+//-----------------------------------------------------------------------------
 //when player collides with gift
 void CollisionHandler::giftPlayer(GameObj* obj1, GameObj* obj2) {
 	playerGift(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when player collides with rope
 void CollisionHandler::ropePlayer(GameObj* obj1, GameObj* obj2) {
 	playerRope(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when player collides with movingBlock
 void CollisionHandler::movingBlockPlayer(GameObj* obj1, GameObj* obj2) {
 	playerMovingBlock(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when player collides with CheckPoint
 void CollisionHandler::checkPointPlayer(GameObj* obj1, GameObj* obj2){
 	playerCheckPoint(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when player collides with Projectiile
 void CollisionHandler::projectilePlayer(GameObj* obj1, GameObj* obj2) {
 	playerProjectile(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when Block collides with fallingBlock
 void CollisionHandler::fallingBlockBlock(GameObj* obj1, GameObj* obj2) {
 	blockFallingBlock(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when player collides with fallingBlock
 void CollisionHandler::fallingBlockPlayer(GameObj* obj1, GameObj* obj2) {
 	playerFallingBlock(obj2, obj1);
 }
+//-----------------------------------------------------------------------------
 //when player collides with falling block
 void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
 	FallingBlock* fBlock = static_cast<FallingBlock*> (obj2);
@@ -122,12 +135,14 @@ void CollisionHandler::playerFallingBlock(GameObj* obj1, GameObj* obj2) {
 	else
 		fBlock->setCollision(false);
 }
+//-----------------------------------------------------------------------------
 //when Block collides with FallingBlock
 void CollisionHandler::blockFallingBlock(GameObj* block, GameObj* fallingBlock)
 {
 	FallingBlock* fblock = static_cast<FallingBlock*> (fallingBlock);
 	fblock->setActiveAnim();
 }
+//-----------------------------------------------------------------------------
 //when player collides with FloorObstacle
 void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
 {
@@ -136,16 +151,19 @@ void CollisionHandler::playerFloorObstacle(GameObj* player, GameObj* floorObs)
 	if (florObs->getActive())
 		plyer->setReset(true);
 }
+//-----------------------------------------------------------------------------
 //when player collides with FloorObstacle
 void CollisionHandler::floorObstaclePlayer(GameObj* floorObs, GameObj* player)
 {
 	playerFloorObstacle(player, floorObs);
 }
+//-----------------------------------------------------------------------------
 //gets the reference for the singeltone collision map
 CollisionHandler& CollisionHandler::getRef() {
 	static CollisionHandler colision;
 	return colision;
 }
+//-----------------------------------------------------------------------------
 //handles the collision between 2 objects
 void CollisionHandler::handleCollision(GameObj* obj1, GameObj* obj2) {
 	auto it = m_collisionMap.find(Key(typeid(*obj1), typeid(*obj2)));

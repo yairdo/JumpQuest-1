@@ -19,7 +19,7 @@ GameMenuState::GameMenuState(StateManager& manager, sf::RenderWindow& window,
 	m_buttons.emplace_back(std::make_unique<BaseButton>(TexturesNum::resume,
 		m_pos, width, m_butHeight, false));
 	m_pos.y += float(m_buttonSpace + m_butHeight);
-	makeBut<MainMenuState>(m_pos, mainMenu, m_butHeight, m_pix4let, m_buttonSpace);
+	makeBut<MainMenuState>(mainMenu);
 	width = Resources::getResourceRef().getButLen(ext) * m_pix4let;
 	m_buttons.emplace_back(std::make_unique<BaseButton>(ext, m_pos, width, m_butHeight, true));
 }

@@ -3,12 +3,12 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
-
+//-----------------------------------------------------------------------------
 //for factory
 bool CheckPoint::m_registerit = Factory<StaticObj>::registerit("CheckPoint",
     [](b2World& world,int map, std::vector<sf::Vector2f> vec)-> std::unique_ptr<StaticObj>
     { return std::make_unique<CheckPoint>(world, vec[0], vec[1],vec[2], b2_staticBody, map); });
-
+//-----------------------------------------------------------------------------
 //CheckPoint c-tor
 CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector2f& size,
     const sf::Vector2f& winner, int bodyType,int mapEnum) :
@@ -29,23 +29,26 @@ CheckPoint::CheckPoint(b2World& world, const sf::Vector2f& pos, const sf::Vector
     m_body->SetUserData(this);
     m_row = 1;
 }
-
+//-----------------------------------------------------------------------------
 void CheckPoint::setColor(sf::Color color){
     m_sprite.setColor(color);
 }
+//-----------------------------------------------------------------------------
 //when a player collides with the checkpoint 
 void CheckPoint::activate(){
     Resources::getResourceRef().playSound(checkPointSound);
     m_row = 0;
     m_activate = true;
 }
-
+//-----------------------------------------------------------------------------
 bool CheckPoint::getActive() const{
     return m_activate;
 }
+//-----------------------------------------------------------------------------
 bool CheckPoint::getWin() const{
     return m_win;
 }
+//-----------------------------------------------------------------------------
 //updates the animation of the checkpoint
 void CheckPoint::updateAnim(float deltaTime) {
     if(!m_win)

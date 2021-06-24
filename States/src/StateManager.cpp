@@ -1,15 +1,26 @@
 #include <StateManager.h>
 #include <Macros.h>
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 StateManager::StateManager(sf::RenderWindow& window): m_window(window), m_resume( false ),
 	m_running( false ),m_lastState(nullptr), m_errorMessageTimer(0){}
 //-----------------------------------------------------------------------------
+/*
+	Function run:
+	this function is runing the current state.
+*/
 void StateManager::run(std::unique_ptr<State> state)
 {
 	m_running = true;
 	m_states.push(std::move(state));
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: next state
+	This function is updating and set the next state.
+*/
 void StateManager::nextState()
 {
     if (m_resume)
@@ -57,15 +68,28 @@ void StateManager::nextState()
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: is last
+	This function checking if there is state inside the stack before the 
+	current state. 
+*/
 bool StateManager::isLast() const {
 	return m_lastState;
 }
 //-----------------------------------------------------------------------------
+/*
+	Function last state:
+	This function is noting the last state to continue.
+*/
 void StateManager::lastState()
 {
     m_resume = true;
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update:
+	This function is runing the update of the current state. 
+*/
 
 void StateManager::update()
 {
@@ -79,6 +103,7 @@ void StateManager::update()
 	}
 }
 //-----------------------------------------------------------------------------
+
 void StateManager::draw()
 {
 	m_states.top()->draw();
@@ -93,19 +118,33 @@ bool StateManager::running() const
 	return m_running;
 }
 //-----------------------------------------------------------------------------
+/*
+	Function quit:
+	This function quit the program by updating the running bool
+*/
 void StateManager::quit()
 {
 	m_running = false;
 }
 //-----------------------------------------------------------------------------
+/*
+	This function is updating the last state (for game menu state).
+*/
 void StateManager::updateLastState() {
 	m_lastState->update();
 }
 //-----------------------------------------------------------------------------
+/*
+	Tis function is draw the last state (for game menu state).
+*/
 void StateManager::drawLastState() {
 	m_lastState->draw();
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: set error message 
+	This function is setting the string of the error message (for exeption)
+*/
 void StateManager::setErrorMessage(const std::string& str) {
 	m_errorMessage.setString(str);
 	m_errorMessage.setPosition({ m_window.getSize().x / 2.f - 
@@ -113,6 +152,10 @@ void StateManager::setErrorMessage(const std::string& str) {
 	m_errorMessageTimer = 3;
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: set state manager text
+	This function is setting the text's template for the error message
+*/
 void StateManager::setStateManagerText() {
 	m_errorMessage.setFont(Resources::getResourceRef().getFont(lobbyFont));
 	m_errorMessage.setCharacterSize(50);

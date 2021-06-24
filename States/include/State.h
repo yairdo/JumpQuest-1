@@ -13,12 +13,19 @@ namespace sf
 class State
 {
 public:
+	//-----------c-tor------------
+
 	State(StateManager& machine, sf::RenderWindow& window, bool replace = true, std::shared_ptr<NetworkObject> = nullptr);
+
+	//-----------d-tor------------
+
 	virtual ~State() = default;
 
+	
 	State(const State&) = delete;
 	State& operator=(const State&) = delete;
 
+	//---------Functions----------
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 
@@ -30,9 +37,10 @@ public:
 	std::unique_ptr<State> next();
 
 	bool isReplacing() const;
-	void updateNext(std::unique_ptr<State> next);
+	
 
 protected:
+	//----------Members-----------
 	StateManager& m_manager;
 	sf::RenderWindow& m_window;
 	bool m_paused;

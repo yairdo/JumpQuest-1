@@ -11,7 +11,7 @@ public:
 		float height, bool isExit=false);
 	//-----------d-tor------------
 	virtual ~BaseButton() = default;
-	//---------Funcctions---------
+	//---------Functions----------
 	void setTransp(const sf::Vector2f& loc);
 	void draw(sf::RenderWindow&)const;
 	bool checkCollision(const sf::Vector2f& loc) const {

@@ -1,6 +1,8 @@
 #include <MessagesStructs.h>
 #include <memory>
 
+//all the Messages Structs c-tors
+
 //============================================================================
 GameMember::GameMember(const sf::IpAddress& ip, unsigned short port, 
     const char name[PLAYER_NAME_LEN], const MemberInfo& member ) {
@@ -18,8 +20,6 @@ MemberInfo::MemberInfo(unsigned short id, const sf::Vector2f & loc, int row,
     m_col = col;
     m_direction = dir;
     m_totalTime = time;
-
-    //here!!!
     m_win = win;
 }
 //============================================================================
@@ -35,7 +35,6 @@ MovingObjInfo::MovingObjInfo(const sf::Vector2f& loc, float time,
     m_vel = vel;
     m_active = active;
     m_index = index;
-   // m_col = col;
 }
 //============================================================================
 MovingObjMembersRoport::MovingObjMembersRoport(const std::vector<MovingObjInfo>& vec) {

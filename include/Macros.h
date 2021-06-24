@@ -44,12 +44,14 @@ constexpr auto MAIN_MENU_BUTTONS = 4;
 constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
 constexpr auto FOOT = 3;
-constexpr auto MUSIC_VOLUME = 10; //was 2
-constexpr auto EFFECTS_VOLUME = 10; //was 6
+constexpr auto MUSIC_VOLUME = 10; 
+constexpr auto EFFECTS_VOLUME = 10; 
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
 constexpr auto PLAYER_SPEED = 75.f; //secounds
 constexpr auto PLAYER_PROJ_EFFECT = 0.3f; //secounds
+constexpr auto MOVING_BLOCK_FRICTION = 0.6f; 
+constexpr auto JUMP_FORCE = 150.f; 
 
 
 const float MAP_SIZE = 6000;

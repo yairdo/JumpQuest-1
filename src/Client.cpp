@@ -1,7 +1,7 @@
 #include <Client.h>
-#include <iostream>
 #include <Board.h>
 
+//-----------------------------------------------------------------------------
 Client::Client() : NetworkObject(), m_serverIP(), m_servers(), 
 m_isLinked(false), m_gameStarted(false){
 }
@@ -151,18 +151,26 @@ void Client::handleNetworkMessage(){
 		break;
 	}
 }
-/*============================================================================
+/*============================================================================*/
+/*
+* telling the other players that u picked a gift so they will also add a projectile
 */
 void Client::addProjectile(const AddProjectileMessage& projectile){
 	sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
 		m_serverIP, SERVERS_PORT, true);
 }
 /*============================================================================*/
+/*
+* telling the server(which sends the other clients) that he won
+*/
 void Client::notifyWinning(unsigned short winner){
 	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, 
 		SERVERS_PORT, true);
 }
 /*============================================================================*/
+/*
+* telling the server he is connected and ready to start
+*/
 void Client::sendImReady(){
 	sendMessage<int>(iAmReady, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
 }

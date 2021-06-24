@@ -13,7 +13,7 @@ BaseButton::BaseButton(int index, const sf::Vector2f& pos, float width,
 	m_title.setScale(width /m_title.getGlobalBounds().width,
 		height / m_title.getGlobalBounds().height);
 	m_title.setPosition(pos);
-	m_title.setColor(sf::Color(255,255,255,200));
+	m_title.setColor(TRANSP_TEXTURE);
 }
 //-----------------------------------------------------------------------------
 void BaseButton::draw(sf::RenderWindow& window) const{

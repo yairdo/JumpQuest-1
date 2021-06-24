@@ -1,6 +1,5 @@
 #include "Board.h"
 #include <fstream>
-#include <iostream>
 #include<Block.h>
 #include <MovingBlock.h>
 #include <Gift.h>
@@ -11,8 +10,11 @@
 #include <Factory.h>
 #include <MessagesStructs.h>
 #include <NetworkObject.h>
+#include "Projectile.h"
 #include "CheckPoint.h"
+#include "box2d/box2d.h"
 
+//-----------------------------------------------------------------------------
 /*
 input: the box2d world
 this function is called after choosing a map, goes to the right file of the map chosen
@@ -42,6 +44,7 @@ void Board::generateMap(b2World& world) {
 		vals.clear();
 	}
 }
+//-----------------------------------------------------------------------------
 /*reads the line in the file and gather the info neededd to create the object
 i
 */
@@ -55,15 +58,18 @@ void Board::getValues(std::vector<sf::Vector2f>& vec, std::ifstream& file) {
 		vec.push_back(t);
 	}
 }
+//-----------------------------------------------------------------------------
 //sets the player id
 void Board::setId(int id) {
 	m_playerId = id;
 }
+//-----------------------------------------------------------------------------
 //move all the moving objects
 void Board::move() {
 	for (auto& moving : m_movingObj)
 		moving->move();
 }
+//-----------------------------------------------------------------------------
 //draws all objects
 void Board::draw(sf::RenderWindow& window) {
 	for(auto& stati :m_staticObj){
@@ -72,6 +78,7 @@ void Board::draw(sf::RenderWindow& window) {
 	for (auto& moving : m_movingObj)
 		moving->draw(window);
 }
+//-----------------------------------------------------------------------------
 //updates the objects physics and animation based on deltaTime
 void Board::updatePhysics(float deltaTime) {
 	for (int i = 0; i < m_movingObj.size(); ++i) {
@@ -87,24 +94,28 @@ void Board::updatePhysics(float deltaTime) {
 	}
 
 }
+//-----------------------------------------------------------------------------
 //sends player reference to the gameState
 Player* Board::getPlayerRef() {
 	return static_cast<Player*>(m_movingObj[0].get());
 }
+//-----------------------------------------------------------------------------
 //gets the info so the server can sync all objects between all players 
 MovingObjInfo Board::getInfo(unsigned int index) {
 	return m_movingObj[index]->getInfo();
 }
+//-----------------------------------------------------------------------------
 //sets the info the clients got from the server to sync all objects
 void Board::setInfo(unsigned int index, const MovingObjInfo& info) {
 	if(index < m_movingObj.size())
 		m_movingObj[index]->setInfo(info);
 }
+//-----------------------------------------------------------------------------
 //returns the size of the moving objects vector
 unsigned int Board::numOfMovingObjs() {
 	return m_movingObj.size();
 }
-
+//-----------------------------------------------------------------------------
 /*
 this function gets the network obejct pointer
 updates the board each step and checks if we need to
@@ -131,11 +142,11 @@ void Board::updateBoard(NetworkObject* netObj) {
 		}
 	}
 }
-
+//-----------------------------------------------------------------------------
 void Board::updateStaticMsgCollision(int index){
 	m_staticObj[index]->MsgCollision();
 }
-
+//-----------------------------------------------------------------------------
 /*this function is called after a player used a gift in single player, 
 or when the server confirms the client that he can shot his projectile
 after updating all the other players about it -in multiplayer mode

@@ -2,7 +2,7 @@
 #include "CollisionHandler.h"
 #include <Player.h>
 #include "Macros.h"
-
+//-----------------------------------------------------------------------------
 /*
 this function is responsible on the behavior of the begin of the contact
 between 2 objects 
@@ -16,12 +16,13 @@ void ContactListner::BeginContact(b2Contact* contact)
         return;
     if (checkNoHandle(contact))
         return;
-    if (movingBlockSolve(contact, 0.7, true))
+    if (movingBlockSolve(contact, MOVING_BLOCK_FRICTION, true))
         return;
     if (checkIfHitBoundry(contact))
         return;
     handleCollision(body1, body2);
 }
+//-----------------------------------------------------------------------------
 /*
 this function is responsible on the behavior of the end of the contact
 between 2 objects 
@@ -42,6 +43,7 @@ void ContactListner::EndContact(b2Contact* contact)
         handleCollision(body1, body2);
     }
 }
+//-----------------------------------------------------------------------------
 /*
 this function checks if the "Feets" of the player are having contact 
 with another object
@@ -55,6 +57,10 @@ bool ContactListner::checkFootContact(int fixtureUserData, int val, b2Body* body
     }
     return false;
 }
+//-----------------------------------------------------------------------------
+/*This function handles the contact between a physics object and the map's 
+ bottom boundry, will set the object up to rest to checkpoint or starting 
+ position*/
 
 bool ContactListner::checkIfHitBoundry(b2Contact* contact) const {
     if (contact->GetFixtureA()->GetFilterData().categoryBits == boundryBits) {
@@ -69,18 +75,19 @@ bool ContactListner::checkIfHitBoundry(b2Contact* contact) const {
         return false;
     return true;
 }
+//-----------------------------------------------------------------------------
 /*
 this function calls the Collision Handler with the 2 objects that collided
 */
 void ContactListner::handleCollision(b2Body* body1, b2Body* body2){
-    GameObj* a = static_cast<GameObj*>(body1->GetUserData());
-    GameObj* b = static_cast<GameObj*>(body2->GetUserData());
-    if (!a || !b) return;
-    CollisionHandler::getRef().handleCollision(a, b);
+    GameObj* obj1 = static_cast<GameObj*>(body1->GetUserData());
+    GameObj* obj2 = static_cast<GameObj*>(body2->GetUserData());
+    if (!obj1 || !obj2) return;
+    CollisionHandler::getRef().handleCollision(obj1, obj2);
 }
-/*
-
-*/
+//-----------------------------------------------------------------------------
+/*This function handles the contact of the player with a moving block, will
+  set the contact friction to a value in the perametes and calls collision handler*/
 bool ContactListner::movingBlockSolve(b2Contact* contact, float friction, bool enter)
 {
     if (contact->GetFixtureA()->GetFilterData().categoryBits == movingBlockBits ||
@@ -92,7 +99,8 @@ bool ContactListner::movingBlockSolve(b2Contact* contact, float friction, bool e
         return false;
     return true;
 }
-
+//-----------------------------------------------------------------------------
+// checks if the category bits that need contact but no collision handling
 bool ContactListner::checkNoHandle(b2Contact* contact) const{
     if (contact->GetFixtureA()->GetFilterData().categoryBits == noHandleBit ||
         contact->GetFixtureB()->GetFilterData().categoryBits == noHandleBit) {

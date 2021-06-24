@@ -1,15 +1,21 @@
 #pragma once
 #include "StaticObj.h"
-class b2Body;
+
 class b2World;
 
 class Block : public StaticObj {
 public:
-	Block() = default;
+	//-----------c-tor------------
 	Block(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
-	void updateAnim(float deltaTime);
+
+	//-----------d-tor------------
 	virtual ~Block() = default;
+
+	//---------Functions----------
+	void updateAnim(float deltaTime);
+	
 private:
+	//----------Members-----------
 	static bool m_registerit;
 };
 

@@ -3,41 +3,29 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
-
+//-----------------------------------------------------------------------------
 bool MovingBlock::m_registerit = Factory<MovingObj>::registerit("MovingBlock",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
     { return std::make_unique<MovingBlock>(world, vec[0], vec[1], vec[2], b2_kinematicBody,map); });
-
+//-----------------------------------------------------------------------------
+//c-tor
 MovingBlock::MovingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& endPos,
     const sf::Vector2f& size, int bodyType,int mapEnum) :
     m_strtPos(startPos/SCALE), m_endPos(endPos/SCALE),
     MovingObj(world, startPos, size, bodyType,0, 0, block, mapEnum)
 {
-    //m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-   // m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-
-    //m_sprite.setColor(sf::Color::Red);
-    //b2PolygonShape kinematic;
-    //kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
-
-    //b2FixtureDef fixtureDef;
-    //fixtureDef.shape = &kinematic;
-    //fixtureDef.density = 1.0f;
-    //fixtureDef.friction = 1.f;
-    //fixtureDef.filter.categoryBits = movingBlockBits;
-    //m_body->CreateFixture(&fixtureDef);
 
     b2PolygonShape shape(std::move(createPolygonShape({ (size.x / SCALE) / 2, ((size.y-2) / SCALE) / 2 })));
     createFixtureDef(shape, 1.f, 0.f, noHandleBit);
-    //top fixture
     shape.SetAsBox((size.x) / (SCALE*2), 0.5 / SCALE*2, b2Vec2(0, -(size.y-0.5)/ (2.f * SCALE)),0);
     createFixtureDef(shape, 1.f, 1.f, movingBlockBits);
 
     m_body->SetUserData(this);
 }
-
-//updates player velocity according to which key is pressed
-//applies impulse to jump
+//-----------------------------------------------------------------------------
+//updates the MovingBlock physics - sets the velocity in the direction which 
+//we want the moving block to move, when he reaches his destination he moves
+//to the opposite direction
 void MovingBlock::updatePhysics(float dt)
 {
     auto pos = m_body->GetPosition();
@@ -61,13 +49,14 @@ void MovingBlock::updatePhysics(float dt)
             m_body->SetLinearVelocity(vel);
     }
 }
-
+//-----------------------------------------------------------------------------
+//moves the block
 void MovingBlock::move()
 {
     auto position = m_body->GetPosition();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
 }
-
+//-----------------------------------------------------------------------------
 float MovingBlock::getWidth() {
     return m_sprite.getGlobalBounds().width;
 }

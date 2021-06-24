@@ -4,7 +4,7 @@
 
 int main() {
 	try {
-		Controller().run();
+		Controller().run(); //runs the game
 	}
 	catch (std::exception& exp) {
 		std::cout<<exp.what();
