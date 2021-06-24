@@ -38,5 +38,5 @@ private:
     void updateAboutNewMember(const AddMember&);
     bool portInUse();
     bool renameMember();
-    
+    void addNewMember(int);
 };

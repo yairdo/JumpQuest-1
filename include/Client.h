@@ -16,11 +16,12 @@ public:
 	virtual bool launch();
 	virtual void updateLoc(const MemberInfo&);
 	virtual void sendStaticCollision(int);
-	virtual void updateSingleMovingObjInfo(const MovingObjInfo& info) override;//test
+	virtual void updateSingleMovingObjInfo(const MovingObjInfo& info) override;
 	virtual void addProjectile(const AddProjectileMessage& projectile)override;
 	virtual void notifyWinning(unsigned short) override;
-	virtual bool gameStarted() { return m_gameStarted; }
 	void sendImReady();
+
+	virtual bool gameStarted() { return m_gameStarted; }
 
 private:
 	sf::IpAddress m_serverIP;

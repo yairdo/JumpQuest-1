@@ -48,7 +48,6 @@ bool ContactListner::checkFootContact(int fixtureUserData, int val, b2Body* body
         auto player = static_cast<Player*>(body->GetUserData());
         player->footContact(val);
         m_footContacts += val;
-        std::cout << "Foot contacts: " << m_footContacts << "\n";
         return true;
     }
     return false;

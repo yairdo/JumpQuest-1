@@ -1,9 +1,7 @@
 #include <NetworkObject.h>
-#include <iostream>
 #include <Macros.h>
 #include <MessagesStructs.h>
 
-//93,173,114,170 //sf::IpAddress::getLocalAddress()//25,72,141,58
 /*==========================================================================*/
 NetworkObject::NetworkObject(unsigned short port):m_ip(sf::IpAddress(sf::IpAddress::getLocalAddress())),
 m_socket(), m_selector(), m_packet(), m_senderIP(sf::IpAddress::None), m_mapType(hell),
@@ -83,7 +81,11 @@ void NetworkObject::setId(int id) {
 		setMember(id, 
 			std::make_unique<GameMember>(GameMember(getIP(), getPort(), "",m_info.m_info)));
 }
-/*==========================================================================*/
+/*==========================================================================
+* The method is binding the soket member to the received port,
+* if the soket value is the default value, the method will bind the socket
+* to a free port.
+*/
 void NetworkObject::bindSocket(unsigned short port){
 	if (port == 0)
 		m_binded = m_socket.bind(sf::Socket::AnyPort, m_ip) == sf::Socket::Done;

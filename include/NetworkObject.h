@@ -102,8 +102,13 @@ template<class T>
  */
 template<class T>
 T NetworkObject::receiveValue(){
-	//reading from the last char of the message type the rest of the message
-	T value = *((T*)(((char*)m_packet.getData()) + sizeof(MessageType)));
+	T value;
+	try {
+		value = *((T*)(((char*)m_packet.getData()) + sizeof(MessageType)));
+	}
+	catch (std::exception& e) {
+		throw(std::exception("Connection closed due bad message receivation."));
+	}
 	m_packet.clear();
 	return value;
 }

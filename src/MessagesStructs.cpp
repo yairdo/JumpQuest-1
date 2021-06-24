@@ -2,14 +2,16 @@
 #include <memory>
 
 //============================================================================
-GameMember::GameMember(const sf::IpAddress& ip, unsigned short port, const char name[PLAYER_NAME_LEN], const MemberInfo& member ) {
+GameMember::GameMember(const sf::IpAddress& ip, unsigned short port, 
+    const char name[PLAYER_NAME_LEN], const MemberInfo& member ) {
     m_memberIp = ip;
     m_memberPort = port;
     m_info = member;
     std::memcpy(m_name, name, PLAYER_NAME_LEN);
 }
 //============================================================================
-MemberInfo::MemberInfo(unsigned short id, const sf::Vector2f & loc, int row, int col, int dir,float time,bool win) {
+MemberInfo::MemberInfo(unsigned short id, const sf::Vector2f & loc, int row,
+    int col, int dir,float time,bool win) {
     m_id = id;
     m_loc = loc;
     m_row = row;
@@ -26,7 +28,8 @@ AddMember::AddMember(unsigned short id, const char name[PLAYER_NAME_LEN]) {
     std::memcpy(m_name, name, PLAYER_NAME_LEN);
 }
 //============================================================================
-MovingObjInfo::MovingObjInfo(const sf::Vector2f& loc, float time, const b2Vec2& vel,bool active, unsigned short index){
+MovingObjInfo::MovingObjInfo(const sf::Vector2f& loc, float time, 
+    const b2Vec2& vel,bool active, unsigned short index){
     m_loc = loc;
     m_timer = time;
     m_vel = vel;
