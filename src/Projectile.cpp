@@ -56,6 +56,7 @@ void Projectile::shot(const sf::Vector2f& toPos){
     //std::cout << "angle :"<< angle<<"\n";
     //m_body->SetAngularVelocity(tan((m_vel.y/m_vel.x)));
     m_body->SetTransform(m_body->GetPosition(), angle);
+    std::cout << "shot shot shot angle: " << m_body->GetAngle() << "\n";
     m_activeAnim = true;
   //  m_body->SetAngularDamping(angle);
    // m_sprite.rotate(angle);
@@ -70,18 +71,9 @@ void Projectile::updatePhysics(float dt) {
     if (m_shot)
     {
         m_elapaseTime += dt;
-        //std::cout << "yo yo im here\n";
         m_body->SetLinearVelocity({ m_vel.x * /*220*/130 * dt, m_vel.y * /*220*/130 * dt });
-        //m_body->SetLinearVelocity({ m_vel.x*dt, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))*dt});
-       // m_body->ApplyForceToCenter({ m_vel.x, m_vel.y}, true);
-      //  m_body->ApplyForceToCenter({m_vel.x, -(m_vel.y - (m_body->GetWorld()->GetGravity().y * m_elapaseTime))}, true);
-       // m_shot = false;
-        return;
     }
- /*   if (m_shot && !m_body->IsAwake())
-        reset();*/
-   // if (!m_body->IsAwake())
-       // reset();
+    std::cout << " update physics: " << m_body->GetAngle() << "\n";
 }
 void Projectile::move()
 {
@@ -90,7 +82,7 @@ void Projectile::move()
     auto rotation = m_body->GetAngle();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
     m_sprite.setRotation(rotation);
-    m_distance -= b2Distance({ spritePos.x,spritePos.y }, { m_sprite.getPosition().x, m_sprite.getPosition().y });
+    m_distance -= b2Distance({ spritePos.x,spritePos.y }, { spritePos.x, spritePos.y });
 }
 void Projectile::updateAnim(float deltaTime) {
     if(m_activeAnim)
@@ -158,4 +150,9 @@ sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::V
 
 }
 
-
+void Projectile::setInfo(MovingObjInfo info) {
+    std::cout<<"before updaste: " << m_body->GetAngle() << "\n";
+    m_sprite.setPosition(info.m_loc);
+    m_body->SetTransform({ info.m_loc.x / SCALE, info.m_loc.y / SCALE }, m_body->GetAngle());
+    std::cout << "after updaste: " << m_body->GetAngle() << "\n";
+}
