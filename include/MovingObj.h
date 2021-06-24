@@ -15,7 +15,7 @@ public:
 	virtual void move() = 0;
 
 	virtual MovingObjInfo getInfo()const  { return MovingObjInfo(getPos(), 0, m_body->GetLinearVelocity()); }
-	virtual void setInfo(MovingObjInfo info) { setPos(info.m_loc); }
+	virtual void setInfo(const MovingObjInfo& info) { setPos(info.m_loc); }
 
 	bool getReset() const { return m_reset; }
 	void setReset(bool reset) { m_reset = reset; }
