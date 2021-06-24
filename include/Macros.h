@@ -22,9 +22,11 @@ constexpr auto GAME_BACK = 0.6f;
 constexpr auto CLIENT_STATE_MSG = 300;
 constexpr auto SERVER_STATE_MSG = 200;
 constexpr auto UPDATE_TIMER = 0.06f;
+constexpr auto EXEPTION_HEIGHT = 250.f;
 const sf::Color WHITE_TRANSP_CLR { 255,255,255,120 };
 const sf::Color BROWN_TRANSP_CLR{ 102,0,0,150 };
 const sf::Color BLACK_TRANSP_CLR{ 0,0,0,150 };
+
 
 const sf::Vector2f PLAYERS_NAMES_SCALE{ 0.4f,0.8f };
 
