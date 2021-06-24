@@ -175,7 +175,7 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 * The method 
 */
 bool Server::portInUse() {
-	int max = 200,
+	int max = 50,
 		messagesCounter = 0;
 	sendMessage<NetworkMessages>(networkMessage, whoIsAServer,
 		sf::IpAddress::Broadcast, SERVERS_PORT, true);
