@@ -44,8 +44,10 @@ protected:
 	virtual void updateBoard();
 	b2World& getWorldRef();
 	bool m_isWin;
+	std::unique_ptr<sf::Text> m_projectileActive;
 	std::unique_ptr<sf::Text> m_winnerText;
-	void setWinText();
+	//void setWinText();
 	virtual void updateWin();
 	void setView(const sf::View&);
+	void setText(std::unique_ptr<sf::Text>&, unsigned int, float,const sf::Color&, const sf::Color&, float);
 };

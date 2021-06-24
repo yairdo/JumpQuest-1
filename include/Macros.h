@@ -22,9 +22,11 @@ constexpr auto GAME_BACK = 0.6f;
 constexpr auto CLIENT_STATE_MSG = 300;
 constexpr auto SERVER_STATE_MSG = 200;
 constexpr auto UPDATE_TIMER = 0.06f;
+constexpr auto EXEPTION_HEIGHT = 250.f;
 const sf::Color WHITE_TRANSP_CLR { 255,255,255,120 };
 const sf::Color BROWN_TRANSP_CLR{ 102,0,0,150 };
 const sf::Color BLACK_TRANSP_CLR{ 0,0,0,150 };
+
 
 const sf::Vector2f PLAYERS_NAMES_SCALE{ 0.4f,0.8f };
 
@@ -40,7 +42,7 @@ constexpr auto MAIN_MENU_BUTTONS = 4;
 constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
 constexpr auto FOOT = 3;
-constexpr auto MUSIC_VOLUME = 10; //was 2
+constexpr auto MUSIC_VOLUME = 0; //was 2
 constexpr auto EFFECTS_VOLUME = 6; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
