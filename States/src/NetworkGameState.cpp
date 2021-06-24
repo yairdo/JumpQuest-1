@@ -5,15 +5,20 @@
 #include <MultiplayerMenuState.h>
 
 //-----------------------------------------------------------------------------
-NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window, bool replace,
-	std::shared_ptr<NetworkObject> net) :
+/*
+	c-tor
+*/
+NetworkGameState::NetworkGameState(StateManager& manager, sf::RenderWindow& window,
+	bool replace,std::shared_ptr<NetworkObject> net) :
 	GameState(manager, window, replace, net, net->getLvlInfo()),
 	m_started(false)
 {
 	m_networkObj->setBoard(m_board.get());
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-		if (m_networkObj->getMember(i) && m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
-			m_clones[m_networkObj->getMember(i)->m_info.m_id] = struct ClonePlayer(m_networkObj->getMember(i)->m_info.m_id,
+		if (m_networkObj->getMember(i) && 
+			m_networkObj->getInfo().m_info.m_id != m_networkObj->getMember(i)->m_info.m_id) {
+			m_clones[m_networkObj->getMember(i)->m_info.m_id] = struct ClonePlayer
+				(m_networkObj->getMember(i)->m_info.m_id,
 				m_networkObj->getMember(i)->m_name);
 		}
 	}
@@ -28,30 +33,29 @@ void NetworkGameState::draw(){
 }
 
 //-----------------------------------------------------------------------------
+/*
+	Function update board:
+	This function is updating the board with the messages that received from
+	server or other clients.
+*/
 void NetworkGameState::updateBoard()
 {
-	/*try {*/
-		updateNetwork();
-		if (!m_started)
-			return;
-		for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
-			if (m_clones.find(i) != m_clones.end() && !m_networkObj->getMember(i))
-				m_clones.erase(i);
-		}
-	/*		}
-		}
-	}*/
-	/*catch (std::exception& e) {
-		setView(m_window.getDefaultView());
-		m_next = m_manager.build<MultiplayerMenuState>(m_manager, m_window, true, nullptr);
-		m_manager.setErrorMessage(e.what());
+	updateNetwork();
+	if (!m_started)
 		return;
-	}*/
+	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
+		if (m_clones.find(i) != m_clones.end() && !m_networkObj->getMember(i))
+			m_clones.erase(i);
+	}
 	GameState::updateBoard();
 	sendInfo();
 	updateClonesLoc();
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: update clones loc
+	This function is updating the location of all of the players at the game.
+*/
 void NetworkGameState::updateClonesLoc() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i) {
 		if (m_networkObj->getMember(i) &&
@@ -66,12 +70,17 @@ void NetworkGameState::updateClonesLoc() {
 			it->second.m_col = info.m_col;
 			it->second.m_totalTime = info.m_totalTime;
 			it->second.m_direction = info.m_direction;
-			it->second.m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(it->second.m_row, it->second.m_col,
+			it->second.m_sprite.setTextureRect(Animation::getAnimRef().updateAnim
+			(it->second.m_row, it->second.m_col,
 				m_deltaTime, it->second.m_totalTime, player0, it->second.m_direction));
 		}
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function send info
+	This function is send to the server information about the current player.
+*/
 void NetworkGameState::sendInfo() {
 	MemberInfo info = m_networkObj->getInfo().m_info;
 	info.m_row = m_testPlayer->getAnimRow();
@@ -81,6 +90,10 @@ void NetworkGameState::sendInfo() {
 	m_networkObj->updateLoc(info);
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update win
+	This function is updating the win message if any player win.
+*/
 void NetworkGameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin() && m_networkObj->getWinner() == MAX_SERVER_PLAYERS) {
 		m_networkObj->notifyWinning();
@@ -94,7 +107,8 @@ void NetworkGameState::updateWin() {
 			str = (m_networkObj->getMember(m_networkObj->getWinner()))->m_name;
 		str += " Won!";
 		m_winnerText->setString(str);
-		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
+		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f,
+			m_winnerText->getGlobalBounds().height / 2.f);
 		m_isWin = true;
 	}
 }

@@ -4,9 +4,16 @@
 
 class LobbyState :public MenuState {
 public:
+	//-----------c-tor------------
+
 	LobbyState(StateManager&, sf::RenderWindow&, bool, std::shared_ptr<NetworkObject>&);
+
+	//-----------d-tor------------
+
+	virtual ~LobbyState() = default;
+
+
 	virtual void update() override;
-	void signUp();
 	virtual void draw() override;
 	
 private:
@@ -26,6 +33,8 @@ private:
 	void updateNextState(const sf::Vector2f& loc);
 	void setNameListText();
 	void createBoxShape(sf::RectangleShape&,const sf::Color& );
+	void createTexts();
 	sf::Text createText(int, int,const sf::Color&, const std::string&,
 		const sf::Vector2f&, bool org=false);
+	void signUp();
 };

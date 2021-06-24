@@ -13,6 +13,9 @@
 #include "MainMenuState.h"
 
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject>& net) :
 	MenuState(manager, window, replace, net, lobbyTitle, lobbyBackground),
@@ -20,20 +23,11 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 	m_listBackground({ window.getSize().x / THIRD, window.getSize().y / THIRD }),
 	m_nameTextBox({ window.getSize().x / FORTH,window.getSize().y / FORTH })
 {
-	createBoxShape(m_listBackground, WHITE_TRANSP_CLR);
-	createBoxShape(m_nameTextBox, BROWN_TRANSP_CLR);
-	auto pos = sf::Vector2f{ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
-		m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2 + 10 };
-	m_text = createText(lobbyFont, 24, sf::Color::Black, "Enter your nickname:\n",pos);
-	pos = { m_text.getPosition().x ,m_text.getPosition().y +
-		m_text.getGlobalBounds().height + 10 };
-	m_inputText = createText(lobbyFont, 24, sf::Color::Black, "", pos);
-
+	
 	float width = Resources::getResourceRef().getButLen(back) * PIX4LET * 1.3f;
-	pos = { width, m_window.getSize().y - m_window.getSize().y * TENTH_PREC };
+	auto pos = sf::Vector2f{ width, m_window.getSize().y - m_window.getSize().y * TENTH_PREC };
 	float butHeight = m_window.getSize().y - pos.y;
 	addButton<MultiplayerMenuState>(back, pos, width, butHeight);
-	//build prompt
 	if ( typeid(*m_networkObj.get()).name() == typeid(Server).name()){
 		m_connected = true;
 		m_isServer = true;	
@@ -41,14 +35,15 @@ LobbyState::LobbyState(StateManager& manager, sf::RenderWindow& window, bool rep
 		pos.x = m_window.getSize().x - width;
 		addButton<ChooseBoardState>(start, pos, width, butHeight);
 	}
-	pos = m_nameTextBox.getPosition();
-	if (m_isServer)
-		m_waitingText = createText(lobbyFont, 50, sf::Color::Black, "Trying to open a room\n", pos, true);
-	else
-		m_waitingText = createText(lobbyFont, 50, sf::Color::Black, "Waiting for Host\n", pos, true);
+	createTexts();
 	setNameListText();
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update: 
+	This function is update the client and server about any new message.
+	Also, the function is handle with clicks on the buttons. 
+*/
 void LobbyState::update(){
 	if (!m_connected) {
 		if (m_isServer) {
@@ -77,6 +72,11 @@ void LobbyState::update(){
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function sign up: 
+	This function is sign in the clients and the server. The function receives
+	the name of the player, until 20 charcters
+*/
 void LobbyState::signUp() {
 	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
 		if (event.type == sf::Event::TextEntered) {
@@ -118,6 +118,10 @@ void LobbyState::draw() {
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update list:
+	This function is updating the name list each iteration
+*/
 void LobbyState::updateList(){
 	auto it = m_nameList.begin();
 	for (int i = 0 ; i < MAX_SERVER_PLAYERS ; ++i) {
@@ -132,6 +136,11 @@ void LobbyState::updateList(){
 	std::for_each(it, m_nameList.end(), [&](sf::Text&) { it->setString(""); });
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update next state:
+	This function is handle with button clicks and put the client/server
+	in the wantes game state.
+*/
 void LobbyState::updateNextState(const sf::Vector2f& loc) {
 	if (m_buttons[FIRST_BUT]->checkCollision(loc)) {
 		m_next = m_buttons[FIRST_BUT]->ButtonState(m_manager, m_window, true, nullptr);
@@ -147,6 +156,10 @@ void LobbyState::drawList(){
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: set name list
+	Thsi function is setting the name list data.
+*/
 void LobbyState::setNameListText() {
 	auto textHeight = (m_listBackground.getSize().y - 10 * MAX_SERVER_PLAYERS) / MAX_SERVER_PLAYERS;
 	auto startPos = sf::Vector2f{
@@ -162,12 +175,21 @@ void LobbyState::setNameListText() {
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function create bos shape:
+	This function is creating the box shapes.
+*/
 void LobbyState::createBoxShape(sf::RectangleShape& rec,const sf::Color& clr){
 	rec.setFillColor(clr);
 	rec.setOrigin({ rec.getSize().x / 2.f, rec.getSize().y / 2.f });
 	rec.setPosition(m_window.getSize().x / 2.f,m_window.getSize().y / 2.f);
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: create text:
+	This function is setting the text string data.
+
+*/
 sf::Text LobbyState::createText(int font, int size,const sf::Color& clr,
 		const std::string& str,const sf::Vector2f& pos, bool org){
 	sf::Text txt;
@@ -179,4 +201,26 @@ sf::Text LobbyState::createText(int font, int size,const sf::Color& clr,
 		txt.setOrigin({ txt.getGlobalBounds().width / 2.f, txt.getGlobalBounds().height / 2.f });
 	txt.setPosition(pos);
 	return std::move(txt);
+}
+//-----------------------------------------------------------------------------
+/*
+	Function: create text:
+	This function creating all of the lobby templates(text boxes and texts). 
+*/
+void LobbyState::createTexts() {
+	createBoxShape(m_listBackground, WHITE_TRANSP_CLR);
+	createBoxShape(m_nameTextBox, BROWN_TRANSP_CLR);
+	auto pos = sf::Vector2f{ m_nameTextBox.getPosition().x - (m_nameTextBox.getSize().x / 2) + 10,
+		m_nameTextBox.getPosition().y - m_nameTextBox.getSize().y / 2 + 10 };
+	m_text = createText(lobbyFont, 24, sf::Color::Black, "Enter your nickname:\n", pos);
+	pos = { m_text.getPosition().x ,m_text.getPosition().y +
+		m_text.getGlobalBounds().height + 10 };
+	m_inputText = createText(lobbyFont, 24, sf::Color::Black, "", pos);
+	pos = m_nameTextBox.getPosition();
+	if (m_isServer)
+		m_waitingText = createText(lobbyFont, 50, sf::Color::Black,
+			"Trying to open a room\n", pos, true);
+	else
+		m_waitingText = createText(lobbyFont, 50, sf::Color::Black,
+			"Waiting for Host\n", pos, true);
 }

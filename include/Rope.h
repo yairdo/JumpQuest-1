@@ -9,7 +9,6 @@ public:
 	Rope(b2World&, const sf::Vector2f&, const sf::Vector2f&, int,int);
 	Rope() = default;
 	virtual ~Rope() = default;
-	virtual void draw(sf::RenderWindow&);
 	virtual void setSprite(float recWidth = 0, float recHeight = 0, const sf::Vector2f& size = { 0,0 },
 		const sf::Vector2f& pos = { 0,0 })override;
 private:

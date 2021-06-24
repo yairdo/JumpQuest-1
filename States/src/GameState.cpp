@@ -8,6 +8,9 @@
 #include "GameMenuState.h"
 
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool replace,
 	std::shared_ptr<NetworkObject> net, int map) :
 	State(manager, window, replace, net), m_board(std::make_unique<Board>()),
@@ -30,27 +33,35 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	if (net) m_testPlayer->setName(net->getInfo().m_name);
 	
 	m_clock.restart();
-	//setWinText();
 	setText(m_winnerText, 50, 1.f, sf::Color::White, sf::Color::Black, 5.f);
 	setText(m_projectileActive, 20, 1.f, sf::Color::White, sf::Color::Black, 1.f);
-	m_projectileActive->setString("LEFT CLICK TO SHOT");
+	m_projectileActive->setString("LEFT CLICK TO SHOOT");
 
 }
 //-----------------------------------------------------------------------------
-void GameState::pause()
+/*
+	Function: pause:
+	This function is "pausing" the game for the game menu.
+	The game will continue updating at the background and the player can move.
+*/
+void GameState::pause() 
 {
 	m_paused = true;
-	auto evnt = sf::Event{};
-	while (m_window.pollEvent(evnt));
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: resume
+	This function is resuming the game.
+*/
 void GameState::resume()
 {
 	m_paused = false;
-	auto evnt = sf::Event{};
-	while (m_window.pollEvent(evnt));
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: update
+	This function is updating the game and handle with clicks.
+*/
 void GameState::update()
 {	
 	if (!m_paused) {
@@ -81,6 +92,7 @@ void GameState::update()
 }
 
 //-----------------------------------------------------------------------------
+
 void GameState::draw()
 {
 	m_window.draw(m_backGround);
@@ -147,11 +159,18 @@ void GameState::addBorders2World() {
 }
 
 //-----------------------------------------------------------------------------
+/*
+	This function is setting the view position.
+*/
 void GameState::setView(const sf::View& view) {
 	m_view = std::move(view);
 }
 
 //-----------------------------------------------------------------------------
+/*
+	Function update game:
+	This function is updating the game objects using delta time.
+*/
 void GameState::updateGame() {
 	m_world.Step(TIME_STEP, VEL_ITERS, POS_ITERS);
 	if (m_clock.getElapsedTime().asSeconds() >= 0.001f)
@@ -167,7 +186,8 @@ void GameState::updateGame() {
 
 	//-----------------------------------------------------
 	if (!m_paused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()), m_networkObj.get());
+		m_testPlayer->useGift(m_window.mapPixelToCoords(sf::Mouse::getPosition()),
+			m_networkObj.get());
 		m_testPlayer->setGotGift(false);
 	}
 	if (!m_isWin)
@@ -179,26 +199,20 @@ void GameState::updateGame() {
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: update board: this function is updating the objects physics and
+	sprites.
+*/
 void GameState::updateBoard(){
 	m_board->updatePhysics(m_deltaTime);
 	m_board->move();
 }
 
 //-----------------------------------------------------------------------------
-b2World& GameState::getWorldRef(){
-	return m_world;
-}
-
-//-----------------------------------------------------------------------------
-//void GameState::setWinText() {
-//	m_winnerText = std::make_unique<sf::Text>();
-//	m_winnerText->setFont(Resources::getResourceRef().getFont(lobbyFont));
-//	m_winnerText->setCharacterSize(50);
-//	m_winnerText->setLetterSpacing(1.f);
-//	m_winnerText->setFillColor(sf::Color::White);
-//	m_winnerText->setOutlineColor(sf::Color::Black);
-//	m_winnerText->setOutlineThickness(5.f);
-//}
+/*
+	Function: set text
+	This function is setting the text's messages data.
+*/
 void GameState::setText(std::unique_ptr<sf::Text>& text, unsigned int size, float spacing,
 						const sf::Color& fillColor, const sf::Color& outlineColor, float outline) {
 	text = std::make_unique<sf::Text>();
@@ -210,11 +224,16 @@ void GameState::setText(std::unique_ptr<sf::Text>& text, unsigned int size, floa
 	text->setOutlineThickness(outline);
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update win
+	This function is updating the win message and the text message.
+*/
 void GameState::updateWin() {
 	if (!m_isWin && m_testPlayer->getWin()) {
 		Resources::getResourceRef().playMusic(win);
 		m_winnerText->setString("You Won!");
-		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f, m_winnerText->getGlobalBounds().height / 2.f);
+		m_winnerText->setOrigin(m_winnerText->getGlobalBounds().width / 2.f,
+			m_winnerText->getGlobalBounds().height / 2.f);
 		m_isWin = true;
 	}
 }

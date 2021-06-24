@@ -9,7 +9,6 @@ public:
 	Gift(b2World& , const sf::Vector2f& , const sf::Vector2f&, int,int);
 	virtual ~Gift();
 	Gift()=default;
-	virtual void draw(sf::RenderWindow&);
 	bool collisionCounter();
 	virtual void MsgCollision();
 	//void updateAnim(float deltaTime);

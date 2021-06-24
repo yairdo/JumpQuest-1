@@ -11,7 +11,6 @@ public:
 	MovingObj() = default;
 	virtual ~MovingObj() = default;
 	virtual void updatePhysics(float) = 0;
-	virtual void draw(sf::RenderWindow&) = 0;
 	virtual void move() = 0;
 
 	virtual MovingObjInfo getInfo()const  { return MovingObjInfo(getPos(), 0, m_body->GetLinearVelocity()); }

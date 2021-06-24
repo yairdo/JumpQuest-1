@@ -19,7 +19,7 @@ public:
 	virtual void updatePhysics(float);
 	void jump(float);
 	virtual void move();
-	virtual void draw(sf::RenderWindow&);
+	virtual void draw(sf::RenderWindow&)const;
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
 	void useGift(const sf::Vector2f&, NetworkObject*);

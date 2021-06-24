@@ -13,7 +13,7 @@ public:
         float recWidth=0.f,float recHeight=0.f, int textureNum = blank, int mapEnum = castle);
     GameObj() = default;
     virtual ~GameObj() = default;
-    virtual void draw(sf::RenderWindow&);
+    virtual void draw(sf::RenderWindow&) const;
     virtual void setRemoveObj(bool );
     virtual bool getIsRemoved() const;
     virtual void setSprite(float recWidth, float recHeight, const sf::Vector2f& size, const sf::Vector2f& pos);

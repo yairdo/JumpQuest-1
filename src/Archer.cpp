@@ -1,6 +1,5 @@
 #include <Archer.h>
 #include <Factory.h>
-#include "..\include\Archer.h"
 
 //-----------------------------------------------------------------------------
 /*
@@ -26,12 +25,12 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
     m_proj->setPos(temp);
     m_shotStartPos = temp;
     if (temp.x > m_sprite.getPosition().x) {
-        m_faceTo = right;
+        m_faceTo = right; //for animation
     }
     else
-        m_faceTo = left;
+        m_faceTo = left; //for animation
     m_proj->setFace(m_faceTo);
-    m_activeTimer = m_timer;
+    m_activeTimer = m_timer; 
     b2PolygonShape groundBox(std::move(createPolygonShape
         ({ (ARCHER_SIZE.x / SCALE) / 2, (ARCHER_SIZE.y / SCALE) / 2 })));
     createFixtureDef(groundBox, 0.f, 1.f, giftBits, false, ~noneBit);
@@ -50,7 +49,7 @@ void Archer::updateAnim(float deltaTime) {
     m_proj->updateAnim(deltaTime);
 }
 //-----------------------------------------------------------------------------
-void Archer::draw(sf::RenderWindow& window) {
+void Archer::draw(sf::RenderWindow& window)const {
     window.draw(m_sprite);
     m_proj->draw(window);
 }
@@ -61,7 +60,7 @@ void Archer::draw(sf::RenderWindow& window) {
 */
 void Archer::updatePhysics(float dt) {
     m_timer -= dt;
-    if (m_timer<=0) {
+    if (m_timer<=0) { //if archer needs to shot again
         m_timer = m_activeTimer;
         m_proj->shot(m_shotTO);
     }
@@ -69,7 +68,7 @@ void Archer::updatePhysics(float dt) {
     if (m_proj->getShot())
         m_proj->updatePhysics(dt);
 
-    if (m_proj->getDis()<=0) {
+    if (m_proj->getDis()<=0) { //if the arrow traveled its max distance - returns it to the start
         m_proj->setPosition(m_shotStartPos);
         m_proj->setDis(m_distance);
         m_proj->reset();
@@ -78,14 +77,14 @@ void Archer::updatePhysics(float dt) {
 //-----------------------------------------------------------------------------
 /*
     Function: move
-    This function is moving the sprite of the projectile afte archer is 
-    shooting.
+    This function moves the archers projectile body and sprite 
 */
 void Archer::move() {
     if (m_proj->getShot())
          m_proj->move();
 }
 //-----------------------------------------------------------------------------
+// this function sends the info to the other players to sync between the objects
 MovingObjInfo Archer::getInfo() const
 {
     return MovingObjInfo(m_proj->getPos(), m_timer, { float(m_proj->getShot()),m_proj->getDis()});
@@ -94,7 +93,7 @@ MovingObjInfo Archer::getInfo() const
 //-----------------------------------------------------------------------------
 /*
     Function: set info 
-    This function is updating the information of the object to fixed the offset
+    This function is updating the information of the object to sync
     between server and client.
 */
 void Archer::setInfo(const MovingObjInfo& info){

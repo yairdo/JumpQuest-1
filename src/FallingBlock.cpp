@@ -3,10 +3,14 @@
 #include "Macros.h"
 #include <SFML/Graphics.hpp>
 #include <Factory.h>
+
+//for factory
 bool FallingBlock::m_registerit = Factory<MovingObj>::registerit("FallingBlock",
     [](b2World& world,int map,std::vector<sf::Vector2f> vec)-> std::unique_ptr<MovingObj>
     { return std::make_unique<FallingBlock>(world, vec[0], vec[1], vec[2], b2_dynamicBody, map); });
 
+/*FallingBlock c-tor 
+*/
 FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size, 
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
     m_strtPos(startPos / SCALE),
@@ -14,21 +18,6 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
     m_activeAnim(false), m_startingTime(startTimer.x)
 {
     m_activeTimer = startTimer.x;
-    /*m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
-    m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
-    m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
-
-   // m_sprite.setColor(sf::Color::Magenta);
-    /*b2PolygonShape kinematic;
-    kinematic.SetAsBox((size.x / SCALE) / 2, (size.y / SCALE) / 2);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &kinematic;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-    fixtureDef.filter.categoryBits = fallingBlockBits;
-
-    m_body->CreateFixture(&fixtureDef);*/
     b2PolygonShape kinmatic(std::move(createPolygonShape({ (size.x / SCALE) / 2, (size.y / SCALE) / 2 })));
     createFixtureDef(kinmatic, 1.0f, 0.3, fallingBlockBits);
     m_body->SetFixedRotation(true);
@@ -57,11 +46,6 @@ void FallingBlock::move()
     auto rotation = m_body->GetAngle();
     m_sprite.setPosition(position.x * SCALE, position.y * SCALE);
     m_sprite.setRotation(rotation);
-}
-
-void FallingBlock::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
 }
 
 void FallingBlock::setInfo(const MovingObjInfo& info)

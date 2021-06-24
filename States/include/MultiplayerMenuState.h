@@ -7,8 +7,15 @@ class NetworkObject;
 
 class MultiplayerMenuState:  public StandardMenuState {
 public:
-	MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window, bool,std::shared_ptr<NetworkObject>  net = nullptr);
+	//-----------c-tor------------
+	MultiplayerMenuState(StateManager& manager,sf::RenderWindow& window,
+		bool,std::shared_ptr<NetworkObject>  net = nullptr);
+	//-----------d-tor------------
+
 	virtual ~MultiplayerMenuState()=default;
-	virtual void updateNextState(const sf::Vector2f& loc);
+
+protected:
+	//----------Functions---------
+	virtual void updateNextState(const sf::Vector2f& loc) override ;
 private:
 };

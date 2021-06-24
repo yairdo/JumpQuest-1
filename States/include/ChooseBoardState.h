@@ -6,24 +6,34 @@ class StateManager;
 
 class ChooseBoardState : public MenuState {
 public:
+	//-----------c-tor------------
 	ChooseBoardState(StateManager& manager, sf::RenderWindow& window,
 		bool replace, std::shared_ptr<NetworkObject>net=nullptr);
+
+	//-----------d-tor------------
 	virtual ~ChooseBoardState() = default;
+
+	//----------Function----------
 	virtual void updateNextState(const sf::Vector2f& loc) override;
 
 private:
+
+	//------Private Functions-----
 	template <class StateT>
 	void makeButtons();
 };
-
-
+//-----------------------------------------------------------------------------
+/*
+	Function: make buttons
+	This function is ordering the buttons of the choose board state.
+*/
 template <class StateT>
 void ChooseBoardState::makeButtons() {
 	auto recWidth = m_window.getSize().x * PREC70;
 	auto side = recWidth / (BUT3 + BUT3 * 0.2f);
 	auto spaceBut = (recWidth - side * BUT3) / (BUT3 - 1);
 	auto pos = sf::Vector2f{ (m_window.getSize().x - recWidth) / 2.f + 0.5f * side,
-		3.5f * getTitleHeight() };
+		2.f * getTitlePosY() };
 	addButton <StateT>(castleScreenShot, pos, side, side);
 	pos.x += spaceBut + side;
 	addButton <StateT>(hellScreenShot, pos, side, side);

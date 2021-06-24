@@ -95,11 +95,6 @@ void FloorObstacle::move()
     //m_sprite.setRotation(rotation);
 }
 
-void FloorObstacle::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
-}
-
 void FloorObstacle::setInfo(const MovingObjInfo& info)
 {
     //setPos(info.m_loc);

@@ -6,22 +6,23 @@
 #include "LobbyState.h"
 
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 MultiplayerMenuState::MultiplayerMenuState(StateManager& manager, sf::RenderWindow& window,
 	bool replace, std::shared_ptr<NetworkObject>net) :
 	StandardMenuState(manager, window, replace, net, title, menuBackground,BUT3+4,BUT3)
 {
-	/*auto buttonSpace = m_window.getSize().y * BUTTUN_SPACE_PREC;
-	auto pos = sf::Vector2f(m_middle.x, getTitlePosY() + buttonSpace*2.5);
-	auto butHeight = (window.getSize().y - getTitlePosY()- buttonSpace *(BUT3+4) ) / BUT3;
-	float pix4let = m_window.getSize().x * PREC4LET_STAND;*/
-	/*makeBut<LobbyState>(pos, host, butHeight, pix4let, buttonSpace);
-	makeBut<LobbyState>(pos, client, butHeight, pix4let, buttonSpace);
-	makeBut<MainMenuState>(pos, back, butHeight, pix4let, buttonSpace);*/
 	makeBut<LobbyState>(host);
 	makeBut<LobbyState>(client);
 	makeBut<MainMenuState>(back);
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: update next state
+	This function is making the pressed button move to the next state 
+	(up to the button pressed).
+*/
 void MultiplayerMenuState::updateNextState(const sf::Vector2f& loc){
 	if (m_buttons[FIRST_BUT]->checkCollision(loc)){
 		m_networkObj = std::make_shared<Server>();

@@ -18,7 +18,7 @@ public:
 	virtual MovingObjInfo getInfo()const override;
 	virtual void setInfo(const MovingObjInfo&)override;
 
-	virtual void draw(sf::RenderWindow& window);
+	virtual void draw(sf::RenderWindow& window) const ;
 private:
 	
 	//----------Members-----------
