@@ -150,9 +150,7 @@ sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::V
 
 }
 
-void Projectile::setInfo(MovingObjInfo info) {
-    std::cout<<"before updaste: " << m_body->GetAngle() << "\n";
-    m_sprite.setPosition(info.m_loc);
-    m_body->SetTransform({ info.m_loc.x / SCALE, info.m_loc.y / SCALE }, m_body->GetAngle());
-    std::cout << "after updaste: " << m_body->GetAngle() << "\n";
+void Projectile::setPosition(const sf::Vector2f& loc) {
+    m_sprite.setPosition(loc);
+    m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, m_body->GetAngle());
 }
