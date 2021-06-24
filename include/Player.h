@@ -19,7 +19,7 @@ public:
 	virtual void updatePhysics(float);
 	void jump(float);
 	virtual void move();
-	virtual void draw(sf::RenderWindow&);
+	virtual void draw(sf::RenderWindow&)const;
 	void setOnRope(bool);
 	bool getOnRope() { return m_onRope; };
 	void useGift(const sf::Vector2f&, NetworkObject*);
@@ -31,7 +31,7 @@ public:
 	//sf::Vector2f getPosToShotFrom(sf::Vector2f);
 
 	void toggleCanCatch() { m_canCatch = !m_canCatch; };
-	int getDirection();
+	int getDirection() const;
 	void footContact(int val);
 	void updateAnim(float deltaTime);
 	void setCheckPoint(const sf::Vector2f&);
@@ -62,6 +62,11 @@ private:
 	bool m_moving;
 	bool m_stuned;
 	float m_stunTime;
+
+	void ropeJump(float, int);
+	void applyProjectileImpulse();
+	bool horizontalMove(int, bool&, int&, float, int);
+	void velocityCorrection(bool, b2Vec2);
 
 	//Animation m_anim;
 };

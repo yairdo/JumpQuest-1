@@ -13,10 +13,9 @@ public:
 	FloorObstacle() = default;
 	virtual void updatePhysics(float);
 	virtual void move();
-	virtual void draw(sf::RenderWindow&);
 	virtual void updateAnim(float deltaTime);
 	virtual MovingObjInfo getInfo() const { return MovingObjInfo(getPos(), m_timer, m_body->GetLinearVelocity()); }
-	virtual void setInfo(MovingObjInfo info);
+	virtual void setInfo(const MovingObjInfo& info);
 	virtual void reset() override;
 	bool getActive() const;
 

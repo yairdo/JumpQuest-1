@@ -23,6 +23,10 @@ ChooseBoardState::ChooseBoardState(StateManager& manager, sf::RenderWindow& wind
 
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: update next state
+	This function is updating the next state if one of the buttons are pressed
+*/
 void ChooseBoardState::updateNextState(const sf::Vector2f& loc) {
 	for (int i=0; i<m_buttons.size()-1; ++i) {
 		if (m_buttons[i]->checkCollision(loc)) {

@@ -7,7 +7,11 @@ class NetworkObject;
 
 class MainMenuState:  public StandardMenuState {
 public:
-	MainMenuState(StateManager& m_manager,sf::RenderWindow& m_window, bool,std::shared_ptr<NetworkObject> net = nullptr);
+	//-----------c-tor------------
+	MainMenuState(StateManager& m_manager,sf::RenderWindow& m_window,
+		bool,std::shared_ptr<NetworkObject> net = nullptr);
+
+	//-----------d-tor------------
 	virtual ~MainMenuState()=default;
 private:
 };

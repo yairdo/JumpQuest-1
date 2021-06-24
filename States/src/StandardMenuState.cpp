@@ -2,6 +2,11 @@
 #include "StateManager.h"
 #include <SFML/Graphics.hpp>
 #include "NetworkObject.h"
+
+//-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 StandardMenuState::StandardMenuState(StateManager& manager, sf::RenderWindow& window,
 	bool replace, std::shared_ptr<NetworkObject> net, int title, int backGround,
 	float mulSpaces, float divHeight):

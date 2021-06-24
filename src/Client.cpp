@@ -73,11 +73,16 @@ void Client::searchForServers() {
 void Client::notifyClosing() {
 	sendMessage<int>(closer, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, m_isLinked);
 }
-/*==========================================================================*/
+/*==========================================================================
+* The method is uplate the server about the client player location.
+*/
 void Client::updateLoc( const MemberInfo& member){
 	sendMessage<MemberInfo>(memberInfo, member, m_serverIP, SERVERS_PORT);
 }
-/*==========================================================================*/
+/*==========================================================================
+* The method is binding the NetworkObject's socket and preper the obj
+* to start communicate with the server.
+*/
 bool Client::launch()
 {
 	if (!receivedMessage()){
@@ -86,7 +91,8 @@ bool Client::launch()
 	return getInfo().m_info.m_id != 0;
 }
 /*============================================================================
-* The method is regester to the server the client reseived message from the last.
+* The method is regester saving the member id in the server and the server's
+* info to communicate with.
 */
 void Client::regesterServer() {
 	setId(receiveValue<int>());
@@ -127,7 +133,9 @@ void Client::updateMovingObj() {
 void Client::sendGameMembership(const char name[]) {
 	sendMessage<GameMember>(singMeIn, GameMember(getIP(), getPort(), name, true));
 }
-//============================================================================
+/*============================================================================
+* If received NetworkMessage, the method is handling the message as needed.
+*/
 void Client::handleNetworkMessage(){
 	switch (receiveValue<NetworkMessages>()) {
 	case iAmFree:
@@ -146,11 +154,13 @@ void Client::handleNetworkMessage(){
 /*============================================================================
 */
 void Client::addProjectile(const AddProjectileMessage& projectile){
-	sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, m_serverIP, SERVERS_PORT, true);
+	sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
+		m_serverIP, SERVERS_PORT, true);
 }
 /*============================================================================*/
 void Client::notifyWinning(unsigned short winner){
-	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, SERVERS_PORT, true);
+	sendMessage<unsigned short>(notifyWin, getInfo().m_info.m_id, m_serverIP, 
+		SERVERS_PORT, true);
 }
 /*============================================================================*/
 void Client::sendImReady(){

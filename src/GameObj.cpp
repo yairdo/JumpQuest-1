@@ -84,9 +84,7 @@ b2PolygonShape GameObj::createPolygonShape(const sf::Vector2f& halfSize)
 	return std::move(dynamicBox);
 }
 
-void GameObj::draw(sf::RenderWindow& window) {
-	sf::Vector2f scale = m_sprite.getScale();
-	
+void GameObj::draw(sf::RenderWindow& window) const{
 	window.draw(m_sprite);
 }
 

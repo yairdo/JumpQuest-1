@@ -3,6 +3,10 @@
 #include "NetworkObject.h"
 
 //-----------------------------------------------------------------------------
+/*
+	Function: update network:
+	This function is updating the client.
+*/
 void ClientGameState::updateNetwork() {
 	if (!m_started)
 		((Client*)m_networkObj.get())->sendImReady();

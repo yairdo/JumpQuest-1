@@ -5,18 +5,23 @@
 
 class Archer : public MovingObj {
 public:
-	Archer(b2World& world, const sf::Vector2f& pos,
-		const sf::Vector2f& timerNDis, const sf::Vector2f& toPos, int bodyType,int mapEnum);
+	//-----------c-tor------------
+	Archer(b2World& world, const sf::Vector2f& pos,const sf::Vector2f& timerNDis,
+		const sf::Vector2f& toPos, int bodyType,int mapEnum);
+	//-----------d-tor------------
 	virtual ~Archer() = default;
+
+	//---------Functions----------
 	virtual void updateAnim(float) override;
 	virtual void updatePhysics(float) override;
 	virtual void move() override;
 	virtual MovingObjInfo getInfo()const override;
-	virtual void setInfo(MovingObjInfo)override;
+	virtual void setInfo(const MovingObjInfo&)override;
 
-	virtual void draw(sf::RenderWindow& window);
+	virtual void draw(sf::RenderWindow& window) const ;
 private:
-	//float m_startTime;
+	
+	//----------Members-----------
 	int m_faceTo;
 	float m_distance;
 	float m_timer;

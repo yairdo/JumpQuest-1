@@ -4,6 +4,9 @@
 #include "Resources.h"
 
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	const bool replace ,std::shared_ptr<NetworkObject> net,int titl,
 	int background):
@@ -13,7 +16,6 @@ MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	m_background(std::make_unique<sf::Sprite>(Resources::getResourceRef().
 	getTexture(background)))
 {
-	//m_middle(m_window.getSize().x / 2.f, m_window.getSize().y / 2.f)
 	auto x = m_background->getGlobalBounds().width;
 	auto y = m_background->getGlobalBounds().height;
 	m_background->setScale(float(window.getSize().x) / x, float(window.getSize().y) / y);
@@ -21,6 +23,9 @@ MenuState::MenuState(StateManager& manager,sf::RenderWindow& window,
 	setTitle(titl);
 }
 //-----------------------------------------------------------------------------
+/*
+	c-tor
+*/
 MenuState::MenuState(StateManager& manager, sf::RenderWindow& window, bool replace):
 	State(manager,window,replace),
 	m_middle(m_window.getView().getSize().x / 2.f, m_window.getView().getSize().y / 2.f){}
@@ -35,11 +40,19 @@ void MenuState::draw(){
 	[&](const std::unique_ptr<BaseButton>& button) {button->draw(m_window); });
 }
 //-----------------------------------------------------------------------------
+/*
+	Function: set transp
+	This function is setting all of the button transperancy.
+*/
 void MenuState::setTransp(const sf::Vector2f& location) const{
 	std::for_each(m_buttons.begin(), m_buttons.end(),
 		[&](const std::unique_ptr<BaseButton>& but){but->setTransp(location); });
 }
 //-----------------------------------------------------------------------------
+/*
+	Function update:
+	This function is updating the game by the user clickings/moving with mouse.
+*/
 void MenuState::update(){
 	auto location = sf::Vector2f{ 0,0 };
 	for (auto event = sf::Event{}; m_window.pollEvent(event);) {
@@ -68,23 +81,17 @@ void MenuState::update(){
 		}
 	}
 }
-//-----------------------------------------------------------------------------
-void MenuState::setTitle(sf::Sprite&& title){
-	m_title = std::make_unique<sf::Sprite>(title);
-}
-//-----------------------------------------------------------------------------
-float MenuState::getTitleHeight() const
-{
-	//return m_title->getGlobalBounds().height;
-	return m_title->getPosition().y;
-}
+
 //-----------------------------------------------------------------------------
 float MenuState::getTitlePosY() const
 {
 	return (m_title->getPosition().y+m_title->getGlobalBounds().height/2);
 }
 //-----------------------------------------------------------------------------
-
+/*
+	Fucntion update next state:
+	This function is updating the next state if button clicked
+*/
 
 void MenuState::updateNextState(const sf::Vector2f& loc){
 	for (auto& but: m_buttons){
@@ -98,6 +105,10 @@ void MenuState::updateNextState(const sf::Vector2f& loc){
 	}
 }
 //-----------------------------------------------------------------------------
+/*
+	Function set title
+	This function is setting the title position and size.
+*/
 void MenuState::setTitle(int titl) {
 	
 	m_title->setOrigin(m_title->getGlobalBounds().width / 2,

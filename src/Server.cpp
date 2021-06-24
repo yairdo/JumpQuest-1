@@ -5,8 +5,7 @@
 #include <Board.h>
 
 Server::Server() :NetworkObject(SERVERS_PORT), m_requiting(false),
-	m_launched(false), m_PlayersReady(MAX_SERVER_PLAYERS, false){
-}
+	m_launched(false), m_PlayersReady(MAX_SERVER_PLAYERS, false){}
 /*==========================================================================*/
 Server::~Server() {
 	notifyClosing();
@@ -15,8 +14,8 @@ Server::~Server() {
 }
 /*============================================================================
 * Launch the server
-* The method check if the server launch is possible,
-* if it is the launch bool is true.
+* The method check if the server launching is possible,
+* if it is, the method return true, otherwise the method return false.
 */
 bool Server::launch() {
 	if (m_launched)
@@ -83,7 +82,8 @@ bool Server::handleRequests(int max) {
 	return false;
 }
 /*============================================================================
-* The
+* The method notify the regestered members about closing member, and sing him
+* out.
 */
 void Server::notifyCloser(int index){
 	setMember(index, nullptr);
@@ -98,27 +98,29 @@ void Server::notifyCloser(int index){
 void Server::registerPlayer() {
 	if (!m_requiting || renameMember())
 		return;
-	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i) {
-		if (!getMember(i)) {
-			//add member to the server's member list
-			setMember(i, std::make_unique<GameMember>(
-				GameMember(getSenderIP(), getSenderPort(),
-					receiveValue<GameMember>().m_name, MemberInfo(i))));
-			//tell the new member his id
-			sendMessage<int>(memberId, i);
-			//notify old members about the new member
-			updateAboutNewMember(
-				AddMember(getMember(i)->m_info.m_id, getMember(i)->m_name));
-			//send the new mebemer all the old members info.
-			for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
-				if (i != j && getMember(j)) {
-					sendMessage<AddMember>(addMember,
-						AddMember(getMember(j)->m_info.m_id, getMember(j)->m_name),
-						getMember(i)->m_memberIp, getMember(i)->m_memberPort);
-				}
-			break;
+	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
+		if (!getMember(i))
+			addNewMember(i);
+}
+/*============================================================================
+*/
+void Server::addNewMember(int index) {
+	//add member to the server's member list
+	setMember(index, std::make_unique<GameMember>(GameMember(getSenderIP(), 
+		getSenderPort(), receiveValue<GameMember>().m_name, MemberInfo(index))));
+	//tell the new member his id
+	sendMessage<int>(memberId, index);
+	//notify old members about the new member
+	updateAboutNewMember(AddMember(getMember(index)->m_info.m_id, 
+		getMember(index)->m_name));
+	//send the new mebemer all the old members info.
+	for (int j = 0; j < MAX_SERVER_PLAYERS; ++j)
+		if (index != j && getMember(j)) {
+			sendMessage<AddMember>(addMember,
+				AddMember(getMember(j)->m_info.m_id, getMember(j)->m_name),
+				getMember(index)->m_memberIp, getMember(index)->m_memberPort);
 		}
-	}
+	return;
 }
 /*============================================================================
 * The method notify all of the server's clients that the server is closing
@@ -172,7 +174,9 @@ void Server::updateAboutNewMember(const AddMember& newMember) {
 					getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
 }
 /*==========================================================================
-* The method 
+* The method is checking if there is no server in the SERVERS_PORT.
+* If the port is free, the method will return true, otherwise, the method
+* will return false.
 */
 bool Server::portInUse() {
 	int max = 50,
@@ -187,7 +191,10 @@ bool Server::portInUse() {
 	}
 	return false;
 }
-/*============================================================================*/
+/*============================================================================
+* The method is changing the member's info and notify the other clients about
+* the new member name.
+*/
 bool Server::renameMember() {
 	for (int i = 0; i < MAX_SERVER_PLAYERS; ++i)
 		//checks if the sender is already member.
@@ -206,7 +213,9 @@ void Server::setName(const char name[PLAYER_NAME_LEN], int index) {
 	updateAboutNewMember(AddMember(
 		(index == -1) ? getInfo().m_info.m_id : index, name));
 }
-/*==========================================================================*/
+/*==========================================================================
+* the method update the clients about the new member
+*/
 void Server::sendNewInfo(const std::vector<MovingObjInfo>& vec) {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i))
@@ -233,7 +242,7 @@ void Server::notifyWinning(unsigned short winner){
 				getMember(i)->m_memberPort, true);
 }
 /*============================================================================
-* 
+* If received NetworkMessage, the method is handling the message as needed.
 */
 void Server::handleNetworkMessage() {
 	switch (receiveValue<NetworkMessages>()) {
@@ -252,8 +261,7 @@ void Server::handleNetworkMessage() {
 		break;
 	}
 }
-/*============================================================================
-*/
+/*==========================================================================*/
 void Server::addProjectile(const AddProjectileMessage& projectile){
 	 getBoard()->addProjectile(projectile);
 	 for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
@@ -261,7 +269,7 @@ void Server::addProjectile(const AddProjectileMessage& projectile){
 			 sendMessage<AddProjectileMessage>(MessageType::addProjectile, projectile, 
 				getMember(i)->m_memberIp, getMember(i)->m_memberPort, true);
  }
-/*============================================================================*/
+/*==========================================================================*/
 bool Server::gameStarted() {
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
 		if (getMember(i) && !m_PlayersReady[i])

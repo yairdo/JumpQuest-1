@@ -43,12 +43,6 @@ Gift::~Gift()
 {
 }
 
-
-void Gift::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
-}
-
 bool Gift::collisionCounter(){
     if (!--m_counter) {
         this->setRemoveObj(true);

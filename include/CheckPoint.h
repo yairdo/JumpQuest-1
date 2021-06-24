@@ -10,7 +10,6 @@ public:
 	CheckPoint(b2World&, const sf::Vector2f&, const sf::Vector2f&, const sf::Vector2f&, int,int);
 	CheckPoint() = default;
 	virtual ~CheckPoint() = default;
-	virtual void draw(sf::RenderWindow&);
 	void setColor(sf::Color color);
 	void activate();
 	bool getActive() const;

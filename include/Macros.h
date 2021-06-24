@@ -26,6 +26,8 @@ constexpr auto EXEPTION_HEIGHT = 250.f;
 const sf::Color WHITE_TRANSP_CLR { 255,255,255,120 };
 const sf::Color BROWN_TRANSP_CLR{ 102,0,0,150 };
 const sf::Color BLACK_TRANSP_CLR{ 0,0,0,150 };
+const sf::Color TRANSP_TEXTURE{ 255,255,255,200 };
+const sf::Color FULL_COLOR{ 255,255,255,255 };
 
 
 const sf::Vector2f PLAYERS_NAMES_SCALE{ 0.4f,0.8f };
@@ -46,6 +48,8 @@ constexpr auto MUSIC_VOLUME = 10; //was 2
 constexpr auto EFFECTS_VOLUME = 10; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
+constexpr auto PLAYER_SPEED = 75.f; //secounds
+constexpr auto PLAYER_PROJ_EFFECT = 0.3f; //secounds
 
 
 const float MAP_SIZE = 6000;

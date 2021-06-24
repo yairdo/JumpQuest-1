@@ -87,10 +87,6 @@ void Projectile::updateAnim(float deltaTime) {
         m_sprite.setTextureRect(Animation::getAnimRef().updateAnim(m_row, m_col,
            deltaTime, m_totalTime, arrow, up,m_distance/(65*ARROW_LEN)));
 }
-void Projectile::draw(sf::RenderWindow& window)
-{
-    window.draw(m_sprite);
-}
 
 void Projectile::reset()
 {
@@ -153,6 +149,6 @@ void Projectile::setPosition(const sf::Vector2f& loc) {
     m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, m_body->GetAngle());
 }
 
-void Projectile::setInfo(MovingObjInfo info) {
+void Projectile::setInfo(const MovingObjInfo& info) {
     setPosition(info.m_loc);
 }
