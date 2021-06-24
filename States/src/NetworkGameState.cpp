@@ -86,6 +86,7 @@ void NetworkGameState::updateWin() {
 		m_networkObj->notifyWinning();
 	}
 	else if (!m_isWin && m_networkObj->getWinner() != MAX_SERVER_PLAYERS) {
+		Resources::getResourceRef().playMusic(win);
 		std::string str;
 		if (m_networkObj->getWinner() == m_networkObj->getInfo().m_info.m_id)
 			str = "You";

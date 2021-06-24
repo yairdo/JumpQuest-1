@@ -24,7 +24,9 @@ protected:
 
 struct ClonePlayer {
 	ClonePlayer() = default;
-	ClonePlayer(int id,std::string name) :m_sprite(Resources::getResourceRef().getTexture(castle,player0+id))
+	ClonePlayer(int id,const std::string& name) :
+	m_sprite(Resources::getResourceRef().getTexture(castle,player0+id)),
+		m_totalTime(0.f),m_row(0),m_col(0),m_direction(0)
 	{
 		m_sprite.setTextureRect(sf::IntRect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
 		m_sprite.setScale(PLAYER_SIZE.x / m_sprite.getGlobalBounds().width, PLAYER_SIZE.y / m_sprite.getGlobalBounds().height);

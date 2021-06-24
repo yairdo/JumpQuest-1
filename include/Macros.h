@@ -40,8 +40,8 @@ constexpr auto MAIN_MENU_BUTTONS = 4;
 constexpr auto MULTI_BUTTONS = 3;
 constexpr auto PIX4LET = 45.f;
 constexpr auto FOOT = 3;
-constexpr auto MUSIC_VOLUME = 0; //was 2
-constexpr auto EFFECTS_VOLUME = 0; //was 6
+constexpr auto MUSIC_VOLUME = 10; //was 2
+constexpr auto EFFECTS_VOLUME = 6; //was 6
 constexpr auto PLAYER_NAME_LEN = 20;
 constexpr auto STUN_TIME = 3; //secounds
 
@@ -78,6 +78,7 @@ enum MapType {
 	hell,
 	sky,
 	menu,
+	win,
 };
 
 enum TexturesNum {
@@ -121,6 +122,7 @@ enum TexturesNum {
 	howTo,
 	castleScreenShot,
 	hellScreenShot,
+	skyScreenShot,
 	nullpt
 };
 
@@ -183,7 +185,6 @@ enum MessageType {
 	movingObjInfo //MovingObjInfo
 };
 constexpr auto SERVERS_PORT = 50000;
-constexpr auto MAX_SERVERS_NUM = 1;
 constexpr auto MAX_SERVER_PLAYERS = 6;
 constexpr auto MAX_OBJ_IN_LEVEL = 200;
 

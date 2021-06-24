@@ -22,7 +22,7 @@ void ServerGameState::updateNetwork(){
 	///change to member and use reserve
 	std::vector<MovingObjInfo> vec;
 	if (m_networkObj && m_lastUpdate >= UPDATE_TIMER) {
-		for (int i = 1; i < m_board->numOfMovingObjs(); ++i) {
+		for (int i = 1; i < int(m_board->numOfMovingObjs()); ++i) {
 			vec.push_back(m_board->getInfo(i));
 		}
 		((Server*)m_networkObj.get())->sendNewInfo(vec);
