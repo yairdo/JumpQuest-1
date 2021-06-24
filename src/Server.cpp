@@ -99,8 +99,10 @@ void Server::registerPlayer() {
 	if (!m_requiting || renameMember())
 		return;
 	for (int i = 1; i < MAX_SERVER_PLAYERS; ++i)
-		if (!getMember(i))
+		if (!getMember(i)) {
 			addNewMember(i);
+			break;
+		}
 }
 /*============================================================================
 */
