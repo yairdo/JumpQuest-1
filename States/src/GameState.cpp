@@ -32,7 +32,7 @@ GameState::GameState(StateManager& manager, sf::RenderWindow& window, bool repla
 	m_clock.restart();
 	//setWinText();
 	setText(m_winnerText, 50, 1.f, sf::Color::White, sf::Color::Black, 5.f);
-	setText(m_projectileActive, 20, 1.f, sf::Color::Red, sf::Color::Black, 1.f);
+	setText(m_projectileActive, 20, 1.f, sf::Color::White, sf::Color::Black, 1.f);
 	m_projectileActive->setString("LEFT CLICK TO SHOT");
 
 }
