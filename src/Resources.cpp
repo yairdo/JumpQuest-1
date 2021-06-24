@@ -83,6 +83,8 @@ void Resources::setTextures() {
 		loadSfObj<sf::Texture>("hellScreenShot.png")));
 	m_textures.insert(TexturesPair(castleScreenShot,
 		loadSfObj<sf::Texture>("castleScreenShot.png")));
+	m_textures.insert(TexturesPair(skyScreenShot,
+		loadSfObj<sf::Texture>("skyScreenShot.png")));
 
 }
 void Resources::setGameTextures() {
