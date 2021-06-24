@@ -25,6 +25,7 @@ public:
 	void setFace(int);
 	void updateAnim(float deltaTime);
 	void setPosition(const sf::Vector2f& loc);
+	void setInfo(MovingObjInfo info);
 private:
 	bool m_activeAnim;
 	int m_faceTo;

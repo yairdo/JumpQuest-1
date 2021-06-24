@@ -56,7 +56,6 @@ void Projectile::shot(const sf::Vector2f& toPos){
     //std::cout << "angle :"<< angle<<"\n";
     //m_body->SetAngularVelocity(tan((m_vel.y/m_vel.x)));
     m_body->SetTransform(m_body->GetPosition(), angle);
-    std::cout << "shot shot shot angle: " << m_body->GetAngle() << "\n";
     m_activeAnim = true;
   //  m_body->SetAngularDamping(angle);
    // m_sprite.rotate(angle);
@@ -73,7 +72,6 @@ void Projectile::updatePhysics(float dt) {
         m_elapaseTime += dt;
         m_body->SetLinearVelocity({ m_vel.x * /*220*/130 * dt, m_vel.y * /*220*/130 * dt });
     }
-    std::cout << " update physics: " << m_body->GetAngle() << "\n";
 }
 void Projectile::move()
 {
@@ -153,4 +151,8 @@ sf::Vector2f Projectile::getPosToShotFrom(const sf::Vector2f& mouse, const sf::V
 void Projectile::setPosition(const sf::Vector2f& loc) {
     m_sprite.setPosition(loc);
     m_body->SetTransform({ loc.x / SCALE, loc.y / SCALE }, m_body->GetAngle());
+}
+
+void Projectile::setInfo(MovingObjInfo info) {
+    setPosition(info.m_loc);
 }
