@@ -11,9 +11,9 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
     m_strtPos(startPos / SCALE),
     MovingObj(world, startPos, size, bodyType, FALLING_WIDTH, FALLING_HEIGHT, fallingBlock, mapEnum),
-    m_activeAnim(false), m_startingTime(startTimer.x),m_timer(startTimer.x)
+    m_activeAnim(false), m_startingTime(startTimer.x)
 {
-
+    m_activeTimer = startTimer.x;
     /*m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));
     m_sprite.setScale(size.x / m_sprite.getGlobalBounds().width, size.y / m_sprite.getGlobalBounds().height);
     m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);*/
@@ -40,15 +40,15 @@ FallingBlock::FallingBlock(b2World& world, const sf::Vector2f& startPos, const s
 //applies impulse to jump
 void FallingBlock::updatePhysics(float dt)
 {
-    if (!m_falling && m_timer <= 0)//going up or down
+    if (!m_falling && m_activeTimer <= 0)//going up or down
     {
         m_body->ApplyForceToCenter({ 0, dt*5.f }, true);
         m_falling = true;
         return;
     }
-    if (getReset() || (m_timer <= 0 && !m_body->IsAwake()))
+    if (getReset() || (m_activeTimer <= 0 && !m_body->IsAwake()))
         reset();
-    m_timer -= dt;
+    m_activeTimer -= dt;
 }
 
 void FallingBlock::move()
@@ -67,8 +67,8 @@ void FallingBlock::draw(sf::RenderWindow& window)
 void FallingBlock::setInfo(MovingObjInfo info)
 {
     setPos(info.m_loc);
-    m_timer = info.m_timer;
-    if (m_timer > 0) {
+    m_activeTimer = info.m_timer;
+    if (m_activeTimer > 0) {
         m_body->SetAwake(false);
         m_falling = false;
     }
@@ -83,7 +83,7 @@ void FallingBlock::reset()
     m_falling = false;
     m_body->SetTransform({m_strtPos.x, m_strtPos.y}, 0);
     m_body->SetAwake(false);
-    m_timer = m_startingTime;
+    m_activeTimer = m_startingTime;
     m_col = 0;
     m_activeAnim = false;
     m_sprite.setTextureRect(sf::IntRect(0, 0, FALLING_WIDTH, FALLING_HEIGHT));

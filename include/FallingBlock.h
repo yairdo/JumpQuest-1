@@ -15,7 +15,7 @@ public:
 	virtual void move();
 	virtual void draw(sf::RenderWindow&);
 	virtual void updateAnim(float deltaTime);
-	virtual MovingObjInfo getInfo() const { return MovingObjInfo(getPos(), m_timer, m_body->GetLinearVelocity(),m_activeAnim); }
+	virtual MovingObjInfo getInfo() const { return MovingObjInfo(getPos(), m_activeTimer, m_body->GetLinearVelocity(),m_activeAnim); }
 	virtual void setInfo(MovingObjInfo info);
 	void setActiveAnim();
 	virtual void reset() override;
@@ -23,7 +23,7 @@ private:
 	bool m_activeAnim;
 	sf::Vector2f m_strtPos;
 	bool m_falling = false;
-	float m_timer;
+	//float m_timer;
 	float m_startingTime;
 	static bool m_registerit;
 

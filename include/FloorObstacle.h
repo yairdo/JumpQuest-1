@@ -24,7 +24,7 @@ public:
 private:
 	bool m_active;
 	float m_timer;
-	float m_startingTime;
+	//float m_startingTime;
 	float m_currTimer;
 	int m_currIndex;
 	float m_scaler;

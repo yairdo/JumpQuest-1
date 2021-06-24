@@ -21,6 +21,8 @@ public:
 	void setReset(bool reset) { m_reset = reset; }
 
 	virtual void reset() {};
+protected :
+	float m_activeTimer;
 private:
 	bool m_reset = false;
 	//virtual void fixed(const sf::Vector2f& vec){

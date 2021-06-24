@@ -26,7 +26,7 @@ Archer::Archer(b2World& world, const sf::Vector2f& pos,
         m_faceTo = left;
     m_proj->setFace(m_faceTo);
     //m_sprite.setColor(sf::Color::Blue);
-    m_startTime = m_timer;
+    m_activeTimer = m_timer;
     b2PolygonShape groundBox(std::move(createPolygonShape({ (ARCHER_SIZE.x / SCALE) / 2, (ARCHER_SIZE.y / SCALE) / 2 })));
     createFixtureDef(groundBox, 0.f, 1.f, giftBits, false, ~noneBit);
 
@@ -48,7 +48,7 @@ void Archer::draw(sf::RenderWindow& window) {
 void Archer::updatePhysics(float dt) {
     m_timer -= dt;
     if (m_timer<=0) {
-        m_timer = m_startTime;
+        m_timer = m_activeTimer;
         m_proj->shot(m_shotTO);
     }
 

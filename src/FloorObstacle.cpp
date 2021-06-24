@@ -11,8 +11,9 @@ bool FloorObstacle::m_registerit = Factory<MovingObj>::registerit("FloorObstacle
 FloorObstacle::FloorObstacle(b2World& world, const sf::Vector2f& startPos, const sf::Vector2f& size,
     const sf::Vector2f& startTimer, int bodyType,int mapEnum) :
     MovingObj(world, startPos, size, bodyType, floorObs, mapEnum),  m_currTimer(startTimer.x), m_currIndex(0),
-    m_active(false), m_startingTime(startTimer.x),m_timer(startTimer.y), m_size(size), m_currentSize(size), m_scaler(size.y / 2)
+    m_active(false), m_timer(startTimer.y), m_size(size), m_currentSize(size), m_scaler(size.y / 2)
 {
+    m_activeTimer = startTimer.x;
     sf::Sprite temp(Resources::getResourceRef().getTexture(mapEnum, floorObs));
     temp.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
     temp.setScale(size.x / temp.getGlobalBounds().width, (size.y *3.5) / temp.getGlobalBounds().height);
@@ -80,7 +81,7 @@ void FloorObstacle::updatePhysics(float dt)
         m_sprite.setTextureRect(sf::IntRect(0, 0, FLOOR_OBS_WIDTH, FLOOR_OBS_HEIGHT));
         m_row = 0;
         m_active = false;
-        m_currTimer = m_startingTime;
+        m_currTimer = m_activeTimer;
         m_currIndex = 0;
         m_scaler = m_size.y / 2;
     }
