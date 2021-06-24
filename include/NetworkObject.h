@@ -96,7 +96,7 @@ template<class T>
 	m_packet.clear();
 	return sent;
 }
- /*===========================================================================
+ /*===========================================================================//
  * The mehod receiving the received message value form the m_packet.
  * to know the vlue type, use receiveValue<MessageType> first.
  */
