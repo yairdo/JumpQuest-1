@@ -56,7 +56,7 @@ void Archer::updatePhysics(float dt) {
         m_proj->updatePhysics(dt);
 
     if (m_proj->getDis()<=0) {
-        m_proj->setPos(m_shotStartPos);
+        m_proj->setPosition(m_shotStartPos);
         m_proj->setDis(m_distance);
         m_proj->reset();
     }
